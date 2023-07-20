@@ -55,7 +55,7 @@
                             </form>
                             <p class="mt-4 text-sm text-center">
                                 Еще нет аккаунта?
-                                <a href="../pages/sign-up.html" class="text-primary text-gradient font-weight-bold">Зарегистрируйтесь!</a>
+                                <a href="{% url 'register' %}" class="text-primary text-gradient font-weight-bold">Зарегистрируйтесь!</a>
                             </p>
                             {% if form.errors %}
                                 <p class="text-primary text-gradient font-weight-bold" style="text-align: center">
@@ -63,10 +63,10 @@
                                     Пожалуйста, попробуйте еще раз.
                                 </p>
                                 <p class="mt-4 text-sm text-center">
-                                Забыли пароль?
-                                <a href="{% url "password_reset" %}"
-                                   class="text-primary text-gradient font-weight-bold">Восстановите!</a>
-                            </p>
+                                    Забыли пароль?
+                                    <a href="{% url "password_reset" %}"
+                                       class="text-primary text-gradient font-weight-bold">Восстановите!</a>
+                                </p>
                             {% endif %}
 
                         </div>

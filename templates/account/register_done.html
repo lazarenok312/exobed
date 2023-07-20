@@ -1,7 +1,7 @@
 {% load static %}
 {% include 'base.html' %}
 <title>
-    Ввод нового пароля
+    Авторизация
 </title>
 <body class="bg-gray-200">
 <main class="main-content  mt-0">
@@ -14,31 +14,16 @@
                     <div class="card z-index-0 fadeIn3 fadeInBottom">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                                <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Ввод нового пароля</h4>
+                                <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
+                                    Приветствую {{ new_user.first_name }}!</h4>
                             </div>
                         </div>
                         <div class="card-body">
-                            {% if validlink %}
-                                <form action="." method="post">
-                                    {% csrf_token %}
-                                    <div class="input-group input-group-outline mb-3">
-                                        <label class="form-label">Пароль</label>
-                                        <input type="password" class="form-control" name="new_password1">
-                                    </div>
-                                    <div class="input-group input-group-outline mb-3">
-                                        <label class="form-label">Повторный пароль</label>
-                                        <input type="password" class="form-control" name="new_password2">
-                                    </div>
-                                    <div class="text-center">
-                                        <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Изменить пароль
-                                        </button>
-                                    </div>
-                                </form>
-                            {% else %}
-                                <p class="mt-4 text-sm text-center">Ссылка для сброса пароля недействительна, возможно,
-                                    потому, что она
-                                    уже был использована. Пожалуйста, запросите сброс нового пароля.</p>
-                            {% endif %}
+                            <p class="mt-4 text-sm text-center">
+                                Ваш аккаунт успешно создан, теперь вы можете<br>
+                                <a href="{% url 'login' %}" class="text-primary text-gradient font-weight-bold">Войти в
+                                    него!</a>
+                            </p>
                         </div>
                     </div>
                 </div>
