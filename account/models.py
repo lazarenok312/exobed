@@ -11,11 +11,11 @@ class Profile(models.Model):
     user = models.OneToOneField(User, verbose_name="Пользователь", on_delete=models.CASCADE)
     name = models.CharField(max_length=25, verbose_name="Имя", blank=True)
     surnames = models.CharField(max_length=25, verbose_name="Фамилия", blank=True)
-    sensor = models.ManyToManyField(Sensor, verbose_name="Пользователь", blank=True)
+    sensor = models.ManyToManyField(Sensor, verbose_name="Датчик", blank=True)
     work_phone = models.CharField(null=True, verbose_name="Рабочий телефон", blank=True, max_length=20)
     email = models.EmailField(max_length=40, verbose_name="Электронная почта", blank=True)
     photo = models.ImageField(upload_to='users/%Y/%m/%d', blank=True, verbose_name="Фото",
-                              default='../static/images/default.png')
+                              default='../static/img/default.png')
     slug = models.SlugField("URL", max_length=50, blank=True)
 
     def __str__(self):

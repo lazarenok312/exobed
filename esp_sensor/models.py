@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.utils import timezone
 from django.db import models
 
@@ -39,6 +40,9 @@ class Sensor(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('sensor_detail', args=[str(self.id)])
 
     class Meta:
         verbose_name = 'Датчик'
