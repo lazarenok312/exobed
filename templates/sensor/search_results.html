@@ -1,3 +1,45 @@
+{#<html>#}
+{#<head>#}
+{#    <title>Search Results</title>#}
+{#</head>#}
+{#<body>#}
+{#    <h1>Search Results for "{{ query }}"</h1>#}
+{##}
+{#    <ul>#}
+{#        {% for sensor in sensors %}#}
+{#            <li>#}
+{#                <h2>{{ sensor.name }}</h2>#}
+{#                <p>Description: {{ sensor.description }}</p>#}
+{#                <p>Owner: {{ sensor.owner }}</p>#}
+{#                <p>Date Added: {{ sensor.date_added | date:"Y-m-d H:i:s" }}</p>#}
+{#                <p>Number of Inclusions: {{ sensor.inclusions }}</p>#}
+{##}
+{#                {% if sensor.power %}#}
+{#                    <p>Power: On</p>#}
+{#                {% else %}#}
+{#                    <p>Power: Off</p>#}
+{#                {% endif %}#}
+{##}
+{#                <h3>Countries:</h3>#}
+{#                <ul>#}
+{#                    {% for country in sensor.country.all %}#}
+{#                        <li>{{ country.name }}</li>#}
+{#                    {% endfor %}#}
+{#                </ul>#}
+{##}
+{#                <h3>Cities:</h3>#}
+{#                <ul>#}
+{#                    {% for city in sensor.city.all %}#}
+{#                        <li>{{ city.name }}</li>#}
+{#                    {% endfor %}#}
+{#                </ul>#}
+{#            </li>#}
+{#        {% empty %}#}
+{#            <p>No sensors found.</p>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+{#</body>#}
+{#</html>#}
 {% load static %}
 {% include 'base.html' %}
 <title>Главная страница</title>
@@ -10,7 +52,7 @@
         <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard "
            target="_blank">
             <img src="{% static 'img/logo-ct.png' %}" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-1 font-weight-bold text-white">Список датчиков</span>
+            <span class="ms-1 font-weight-bold text-white">Результаты поиска</span>
         </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
@@ -96,7 +138,7 @@
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                     <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Страница</a>
                     </li>
-                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Список датчиков</li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Результаты поиска</li>
                 </ol>
             </nav>
             {% include 'include/navbar.html' %}
@@ -109,7 +151,7 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3">Список датчиков</h6>
+                            <h6 class="text-white ps-3">Резуальтаты поиска по запросу " {{ query }} "</h6>
                         </div>
                     </div>
                     <div class="card-body px-0 pb-2">
@@ -172,6 +214,8 @@
                                             </a>
                                         </td>
                                     </tr>
+                                {% empty %}
+                                    <h6 class="text-primary ps-3">Поиск не дал результатов!</h6>
                                 {% endfor %}
                                 </tbody>
                             </table>
