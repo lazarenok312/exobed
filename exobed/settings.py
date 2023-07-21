@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'esp_sensor',
     'account',
+    'profiles',
 
 ]
 

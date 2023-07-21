@@ -21606,7 +21606,7 @@ fieldset:disabled .btn {
 .dark-version .fixed-plugin .btn.bg-gradient-dark,
 .dark-version .fixed-plugin .btn.btn-outline-dark {
   color: #fff !important;
-  border: 1px solid #fff !important;
+  /*border: 1px solid #fff !important;*/
 }
 
 .dark-version .fixed-plugin .btn.active {
@@ -22191,9 +22191,9 @@ body.dark-version {
   border-color: #344767;
 }
 
-.fixed-plugin .btn.bg-gradient-dark:not(:disabled):not(.disabled) {
-  border: 1px solid transparent;
-}
+/*.fixed-plugin .btn.bg-gradient-dark:not(:disabled):not(.disabled) {*/
+/*  border: 1px solid transparent;*/
+/*}*/
 
 .fixed-plugin .btn.bg-gradient-dark:not(:disabled):not(.disabled):not(.active) {
   background-color: transparent;

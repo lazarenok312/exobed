@@ -22,7 +22,7 @@ class Profile(models.Model):
         return 'Профиль пользователя {}'.format(self.user.username)
 
     def get_absolute_url(self):
-        return reverse('user-detail', kwargs={"str": self.user})
+        return reverse('profile_detail', kwargs={'str': self.slug})
 
     def save(self, *args, **kwargs):
         self.slug = "{}".format(self.user.username)

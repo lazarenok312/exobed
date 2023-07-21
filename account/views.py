@@ -4,7 +4,10 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import render, redirect
+from django.views.generic import DetailView
+
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
+from .models import Profile
 
 
 def register(request):
@@ -67,3 +70,4 @@ def edit(request):
                       'profile/profile_edit.html',
                       {'user_form': user_form,
                        'profile_form': profile_form})
+

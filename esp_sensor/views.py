@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.db.models import Q
 from .models import Sensor
 
@@ -9,6 +9,12 @@ class SensorListView(ListView):
     model = Sensor
     template_name = 'sensor/sensor_list.html'
     context_object_name = 'sensors'
+
+
+class SensorDetailView(DetailView):
+    model = Sensor
+    template_name = 'sensor/sensor_detail.html'
+    context_object_name = 'sensor'
 
 
 def search_sensors(request):
