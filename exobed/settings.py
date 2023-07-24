@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'esp_sensor',
     'account',
     'profiles',
+    'rest_framework',
+    'chat'
 
 ]
 
@@ -128,7 +130,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# LOGIN_REDIRECT_URL = '/sensor_list/'
-# LOGOUT_REDIRECT_URL = '/login/'
-# LOGIN_URL = reverse_lazy('login')
-# LOGOUT_URL = reverse_lazy('logout')
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
