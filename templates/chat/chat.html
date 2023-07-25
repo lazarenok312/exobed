@@ -46,7 +46,6 @@
 
     input {
         border: none;
-        border-radius: 30px;
         width: 80%;
     }
 
@@ -161,8 +160,7 @@
     }
 
     .chat-box-tray {
-        {#background: #eee;#}
-        display: flex;
+    {#background: #eee;#} display: flex;
         align-items: baseline;
         padding: 10px 15px;
         align-items: center;
@@ -221,7 +219,6 @@
         padding: 10px 25px;
         border-radius: 2px 2px 0 0;
         background: white;
-        opacity: 0.7;
         transition: all 0.1s ease-in-out;
     }
 
@@ -342,23 +339,6 @@
                         <span class="nav-link-text ms-1">Выйти</span>
                     </a>
                 </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link text-white " href='{% url 'login' %}'>
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">login</i>
-                        </div>
-                        <span class="nav-link-text ms-1">Войти</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white " href="../pages/sign-up.html">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">assignment</i>
-                        </div>
-                        <span class="nav-link-text ms-1">Регистрация</span>
-                    </a>
-                </li>
             {% endif %}
         </ul>
     </div>
@@ -449,7 +429,6 @@
                                                         <span class="badge bg-danger rounded-pill float-end">{{ user.not_read_count }}</span>
                                                     {% endif %}
                                                 </div>
-
                                             </div>
                                         </a>
                                     {% endfor %}
@@ -465,8 +444,9 @@
                                                     <h6 style="color:#ffffff;">{{ receiver.username }}</h6>
                                                 </div>
                                                 <span class="settings-tray--right">
-                <i class="material-icons">cached</i>
-            </span>
+                                                    <button class="btn btn-floating blue lighten-2 waves-effect waves-light"
+                                                            onclick="reload_interval(200);"><i
+                                                            class="material-icons">cached</i></button></span>
                                             </div>
                                         </div>
                                         <div id="board" class="section grey lighten-3"
@@ -487,10 +467,6 @@
                                                         <button class="btn btn-floating blue lighten-2 waves-effect waves-light"
                                                                 onclick="reload_interval(100);"><i
                                                                 class="material-icons">send</i></button>
-                                                        <button class="btn btn-floating blue lighten-2 waves-effect waves-light"
-                                                                onclick="reload_interval(200);"><i
-                                                                class="material-icons">cached</i></button>
-
                                                     </div>
                                                 </div>
                                             </form>
