@@ -1,10 +1,670 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% include 'base.html' %}
+{% load static %}
+<style>
+    body {
+        background-color: #3498db;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+    }
 
+    .container {
+        margin: 60px auto;
+        background: #fff;
+        padding: 0;
+        border-radius: 7px;
+    }
+
+    .profile-image {
+        width: 50px;
+        height: 50px;
+        border-radius: 40px;
+    }
+
+    .settings-tray {
+        background: #eee;
+        padding: 10px 15px;
+        border-radius: 7px;
+    }
+
+    .settings-tray .no-gutters {
+        padding: 0;
+    }
+
+    .settings-tray--right {
+        float: right;
+    }
+
+    .settings-tray--right i {
+        margin-top: 10px;
+        font-size: 25px;
+        color: grey;
+        margin-left: 14px;
+        transition: 0.3s;
+    }
+
+    .settings-tray--right i:hover {
+        color: #74b9ff;
+        cursor: pointer;
+    }
+
+    .search-box {
+        background: #fafafa;
+        padding: 10px 13px;
+    }
+
+    .search-box .input-wrapper {
+        background: #fff;
+        border-radius: 40px;
+    }
+
+    .search-box .input-wrapper i {
+        color: grey;
+        margin-left: 7px;
+        vertical-align: middle;
+    }
+
+    input {
+        border: none;
+        border-radius: 30px;
+        width: 80%;
+    }
+
+    input::placeholder {
+        color: #e3e3e3;
+        font-weight: 300;
+        margin-left: 20px;
+    }
+
+    input:focus {
+        outline: none;
+    }
+
+    .friend-drawer {
+        padding: 10px 15px;
+        display: flex;
+        vertical-align: baseline;
+        background: #fff;
+        transition: 0.3s ease;
+    }
+
+    .friend-drawer--grey {
+        background: #eee;
+    }
+
+    .friend-drawer .text {
+        margin-left: 12px;
+        width: 70%;
+    }
+
+    .friend-drawer .text h6 {
+        margin-top: 6px;
+        margin-bottom: 0;
+    }
+
+    .friend-drawer .text p {
+        margin: 0;
+    }
+
+    .friend-drawer .time {
+        color: grey;
+    }
+
+    .friend-drawer--onhover:hover {
+        background: #74b9ff;
+        cursor: pointer;
+    }
+
+    .friend-drawer--onhover:hover p,
+    .friend-drawer--onhover:hover h6,
+    .friend-drawer--onhover:hover .time {
+        color: #fff !important;
+    }
+
+    hr {
+        margin: 5px auto;
+        width: 60%;
+    }
+
+    .chat-bubble {
+        padding: 10px 14px;
+        background: #eee;
+        margin: 10px 30px;
+        border-radius: 9px;
+        position: relative;
+        animation: fadeIn 1s ease-in;
+    }
+
+    .chat-bubble:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 0;
+        height: 0;
+        border: 20px solid transparent;
+        border-bottom: 0;
+        margin-top: -10px;
+    }
+
+    .chat-bubble--left:after {
+        left: 0;
+        border-right-color: #eee;
+        border-left: 0;
+        margin-left: -20px;
+    }
+
+    .chat-bubble--right:after {
+        right: 0;
+        border-left-color: #74b9ff;
+        border-right: 0;
+        margin-right: -20px;
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .offset-md-9 .chat-bubble {
+        background: #74b9ff;
+        color: #fff;
+    }
+
+    .chat-box-tray {
+        background: #eee;
+        display: flex;
+        align-items: baseline;
+        padding: 10px 15px;
+        align-items: center;
+        margin-top: 19px;
+        bottom: 0;
+    }
+
+    .chat-box-tray input {
+        margin: 0 10px;
+        padding: 6px 2px;
+    }
+
+    .chat-box-tray i {
+        color: grey;
+        font-size: 30px;
+        vertical-align: middle;
+    }
+
+    .chat-box-tray i:last-of-type {
+        margin-left: 25px;
+    }
+
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .tabs-container {
+        max-width: 1000px;
+        margin: 50px auto;
+        padding: 25px;
+    }
+
+    .tabs {
+        display: flex;
+    }
+
+    .tabs li:not(:last-child) {
+        margin-right: 7px;
+    }
+
+    .tabs li a {
+        display: block;
+        position: relative;
+        top: 4px;
+        padding: 10px 25px;
+        border-radius: 2px 2px 0 0;
+        background: white;
+        opacity: 0.7;
+        transition: all 0.1s ease-in-out;
+    }
+
+    .tabs li.active a,
+    .tabs li a:hover {
+        opacity: 1;
+        top: 0;
+    }
+
+    .tabs-content {
+        position: relative;
+        z-index: 2;
+        padding: 25px;
+        border-radius: 0 4px 4px 4px;
+        background: white;
+    }
+
+    .tabs-panel {
+        display: none;
+    }
+
+    .tabs-panel.active {
+        display: block;
+    }
+
+    .tabs-panel p + div {
+        margin-top: 15px;
+    }
+
+    @media screen and (max-width: 600px) {
+        .tabs {
+            flex-direction: column;
+        }
+
+        .tabs li {
+            width: 100%;
+        }
+
+        .tabs li:not(:last-child) {
+            margin-right: 0;
+        }
+
+        .tabs li a {
+            border-radius: 0;
+            opacity: 1;
+            top: 0;
+        }
+
+        .tabs li.active a::before {
+            content: "•";
+            padding-right: 5px;
+        }
+
+        .tabs-content {
+            border-radius: 0;
+        }
+    }
+</style>
+<title>Сообщения</title>
+
+<body class="g-sidenav-show bg-gray-200">
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
+       id="sidenav-main">
+    <div class="sidenav-header">
+        <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+           aria-hidden="true" id="iconSidenav"></i>
+        <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard "
+           target="_blank">
+            <img src="{% static 'img/logo-ct.png' %}" class="navbar-brand-img h-100" alt="main_logo">
+            <span class="ms-1 font-weight-bold text-white">{{ user.username }}</span>
+        </a>
+    </div>
+    <hr class="horizontal light mt-0 mb-2">
+    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link text-white active bg-gradient-primary">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">person_add</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Профиль пользователя</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="{% url 'sensor_list' %}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">table_view</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Датчики</span>
+                </a>
+            </li>
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Страницы
+                    аккаунта</h6>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white ">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">person</i>
+                    </div>
+                    <span class="nav-link-text ms-1">{{ user.username }}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white " href="{% url 'profiles:profile_detail' user.profile.slug %}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">person_add</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Профиль</span>
+                </a>
+            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link text-white " href='{% url 'logout' %}'>
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">login</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Выйти</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link text-white " href='{% url 'login' %}'>
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">login</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Войти</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white " href="../pages/sign-up.html">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">assignment</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Регистрация</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</aside>
+<div class="main-content position-relative max-height-vh-100 h-100">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
+         data-scroll="true">
+        <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="{% url 'sensor_list' %}">Страница</a>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Профиль пользователя</li>
+                </ol>
+            </nav>
+            {% include 'include/navbar.html' %}
+        </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="container-fluid px-2 px-md-4">
+        <div class="page-header min-height-300 border-radius-xl mt-4"
+             style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
+            <span class="mask  bg-gradient-primary  opacity-6"></span>
+        </div>
+        <div class="card card-body mx-3 mx-md-4 mt-n6">
+            <div>
+                <ul class="tabs nav nav-pills nav-fill p-1">
+                    <li class="active nav-item">
+                        <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;"
+                           role="tab" aria-selected="true">
+                            <i class="material-icons text-lg position-relative">message</i>
+                            <span class="ms-1">Мои сообщения</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab"
+                           aria-selected="false">
+                            <i class="material-icons text-lg position-relative">settings</i>
+                            <span class="ms-1">Настройки</span>
+                        </a>
+                    </li>
+                </ul>
+                <div>
+                    <div class="tabs-panel active" data-index="0">
+                        <div style="padding-top: 10px">
+                            <div class="row no-gutters">
+                                <div class="col-md-4 border-right">
+                                    <div class="settings-tray">
+                                        <img class="profile-image"
+                                             src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/filip.jpg"
+                                             alt="Profile img">
+                                        <span class="settings-tray--right">
+                            			<i class="material-icons">cached</i>
+                            			<i class="material-icons">message</i>
+                            			<i class="material-icons">menu</i>
+                            		  </span>
+                                    </div>
+                                    <div class="search-box">
+                                        <div class="input-wrapper">
+                                            <i class="material-icons">search</i>
+                                            <input placeholder="Поиск" type="text">
+                                        </div>
+                                    </div>
+
+                                    <p>Непрочитанные сообщения: {{ unread_messages_count }}</p>
+                                    {% for user in users %}
+                                        <a href="{% url 'chat' request.user.id user.id %}" class="collection-item row">
+                                            <div class="friend-drawer friend-drawer--onhover">
+                                                <img class="profile-image"
+                                                     src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg"
+                                                     alt="">
+                                                <div class="text">
+                                                    <h6>{{ user.username }}</h6>
+                                                    {% if user.latest_message %}
+                                                        <p>{{ user.latest_message.message }}</p>
+
+                                                    {% else %}
+                                                        <p>Сообщений нет!</p>
+                                                    {% endif %}
+
+                                                </div>
+                                                <div class="pt-1">
+                                                    {% if user.latest_message %}
+                                                        <span class="time text-muted small">{{ user.latest_message.timestamp|date:"d.m H:i" }}</span>
+                                                    {% endif %}
+                                                    {% if user.not_read_count %}
+                                                        <span class="badge bg-danger rounded-pill float-end">{{ user.not_read_count }}</span>
+                                                    {% endif %}
+                                                </div>
+
+                                            </div>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                                <div class="col s9">
+                                    <div class="card">
+                                        <div id="board" class="section grey lighten-3"
+                                             style="height: 45vh; overflow-y: scroll">
+                                            {% block messages %}
+
+                                            {% endblock %}
+                                        </div>
+                                        <div class="row">
+                                            <form id="chat-box" class="form-group" method="post">
+                                                {% csrf_token %}
+                                                <div class="col-12">
+                                                    <div class="chat-box-tray">
+                                                        <i class="material-icons">sentiment_very_satisfied</i>
+                                                        <input id="id_message" autocomplete="off" name="message"
+                                                               type="text"
+                                                               placeholder="Введите ваше сообщение..">
+                                                        <button class="btn btn-floating blue lighten-2 waves-effect waves-light"
+                                                                onclick="reload_interval(100);"><i
+                                                                class="material-icons">send</i></button>
+                                                        <button class="btn btn-floating blue lighten-2 waves-effect waves-light"
+                                                                onclick="reload_interval(200);"><i
+                                                                class="material-icons">cached</i></button>
+
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabs-panel" data-index="1">
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-12 col-xl-4">
+                                    <div class="card card-plain h-100">
+                                        <div class="card-header pb-0 p-3">
+                                            <h6 class="mb-0">Настройки платформы</h6>
+                                        </div>
+                                        <div class="card-body p-3">
+                                            <h6 class="text-uppercase text-body text-xs font-weight-bolder">Аккаунт</h6>
+                                            <ul class="list-group">
+                                                <li class="list-group-item border-0 px-0">
+                                                    <div class="form-check form-switch ps-0">
+                                                        <input class="form-check-input ms-auto" type="checkbox"
+                                                               id="flexSwitchCheckDefault" checked>
+                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
+                                                               for="flexSwitchCheckDefault">В разработке</label>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item border-0 px-0">
+                                                    <div class="form-check form-switch ps-0">
+                                                        <input class="form-check-input ms-auto" type="checkbox"
+                                                               id="flexSwitchCheckDefault1">
+                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
+                                                               for="flexSwitchCheckDefault1">В разработке</label>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item border-0 px-0">
+                                                    <div class="form-check form-switch ps-0">
+                                                        <input class="form-check-input ms-auto" type="checkbox"
+                                                               id="flexSwitchCheckDefault2" checked>
+                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
+                                                               for="flexSwitchCheckDefault2">В разработке</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <h6 class="text-uppercase text-body text-xs font-weight-bolder mt-4">
+                                                ПРИЛОЖЕНИЕ</h6>
+                                            <ul class="list-group">
+                                                <li class="list-group-item border-0 px-0">
+                                                    <div class="form-check form-switch ps-0">
+                                                        <input class="form-check-input ms-auto" type="checkbox"
+                                                               id="flexSwitchCheckDefault3">
+                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
+                                                               for="flexSwitchCheckDefault3">В разработке</label>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item border-0 px-0">
+                                                    <div class="form-check form-switch ps-0">
+                                                        <input class="form-check-input ms-auto" type="checkbox"
+                                                               id="flexSwitchCheckDefault4" checked>
+                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
+                                                               for="flexSwitchCheckDefault4">В разработке</label>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item border-0 px-0 pb-0">
+                                                    <div class="form-check form-switch ps-0">
+                                                        <input class="form-check-input ms-auto" type="checkbox"
+                                                               id="flexSwitchCheckDefault5">
+                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
+                                                               for="flexSwitchCheckDefault5">В разработке</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-xl-4">
+                                    <div class="card card-plain h-100">
+                                        <div class="card-header pb-0 p-3">
+                                            <div class="row">
+                                                <div class="col-md-8 d-flex align-items-center">
+                                                    <h6 class="mb-0">Информация профиля</h6>
+                                                </div>
+                                                <div class="col-md-4 text-end">
+                                                    <a href="javascript:;">
+                                                        <i class="fas fa-user-edit text-secondary text-sm"
+                                                           data-bs-toggle="tooltip"
+                                                           data-bs-placement="top" title="Изменить данные"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body p-3">
+                                            <hr class="horizontal gray-light my-4">
+                                            <ul class="list-group">
+                                                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong
+                                                        class="text-dark">Полное имя:</strong>
+                                                    &nbsp; {{ profile.surnames }} {{ profile.name }} </li>
+                                                <li class="list-group-item border-0 ps-0 text-sm"><strong
+                                                        class="text-dark">Телефон:</strong>
+                                                    &nbsp; {{ profile.work_phone }}
+                                                </li>
+                                                <li class="list-group-item border-0 ps-0 text-sm"><strong
+                                                        class="text-dark">Email:</strong> &nbsp; {{ profile.email }}
+                                                </li>
+                                                <li class="list-group-item border-0 ps-0 text-sm"><strong
+                                                        class="text-dark">Местоположение:</strong>
+                                                    &nbsp; В разработке
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% include 'include/setting.html' %}
+{% include 'include/script.html' %}
+<script>
+    const tabLinks = document.querySelectorAll(".tabs a");
+    const tabPanels = document.querySelectorAll(".tabs-panel");
+
+    for (let el of tabLinks) {
+        el.addEventListener("click", e => {
+            e.preventDefault();
+
+            document.querySelector(".tabs li.active").classList.remove("active");
+            document.querySelector(".tabs-panel.active").classList.remove("active");
+
+            const parentListItem = el.parentElement;
+            parentListItem.classList.add("active");
+            const index = [...parentListItem.parentElement.children].indexOf(parentListItem);
+
+            const panel = [...tabPanels].filter(el => el.getAttribute("data-index") == index);
+            panel[0].classList.add("active");
+        });
+    }
+</script>
+<script>
+    $('.friend-drawer--onhover').on('click', function () {
+
+        $('.chat-bubble').hide('slow').show('slow');
+
+    });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+<script src="{% static 'js/chat.js' %}"></script>
+<script>
+    // For receiving
+    sender_id = "{{ receiver.id }}";
+    receiver_id = "{{ request.user.id }}";
+
+    //For sending
+    $(function () {
+        scrolltoend();
+        $('#chat-box').on('submit', function (event) {
+            event.preventDefault();
+            var message = $('#id_message');
+            send('{{ request.user.username }}', '{{ receiver.username }}', message.val());
+            message.val('');
+        })
+    })
+</script>
+<script>
+    function reload_interval(time) {
+        setTimeout(function () {
+            location.reload();
+        }, time);
+    }
+</script>
 </body>
-</html>

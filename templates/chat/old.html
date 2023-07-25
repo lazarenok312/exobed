@@ -1,0 +1,266 @@
+<div class="container">
+    <div class="row no-gutters">
+        <div class="col-md-4 border-right">
+            <div class="settings-tray">
+                <img class="profile-image"
+                     src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/filip.jpg"
+                     alt="Profile img">
+                <span class="settings-tray--right">
+                            			<i class="material-icons">cached</i>
+                            			<i class="material-icons">message</i>
+                            			<i class="material-icons">menu</i>
+                            		  </span>
+            </div>
+            <div class="search-box">
+                <div class="input-wrapper">
+                    <i class="material-icons">search</i>
+                    <input placeholder="Search here" type="text">
+                </div>
+            </div>
+            {% for user in users %}
+                <a href="{% url 'chat' request.user.id user.id %}" id="user{{ user.id }}"
+                   class="collection-item row">
+                    <div class="friend-drawer friend-drawer--onhover">
+                        <img class="profile-image"
+                             src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg"
+                             alt="">
+                        <div class="text">
+                            <h6>{{ user.username }}</h6>
+                            {% with message=user.sender.last %}
+                                {% if message %}
+                                    <p>{{ message }}</p>
+                                {% else %}
+                                    <p>Сообщений нет!</p>
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                        <span class="time text-muted small">13:21</span>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <form id="chat-box" class="form-group" method="post">
+                    {% csrf_token %}
+                    <div class="col-12">
+                        <div class="chat-box-tray">
+                            <i class="material-icons">sentiment_very_satisfied</i>
+                            <input id="id_message" autocomplete="off" name="message" type="text"
+                                   placeholder="Введите ваше сообщение..">
+                            <i class="material-icons">mic</i>
+                            <i class="material-icons">send</i>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{#                                    {% for user in users %}#}
+{#                                        <a href="{% url 'chat' request.user.id user.id %}"#}
+{#                                           id="user{{ user.id }}"#}
+{#                                           class="collection-item row">#}
+{#                                            <div class="friend-drawer friend-drawer--onhover">#}
+{#                                                <img class="profile-image"#}
+{#                                                     src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg"#}
+{#                                                     alt="">#}
+{#                                                <div class="text">#}
+{#                                                    <h6>{{ user.username }}</h6>#}
+{#                                                    {% with message=user.sender.last %}#}
+{#                                                        {% if message %}#}
+{#                                                            <p>{{ message }}</p>#}
+{#                                                        {% else %}#}
+{#                                                            <p>Сообщений нет!</p>#}
+{#                                                        {% endif %}#}
+{#                                                    {% endwith %}#}
+{#                                                </div>#}
+{##}
+{#                                                {% with last_message=user.sender.last %}#}
+{#                                                    {% if last_message %}#}
+{#                                                        <span class="time text-muted small">{{ last_message.timestamp|date:"d:m H:i" }}</span>#}
+{#                                                    {% else %}#}
+{#                                                    {% endif %}#}
+{#                                                {% endwith %}#}
+{#                                            </div>#}
+{#                                        </a>#}
+{#                                    {% endfor %}#}
+
+
+def chat_view(request):
+if request.method == "GET":
+users = User.objects.exclude(username=request.user.username)
+users_data = []
+
+for user in users:
+latest_message = Message.objects.filter(
+Q(sender=request.user, receiver=user) | Q(sender=user, receiver=request.user)
+).last()
+not_read_count = Message.objects.filter(sender=user, receiver=request.user, is_read=False).count()
+users_data.append({'user': user, 'latest_message': latest_message, 'not_read_count': not_read_count})
+
+# Помечаем все сообщения от текущего пользователя к выбранным пользователем как прочитанные
+# при открытии чата с данным пользователем
+if 'user_id' in request.GET:
+user_id = request.GET.get('user_id')
+sender = get_object_or_404(User, id=user_id)
+Message.objects.filter(sender=sender, receiver=request.user, is_read=False).update(is_read=True)
+
+unread_messages_count = Message.objects.filter(receiver=request.user, is_read=False).count()
+
+context = {
+'unread_messages_count': unread_messages_count,
+'users_data': users_data,
+}
+return render(request, 'chat/chat.html', context)
+
+
+from django.contrib.auth.models import User
+from django.db.models import Q
+from django.http.response import JsonResponse, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
+from chat.models import Message
+from chat.serializers import MessageSerializer, UserSerializer
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.db.models import F, Q, Count
+
+
+@csrf_exempt
+def message_list(request, sender=None, receiver=None):
+if request.method == 'GET':
+messages = Message.objects.filter(sender_id=sender, receiver_id=receiver, is_read=False)
+serializer = MessageSerializer(messages, many=True, context={'request': request})
+for message in messages:
+message.is_read = True
+message.save()
+return JsonResponse(serializer.data, safe=False)
+
+elif request.method == 'POST':
+data = JSONParser().parse(request)
+serializer = MessageSerializer(data=data)
+if serializer.is_valid():
+serializer.save()
+return JsonResponse(serializer.data, status=201)
+return JsonResponse(serializer.errors, status=400)
+
+
+# def chat_view(request):
+#     if request.method == "GET":
+#         latest_message = Message.objects.filter(
+#             Q(sender=request.user) | Q(receiver=request.user)
+#         ).last()
+#         users = User.objects.exclude(username=request.user.username)
+#         unread_messages_count = Message.objects.filter(receiver=request.user, is_read=False).count()
+#         context = {
+#             'unread_messages_count': unread_messages_count,
+#             'latest_message': latest_message,
+#             'users': users,
+#         }
+#         return render(request, 'chat/chat.html', context)
+#
+#
+# def chat_view(request):
+#     if request.method == "GET":
+#
+#         users = User.objects.exclude(username=request.user.username)
+#         users_data = []
+#
+#         for user in users:
+#             latest_message = Message.objects.filter(
+#                 Q(sender=request.user) | Q(receiver=request.user)
+#             ).last()
+#             not_read = Message.objects.filter(sender=user, is_read=False).count()
+#             users_data.append({'user': user, 'not_read': not_read})
+#
+#         return render(request, 'chat/chat.html', {'users_data': users_data})
+@login_required
+def chat_view(request):
+if request.method == "GET":
+users = User.objects.exclude(username=request.user.username)
+users_data = []
+
+for user in users:
+latest_message = Message.objects.filter(
+Q(sender=request.user, receiver=user) | Q(sender=user, receiver=request.user)
+).last()
+not_read_count = Message.objects.filter(sender=user, receiver=request.user, is_read=False).count()
+users_data.append({'user': user, 'latest_message': latest_message, 'not_read_count': not_read_count})
+
+# Помечаем все сообщения от текущего пользователя к выбранным пользователем как прочитанные
+# при открытии чата с данным пользователем
+if 'user_id' in request.GET:
+user_id = request.GET.get('user_id')
+sender = get_object_or_404(User, id=user_id)
+Message.objects.filter(sender=sender, receiver=request.user, is_read=False).update(is_read=True)
+
+unread_messages_count = Message.objects.filter(receiver=request.user, is_read=False).count()
+
+context = {
+'unread_messages_count': unread_messages_count,
+'users_data': users_data,
+}
+return render(request, 'chat/chat.html', context)
+
+
+# def message_view(request, sender, receiver):
+#     if request.method == "GET":
+#         current_user = request.user
+#
+#         users = User.objects.exclude(username=current_user.username)
+#         receiver_user = User.objects.get(id=receiver)
+#         messages = Message.objects.filter(
+#             (Q(sender=current_user, receiver=receiver_user) | Q(sender=receiver_user, receiver=current_user))
+#         )
+#
+#         last_messages = []
+#         receivers = User.objects.exclude(id=current_user.id)
+#         for receiver in receivers:
+#             last_message = Message.objects.filter(
+#                 (Q(sender=current_user, receiver=receiver) | Q(sender=receiver, receiver=current_user))
+#             ).order_by('-timestamp').first()
+#             last_messages.append(last_message)
+#
+#         context = {
+#             'users': users,
+#             'receiver': receiver_user,
+#             'messages': messages,
+#             'last_messages': last_messages,
+#         }
+#         return render(request, "chat/messages.html", context)
+
+@login_required
+def message_view(request, sender, receiver):
+if request.method == "GET":
+current_user = request.user
+users = User.objects.exclude(username=current_user.username)
+receiver_user = User.objects.get(id=receiver)
+
+messages = Message.objects.filter(
+Q(sender=current_user, receiver=receiver_user) | Q(sender=receiver_user, receiver=current_user)
+)
+
+last_messages = []
+receivers = User.objects.exclude(id=current_user.id)
+for receiver in receivers:
+last_message = Message.objects.filter(
+Q(sender=current_user, receiver=receiver) | Q(sender=receiver, receiver=current_user)
+).order_by('-timestamp').first()
+last_messages.append(last_message)
+
+Message.objects.filter(sender=sender, receiver=current_user, is_read=False).update(is_read=True)
+
+unread_messages_count = Message.objects.filter(sender=sender, receiver=current_user, is_read=False).count()
+
+context = {
+'users': users,
+'receiver': receiver_user,
+'messages': messages,
+'last_messages': last_messages,
+'unread_messages_count': unread_messages_count,
+}
+return render(request, "chat/messages.html", context)

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http.response import JsonResponse, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from chat.models import Message
@@ -27,14 +27,41 @@ def message_list(request, sender=None, receiver=None):
         return JsonResponse(serializer.errors, status=400)
 
 
+# def chat_view(request):
+#     if request.method == "GET":
+#         latest_message = Message.objects.filter(
+#             Q(sender=request.user) | Q(receiver=request.user)
+#         ).last()
+#         users = User.objects.exclude(username=request.user.username)
+#         context = {
+#             'latest_message': latest_message,
+#             'users': users,
+#         }
+#         return render(request, 'chat/chat.html', context)
+
 def chat_view(request):
     if request.method == "GET":
-        latest_message = Message.objects.filter(
-            Q(sender=request.user) | Q(receiver=request.user)
-        ).last()
         users = User.objects.exclude(username=request.user.username)
+
+        for user in users:
+            latest_message = Message.objects.filter(
+                Q(sender=request.user, receiver=user) | Q(sender=user, receiver=request.user)
+            ).last()
+            not_read_count = Message.objects.filter(sender=user, receiver=request.user, is_read=False).count()
+            user.latest_message = latest_message
+            user.not_read_count = not_read_count
+
+        # Помечаем все сообщения от текущего пользователя к выбранным пользователем как прочитанные
+        # при открытии чата с данным пользователем
+        if 'user_id' in request.GET:
+            user_id = request.GET.get('user_id')
+            sender = get_object_or_404(User, id=user_id)
+            Message.objects.filter(sender=sender, receiver=request.user, is_read=False).update(is_read=True)
+
+        unread_messages_count = Message.objects.filter(receiver=request.user, is_read=False).count()
+
         context = {
-            'latest_message': latest_message,
+            'unread_messages_count': unread_messages_count,
             'users': users,
         }
         return render(request, 'chat/chat.html', context)
