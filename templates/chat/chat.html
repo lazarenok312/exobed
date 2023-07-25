@@ -1,20 +1,6 @@
 {% include 'base.html' %}
 {% load static %}
 <style>
-    body {
-        background-color: #3498db;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-rendering: optimizeLegibility;
-    }
-
-    .container {
-        margin: 60px auto;
-        background: #fff;
-        padding: 0;
-        border-radius: 7px;
-    }
-
     .profile-image {
         width: 50px;
         height: 50px;
@@ -22,7 +8,7 @@
     }
 
     .settings-tray {
-        background: #eee;
+        background: #42424a;
         padding: 10px 15px;
         border-radius: 7px;
     }
@@ -38,28 +24,22 @@
     .settings-tray--right i {
         margin-top: 10px;
         font-size: 25px;
-        color: grey;
+        color: #ffffff;
         margin-left: 14px;
         transition: 0.3s;
     }
 
     .settings-tray--right i:hover {
-        color: #74b9ff;
+        color: #EC407A;
         cursor: pointer;
     }
 
     .search-box {
-        background: #fafafa;
-        padding: 10px 13px;
-    }
-
-    .search-box .input-wrapper {
-        background: #fff;
-        border-radius: 40px;
+        padding: 10px 0px;
     }
 
     .search-box .input-wrapper i {
-        color: grey;
+        color: #42424a;
         margin-left: 7px;
         vertical-align: middle;
     }
@@ -84,17 +64,16 @@
         padding: 10px 15px;
         display: flex;
         vertical-align: baseline;
-        background: #fff;
         transition: 0.3s ease;
     }
 
     .friend-drawer--grey {
-        background: #eee;
+        background: #42424a;
     }
 
     .friend-drawer .text {
         margin-left: 12px;
-        width: 70%;
+        width: 85%;
     }
 
     .friend-drawer .text h6 {
@@ -110,9 +89,16 @@
         color: grey;
     }
 
+    .friend-drawer--onhover {
+        padding: 10px 15px;
+        border-radius: 7px;
+    }
+
     .friend-drawer--onhover:hover {
-        background: #74b9ff;
+        background: #42424a;
+        color: white;
         cursor: pointer;
+        border-radius: 20px;
     }
 
     .friend-drawer--onhover:hover p,
@@ -155,7 +141,7 @@
 
     .chat-bubble--right:after {
         right: 0;
-        border-left-color: #74b9ff;
+        border-left-color: #42424a;
         border-right: 0;
         margin-right: -20px;
     }
@@ -170,12 +156,12 @@
     }
 
     .offset-md-9 .chat-bubble {
-        background: #74b9ff;
+        background: #42424a;
         color: #fff;
     }
 
     .chat-box-tray {
-        background: #eee;
+        {#background: #eee;#}
         display: flex;
         align-items: baseline;
         padding: 10px 15px;
@@ -433,12 +419,12 @@
                                     <div class="search-box">
                                         <div class="input-wrapper">
                                             <i class="material-icons">search</i>
-                                            <input placeholder="Поиск" type="text">
+                                            <input id="searchInput" placeholder="Поиск" type="text">
                                         </div>
                                     </div>
 
                                     {% if unread_messages_count > 0 %}
-                                        <p>Непрочитанные сообщения: {{ unread_messages_count }}</p>
+                                        <span class="time text-muted small">Всего непрочитанных сообщений: {{ unread_messages_count }}</span>
                                     {% endif %}
 
                                     {% for user in users %}
@@ -450,7 +436,7 @@
                                                 <div class="text">
                                                     <h6>{{ user.username }}</h6>
                                                     {% if user.latest_message %}
-                                                        <p>{{ user.latest_message.message }}</p>
+                                                        <p>{{ user.latest_message.message |truncatechars_html:30 |safe|striptags }}</p>
                                                     {% else %}
                                                         <p>Сообщений нет!</p>
                                                     {% endif %}
@@ -470,6 +456,19 @@
                                 </div>
                                 <div class="col s9">
                                     <div class="card">
+                                        <div class="settings-tray">
+                                            <div class="friend-drawer no-gutters friend-drawer--grey">
+                                                <img class="profile-image"
+                                                     src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg"
+                                                     alt="">
+                                                <div class="text">
+                                                    <h6 style="color:#ffffff;">{{ receiver.username }}</h6>
+                                                </div>
+                                                <span class="settings-tray--right">
+                <i class="material-icons">cached</i>
+            </span>
+                                            </div>
+                                        </div>
                                         <div id="board" class="section grey lighten-3"
                                              style="height: 45vh; overflow-y: scroll">
                                             {% block messages %}
@@ -614,7 +613,7 @@
         </div>
     </div>
 </div>
-{% include 'include/setting.html' %}
+{#{% include 'include/setting.html' %}#}
 {% include 'include/script.html' %}
 <script>
     const tabLinks = document.querySelectorAll(".tabs a");
@@ -667,5 +666,29 @@
             location.reload();
         }, time);
     }
+</script>
+<script>
+    $(function () {
+        function filterUsers() {
+            var input, filter, users, username, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toLowerCase();
+            users = document.getElementsByClassName("collection-item");
+
+            for (i = 0; i < users.length; i++) {
+                username = users[i].getElementsByClassName("text")[0].getElementsByTagName("h6")[0];
+                txtValue = username.textContent || username.innerText;
+                if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                    users[i].style.display = "";
+                } else {
+                    users[i].style.display = "none";
+                }
+            }
+        }
+
+        $("#searchInput").on("input", function () {
+            filterUsers();
+        });
+    });
 </script>
 </body>
