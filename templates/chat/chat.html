@@ -437,7 +437,10 @@
                                         </div>
                                     </div>
 
-                                    <p>Непрочитанные сообщения: {{ unread_messages_count }}</p>
+                                    {% if unread_messages_count > 0 %}
+                                        <p>Непрочитанные сообщения: {{ unread_messages_count }}</p>
+                                    {% endif %}
+
                                     {% for user in users %}
                                         <a href="{% url 'chat' request.user.id user.id %}" class="collection-item row">
                                             <div class="friend-drawer friend-drawer--onhover">
@@ -448,11 +451,9 @@
                                                     <h6>{{ user.username }}</h6>
                                                     {% if user.latest_message %}
                                                         <p>{{ user.latest_message.message }}</p>
-
                                                     {% else %}
                                                         <p>Сообщений нет!</p>
                                                     {% endif %}
-
                                                 </div>
                                                 <div class="pt-1">
                                                     {% if user.latest_message %}

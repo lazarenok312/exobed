@@ -27,18 +27,6 @@ def message_list(request, sender=None, receiver=None):
         return JsonResponse(serializer.errors, status=400)
 
 
-# def chat_view(request):
-#     if request.method == "GET":
-#         latest_message = Message.objects.filter(
-#             Q(sender=request.user) | Q(receiver=request.user)
-#         ).last()
-#         users = User.objects.exclude(username=request.user.username)
-#         context = {
-#             'latest_message': latest_message,
-#             'users': users,
-#         }
-#         return render(request, 'chat/chat.html', context)
-
 def chat_view(request):
     if request.method == "GET":
         users = User.objects.exclude(username=request.user.username)
@@ -47,12 +35,11 @@ def chat_view(request):
             latest_message = Message.objects.filter(
                 Q(sender=request.user, receiver=user) | Q(sender=user, receiver=request.user)
             ).last()
-            not_read_count = Message.objects.filter(sender=user, receiver=request.user, is_read=False).count()
             user.latest_message = latest_message
+            not_read_count = Message.objects.filter(sender=user, receiver=request.user, is_read=False).count()
+
             user.not_read_count = not_read_count
 
-        # Помечаем все сообщения от текущего пользователя к выбранным пользователем как прочитанные
-        # при открытии чата с данным пользователем
         if 'user_id' in request.GET:
             user_id = request.GET.get('user_id')
             sender = get_object_or_404(User, id=user_id)
@@ -86,6 +73,7 @@ def message_view(request, sender, receiver):
             last_messages.append(last_message)
 
         context = {
+
             'users': users,
             'receiver': receiver_user,
             'messages': messages,
