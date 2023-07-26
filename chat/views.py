@@ -58,27 +58,31 @@ def message_view(request, sender, receiver):
     if request.method == "GET":
         current_user = request.user
 
-        users = User.objects.exclude(username=current_user.username)
-        receiver_user = User.objects.get(id=receiver)
+        current_user = request.user
+        receiver_user = get_object_or_404(User, id=receiver)
+
         messages = Message.objects.filter(
             (Q(sender=current_user, receiver=receiver_user) | Q(sender=receiver_user, receiver=current_user))
         )
 
-        last_messages = []
-        for receiver in users:
-            last_message = Message.objects.filter(
-                (Q(sender=current_user, receiver=receiver) | Q(sender=receiver, receiver=current_user))
-            ).order_by('-timestamp').first()
-            last_messages.append(last_message)
+        messages.filter(receiver=current_user, is_read=False).update(is_read=True)
 
-        unread_messages_count = Message.objects.filter(receiver=request.user, is_read=False).count()
+        users = User.objects.exclude(username=current_user.username)
+
+        for user in users:
+            latest_message = Message.objects.filter(
+                Q(sender=current_user, receiver=user) | Q(sender=user, receiver=current_user)
+            ).last()
+            user.latest_message = latest_message
+            not_read_count = Message.objects.filter(sender=user, receiver=current_user, is_read=False).count()
+            user.not_read_count = not_read_count
+
+        unread_messages_count = Message.objects.filter(receiver=current_user, is_read=False).count()
+
         context = {
             'users': users,
             'receiver': receiver_user,
             'messages': messages,
-            'last_messages': last_messages,
             'unread_messages_count': unread_messages_count,
         }
         return render(request, "chat/messages.html", context)
-
-

@@ -330,6 +330,14 @@
                     <span class="nav-link-text ms-1">Профиль</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link text-white " href="{% url 'chats' %}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">message</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Сообщения</span>
+                </a>
+            </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link text-white " href='{% url 'logout' %}'>
@@ -427,6 +435,8 @@
                                                     {% endif %}
                                                     {% if user.not_read_count %}
                                                         <span class="badge bg-danger rounded-pill float-end">{{ user.not_read_count }}</span>
+                                                    {% else %}
+                                                        <span class="badge bg-danger rounded-pill float-end">{{ user.not_read_count }}</span>
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -438,7 +448,7 @@
                                         <div class="settings-tray">
                                             <div class="friend-drawer no-gutters friend-drawer--grey">
                                                 <img class="profile-image"
-                                                     src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg"
+                                                     src="{% static 'img/default.png' %}"
                                                      alt="">
                                                 <div class="text">
                                                     <h6 style="color:#ffffff;">{{ receiver.username }}</h6>
