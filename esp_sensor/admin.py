@@ -2,11 +2,33 @@ from django.contrib import admin
 from .models import *
 
 
-# Register your models here.
+@admin.register(Country)
+class CountryAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', ]
+    list_display_links = ['name', ]
+
+
+@admin.register(City)
+class CityAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', ]
+    list_display_links = ['name', ]
+
+
+@admin.register(Sensor)
 class SensorAdmin(admin.ModelAdmin):
-    list_display = ['name', ]
+    prepopulated_fields = {"slug": ("name",)}
 
+    def countries_list(self, obj):
+        return ", ".join([country.name for country in obj.country.all()])
 
-admin.site.register(Sensor, SensorAdmin)
-admin.site.register(Country)
-admin.site.register(City)
+    def cities_list(self, obj):
+        return ", ".join([city.name for city in obj.city.all()])
+
+    countries_list.short_description = "Страна"
+    cities_list.short_description = "Город"
+
+    list_display = ('id', 'name', 'owner', 'date_added', 'countries_list', 'cities_list', 'inclusions', 'power', 'work')
+    list_display_links = ['name', ]
+    list_filter = ['country', 'city']
+    search_fields = ['name', 'owner']
+    list_editable = ['inclusions', 'power', 'work']

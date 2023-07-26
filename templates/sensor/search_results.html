@@ -1,48 +1,6 @@
-{#<html>#}
-{#<head>#}
-{#    <title>Search Results</title>#}
-{#</head>#}
-{#<body>#}
-{#    <h1>Search Results for "{{ query }}"</h1>#}
-{##}
-{#    <ul>#}
-{#        {% for sensor in sensors %}#}
-{#            <li>#}
-{#                <h2>{{ sensor.name }}</h2>#}
-{#                <p>Description: {{ sensor.description }}</p>#}
-{#                <p>Owner: {{ sensor.owner }}</p>#}
-{#                <p>Date Added: {{ sensor.date_added | date:"Y-m-d H:i:s" }}</p>#}
-{#                <p>Number of Inclusions: {{ sensor.inclusions }}</p>#}
-{##}
-{#                {% if sensor.power %}#}
-{#                    <p>Power: On</p>#}
-{#                {% else %}#}
-{#                    <p>Power: Off</p>#}
-{#                {% endif %}#}
-{##}
-{#                <h3>Countries:</h3>#}
-{#                <ul>#}
-{#                    {% for country in sensor.country.all %}#}
-{#                        <li>{{ country.name }}</li>#}
-{#                    {% endfor %}#}
-{#                </ul>#}
-{##}
-{#                <h3>Cities:</h3>#}
-{#                <ul>#}
-{#                    {% for city in sensor.city.all %}#}
-{#                        <li>{{ city.name }}</li>#}
-{#                    {% endfor %}#}
-{#                </ul>#}
-{#            </li>#}
-{#        {% empty %}#}
-{#            <p>No sensors found.</p>#}
-{#        {% endfor %}#}
-{#    </ul>#}
-{#</body>#}
-{#</html>#}
 {% load static %}
 {% include 'base.html' %}
-<title>Главная страница</title>
+<title>Страница поиска</title>
 <body class="g-sidenav-show  bg-gray-200">
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
        id="sidenav-main">
@@ -79,7 +37,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white " href="#">
+                <a class="nav-link text-white " href="{% url 'profiles:profile_detail' user.profile.slug %}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">person_add</i>
                     </div>
@@ -211,6 +169,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </main>
 {% include 'include/setting.html' %}

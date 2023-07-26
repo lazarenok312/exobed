@@ -4,7 +4,8 @@ from django.db import models
 
 
 class Country(models.Model):
-    name = models.CharField(max_length=100)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField("Название", max_length=100)
 
     def __str__(self):
         return self.name
@@ -15,8 +16,9 @@ class Country(models.Model):
 
 
 class City(models.Model):
+    id = models.AutoField(primary_key=True)
     country = models.ManyToManyField(Country, blank=True, verbose_name='Страна')
-    name = models.CharField(max_length=100)
+    name = models.CharField("Название", max_length=100)
 
     def __str__(self):
         return self.name
