@@ -112,14 +112,18 @@
     }
 
     .chat-bubble {
-        padding: 10px 14px;
+        width: 371px;
         background: #eee;
+        padding: 10px 14px;
         margin: 10px 30px;
         border-radius: 9px;
         position: relative;
         animation: fadeIn 1s ease-in;
     }
-
+    .reciver{
+        background: #42424a;
+        color: white;
+    }
     .chat-bubble:after {
         content: "";
         position: absolute;
@@ -160,7 +164,7 @@
     }
 
     .chat-box-tray {
-    {#background: #eee;#} display: flex;
+        display: flex;
         align-items: baseline;
         padding: 10px 15px;
         align-items: center;
@@ -418,7 +422,7 @@
                                         <a href="{% url 'chat' request.user.id user.id %}" class="collection-item row">
                                             <div class="friend-drawer friend-drawer--onhover">
                                                 <img class="profile-image"
-                                                     src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg"
+                                                     src="{% static 'img/default.png' %}"
                                                      alt="">
                                                 <div class="text">
                                                     <h6>{{ user.username }}</h6>
