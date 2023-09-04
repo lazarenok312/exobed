@@ -39,6 +39,7 @@ class Sensor(models.Model):
     city = models.ManyToManyField(City, blank=True, verbose_name='Город')
     inclusions = models.IntegerField("Количество включений", default=0)
     power = models.IntegerField("Мощность", default=0)
+    volt = models.IntegerField("Потребление", default=0)
     work = models.BooleanField('Онлайн', default=True)
 
     def __str__(self):

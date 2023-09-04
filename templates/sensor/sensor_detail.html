@@ -1,63 +1,32 @@
 {% load static %}
 {% include 'base.html' %}
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/highcharts-more.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script>
-<script src="https://code.highcharts.com/modules/accessibility.js"></script>
-<style>.highcharts-figure,
-.highcharts-data-table table {
-    min-width: 310px;
-    max-width: 500px;
-    margin: 1em auto;
-}
 
-.highcharts-data-table table {
-    font-family: Verdana, sans-serif;
-    border-collapse: collapse;
-    border: 1px solid #ebebeb;
-    margin: 10px auto;
-    text-align: center;
-    width: 100%;
-    max-width: 500px;
-}
-
-.highcharts-data-table caption {
-    padding: 1em 0;
-    font-size: 1.2em;
-    color: #555;
-}
-
-.highcharts-data-table th {
-    font-weight: 600;
-    padding: 0.5em;
-}
-
-.highcharts-data-table td,
-.highcharts-data-table th,
-.highcharts-data-table caption {
-    padding: 0.5em;
-}
-
-.highcharts-data-table thead tr,
-.highcharts-data-table tr:nth-child(even) {
-    background: #f8f8f8;
-}
-
-.highcharts-data-table tr:hover {
-    background: #f1f7ff;
-}</style>
 <title>Датчик {{ sensor.name }}</title>
 <body class="g-sidenav-show  bg-gray-200">
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
        id="sidenav-main">
-    <div class="sidenav-header">
-        <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
-           aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand m-0" href="#">
-            <img src="{% static 'img/logo-ct.png' %}" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-1 font-weight-bold text-white">{{ sensor.name }}</span>
-        </a>
+    <div style="margin: 10px 0px 10px 0px">
+
+        <ul class="navbar-nav">
+            {% if sensor.work %}
+                <li class="nav-item">
+                    <a class="nav-link text-white active bg-gradient-success">
+                        <div class="text-white text-center d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">task_alt</i>
+                        </div>
+                        <span class="nav-link-text ms-1">{{ sensor.name }}</span>
+                    </a>
+                </li>
+
+            {% else %}
+                <a class="nav-link text-white active bg-gradient-danger">
+                    <div class="text-white text-center d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">error</i>
+                    </div>
+                    <span class="nav-link-text ms-1">{{ sensor.name }}</span>
+                </a>
+            {% endif %}
+        </ul>
     </div>
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
@@ -82,23 +51,23 @@
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Страницы
                     аккаунта</h6>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-white ">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">person</i>
-                    </div>
-                    <span class="nav-link-text ms-1">{{ user.username }}</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white " href="{% url 'profiles:profile_detail' user.profile.slug %}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">person_add</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Профиль</span>
-                </a>
-            </li>
             {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link text-white ">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">person</i>
+                        </div>
+                        <span class="nav-link-text ms-1">{{ user.username }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white " href="{% url 'profiles:profile_detail' user.profile.slug %}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">person_add</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Профиль</span>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link text-white " href='{% url 'logout' %}'>
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -117,7 +86,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " href="../pages/sign-up.html">
+                    <a class="nav-link text-white " href="{% url 'register' %}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">assignment</i>
                         </div>
@@ -146,64 +115,38 @@
     <!-- End Navbar -->
     <div class="container-fluid py-4">
         <div class="row">
+            <div class="d-flex ">
+                            <i class="material-icons text-sm my-auto me-1">schedule</i>
+                            <p class="mb-0 text-sm">Последнее обновление {{ sensor.date_added | date:"H:i:s" }}</p>
+                        </div>
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                    <figure class="highcharts-figure">
-                    <div id="container"></div>
-                </figure>
-                </div>
+                {% include 'charts/power.html' %}
+            </div>
 
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                {% include 'charts/voltage.html' %}
             </div>
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
+                <div class="card" style="width: 202%;height: 280px">
                     <div class="card-header p-3 pt-2">
                         <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                            <i class="material-icons opacity-10">person</i>
+                            <i class="material-icons opacity-10">border_color</i>
                         </div>
                         <div class="text-end pt-1">
-                            <p class="text-sm mb-0 text-capitalize">Today's Users</p>
-                            <h4 class="mb-0">2,300</h4>
+                            <p class="text-sm mb-0 text-capitalize">Логгирование</p>
                         </div>
                     </div>
                     <hr class="dark horizontal my-0">
-                    <div class="card-footer p-3">
-                        <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3% </span>than last month
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                    <div class="card-header p-3 pt-2">
-                        <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                            <i class="material-icons opacity-10">person</i>
-                        </div>
-                        <div class="text-end pt-1">
-                            <p class="text-sm mb-0 text-capitalize">New Clients</p>
-                            <h4 class="mb-0">3,462</h4>
-                        </div>
-                    </div>
-                    <hr class="dark horizontal my-0">
-                    <div class="card-footer p-3">
-                        <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> than yesterday
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6">
-                <div class="card">
-                    <div class="card-header p-3 pt-2">
-                        <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                            <i class="material-icons opacity-10">weekend</i>
-                        </div>
-                        <div class="text-end pt-1">
-                            <p class="text-sm mb-0 text-capitalize">Sales</p>
-                            <h4 class="mb-0">$103,430</h4>
-                        </div>
-                    </div>
-                    <hr class="dark horizontal my-0">
-                    <div class="card-footer p-3">
-                        <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5% </span>than yesterday
+                    <div class="card-footer p-3" style="overflow-y:scroll;width: 100%;height: 270px">
+                        <p class="mb-0">Данные логов с датчика Данные логов с датчика Данные логов с датчика Данные
+                            логов с датчика Данные логов с датчика Данные логов с датчика Данные логов с датчика Данные
+                            логов с датчика Данные логов с датчика Данные логов с датчика Данные логов с датчика Данные
+                            логов с датчика Данные логов с датчика Данные логов с датчика Данные логов с датчика Данные
+                            логов с датчика Данные логов с датчика Данные логов с датчика Данные логов с датчика Данные
+                            логов с датчика Данные логов с датчика Данные логов с датчика Данные логов с датчика Данные
+                            логов с датчика Данные логов с датчика Данные логов с датчика Данные логов с датчика Данные
+                            логов с датчика Данные логов с датчика Данные логов с датчика Данные логов с датчика Данные
+                            логов с датчика Данные логов с датчика Данные логов с датчика
                         </p>
                     </div>
                 </div>
@@ -222,11 +165,6 @@
                     <div class="card-body">
                         <h6 class="mb-0 ">Количество включений</h6>
                         <p class="text-sm ">Эффективность за неделю</p>
-                        <hr class="dark horizontal">
-                        <div class="d-flex ">
-                            <i class="material-icons text-sm my-auto me-1">schedule</i>
-                            <p class="mb-0 text-sm">Последнее обновление {{ sensor.date_added | date:"H:i:s" }}</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -244,11 +182,6 @@
                         <p class="text-sm "> (<span class="font-weight-bolder">+15%</span>) по сравнению с предыдущим
                             днем.
                         </p>
-                        <hr class="dark horizontal">
-                        <div class="d-flex ">
-                            <i class="material-icons text-sm my-auto me-1">schedule</i>
-                            <p class="mb-0 text-sm">Последнее обновление {{ sensor.date_added | date:"H:i:s" }}</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -264,11 +197,6 @@
                     <div class="card-body">
                         <h6 class="mb-0 ">Время работы</h6>
                         <p class="text-sm ">Эффективность за неделю</p>
-                        <hr class="dark horizontal">
-                        <div class="d-flex ">
-                            <i class="material-icons text-sm my-auto me-1">schedule</i>
-                            <p class="mb-0 text-sm">Последнее обновление {{ sensor.date_added | date:"H:i:s" }}</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -379,7 +307,7 @@
                 borderWidth: 4,
                 backgroundColor: "transparent",
                 fill: true,
-                data: [{{ sensor.power }},{{ sensor.power }},{{ sensor.power }},{{ sensor.power }},{{ sensor.power }},{{ sensor.power }},{{ sensor.power }}],
+                data: [{{ sensor.power }}, {{ sensor.power }}, {{ sensor.power }}, {{ sensor.power }}, {{ sensor.power }}, {{ sensor.power }}, {{ sensor.power }}],
                 maxBarThickness: 6
 
             }],
@@ -526,115 +454,5 @@
         },
     });
 </script>
-<script>
-    Highcharts.chart('container', {
 
-        chart: {
-            type: 'gauge',
-            plotBackgroundColor: null,
-            plotBackgroundImage: null,
-            plotBorderWidth: 0,
-            plotShadow: false,
-            height: '80%'
-        },
-
-        title: {
-            text: 'Потребление мощности'
-        },
-
-        pane: {
-            startAngle: -90,
-            endAngle: 89.9,
-            background: null,
-            center: ['50%', '75%'],
-            size: '110%'
-        },
-
-        // the value axis
-        yAxis: {
-            min: 0,
-            max: 1000,
-            tickPixelInterval: 72,
-            tickPosition: 'inside',
-            tickColor: Highcharts.defaultOptions.chart.backgroundColor || '#FFFFFF',
-            tickLength: 20,
-            tickWidth: 2,
-            minorTickInterval: null,
-            labels: {
-                distance: 20,
-                style: {
-                    fontSize: '14px'
-                }
-            },
-            lineWidth: 0,
-            plotBands: [{
-                from: 0,
-                to: 650,
-                color: '#55BF3B', // green
-                thickness: 20
-            }, {
-                from: 650,
-                to: 850,
-                color: '#DDDF0D', // yellow
-                thickness: 20
-            }, {
-                from: 850,
-                to: 1000,
-                color: '#DF5353', // red
-                thickness: 20
-            }]
-        },
-
-        series: [{
-            name: 'Watt',
-            data: [{{ sensor.power }}],
-            tooltip: {
-                valueSuffix: ' Ватт'
-            },
-            dataLabels: {
-                format: '{y} Ватт',
-                borderWidth: 0,
-                color: (
-                    Highcharts.defaultOptions.title &&
-                    Highcharts.defaultOptions.title.style &&
-                    Highcharts.defaultOptions.title.style.color
-                ) || '#333333',
-                style: {
-                    fontSize: '16px'
-                }
-            },
-            dial: {
-                radius: '80%',
-                backgroundColor: 'gray',
-                baseWidth: 12,
-                baseLength: '0%',
-                rearLength: '0%'
-            },
-            pivot: {
-                backgroundColor: 'gray',
-                radius: 6
-            }
-
-        }]
-
-    });
-
-    // Add some life
-    setInterval(() => {
-        const chart = Highcharts.charts[0];
-        if (chart && !chart.renderer.forExport) {
-            const point = chart.series[0].points[0],
-                inc = Math.round((Math.random() - 0.5) * 30);
-
-            let newVal = point.y + inc;
-            if (newVal < 0 || newVal > 200) {
-                newVal = point.y - inc;
-            }
-
-            point.update(newVal);
-        }
-
-    }, 3000);
-</script>
 </body>
-</html>

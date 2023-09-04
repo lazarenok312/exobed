@@ -1,0 +1,162 @@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<style>.highcharts-figure,
+.highcharts-data-table table {
+    min-width: 80%;
+    max-width: 100%;
+    margin: 1em auto;
+}
+
+.highcharts-data-table table {
+    font-family: Verdana, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #ebebeb;
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+
+.highcharts-data-table th {
+    font-weight: 600;
+    padding: 0.5em;
+}
+
+.highcharts-data-table td,
+.highcharts-data-table th,
+.highcharts-data-table caption {
+    padding: 0.5em;
+}
+
+.highcharts-data-table thead tr,
+.highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}</style>
+<div class="card">
+    <figure class="highcharts-figure">
+        <div id="power"></div>
+    </figure>
+</div>
+<script>
+    Highcharts.chart('power', {
+
+        chart: {
+            type: 'gauge',
+            plotBackgroundColor: null,
+            plotBackgroundImage: null,
+            plotBorderWidth: 0,
+            plotShadow: true,
+            height: '80%'
+        },
+
+        title: {
+            text: 'Потребление мощности'
+        },
+
+        pane: {
+            startAngle: -90,
+            endAngle: 89.9,
+            background: null,
+            center: ['50%', '75%'],
+            size: '110%'
+        },
+
+        // the value axis
+        yAxis: {
+            min: 0,
+            max: 1000,
+            tickPixelInterval: 40,
+            tickPosition: 'inside',
+            tickColor: Highcharts.defaultOptions.chart.backgroundColor || '#FFFFFF',
+            tickLength: 20,
+            tickWidth: 2,
+            minorTickInterval: null,
+            labels: {
+                distance: 20,
+                style: {
+                    fontSize: '14px'
+                }
+            },
+            lineWidth: 0,
+            plotBands: [{
+                from: 0,
+                to: 650,
+                color: '#55BF3B', // green
+                thickness: 20
+            }, {
+                from: 650,
+                to: 850,
+                color: '#DDDF0D', // yellow
+                thickness: 20
+            }, {
+                from: 850,
+                to: 1000,
+                color: '#DF5353', // red
+                thickness: 20
+            }]
+        },
+
+        series: [{
+            name: 'Watt',
+            data: [{{ sensor.power }}],
+            tooltip: {
+                valueSuffix: ' Ватт'
+            },
+            dataLabels: {
+                format: '{y} Ватт',
+                borderWidth: 0,
+                color: (
+                    Highcharts.defaultOptions.title &&
+                    Highcharts.defaultOptions.title.style &&
+                    Highcharts.defaultOptions.title.style.color
+                ) || '#333333',
+                style: {
+                    fontSize: '16px'
+                }
+            },
+            dial: {
+                radius: '80%',
+                backgroundColor: 'gray',
+                baseWidth: 12,
+                baseLength: '0%',
+                rearLength: '0%'
+            },
+            pivot: {
+                backgroundColor: 'gray',
+                radius: 6
+            }
+
+        }]
+
+    });
+
+    // Add some life
+    setInterval(() => {
+        const chart = Highcharts.charts[0];
+        if (chart && !chart.renderer.forExport) {
+            const point = chart.series[0].points[0],
+                inc = Math.round((Math.random() - 0.5) * 30);
+
+            let newVal = point.y + inc;
+            if (newVal < 0 || newVal > 200) {
+                newVal = point.y - inc;
+            }
+
+            point.update(newVal);
+        }
+
+    }, 3000);
+</script>
