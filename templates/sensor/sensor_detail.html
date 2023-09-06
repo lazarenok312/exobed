@@ -19,7 +19,7 @@
         box-sizing: border-box;
         position: relative;
         border-radius: 2px;
-        background: #42424a;
+        background: #E53935;
         transition: background-color 0.3s cubic-bezier(0, 1, 0.5, 1);
     }
 
@@ -99,7 +99,7 @@
 
     /* Focus */
     .checkbox-green.focused .checkbox-green-switch:after {
-        box-shadow: inset 0px 0px 4px #ff5623;
+        box-shadow: inset 0px 0px 4px #E53935;
     }
 </style>
 <title>Датчик {{ sensor.name }}</title>
@@ -218,7 +218,7 @@
         <div class="row">
             <label class="checkbox-green">
                 <input type="checkbox">
-                <span class="checkbox-green-switch" data-label-on="ВКЛ" data-label-off="ВЫКЛ"></span>
+                <span class="checkbox-green-switch" data-label-on="ВКЛ" data-label-off="ВЫКЛ" ></span>
             </label>
             <div class="d-flex ">
                 <i class="material-icons text-sm my-auto me-1">schedule</i>
