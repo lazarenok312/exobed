@@ -1,6 +1,7 @@
 from django.urls import reverse
 from django.utils import timezone
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Country(models.Model):
@@ -38,7 +39,11 @@ class Sensor(models.Model):
     country = models.ManyToManyField(Country, blank=True, verbose_name='Страна')
     city = models.ManyToManyField(City, blank=True, verbose_name='Город')
     inclusions = models.IntegerField("Количество включений", default=0)
-    power = models.IntegerField("Мощность", default=0)
+    power = models.IntegerField(default=0,
+                                blank=True,
+                                verbose_name='Мощность',
+                                validators=[MinValueValidator(0), MaxValueValidator(100)])
+    watt = models.IntegerField("Измерение мощности", default=0)
     volt = models.IntegerField("Потребление", default=0)
     work = models.BooleanField('Онлайн', default=True)
 
