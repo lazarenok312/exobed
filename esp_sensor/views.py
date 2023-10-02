@@ -5,7 +5,7 @@ from .models import Sensor
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-
+from .forms import SensorWorkForm
 
 class SensorListView(ListView):
     model = Sensor
@@ -18,6 +18,13 @@ class SensorDetailView(DetailView):
     model = Sensor
     template_name = 'sensor/sensor_detail.html'
     context_object_name = 'sensor'
+
+    def post(self, request, *args, **kwargs):
+        sensor = self.get_object()
+        sensor.work = not sensor.work
+        sensor.save()
+
+        return JsonResponse({'success': True})
 
 
 def search_sensors(request):

@@ -307,14 +307,22 @@
     <!-- End Navbar -->
     <div class="container-fluid">
         <div class="row">
-            <label class="checkbox-green">
-                <input type="checkbox">
-                <span class="checkbox-green-switch" data-label-on="ВКЛ" data-label-off="ВЫКЛ"></span>
-            </label>
-                <div class="range-slider">
-                    <div class="label-range">Регулировка мощности</div>
-                    <input id="range" type="range" name="range" min="0" max="100" step="1" value="{{ sensor.power }}"/>
-                </div>
+            {#            <label class="checkbox-green">#}
+            {#                <input type="checkbox">#}
+            {#                <span class="checkbox-green-switch" data-label-on="ВКЛ" data-label-off="ВЫКЛ"></span>#}
+            {#            </label>#}
+            <form method="post">
+                {% csrf_token %}
+                <label class="checkbox-green">
+                    <input type="checkbox" name="work" {% if sensor.work %}checked{% endif %}>
+                    <span class="checkbox-green-switch" data-label-on="ВКЛ" data-label-off="ВЫКЛ"></span>
+                </label>
+                <input type="submit" style="display: none;">  <!-- Скрытая кнопка отправки формы -->
+            </form>
+            <div class="range-slider">
+                <div class="label-range">Регулировка мощности</div>
+                <input id="range" type="range" name="range" min="0" max="100" step="1" value="{{ sensor.power }}"/>
+            </div>
             <div class="d-flex " style="margin-top: 5px">
                 <i class="material-icons text-sm my-auto me-1">schedule</i>
                 <p class="mb-0 text-sm">Последнее обновление {{ sensor.date_added | date:"H:i:s" }}</p>
@@ -405,6 +413,23 @@
 </main>
 {% include 'include/setting.html' %}
 {% include 'include/script.html' %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('input[name="work"]').change(function () {
+            $.post({
+                url: '{% url "sensor_detail" sensor.pk %}',  // Замените на URL вашего представления SensorDetailView
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
+                success: function(data) {
+                    if (data.success) {
+                        location.reload();  // Перезагрузить страницу
+                    }
+                },
+                dataType: 'json'
+            });
+        });
+    });
+</script>
 <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
 
