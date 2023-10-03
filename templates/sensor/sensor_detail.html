@@ -342,11 +342,9 @@
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-3" style="overflow-y:scroll;width: 100%;height: 290px">
-                        <ul>
-                            {% for log in logs %}
-                                <li>{{ log|linebreaksbr }}</li>
-                            {% endfor %}
-                        </ul>
+                        {% for log in logs %}
+        <li>{{ log.log_type }} - {{ log.timestamp }}</li>
+    {% endfor %}
                     </div>
                 </div>
             </div>

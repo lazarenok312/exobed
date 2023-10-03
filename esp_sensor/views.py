@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
-from .models import Sensor
+from .models import Sensor , SensorLog
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -22,31 +22,20 @@ class SensorDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        # Открываем файл логов и заменяем значения на текстовые сообщения
-        with open('sqlite3.log', 'r') as log_file:
-            logs = log_file.readlines()
-            logs = [log.replace('True', 'Датчик включен').replace('False', 'Датчик выключен') for log in logs]
-
+        sensor = self.get_object()
+        logs = SensorLog.objects.filter(sensor=sensor)
         context['logs'] = logs
-
         return context
 
     def post(self, request, *args, **kwargs):
         sensor = self.get_object()
-        previous_work_state = sensor.work  # Запоминаем предыдущее состояние датчика
+        previous_work_state = sensor.work
         sensor.work = not sensor.work
         sensor.save()
 
-        # Запись лога внутри метода post с использованием вашего собственного логгера
-        logger = logging.getLogger('your_custom_logger')
-
-        if sensor.work:
-            log_message = f"Датчик {sensor.name} включен."
-        else:
-            log_message = f"Датчик {sensor.name} выключен."
-
-        logger.info(log_message)
+        # Создание записи лога
+        log_type = 'Включение' if sensor.work else 'Выключение'
+        SensorLog.objects.create(sensor=sensor, log_type=log_type)
 
         return JsonResponse({'success': True})
 

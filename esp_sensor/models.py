@@ -56,3 +56,12 @@ class Sensor(models.Model):
     class Meta:
         verbose_name = 'Датчик'
         verbose_name_plural = 'Датчики'
+
+
+class SensorLog(models.Model):
+    sensor = models.ForeignKey('Sensor', on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    log_type = models.CharField(max_length=100)  # например, 'Включение' или 'Выключение'
+
+    def __str__(self):
+        return f'{self.sensor.name} - {self.log_type} - {self.timestamp}'
