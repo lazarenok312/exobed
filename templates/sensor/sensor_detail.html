@@ -307,17 +307,13 @@
     <!-- End Navbar -->
     <div class="container-fluid">
         <div class="row">
-            {#            <label class="checkbox-green">#}
-            {#                <input type="checkbox">#}
-            {#                <span class="checkbox-green-switch" data-label-on="ВКЛ" data-label-off="ВЫКЛ"></span>#}
-            {#            </label>#}
             <form method="post">
                 {% csrf_token %}
                 <label class="checkbox-green">
                     <input type="checkbox" name="work" {% if sensor.work %}checked{% endif %}>
                     <span class="checkbox-green-switch" data-label-on="ВКЛ" data-label-off="ВЫКЛ"></span>
                 </label>
-                <input type="submit" style="display: none;">  <!-- Скрытая кнопка отправки формы -->
+                <input type="submit" style="display: none;">
             </form>
             <div class="range-slider">
                 <div class="label-range">Регулировка мощности</div>
@@ -346,16 +342,11 @@
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-3" style="overflow-y:scroll;width: 100%;height: 290px">
-                        <p class="mb-0">Данные логов с датчика Данные логов с датчика Данные логов с датчика Данные
-                            логов с датчика Данные логов с датчика Данные логов с датчика Данные логов с датчика Данные
-                            логов с датчика Данные логов с датчика Данные логов с датчика Данные логов с датчика Данные
-                            логов с датчика Данные логов с датчика Данные логов с датчика Данные логов с датчика Данные
-                            логов с датчика Данные логов с датчика Данные логов с датчика Данные логов с датчика Данные
-                            логов с датчика Данные логов с датчика Данные логов с датчика Данные логов с датчика Данные
-                            логов с датчика Данные логов с датчика Данные логов с датчика Данные логов с датчика Данные
-                            логов с датчика Данные логов с датчика Данные логов с датчика Данные логов с датчика Данные
-                            логов с датчика Данные логов с датчика Данные логов с датчика
-                        </p>
+                        <ul>
+                            {% for log in logs %}
+                                <li>{{ log|linebreaksbr }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -420,7 +411,7 @@
             $.post({
                 url: '{% url "sensor_detail" sensor.pk %}',  // Замените на URL вашего представления SensorDetailView
                 data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
-                success: function(data) {
+                success: function (data) {
                     if (data.success) {
                         location.reload();  // Перезагрузить страницу
                     }

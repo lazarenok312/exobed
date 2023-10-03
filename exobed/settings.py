@@ -84,6 +84,29 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'sqlite3.log',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'handlers': ['file_handler'],
+            'level': 'INFO',  # Уровень логирования для запросов к базе данных
+            'propagate': False,
+        },
+        'your_custom_logger': {
+            'handlers': ['file_handler'],
+            'level': 'INFO',  # или 'DEBUG'
+            'propagate': False,
+        },
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
