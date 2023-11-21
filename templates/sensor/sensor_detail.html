@@ -341,10 +341,10 @@
                         </div>
                     </div>
                     <hr class="dark horizontal my-0">
-                    <div class="card-footer p-3" style="overflow-y:scroll;width: 100%;height: 290px">
+                    <div class="card-footer p-3" id="myDiv" style="overflow-y:scroll;width: 100%;height: 290px">
                         {% for log in logs %}
-        <li>{{ log.log_type }} - {{ log.timestamp }}</li>
-    {% endfor %}
+                            <li>{{ log.log_type }} - {{ log.timestamp }}</li>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -402,7 +402,65 @@
 </main>
 {% include 'include/setting.html' %}
 {% include 'include/script.html' %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    // Ваш JavaScript-код для обработки событий
+
+    // Находим элемент input
+    var rangeInput = document.getElementById("range");
+
+    // Слушаем событие изменения значения на поле input
+    rangeInput.addEventListener("input", function () {
+        // Получаем новое значение мощности
+        var newPower = rangeInput.value;
+
+        // Отправляем новое значение на сервер с использованием AJAX-запроса
+        // Здесь предполагается, что у вас есть URL для обработки этого запроса на сервере
+        // и что вы используете библиотеку jQuery для упрощения AJAX-запроса
+        $.ajax({
+            url: '/update_power/', // Замените на ваш URL
+            method: 'POST',
+            data: {
+                power: newPower,
+                sensor_id: {{ sensor.id }} // Передайте ID датчика на сервер
+            },
+            success: function (response) {
+                // Обработка успешного ответа от сервера
+                console.log("Мощность обновлена успешно.");
+            },
+            error: function (error) {
+                // Обработка ошибки
+                console.error("Ошибка при обновлении мощности.");
+            }
+        });
+    });
+    });
+</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Получаем ссылку на элемент div
+    var myDiv = document.getElementById("myDiv");
+
+    // Функция для плавного перемещения скролла в конец
+    function scrollToBottom() {
+        var currentScroll = myDiv.scrollTop;
+        var targetScroll = myDiv.scrollHeight;
+        var scrollStep = 10; // Регулируйте скорость анимации по вашему желанию
+
+        function animateScroll() {
+            if (currentScroll < targetScroll) {
+                currentScroll += scrollStep;
+                myDiv.scrollTop = currentScroll;
+                requestAnimationFrame(animateScroll);
+            }
+        }
+
+        animateScroll();
+    }
+
+    // Вызываем функцию для плавного перемещения скролла в конец
+    scrollToBottom();
+</script>
 <script>
     $(document).ready(function () {
         $('input[name="work"]').change(function () {
