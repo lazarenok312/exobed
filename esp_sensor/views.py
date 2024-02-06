@@ -33,7 +33,6 @@ class SensorDetailView(DetailView):
         sensor.work = not sensor.work
         sensor.save()
 
-        # Создание записи лога
         log_type = 'Включение' if sensor.work else 'Выключение'
         SensorLog.objects.create(sensor=sensor, log_type=log_type)
 

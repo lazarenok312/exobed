@@ -61,7 +61,7 @@ class Sensor(models.Model):
 class SensorLog(models.Model):
     sensor = models.ForeignKey('Sensor', on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
-    log_type = models.CharField(max_length=100)  # например, 'Включение' или 'Выключение'
+    log_type = models.CharField(max_length=20)
 
     def __str__(self):
         return f'{self.sensor.name} - {self.log_type} - {self.timestamp}'
