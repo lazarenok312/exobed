@@ -30,13 +30,19 @@ class SensorDetailView(DetailView):
     def post(self, request, *args, **kwargs):
         sensor = self.get_object()
         previous_work_state = sensor.work
+        previous_power = sensor.power  # Сохраняем предыдущее значение мощности
         sensor.work = not sensor.work
         sensor.save()
 
-        log_type = 'Включение' if sensor.work else 'Выключение'
-        SensorLog.objects.create(sensor=sensor, log_type=log_type)
+        if previous_power != sensor.power:
+            log_type = 'Изменение мощности'
+            SensorLog.objects.create(sensor=sensor, log_type=log_type, previous_power=previous_power)
 
-        return JsonResponse({'success': True})
+        log_type = 'Включение' if sensor.work else 'Выключение'
+        SensorLog.objects.create(sensor=sensor, log_type=log_type, previous_power=previous_power)
+
+        return JsonResponse({'success': True, 'power_changed': previous_power != sensor.power})
+
 
 
 def search_sensors(request):
