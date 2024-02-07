@@ -45,6 +45,7 @@ class SensorDetailView(DetailView):
 
 
 
+
 def search_sensors(request):
     query = request.GET.get('q')
 

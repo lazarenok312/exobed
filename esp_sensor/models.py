@@ -66,6 +66,7 @@ class SensorLog(models.Model):
     watt = models.IntegerField(null=True, blank=True)
     volt = models.IntegerField(null=True, blank=True)
 
+
     def __str__(self):
         return f'{self.sensor.name} - {self.log_type} - {self.timestamp}'
 
