@@ -57,29 +57,27 @@ class Sensor(models.Model):
         verbose_name = 'Датчик'
         verbose_name_plural = 'Датчики'
 
-
 class SensorLog(models.Model):
     sensor = models.ForeignKey('Sensor', on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     log_type = models.CharField(max_length=20)
     previous_power = models.IntegerField(null=True, blank=True)
-    watt = models.IntegerField(null=True, blank=True)
-    volt = models.IntegerField(null=True, blank=True)
-
+    previous_watt = models.IntegerField(null=True, blank=True)
+    previous_volt = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return f'{self.sensor.name} - {self.log_type} - {self.timestamp}'
 
     def save(self, *args, **kwargs):
-        if self.pk:  # Проверяем, сохраняется ли существующий объект или создается новый
+        if self.pk:
             try:
                 old_log = SensorLog.objects.get(pk=self.pk)
-                if old_log.watt != self.watt:
+                if old_log.watt != self.previous_watt:
                     log_type = 'Изменение мощности'
                     SensorLog.objects.create(sensor=self.sensor, log_type=log_type, previous_power=old_log.watt)
-                elif old_log.volt != self.volt:
+                elif old_log.volt != self.previous_volt:
                     log_type = 'Изменение напряжения'
                     SensorLog.objects.create(sensor=self.sensor, log_type=log_type, previous_volt=old_log.volt)
             except SensorLog.DoesNotExist:
-                pass  # Обработка случаев, когда старая запись в журнале не найдена
+                pass
         super(SensorLog, self).save(*args, **kwargs)

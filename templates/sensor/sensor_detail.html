@@ -340,14 +340,19 @@
                             <p class="text-sm mb-0 text-capitalize">Логгирование</p>
                         </div>
                     </div>
-                    <hr class="dark horizontal my-0">
+
                     <div class="card-footer p-3" id="myDiv" style="overflow-y:scroll;width: 100%;height: 290px">
                         {% for log in logs %}
+
                             <li>{{ log.log_type }} - {{ log.timestamp }}</li>
                             <li>Мощность: {{ log.previous_power }}%</li>
-
+                            {% if log.previous_watt %}
+                                <li>{{ log.previous_watt }} Watt | {% if log.previous_volt %}
+                                    {{ log.previous_volt }} Volt
+                                {% endif %}</li>
+                            {% endif %}
+                            <hr class="dark horizontal my-0">
                         {% endfor %}
-
                         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                         <script>
                             $(document).ready(function () {
