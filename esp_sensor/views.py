@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
-from .models import Sensor , SensorLog
+from .models import Sensor, SensorLog, SensorData
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -24,13 +24,19 @@ class SensorDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         sensor = self.get_object()
         logs = SensorLog.objects.filter(sensor=sensor)
+
+        power_data = SensorData.objects.filter(sensor=sensor).order_by('timestamp')
+        print(power_data)
+        power_values = [{'timestamp': str(item.timestamp), 'value': item.value} for item in power_data]
         context['logs'] = logs
+        context['power_data'] = power_values
+
         return context
 
     def post(self, request, *args, **kwargs):
         sensor = self.get_object()
         previous_work_state = sensor.work
-        previous_power = sensor.power  # Сохраняем предыдущее значение мощности
+        previous_power = sensor.power
         previous_watt = sensor.watt
         previous_volt = sensor.volt
         sensor.work = not sensor.work
@@ -47,13 +53,15 @@ class SensorDetailView(DetailView):
             SensorLog.objects.create(sensor=sensor, log_type=log_type, previous_volt=previous_volt)
 
         log_type = 'Включение' if sensor.work else 'Выключение'
-        SensorLog.objects.create(sensor=sensor, log_type=log_type, previous_power=previous_power, previous_watt=previous_watt, previous_volt=previous_volt)
+        SensorLog.objects.create(sensor=sensor, log_type=log_type, previous_power=previous_power,
+                                 previous_watt=previous_watt, previous_volt=previous_volt)
 
         logs = SensorLog.objects.filter(sensor=sensor)
         for log in logs:
             print(log.previous_watt)
 
         return JsonResponse({'success': True, 'power_changed': previous_power != sensor.power})
+
 
 def search_sensors(request):
     query = request.GET.get('q')
