@@ -149,7 +149,7 @@
             </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link text-white " href='{% url 'logout' %}'>
+                    <a class="nav-link text-white " href='{% url 'account:logout' %}'>
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">login</i>
                         </div>
@@ -158,7 +158,7 @@
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link text-white " href='{% url 'login' %}'>
+                    <a class="nav-link text-white " href='{% url 'account:login' %}'>
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">login</i>
                         </div>
@@ -166,7 +166,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " href="{% url 'register' %}">
+                    <a class="nav-link text-white " href="{% url 'account:register' %}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">assignment</i>
                         </div>
@@ -367,10 +367,10 @@
                                                     <h6 class="mb-0">Информация профиля</h6>
                                                 </div>
                                                 <div class="col-md-4 text-end">
-                                                    <a href="javascript:;">
+                                                    <a href="{% url 'account:profile_edit' user.profile.slug %}">
                                                         <i class="fas fa-user-edit text-secondary text-sm"
-                                                           data-bs-toggle="tooltip"
-                                                           data-bs-placement="top" title="Изменить данные"></i>
+                                                           data-bs-toggle="tooltip" data-bs-placement="top"
+                                                           title="Изменить данные"></i>
                                                     </a>
                                                 </div>
                                             </div>
@@ -383,10 +383,12 @@
                                                     &nbsp; {{ profile.surnames }} {{ profile.name }} </li>
                                                 <li class="list-group-item border-0 ps-0 text-sm"><strong
                                                         class="text-dark">Телефон:</strong>
-                                                    &nbsp; {{ profile.work_phone }}
+                                                    <a href="tel:{{ profile.work_phone }}">{{ profile.work_phone }}</a>
+                                                    &nbsp;
                                                 </li>
                                                 <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                        class="text-dark">Email:</strong> &nbsp; {{ profile.email }}
+                                                        class="text-dark">Email:</strong> &nbsp;
+                                                    <a href="mailto:{{ profile.email }}">{{ profile.email }}</a>
                                                 </li>
                                                 <li class="list-group-item border-0 ps-0 text-sm"><strong
                                                         class="text-dark">Местоположение:</strong>

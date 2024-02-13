@@ -23,7 +23,6 @@ from account import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
-    path('register/', views.register, name='register'),
     path('edit/', views.edit, name='edit'),
     path('profiles/', include('profiles.urls')),
     path('', include('esp_sensor.urls')),

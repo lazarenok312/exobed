@@ -35,7 +35,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="{% url 'login' %}" method="post">
+                            <form action="{% url 'account:login' %}" method="post">
                                 {% csrf_token %}
                                 <div class="input-group input-group-outline my-3">
                                     <label class="form-label">Логин</label>
@@ -55,7 +55,7 @@
                             </form>
                             <p class="mt-4 text-sm text-center">
                                 Еще нет аккаунта?
-                                <a href="{% url 'register' %}" class="text-primary text-gradient font-weight-bold">Зарегистрируйтесь!</a>
+                                <a href="{% url 'account:register' %}" class="text-primary text-gradient font-weight-bold">Зарегистрируйтесь!</a>
                             </p>
                             {% if form.errors %}
                                 <p class="text-primary text-gradient font-weight-bold" style="text-align: center">
