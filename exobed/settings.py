@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'account',
     'profiles',
     'rest_framework',
-    'chat'
+    'chat',
 
 ]
 
@@ -107,7 +107,6 @@ LOGGING = {
         },
     },
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
