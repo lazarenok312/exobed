@@ -96,6 +96,20 @@
             border-radius: 0;
         }
     }
+
+    .message-item {
+        animation: fadeOut 6s forwards;
+    }
+
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            display: none;
+        }
+    }
 </style>
 <title>Профиль пользователя</title>
 <body class="g-sidenav-show bg-gray-200">
@@ -160,7 +174,7 @@
                 {% if messages %}
                     {% for message in messages %}
                         <li class="nav-item">
-                            <a class="nav-link text-white active bg-gradient-success">
+                            <a class="nav-link text-white active bg-gradient-success message-item">
                                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="material-icons opacity-10">backup</i>
                                 </div>
