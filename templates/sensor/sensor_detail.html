@@ -330,6 +330,7 @@
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                 {% include 'charts/voltage.html' %}
             </div>
+
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                 <div class="card" style="width: 202%;height: 280px">
                     <div class="card-header p-3 pt-2">
@@ -353,27 +354,7 @@
                             {% endif %}
                             <hr class="dark horizontal my-0">
                         {% endfor %}
-                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                        <script>
-                            $(document).ready(function () {
-                                $('#toggle-form').submit(function (event) {
-                                    event.preventDefault();
-                                    $.ajax({
-                                        type: 'POST',
-                                        url: $(this).attr('action'),
-                                        data: $(this).serialize(),
-                                        success: function (data) {
-                                            if (data.power_changed || data.watt_changed || data.volt_changed) {
-                                                $('#log-table').load(window.location.href + ' #log-table');
-                                            }
-                                        },
-                                        error: function (xhr, errmsg, err) {
-                                            console.log(xhr.status + ': ' + xhr.responseText);
-                                        }
-                                    });
-                                });
-                            });
-                        </script>
+
                     </div>
                 </div>
             </div>
@@ -427,19 +408,43 @@
                 </div>
             </div>
         </div>
+        {% include 'charts/power-chart.html' %}
+        {% include 'charts/power.html' %}
+        {% include 'charts/voltage.html' %}
     </div>
 </main>
+
 {% include 'include/setting.html' %}
 {% include 'include/script.html' %}
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#toggle-form').submit(function (event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function (data) {
+                    if (data.power_changed || data.watt_changed || data.volt_changed) {
+                        $('#log-table').load(window.location.href + ' #log-table');
+                    }
+                },
+                error: function (xhr, errmsg, err) {
+                    console.log(xhr.status + ': ' + xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
 <script>
     var myDiv = document.getElementById("myDiv");
 
-    // Функция для плавного перемещения скролла в конец
     function scrollToBottom() {
         var currentScroll = myDiv.scrollTop;
         var targetScroll = myDiv.scrollHeight;
-        var scrollStep = 20; // Регулируйте скорость анимации по вашему желанию
+        var scrollStep = 20;
 
         function animateScroll() {
             if (currentScroll < targetScroll) {
@@ -740,7 +745,8 @@
             element: "#range",
             tick: 10
         })
-    });
+    })
+    ;
 
     class rSlider {
         constructor(args) {
