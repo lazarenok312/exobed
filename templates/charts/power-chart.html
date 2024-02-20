@@ -1,13 +1,12 @@
 <div id="container1"></div>
 
-<button id="large">Large</button>
-<button id="small">Small</button>
-<button id="auto">Auto</button>
-
+<button id="large">Большой</button>
+<button id="small">Маленький</button>
+<button id="auto">Автоматический</button>
+<br>
 <script>
     (async () => {
 
-        // Load the dataset
         const data = await fetch(
             'https://demo-live-data.highcharts.com/aapl-c.json'
         ).then(response => response.json());
@@ -18,11 +17,11 @@
             },
 
             title: {
-                text: 'Highcharts Stock Responsive Chart'
+                text: 'График мощностей'
             },
 
             subtitle: {
-                text: 'Click small/large buttons or change window size to test responsiveness'
+                text: 'Для изменения размера окна нажмите на кнопки "Больше/Меньше"'
             },
 
             rangeSelector: {
@@ -60,18 +59,17 @@
         });
 
         document.getElementById('small').addEventListener('click', () => {
-            chart.setSize(400, 300); // Устанавливаем ширину и высоту
+            chart.setSize(400, 300);
         });
 
         document.getElementById('large').addEventListener('click', () => {
-            chart.setSize(800, 400); // Устанавливаем ширину и высоту
+            chart.setSize(800, 400);
         });
 
         document.getElementById('auto').addEventListener('click', () => {
-            chart.setSize(null); // Возвращаем автоматические размеры
+            chart.setSize(null);
         });
     })();
 </script>
-
 <script src="https://code.highcharts.com/stock/highstock.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
