@@ -68,7 +68,7 @@ class SensorData(models.Model):
 
 
 class SensorLog(models.Model):
-    sensor = models.ForeignKey('Sensor', on_delete=models.CASCADE)
+    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     log_type = models.CharField(max_length=20)
     previous_power = models.IntegerField(null=True, blank=True)

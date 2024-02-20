@@ -5,6 +5,10 @@ from .models import *
 class SensorLogAdmin(admin.ModelAdmin):
     list_display = ['sensor', 'previous_power', 'previous_watt', 'previous_volt',]
 
+@admin.register(SensorData)
+class SensorDataAdmin(admin.ModelAdmin):
+    list_display = ['sensor', 'timestamp', 'value',]
+
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', ]
