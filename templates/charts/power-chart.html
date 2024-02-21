@@ -9,67 +9,79 @@
 <script src="https://code.highcharts.com/stock/highstock.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 <script>
-(async () => {
-    const sensorId = "{{ sensor.id }}";
+    (async () => {
+        const sensorId = "{{ sensor.id }}";
 
-    const data = await fetch(
-        `/api/sensor_logs/${sensorId}/`
-    ).then(response => response.json());
+        const data = await fetch(
+            `/api/sensor_logs/${sensorId}/`
+        ).then(response => response.json());
 
-    const chart = Highcharts.stockChart('container1', {
-        chart: {
-            height: 400
-        },
-        title: {
-            text: 'График мощностей'
-        },
-        subtitle: {
-            text: 'Для изменения размера окна нажмите на кнопки "Больше/Меньше"'
-        },
-        rangeSelector: {
-            selected: 1
-        },
-        series: [{
-            name: 'Мощность',
-            data: data,
-            type: 'area',
-            threshold: null,
-            tooltip: {
-                valueDecimals: 2
+        Highcharts.setOptions({
+            lang: {
+                weekdays: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+                months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+                shortMonths: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек']
             }
-        }],
+        });
 
-        responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
-                },
-                chartOptions: {
-                    chart: {
-                        height: 300
-                    },
-                    subtitle: {
-                        text: null
-                    },
-                    navigator: {
-                        enabled: false
-                    }
+        const chart = Highcharts.stockChart('container1', {
+            chart: {
+                height: 400
+            },
+            title: {
+                text: 'График мощностей'
+            },
+            subtitle: {
+                text: 'Для изменения размера окна нажмите на кнопки "Больше/Меньше"'
+            },
+            rangeSelector: {
+                selected: 1
+            },
+            series: [{
+                name: 'Мощность',
+                data: data,
+                type: 'area',
+                threshold: null,
+                tooltip: {
+                    valueDecimals: 0
                 }
-            }]
-        }
-    });
+            }],
 
-    document.getElementById('small').addEventListener('click', () => {
-        chart.setSize(400, 300);
-    });
+            time: {
+                timezoneOffset: 6 * 60
+            },
 
-    document.getElementById('large').addEventListener('click', () => {
-        chart.setSize(800, 400);
-    });
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        chart: {
+                            height: 300
+                        },
+                        subtitle: {
+                            text: null
+                        },
+                        navigator: {
+                            enabled: false
+                        }
+                    }
+                }]
+            }
+        });
 
-    document.getElementById('auto').addEventListener('click', () => {
-        chart.setSize(null);
-    });
-})();
+        document.getElementById('small').addEventListener('click', () => {
+            chart.setSize(400, 300);
+        });
+
+        document.getElementById('large').addEventListener('click', () => {
+            chart.setSize(800, 400);
+        });
+
+        document.getElementById('auto').addEventListener('click', () => {
+            chart.setSize(null);
+        });
+    })();
 </script>
 
