@@ -73,22 +73,13 @@ class SensorLog(models.Model):
         if self.pk:
             try:
                 old_log = SensorLog.objects.get(pk=self.pk)
-                if old_log.watt != self.previous_watt:
+                if old_log.previous_watt != self.previous_watt:
                     log_type = 'Изменение мощности'
-                    SensorLog.objects.create(sensor=self.sensor, log_type=log_type, previous_power=old_log.watt)
-                elif old_log.volt != self.previous_volt:
+                    SensorLog.objects.create(sensor=self.sensor, log_type=log_type,
+                                             previous_power=old_log.previous_watt)
+                elif old_log.previous_volt != self.previous_volt:
                     log_type = 'Изменение напряжения'
-                    SensorLog.objects.create(sensor=self.sensor, log_type=log_type, previous_volt=old_log.volt)
+                    SensorLog.objects.create(sensor=self.sensor, log_type=log_type, previous_volt=old_log.previous_volt)
             except SensorLog.DoesNotExist:
                 pass
         super(SensorLog, self).save(*args, **kwargs)
-
-
-
-# class SensorData(models.Model):
-#     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, related_name='data')
-#     timestamp = models.DateTimeField('Время записи', default=timezone.now)
-#     value = models.FloatField('Значение')
-#
-#     class Meta:
-#         ordering = ['-timestamp']

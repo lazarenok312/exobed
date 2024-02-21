@@ -1,76 +1,75 @@
 <div style="margin-bottom: 30px">
-<div id="container1"></div>
+    <div id="container1"></div>
 
-<button id="large">Большой</button>
-<button id="small">Маленький</button>
-<button id="auto">Автоматический</button>
+    <button id="large">Большой</button>
+    <button id="small">Маленький</button>
+    <button id="auto">Автоматический</button>
 </div>
-<script>
-    (async () => {
 
-        const data = await fetch(
-            'https://demo-live-data.highcharts.com/aapl-c.json'
-        ).then(response => response.json());
-
-        const chart = Highcharts.stockChart('container1', {
-            chart: {
-                height: 400
-            },
-
-            title: {
-                text: 'График мощностей'
-            },
-
-            subtitle: {
-                text: 'Для изменения размера окна нажмите на кнопки "Больше/Меньше"'
-            },
-
-            rangeSelector: {
-                selected: 1
-            },
-
-            series: [{
-                name: 'AAPL Stock Price',
-                data: data,
-                type: 'area',
-                threshold: null,
-                tooltip: {
-                    valueDecimals: 2
-                }
-            }],
-
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        chart: {
-                            height: 300
-                        },
-                        subtitle: {
-                            text: null
-                        },
-                        navigator: {
-                            enabled: false
-                        }
-                    }
-                }]
-            }
-        });
-
-        document.getElementById('small').addEventListener('click', () => {
-            chart.setSize(400, 300);
-        });
-
-        document.getElementById('large').addEventListener('click', () => {
-            chart.setSize(800, 400);
-        });
-
-        document.getElementById('auto').addEventListener('click', () => {
-            chart.setSize(null);
-        });
-    })();
-</script>
 <script src="https://code.highcharts.com/stock/highstock.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script>
+(async () => {
+    const sensorId = "{{ sensor.id }}";
+
+    const data = await fetch(
+        `/api/sensor_logs/${sensorId}/`
+    ).then(response => response.json());
+
+    const chart = Highcharts.stockChart('container1', {
+        chart: {
+            height: 400
+        },
+        title: {
+            text: 'График мощностей'
+        },
+        subtitle: {
+            text: 'Для изменения размера окна нажмите на кнопки "Больше/Меньше"'
+        },
+        rangeSelector: {
+            selected: 1
+        },
+        series: [{
+            name: 'Мощность',
+            data: data,
+            type: 'area',
+            threshold: null,
+            tooltip: {
+                valueDecimals: 2
+            }
+        }],
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    chart: {
+                        height: 300
+                    },
+                    subtitle: {
+                        text: null
+                    },
+                    navigator: {
+                        enabled: false
+                    }
+                }
+            }]
+        }
+    });
+
+    document.getElementById('small').addEventListener('click', () => {
+        chart.setSize(400, 300);
+    });
+
+    document.getElementById('large').addEventListener('click', () => {
+        chart.setSize(800, 400);
+    });
+
+    document.getElementById('auto').addEventListener('click', () => {
+        chart.setSize(null);
+    });
+})();
+</script>
+
