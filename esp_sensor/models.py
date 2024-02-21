@@ -58,15 +58,6 @@ class Sensor(models.Model):
         verbose_name_plural = 'Датчики'
 
 
-class SensorData(models.Model):
-    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, related_name='data')
-    timestamp = models.DateTimeField('Время записи', default=timezone.now)
-    value = models.FloatField('Значение')
-
-    class Meta:
-        ordering = ['-timestamp']
-
-
 class SensorLog(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -91,3 +82,13 @@ class SensorLog(models.Model):
             except SensorLog.DoesNotExist:
                 pass
         super(SensorLog, self).save(*args, **kwargs)
+
+
+
+# class SensorData(models.Model):
+#     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, related_name='data')
+#     timestamp = models.DateTimeField('Время записи', default=timezone.now)
+#     value = models.FloatField('Значение')
+#
+#     class Meta:
+#         ordering = ['-timestamp']

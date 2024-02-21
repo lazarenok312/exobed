@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
-from .models import Sensor, SensorLog, SensorData
+from .models import Sensor, SensorLog
 
 from django.http import JsonResponse
 
@@ -23,11 +23,11 @@ class SensorDetailView(DetailView):
         sensor = self.get_object()
         logs = SensorLog.objects.filter(sensor=sensor)
 
-        power_data = SensorData.objects.filter(sensor=sensor).order_by('timestamp')
-        print(power_data)
-        power_values = [{'timestamp': str(item.timestamp), 'value': item.value} for item in power_data]
+        # power_data = SensorData.objects.filter(sensor=sensor).order_by('timestamp')
+        # print(power_data)
+        # power_values = [{'timestamp': str(item.timestamp), 'value': item.value} for item in power_data]
         context['logs'] = logs
-        context['power_data'] = power_values
+        # context['power_data'] = power_values
 
         return context
 
