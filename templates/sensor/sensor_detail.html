@@ -427,7 +427,43 @@
 
 {% include 'include/setting.html' %}
 {% include 'include/script.html' %}
+<script>
+    var sensorId = document.getElementById('myDiv').getAttribute('data-sensor-id');
+    var source = new EventSource("/sensor/" + sensorId + "/stream_logs/");
 
+    source.onmessage = function(event) {
+        var logs = JSON.parse(event.data);
+        var logsList = document.getElementById('myDiv');
+        logsList.innerHTML = ''; // Очищаем текущий список логов
+
+        // Добавляем новые логи
+        logs.forEach(function(log) {
+            var logItem = document.createElement('li');
+            logItem.textContent = log.log_type + ' - ' + log.timestamp;
+            logsList.appendChild(logItem);
+
+            if (log.previous_watt) {
+                var powerItem = document.createElement('li');
+                powerItem.textContent = 'Мощность: ' + log.previous_power + '%';
+                logsList.appendChild(powerItem);
+
+                var wattItem = document.createElement('li');
+                wattItem.textContent = log.previous_watt + ' Watt';
+                logsList.appendChild(wattItem);
+
+                if (log.previous_volt) {
+                    var voltItem = document.createElement('li');
+                    voltItem.textContent = log.previous_volt + ' Volt';
+                    logsList.appendChild(voltItem);
+                }
+            }
+
+            var hrElement = document.createElement('hr');
+            hrElement.classList.add('dark', 'horizontal', 'my-0');
+            logsList.appendChild(hrElement);
+        });
+    };
+</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
