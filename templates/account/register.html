@@ -1,105 +1,254 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-
 {% include 'base.html' %}
-<title>Регистрация</title>
-<body class="">
+<title>
+    Регистрация
+</title>
+<style>
+    .btn {
+        transition: 0.2s ease-out;
+    }
 
+    .btn:hover {
+        color: #f5f5f5;
+    }
+
+    .dm-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.65);
+        display: none;
+        overflow: auto;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+    }
+
+    .dm-overlay:target {
+        display: block;
+        -webkit-animation: fade .6s;
+        -moz-animation: fade .6s;
+        animation: fade .6s;
+    }
+
+    .dm-table {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+
+    .dm-cell {
+        display: table-cell;
+        padding: 0 1em;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .dm-modal {
+        border-radius: 0.5rem;
+        display: inline-block;
+        padding: 20px;
+        max-width: 50em;
+        background: #ffffff;
+        -webkit-box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.22), 0px 19px 60px rgba(0, 0, 0, 0.3);
+        -moz-box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.22), 0px 19px 60px rgba(0, 0, 0, 0.3);
+        box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.22), 0px 19px 60px rgba(0, 0, 0, 0.3);
+        color: #000000;
+        text-align: left;
+    }
+
+    .close {
+        z-index: 9999;
+        float: right;
+        width: 30px;
+        height: 30px;
+        color: #338ceb;
+        text-align: center;
+        text-decoration: none;
+        line-height: 26px;
+        cursor: pointer;
+    }
+
+    .close:after {
+        display: block;
+        border: 2px solid #277fe8;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        content: 'X';
+        -webkit-transition: all 0.6s;
+        -moz-transition: all 0.6s;
+        transition: all 0.6s;
+        -webkit-transform: scale(0.85);
+        -moz-transform: scale(0.85);
+        -ms-transform: scale(0.85);
+        transform: scale(0.85);
+    }
+
+    .close:hover:after {
+        border-color: #ff0000;
+        color: #ff0000;
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+    }
+
+    @-moz-keyframes fade {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1
+        }
+    }
+
+    @-webkit-keyframes fade {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1
+        }
+    }
+
+    @keyframes fade {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1
+        }
+    }
+</style>
+<body class="bg-gray-200">
 <main class="main-content  mt-0">
-    <section>
-        <div class="page-header min-vh-100">
-            <div class="container">
-                <div class="row">
-                    <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
-                        <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center"
-                             style="background-image: url('{% static 'img/illustrations/illustration-signup.jpg' %}'); background-size: cover;">
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-5">
-                        <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                            <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Регистрация
-                                пользователя</h4>
-                            <p class="text-white text-center mt-2 mb-0">Введите логин и пароль для регистрации</p>
-                            <div class="row mt-4">
-                                <div class="col-2 text-center ms-auto">
-                                    <a class="btn btn-link px-3" href="{% url 'account:register' %}">
-                                        <i class="fas fa-home text-white text-lg"></i>
-                                    </a>
-                                </div>
-                                <div class="col-2 text-center px-1">
-                                    <a class="btn btn-link px-3" href="{% url 'account:register' %}">
-                                        <i class="fas fa-user-circle text-white text-lg"></i>
-                                    </a>
-                                </div>
-                                <div class="col-2 text-center px-1">
-                                    <a class="btn btn-link px-3" href="{% url 'account:login' %}">
-                                        <i class="fas fa-key text-white text-lg"></i>
-                                    </a>
-                                </div>
-                                <div class="col-2 text-center me-auto">
-                                    <a class="btn btn-link px-3" href="{% url 'account:register' %}">
-                                        <i class="fa fa-google text-white text-lg"></i>
-                                    </a>
+    <div class="page-header align-items-start min-vh-100"
+         style="background-image: url({% static 'img/shifrovanie.webp' %});">
+        <span class="mask bg-gradient-dark opacity-6"></span>
+        <div class="container my-auto">
+            <div class="row">
+                <div class="col-lg-4 col-md-8 col-12 mx-auto">
+                    <div class="card z-index-0 fadeIn3 fadeInBottom">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                            <div class="bg-gradient-info shadow-primary border-radius-lg py-3 pe-1">
+                                <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Регистрация
+                                    пользователя</h4>
+                                <p class="text-white text-center mt-2 mb-0">Введите логин и пароль для регистрации</p>
+                                <div class="row mt-4">
+                                    <div class="col-2 text-center ms-auto">
+                                        <a class="btn btn-link px-3" href="{% url 'sensor_list' %}">
+                                            <i class="fas fa-home text-white text-lg"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-2 text-center px-1">
+                                        <a class="btn btn-link px-3" href="{% url 'account:register' %}">
+                                            <i class="fas fa-user-circle text-white text-lg"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-2 text-center px-1">
+                                        <a class="btn btn-link px-3" href="{% url 'account:login' %}">
+                                            <i class="fas fa-key text-white text-lg"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-2 text-center me-auto">
+                                        <a class="btn btn-link px-3" href="{% url 'account:register' %}">
+                                            <i class="fa fa-google text-white text-lg"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card card-plain">
-                            <div class="card-body">
-                                <form role="form" action="." method="post">
-                                    {% csrf_token %}
-                                    <div class="input-group input-group-outline mb-3">
-                                        <label class="form-label">Логин</label>
-                                        <input type="text" class="form-control" name="username">
+                        <div class="card-body">
+                            <form role="form" action="." method="post">
+                                {% csrf_token %}
+                                <div class="input-group input-group-outline mb-3">
+                                    <label class="form-label">Логин</label>
+                                    <input type="text" class="form-control" name="username">
+                                </div>
+                                <div class="input-group input-group-outline mb-3">
+                                    <label class="form-label">Имя пользователя</label>
+                                    <input type="text" class="form-control" name="first_name">
+                                </div>
+                                <div class="input-group input-group-outline mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" name="email">
+                                </div>
+                                <div class="input-group input-group-outline mb-3">
+                                    <label class="form-label">Пароль</label>
+                                    <input type="password" class="form-control" name="password">
+                                </div>
+                                <div class="input-group input-group-outline mb-3">
+                                    <label class="form-label">Повторный пароль</label>
+                                    <input type="password" class="form-control" name="password2">
+                                </div>
+                                <div class="form-check form-check-info text-start ps-0">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                                           checked>
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Я принимаю условия <br><a href="#win1"
+                                                                  class="text-dark font-weight-bolder">пользовательского
+                                        соглашения</a>
+                                    </label>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit"
+                                            class="btn btn-lg bg-gradient-info btn-lg w-100 mt-4 mb-0">
+                                        Зарегистрироваться
+                                    </button>
+                                </div>
+                            </form>
+                            <p class="mt-4 text-sm text-center">
+                                Уже есть аккаунт?
+                                <a href="{% url 'account:login' %}"
+                                   class="text-info text-gradient font-weight-bold">Войдите!</a>
+                            </p>
+                            <div class="dm-overlay" id="win1">
+                                <div class="dm-table">
+                                    <div class="dm-cell">
+                                        <div class="dm-modal">
+                                            <a href="#close" class="close"></a>
+                                            <h3>Пользовательское соглашение</h3>
+                                            <p><strong style="text-align: center;">1) Введение</strong><br>
+                                                Данное пользовательское соглашение устанавливает
+                                                условия использования сервиса регистрации пользователей на данном
+                                                веб-сайте . Прежде чем использовать сервис, пожалуйста,
+                                                внимательно ознакомьтесь с условиями настоящего Соглашения.</p>
+
+                                            <p><strong>2) Права и обязанности пользователя</strong><br>
+                                                Пользователь обязуется предоставить достоверную и актуальную информацию
+                                                при регистрации на сайте.<br>
+                                                Пользователь несет ответственность за безопасность своего пароля и
+                                                личных данных, а также за любые действия, совершенные с использованием
+                                                его учетной записи.<br>
+                                                Пользователь обязуется соблюдать законы и правила пользования Сайтом.
+                                            </p>
+
+                                            <p><strong>3) Конфиденциальность</strong><br>
+                                                Мы стремимся обеспечить конфиденциальность и безопасность данных наших
+                                                пользователей. Личная информация пользователя хранится и обрабатывается
+                                                в соответствии с нашей политикой конфиденциальности.</p>
+
+                                            <p><strong>4) Изменения и дополнения</strong><br>
+                                                Администрация сайта оставляет за собой право вносить изменения и
+                                                дополнения в настоящее Соглашение. Пользователь обязуется периодически
+                                                проверять условия Соглашения на предмет изменений.</p>
+
+                                            <p><strong>5) Завершение использования сервиса</strong><br>
+                                                Пользователь вправе в любое время прекратить использование сервиса и
+                                                удалить свою учетную запись. В случае нарушения правил использования
+                                                Сайта, администрация оставляет за собой право приостановить или удалить
+                                                учетную запись пользователя без предварительного уведомления.</p>
+                                        </div>
                                     </div>
-                                    <div class="input-group input-group-outline mb-3">
-                                        <label class="form-label">Имя пользователя</label>
-                                        <input type="text" class="form-control" name="first_name">
-                                    </div>
-                                    <div class="input-group input-group-outline mb-3">
-                                        <label class="form-label">Email</label>
-                                        <input type="email" class="form-control" name="email">
-                                    </div>
-                                    <div class="input-group input-group-outline mb-3">
-                                        <label class="form-label">Пароль</label>
-                                        <input type="password" class="form-control" name="password">
-                                    </div>
-                                    <div class="input-group input-group-outline mb-3">
-                                        <label class="form-label">Повторный пароль</label>
-                                        <input type="password" class="form-control" name="password2">
-                                    </div>
-                                    <div class="form-check form-check-info text-start ps-0">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
-                                               checked>
-                                        <label class="form-check-label" for="flexCheckDefault">
-                                            Я принимаю условия <br><a href="javascript:;"
-                                                                      class="text-dark font-weight-bolder">пользовательского
-                                            соглашения</a>
-                                        </label>
-                                    </div>
-                                    <div class="text-center">
-                                        <button type="submit"
-                                                class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">
-                                            Зарегистрироваться
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                                <p class="mb-2 text-sm mx-auto">
-                                    Уже есть аккаунт?
-                                    <a href="{% url 'account:login' %}"
-                                       class="text-primary text-gradient font-weight-bold">Войти</a>
-                                </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 </main>
 {% include 'include/script.html' %}
 </body>
-
-</html>
