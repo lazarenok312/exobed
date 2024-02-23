@@ -1,6 +1,5 @@
 {% include 'base.html' %}
 {% load static %}
-
 <style>
     * {
         padding: 0;
@@ -17,6 +16,10 @@
         color: black;
     }
 
+    a:hover {
+        color: #2c85e9;
+    }
+
     .tabs-container {
         max-width: 1000px;
         margin: 50px auto;
@@ -27,17 +30,12 @@
         display: flex;
     }
 
-    .tabs li:not(:last-child) {
-        margin-right: 7px;
-    }
-
     .tabs li a {
         display: block;
         position: relative;
         top: 4px;
         padding: 10px 25px;
         border-radius: 2px 2px 0 0;
-        background: white;
         opacity: 0.7;
         transition: all 0.1s ease-in-out;
     }
@@ -53,7 +51,6 @@
         z-index: 2;
         padding: 25px;
         border-radius: 0 4px 4px 4px;
-        background: white;
     }
 
     .tabs-panel {
@@ -86,15 +83,6 @@
             opacity: 1;
             top: 0;
         }
-
-        .tabs li.active a::before {
-            content: "•";
-            padding-right: 5px;
-        }
-
-        .tabs-content {
-            border-radius: 0;
-        }
     }
 
     .message-item {
@@ -110,6 +98,18 @@
             display: none;
         }
     }
+
+    .active.nav-item a.nav-link {
+        background-color: #419bed;
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .nav-pills .nav-item {
+            list-style-type: none;
+        }
+    }
+
 </style>
 <title>Профиль пользователя</title>
 <body class="g-sidenav-show bg-gray-200">
@@ -205,7 +205,6 @@
     </div>
 </aside>
 <div class="main-content position-relative max-height-vh-100 h-100">
-    <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
          data-scroll="true">
         <div class="container-fluid py-1 px-3">
@@ -218,7 +217,6 @@
             {% include 'include/navbar.html' %}
         </div>
     </nav>
-    <!-- End Navbar -->
     <div class="container-fluid px-2 px-md-4">
         <div class="page-header min-height-300 border-radius-xl mt-4"
              style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
@@ -228,14 +226,14 @@
             <div>
                 <ul class="tabs nav nav-pills nav-fill p-1">
                     <li class="active nav-item">
-                        <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;"
-                           role="tab" aria-selected="true">
+                        <a class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab" href="javascript:;" role="tab"
+                           aria-selected="true">
                             <i class="material-icons text-lg position-relative">home</i>
                             <span class="ms-1">Мои устройства</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab"
+                        <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="javascript:;" role="tab"
                            aria-selected="false">
                             <i class="material-icons text-lg position-relative">settings</i>
                             <span class="ms-1">Настройки</span>
@@ -321,123 +319,119 @@
                     </div>
                     <div class="tabs-panel" data-index="1">
                         <div class="row">
-                            <div class="row">
-                                <div class="col-12 col-xl-4">
-                                    <div class="card card-plain h-100">
-                                        <div class="card-header pb-0 p-3">
-                                            <h6 class="mb-0">Настройки платформы</h6>
-                                        </div>
-                                        <div class="card-body p-3">
-                                            <h6 class="text-uppercase text-body text-xs font-weight-bolder">Аккаунт</h6>
-                                            <ul class="list-group">
-                                                <li class="list-group-item border-0 px-0">
-                                                    <div class="form-check form-switch ps-0">
-                                                        <input class="form-check-input ms-auto" type="checkbox"
-                                                               id="flexSwitchCheckDefault" checked>
-                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                               for="flexSwitchCheckDefault">В разработке</label>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item border-0 px-0">
-                                                    <div class="form-check form-switch ps-0">
-                                                        <input class="form-check-input ms-auto" type="checkbox"
-                                                               id="flexSwitchCheckDefault1">
-                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                               for="flexSwitchCheckDefault1">В разработке</label>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item border-0 px-0">
-                                                    <div class="form-check form-switch ps-0">
-                                                        <input class="form-check-input ms-auto" type="checkbox"
-                                                               id="flexSwitchCheckDefault2" checked>
-                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                               for="flexSwitchCheckDefault2">В разработке</label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                            <h6 class="text-uppercase text-body text-xs font-weight-bolder mt-4">
-                                                ПРИЛОЖЕНИЕ</h6>
-                                            <ul class="list-group">
-                                                <li class="list-group-item border-0 px-0">
-                                                    <div class="form-check form-switch ps-0">
-                                                        <input class="form-check-input ms-auto" type="checkbox"
-                                                               id="flexSwitchCheckDefault3">
-                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                               for="flexSwitchCheckDefault3">В разработке</label>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item border-0 px-0">
-                                                    <div class="form-check form-switch ps-0">
-                                                        <input class="form-check-input ms-auto" type="checkbox"
-                                                               id="flexSwitchCheckDefault4" checked>
-                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                               for="flexSwitchCheckDefault4">В разработке</label>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item border-0 px-0 pb-0">
-                                                    <div class="form-check form-switch ps-0">
-                                                        <input class="form-check-input ms-auto" type="checkbox"
-                                                               id="flexSwitchCheckDefault5">
-                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                               for="flexSwitchCheckDefault5">В разработке</label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
+                            <div class="col-12 col-xl-4">
+                                <div class="card card-plain h-100">
+                                    <div class="card-header pb-0 p-3">
+                                        <h6 class="mb-0">Настройки платформы</h6>
                                     </div>
-                                </div>
-                                <div class="col-12 col-xl-4">
-                                    <div class="card card-plain h-100">
-                                        <div class="card-header pb-0 p-3">
-                                            <div class="row">
-                                                <div class="col-md-8 d-flex align-items-center">
-                                                    <h6 class="mb-0">Информация профиля</h6>
-                                                </div>
-                                                <div class="col-md-4 text-end">
-                                                    <a href="{% url 'account:profile_edit' user.profile.slug %}">
-                                                        <i class="fas fa-user-edit text-secondary text-sm"
-                                                           data-bs-toggle="tooltip" data-bs-placement="top"
-                                                           title="Изменить данные"></i>
+                                    <div class="card-body p-3">
+                                        <h6 class="mb-0">Аккаунт</h6>
+                                        <ul class="list-group">
+                                            <li class="list-group-item border-0 px-0">
+                                                <div class="form-check form-switch ps-0">
+                                                    <a class="nav-link mb-0 py-1 active " data-bs-toggle="tab"
+                                                       href="{% url "account:password_reset" %}"
+                                                       role="tab" aria-selected="true">
+                                                        <i class="material-icons text-lg position-relative">password</i>
+                                                        <span class="ms-1">Смена пароля</span>
                                                     </a>
                                                 </div>
-                                            </div>
+                                            </li>
+                                            <li class="list-group-item border-0 px-0">
+                                                <div class="form-check form-switch ps-0">
+                                                    <a class="nav-link mb-0 py-1 active " data-bs-toggle="tab"
+                                                       href="javascript:;"
+                                                       role="tab" aria-selected="true">
+                                                        <i class="material-icons text-lg position-relative">email</i>
+                                                        <span class="ms-1">Смена почты</span>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item border-0 px-0">
+                                                <div class="form-check form-switch ps-0">
+                                                    <input class="form-check-input ms-auto" type="checkbox"
+                                                           id="flexSwitchCheckDefault2" checked>
+                                                    <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
+                                                           for="flexSwitchCheckDefault2">В разработке</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <h6 class="text-uppercase text-body text-xs font-weight-bolder mt-4">
+                                            ПРИЛОЖЕНИЕ</h6>
+                                        <ul class="list-group">
+                                            <li class="list-group-item border-0 px-0">
+                                                <div class="form-check form-switch ps-0">
+                                                    <input class="form-check-input ms-auto" type="checkbox"
+                                                           id="flexSwitchCheckDefault3">
+                                                    <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
+                                                           for="flexSwitchCheckDefault3">В разработке</label>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item border-0 px-0">
+                                                <div class="form-check form-switch ps-0">
+                                                    <input class="form-check-input ms-auto" type="checkbox"
+                                                           id="flexSwitchCheckDefault4" checked>
+                                                    <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
+                                                           for="flexSwitchCheckDefault4">В разработке</label>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item border-0 px-0 pb-0">
+                                                <div class="form-check form-switch ps-0">
+                                                    <input class="form-check-input ms-auto" type="checkbox"
+                                                           id="flexSwitchCheckDefault5">
+                                                    <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
+                                                           for="flexSwitchCheckDefault5">В разработке</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-xl-4">
+                                <div class="card card-plain h-100">
+                                    <div class="card-header pb-0 p-3">
+                                        <div>
+                                            <h6 class="d-inline mb-0">Информация профиля</h6>
+                                            <a href="{% url 'account:profile_edit' user.profile.slug %}">
+                                                <i class="fas fa-user-edit text-secondary text-sm"
+                                                   data-bs-toggle="tooltip" data-bs-placement="top"
+                                                   title="Изменить данные"></i>
+                                            </a>
                                         </div>
-                                        <div class="card-body p-3">
-                                            <hr class="horizontal gray-light my-4">
-                                            <ul class="list-group">
-                                                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong
-                                                        class="text-dark">Полное имя:</strong>
-                                                    &nbsp; {{ profile.surnames }} {{ profile.name }} </li>
-                                                <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                        class="text-dark">Телефон:</strong>
-                                                    <a href="tel:{{ profile.work_phone }}">{{ profile.work_phone }}</a>
-                                                    &nbsp;
-                                                </li>
-                                                <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                        class="text-dark">Email:</strong> &nbsp;
-                                                    <a href="mailto:{{ profile.email }}">{{ profile.email }}</a>
-                                                </li>
-                                                <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                        class="text-dark">Местоположение:</strong>
-                                                    &nbsp; В разработке
-                                                </li>
-                                                {#                                                <li class="list-group-item border-0 ps-0 pb-0">#}
-                                                {#                                                    <strong class="text-dark text-sm">Social:</strong> &nbsp;#}
-                                                {#                                                    <a class="btn btn-facebook btn-simple mb-0 ps-1 pe-2 py-0"#}
-                                                {#                                                       href="javascript:;">#}
-                                                {#                                                        <i class="fab fa-facebook fa-lg"></i>#}
-                                                {#                                                    </a>#}
-                                                {#                                                    <a class="btn btn-twitter btn-simple mb-0 ps-1 pe-2 py-0"#}
-                                                {#                                                       href="javascript:;">#}
-                                                {#                                                        <i class="fab fa-twitter fa-lg"></i>#}
-                                                {#                                                    </a>#}
-                                                {#                                                    <a class="btn btn-instagram btn-simple mb-0 ps-1 pe-2 py-0"#}
-                                                {#                                                       href="javascript:;">#}
-                                                {#                                                        <i class="fab fa-instagram fa-lg"></i>#}
-                                                {#                                                    </a>#}
-                                                {#                                                </li>#}
-                                            </ul>
-                                        </div>
+                                    </div>
+                                    <div class="card-body p-3">
+                                        <ul class="list-group">
+                                            <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong
+                                                    class="text-dark">Полное имя:</strong>
+                                                &nbsp; {{ profile.surnames }} {{ profile.name }} </li>
+                                            <li class="list-group-item border-0 ps-0 text-sm"><strong
+                                                    class="text-dark">Телефон:</strong>
+                                                <a href="tel:{{ profile.work_phone }}">{{ profile.work_phone }}</a>
+                                            </li>
+                                            <li class="list-group-item border-0 ps-0 text-sm"><strong
+                                                    class="text-dark">Email:</strong> &nbsp;
+                                                <a href="mailto:{{ profile.email }}">{{ profile.email }}</a>
+                                            </li>
+                                            <li class="list-group-item border-0 ps-0 text-sm"><strong
+                                                    class="text-dark">Местоположение:</strong>
+                                                &nbsp; В разработке
+                                            </li>
+                                            <li class="list-group-item border-0 ps-0 pb-0">
+                                                <strong class="text-dark text-sm">Social:</strong> &nbsp;
+                                                <a class="btn btn-facebook btn-simple mb-0 ps-1 pe-2 py-0"
+                                                   href="javascript:;">
+                                                    <i class="fab fa-facebook fa-lg"></i>
+                                                </a>
+                                                <a class="btn btn-twitter btn-simple mb-0 ps-1 pe-2 py-0"
+                                                   href="javascript:;">
+                                                    <i class="fab fa-twitter fa-lg"></i>
+                                                </a>
+                                                <a class="btn btn-instagram btn-simple mb-0 ps-1 pe-2 py-0"
+                                                   href="javascript:;">
+                                                    <i class="fab fa-instagram fa-lg"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -445,10 +439,10 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
+
 {% include 'include/setting.html' %}
 {% include 'include/script.html' %}
 <script>
