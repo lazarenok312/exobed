@@ -1,13 +1,11 @@
 from django.contrib import admin
 from .models import *
 
+
 @admin.register(SensorLog)
 class SensorLogAdmin(admin.ModelAdmin):
-    list_display = ['sensor', 'previous_power', 'previous_watt', 'previous_volt',]
+    list_display = ['sensor', 'previous_power', 'previous_watt', 'previous_volt', ]
 
-# @admin.register(SensorData)
-# class SensorDataAdmin(admin.ModelAdmin):
-#     list_display = ['sensor', 'timestamp', 'value',]
 
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
@@ -34,7 +32,9 @@ class SensorAdmin(admin.ModelAdmin):
     countries_list.short_description = "Страна"
     cities_list.short_description = "Город"
 
-    list_display = ('id', 'name', 'owner', 'date_added', 'countries_list', 'cities_list', 'inclusions', 'power', 'volt', 'watt', 'work')
+    list_display = (
+        'id', 'name', 'owner', 'date_added', 'countries_list', 'cities_list', 'inclusions', 'power', 'volt', 'watt',
+        'work')
     list_display_links = ['name', ]
     list_filter = ['country', 'city']
     search_fields = ['name', 'owner']

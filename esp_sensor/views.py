@@ -2,9 +2,10 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
 from .models import Sensor, SensorLog
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest
 from django.views.generic import View
 import json
+
 
 class SensorListView(ListView):
     model = Sensor
@@ -23,7 +24,7 @@ class SensorDetailView(DetailView):
         sensor = self.get_object()
         logs = SensorLog.objects.filter(sensor=sensor)
         context['logs'] = logs
-        context['sensor_id'] = sensor.id  # передача sensor_id в контекст
+        context['sensor_id'] = sensor.id
         return context
 
     def post(self, request, *args, **kwargs):
@@ -47,7 +48,7 @@ class SensorDetailView(DetailView):
 
 
 def stream_sensor_logs(request):
-    sensor_id = request.GET.get('sensor_id')  # Получаем sensor_id из параметров запроса
+    sensor_id = request.GET.get('sensor_id')
     if not sensor_id:
         return HttpResponseBadRequest("No sensor_id provided")
 
@@ -64,7 +65,7 @@ def stream_sensor_logs(request):
         while True:
             logs = get_sensor_logs(sensor_id)
             yield "data: %s\n\n" % json.dumps(logs)
-            time.sleep(1)  # или любой другой интервал обновления
+            time.sleep(1)
 
     response.streaming_content = generate()
     return response

@@ -53,24 +53,6 @@ def change_password(request):
     return render(request, 'registration/password_change_form.html', {'form': form})
 
 
-# @login_required
-# def edit(request, slug):
-#     if request.method == 'POST':
-#         user_form = UserEditForm(instance=request.user, data=request.POST)
-#         profile_form = ProfileEditForm(instance=request.user.profile, data=request.POST, files=request.FILES)
-#         if user_form.is_valid() and profile_form.is_valid():
-#             user_form.save()
-#             profile_form.save()
-#             messages.success(request, 'Ваш профиль был успешно обновлен.')
-#             return redirect('profiles:profile_detail', slug=request.user.profile.slug)
-#         else:
-#             messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
-#     else:
-#         user_form = UserEditForm(instance=request.user)
-#         profile_form = ProfileEditForm(instance=request.user.profile)
-#
-#     return render(request, 'profile/profile_edit.html', {'user_form': user_form, 'profile_form': profile_form})
-
 @login_required
 def edit(request, slug):
     if request.method == 'POST':
