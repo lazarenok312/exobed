@@ -268,7 +268,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white " href='{% url 'account:logout' %}'>
+                        <a class="nav-link text-white " href='{% url 'logout' %}'>
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">login</i>
                             </div>
@@ -277,7 +277,7 @@
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link text-white " href='{% url 'account:login' %}'>
+                        <a class="nav-link text-white " href='{% url 'login' %}'>
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">login</i>
                             </div>
@@ -285,7 +285,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="{% url 'account:register' %}">
+                        <a class="nav-link text-white " href="{% url 'register' %}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">assignment</i>
                             </div>
@@ -431,13 +431,13 @@
     var sensorId = document.getElementById('myDiv').getAttribute('data-sensor-id');
     var source = new EventSource("/sensor/" + sensorId + "/stream_logs/");
 
-    source.onmessage = function(event) {
+    source.onmessage = function (event) {
         var logs = JSON.parse(event.data);
         var logsList = document.getElementById('myDiv');
         logsList.innerHTML = ''; // Очищаем текущий список логов
 
         // Добавляем новые логи
-        logs.forEach(function(log) {
+        logs.forEach(function (log) {
             var logItem = document.createElement('li');
             logItem.textContent = log.log_type + ' - ' + log.timestamp;
             logsList.appendChild(logItem);
