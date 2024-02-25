@@ -13,6 +13,9 @@ class SensorListView(ListView):
     context_object_name = 'sensors'
     paginate_by = 6
 
+    def get_queryset(self):
+        return Sensor.objects.order_by('id')
+
 
 class SensorDetailView(DetailView):
     model = Sensor
@@ -41,14 +44,14 @@ class SensorDetailView(DetailView):
 
         return JsonResponse({'success': True, 'power_changed': previous_power != sensor.power})
 
-    def get_sensor_logs(self, sensor_id):
+    @staticmethod
+    def get_sensor_logs(sensor_id):
         logs = SensorLog.objects.filter(sensor_id=sensor_id).order_by('timestamp')
         data = [[log.timestamp.timestamp() * 1000, log.previous_watt] for log in logs]
         return data
 
 
-def stream_sensor_logs(request):
-    sensor_id = request.GET.get('sensor_id')
+def stream_sensor_logs(request, sensor_id):
     if not sensor_id:
         return HttpResponseBadRequest("No sensor_id provided")
 

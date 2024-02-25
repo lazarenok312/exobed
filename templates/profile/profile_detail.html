@@ -144,15 +144,7 @@
             </li>
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Страницы
-                    аккаунта</h6>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white ">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">person</i>
-                    </div>
-                    <span class="nav-link-text ms-1">{{ user.username }}</span>
-                </a>
+                    аккаунта {{ user.username }}</h6>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-white " href="{% url 'chats' %}">
@@ -329,8 +321,8 @@
                                         <ul class="list-group">
                                             <li class="list-group-item border-0 px-0">
                                                 <div class="form-check form-switch ps-0">
-                                                    <a class="nav-link mb-0 py-1 active " data-bs-toggle="tab"
-                                                       href="{% url "password_reset" %}"
+                                                    <a class="nav-link mb-0 py-1 active"
+                                                       href="{% url "password_change" %}"
                                                        role="tab" aria-selected="true">
                                                         <i class="material-icons text-lg position-relative">password</i>
                                                         <span class="ms-1">Смена пароля</span>
