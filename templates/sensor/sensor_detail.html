@@ -373,6 +373,7 @@
 {% include 'include/script.html' %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script>
     $(document).ready(function () {
         $('#range').on('input', function () {
@@ -394,23 +395,18 @@
         });
     });
 </script>
-
 <script>
     $(document).ready(function () {
-        $('#toggle-form').submit(function (event) {
-            event.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: $(this).attr('action'),
-                data: $(this).serialize(),
+        $('input[name="work"]').change(function () {
+            $.post({
+                url: '{% url "sensor_detail" sensor.pk %}',
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
                 success: function (data) {
-                    if (data.power_changed || data.watt_changed || data.volt_changed) {
-                        $('#log-table').load(window.location.href + ' #log-table');
+                    if (data.success) {
+                        location.reload();
                     }
                 },
-                error: function (xhr, errmsg, err) {
-                    console.log(xhr.status + ': ' + xhr.responseText);
-                }
+                dataType: 'json'
             });
         });
     });
@@ -435,22 +431,6 @@
     }
 
     scrollToBottom();
-</script>
-<script>
-    $(document).ready(function () {
-        $('input[name="work"]').change(function () {
-            $.post({
-                url: '{% url "sensor_detail" sensor.pk %}',
-                data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
-                success: function (data) {
-                    if (data.success) {
-                        location.reload();
-                    }
-                },
-                dataType: 'json'
-            });
-        });
-    });
 </script>
 <script>
     $(window).keyup(function (e) {

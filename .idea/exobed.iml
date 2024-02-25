@@ -24,6 +24,7 @@
     <orderEntry type="library" name="highstock" level="application" />
     <orderEntry type="library" name="accessibility" level="application" />
     <orderEntry type="library" name="jquery-3.6.0" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
