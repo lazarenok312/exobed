@@ -1,3 +1,4 @@
+{% load static %}
 <style>
     form {
         position: relative;
@@ -35,12 +36,16 @@
         font-size: 16px;
         color: #F9F0DA;
     }
+
+    #search::placeholder {
+        color: black;
+    }
 </style>
 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
         <div class="d1">
             <form action="{% url 'search_sensors' %}" method="get">
-                <input type="text" name="q" placeholder="Искать здесь...">
+                <input id="search" type="text" name="q" placeholder="Искать здесь...">
                 <button type="submit"></button>
             </form>
         </div>
@@ -71,34 +76,15 @@
                     <a class="dropdown-item border-radius-md" href="javascript:;">
                         <div class="d-flex py-1">
                             <div class="my-auto">
-                                <img src="img/team-2.jpg" class="avatar avatar-sm  me-3 ">
+                                <img src="{% static 'img/illustrations/chat.png' %}" class="avatar avatar-sm  me-3 ">
                             </div>
                             <div class="d-flex flex-column justify-content-center">
                                 <h6 class="text-sm font-weight-normal mb-1">
-                                    <span class="font-weight-bold">New message</span> from Laur
+                                    <span class="font-weight-bold">Новое сообщение</span> от Laur
                                 </h6>
                                 <p class="text-xs text-secondary mb-0">
                                     <i class="fa fa-clock me-1"></i>
                                     13 minutes ago
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li class="mb-2">
-                    <a class="dropdown-item border-radius-md" href="javascript:;">
-                        <div class="d-flex py-1">
-                            <div class="my-auto">
-                                <img src="../assets/img/small-logos/logo-spotify.svg"
-                                     class="avatar avatar-sm bg-gradient-dark  me-3 ">
-                            </div>
-                            <div class="d-flex flex-column justify-content-center">
-                                <h6 class="text-sm font-weight-normal mb-1">
-                                    <span class="font-weight-bold">New album</span> by Travis Scott
-                                </h6>
-                                <p class="text-xs text-secondary mb-0">
-                                    <i class="fa fa-clock me-1"></i>
-                                    1 day
                                 </p>
                             </div>
                         </div>
@@ -149,7 +135,6 @@
                     <span class="d-sm-inline d-none">Выйти</span>
                 </a>
             </li>
-
         {% else %}
             <li class="nav-item d-flex align-items-center">
                 <a href="{% url 'login' %}" class="nav-link text-body font-weight-bold px-0">

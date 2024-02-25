@@ -79,6 +79,14 @@ class SensorLogsAPIView(View):
         return JsonResponse(data, safe=False)
 
 
+class SensorLogsVoltAPIView(View):
+    def get(self, request, *args, **kwargs):
+        sensor_id = self.kwargs['sensor_id']
+        logs = SensorLog.objects.filter(sensor_id=sensor_id).order_by('timestamp')
+        data = [[log.timestamp.timestamp() * 1000, log.previous_volt] for log in logs]
+        return JsonResponse(data, safe=False)
+
+
 def search_sensors(request):
     query = request.GET.get('q')
 

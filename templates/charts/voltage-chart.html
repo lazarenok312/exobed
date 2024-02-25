@@ -1,31 +1,5 @@
-<style>
-    #power-chart-container button {
-        background-color: #3c94ed;
-        border: none;
-        color: white;
-        padding: 5px 15px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        transition-duration: 0.4s;
-        cursor: pointer;
-        border-radius: 12px;
-        outline: none;
-    }
-
-    #power-chart-container button:hover {
-        background-color: #03468e;
-    }
-
-    #power-chart-container button:active {
-        background-color: #3e8e41;
-        transform: translateY(2px);
-    }
-</style>
 <div style="margin-bottom: 30px" id="power-chart-container">
-    <div id="power-chart"></div>
+    <div id="voltage-chart"></div>
     <button id="large">Большой</button>
     <button id="small">Маленький</button>
     <button id="auto">Автоматический</button>
@@ -37,10 +11,7 @@
     (async () => {
         const sensorId = "{{ sensor.id }}";
 
-        const data = await fetch(
-            `/api/sensor_logs/${sensorId}/`
-        ).then(response => response.json());
-
+        const data = await fetch(`/api/sensor_logs_volt/${sensorId}/`).then(response => response.json());
 
         Highcharts.setOptions({
             lang: {
@@ -50,7 +21,7 @@
             }
         });
 
-        const chart = Highcharts.stockChart('power-chart', {
+        const chart = Highcharts.stockChart('voltage-chart', {
             chart: {
                 height: 400,
                 type: 'area',
@@ -61,6 +32,7 @@
                     layout: 'horizontal'
                 }
             },
+
             xAxis: {
                 title: {
                     text: 'Время'
@@ -74,16 +46,17 @@
             },
             yAxis: {
                 title: {
-                    text: 'Потребление',
+                    text: 'Напряжение'
                 },
                 labels: {
-                    format: '{value} ВТ',
+                    format: '{value} В',
                     style: {
                         fontWeight: 'bold'
                     }
                 },
                 gridLineWidth: 1
             },
+
             plotOptions: {
                 series: {
                     marker: {
@@ -95,10 +68,7 @@
                 }
             },
             title: {
-                text: 'График мощностей'
-            },
-            subtitle: {
-                text: 'Для изменения размера окна нажмите на кнопки "Больше/Меньше"'
+                text: 'График напряжения'
             },
             rangeSelector: {
                 buttons: [{
@@ -133,7 +103,7 @@
                 inputEnabled: true
             },
             series: [{
-                name: 'Потребление',
+                name: 'Напряжение',
                 data: data,
                 threshold: null,
                 fillColor: {
@@ -144,13 +114,13 @@
                         y2: 0
                     },
                     stops: [
-                        [0, Highcharts.color('green').setOpacity(0).get('rgba')],
-                        [1, Highcharts.color('pink').setOpacity(50).get('rgba')]
+                        [0, Highcharts.color('pink').setOpacity(0).get('rgba')],
+                        [1, Highcharts.color('green').setOpacity(0).get('rgba')]
                     ]
                 },
                 tooltip: {
                     valueDecimals: 0,
-                    pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}</b> Вт<br/>'
+                    pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}</b> В<br/>'
                 }
             }],
             time: {
@@ -189,4 +159,3 @@
         });
     })();
 </script>
-

@@ -43,7 +43,7 @@ class Sensor(models.Model):
                                 blank=True,
                                 verbose_name='Мощность',
                                 validators=[MinValueValidator(0), MaxValueValidator(100)])
-    watt = models.IntegerField("Измерение мощности", default=0)
+    watt = models.IntegerField("Потребление мощности", default=0)
     volt = models.IntegerField("Электрическое напряжение", default=0)
     work = models.BooleanField('Онлайн', default=True)
 
