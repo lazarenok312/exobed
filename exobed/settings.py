@@ -122,14 +122,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
-EMAIL_HOST_USER = 'lazarev.99kg@mail.ru'
-EMAIL_HOST_PASSWORD = 'YjvPAcATTZ2QP59LurLs'
-DEFAULT_FROM_EMAIL = 'lazarev.99kg@mail.ru'
-SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'lazarevq040@gmail.com'
+EMAIL_HOST_PASSWORD = 'lyzl ckyn kvoc ceew'
+DEFAULT_FROM_EMAIL = 'lazarevq040@gmail.com'
 
 LANGUAGE_CODE = 'ru'
 
