@@ -372,42 +372,29 @@
 {% include 'include/setting.html' %}
 {% include 'include/script.html' %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-    var sensorId = document.getElementById('myDiv').getAttribute('data-sensor-id');
-    var source = new EventSource("/sensor/" + sensorId + "/stream_logs/");
+    $(document).ready(function () {
+        $('#range').on('input', function () {
+            var power = $(this).val();
+            var sensorId = {{ sensor.id }};
 
-    source.onmessage = function (event) {
-        var logs = JSON.parse(event.data);
-        var logsList = document.getElementById('myDiv');
-        logsList.innerHTML = '';
 
-        logs.forEach(function (log) {
-            var logItem = document.createElement('li');
-            logItem.textContent = log.log_type + ' - ' + log.timestamp;
-            logsList.appendChild(logItem);
-
-            if (log.previous_watt) {
-                var powerItem = document.createElement('li');
-                powerItem.textContent = 'Мощность: ' + log.previous_power + '%';
-                logsList.appendChild(powerItem);
-
-                var wattItem = document.createElement('li');
-                wattItem.textContent = log.previous_watt + ' Watt';
-                logsList.appendChild(wattItem);
-
-                if (log.previous_volt) {
-                    var voltItem = document.createElement('li');
-                    voltItem.textContent = log.previous_volt + ' Volt';
-                    logsList.appendChild(voltItem);
+            $.ajax({
+                url: '{% url "update_sensor_power" sensor.id %}',
+                method: 'POST',
+                data: {'power': power, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                success: function (data) {
+                    $('#myDiv').load(window.location.href + ' #myDiv');
+                },
+                error: function (xhr, errmsg, err) {
+                    console.error('Failed to update power:', err);
                 }
-            }
-
-            var hrElement = document.createElement('hr');
-            hrElement.classList.add('dark', 'horizontal', 'my-0');
-            logsList.appendChild(hrElement);
+            });
         });
-    };
+    });
 </script>
+
 <script>
     $(document).ready(function () {
         $('#toggle-form').submit(function (event) {

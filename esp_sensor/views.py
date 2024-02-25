@@ -5,6 +5,7 @@ from .models import Sensor, SensorLog
 from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest
 from django.views.generic import View
 import json
+import time
 
 
 class SensorListView(ListView):
@@ -72,6 +73,19 @@ def stream_sensor_logs(request, sensor_id):
 
     response.streaming_content = generate()
     return response
+
+
+def update_sensor_power(request, sensor_id):
+    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        power = request.POST.get('power')
+
+        sensor = Sensor.objects.get(pk=sensor_id)
+        sensor.power = power
+        sensor.save()
+
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'error': 'This endpoint only accepts AJAX requests'}, status=400)
 
 
 class SensorLogsAPIView(View):
