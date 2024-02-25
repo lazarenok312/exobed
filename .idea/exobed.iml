@@ -23,6 +23,7 @@
     <orderEntry type="library" name="apexcharts" level="application" />
     <orderEntry type="library" name="highstock" level="application" />
     <orderEntry type="library" name="accessibility" level="application" />
+    <orderEntry type="library" name="jquery-3.6.0" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
