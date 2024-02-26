@@ -57,11 +57,10 @@ def update_sensor_power(request, sensor_id):
         power = request.POST.get('power')
 
         sensor = Sensor.objects.get(pk=sensor_id)
-        previous_power = sensor.power  # Сохраняем предыдущее значение мощности
+        previous_power = sensor.power
         sensor.power = power
         sensor.save()
 
-        # Создаем лог об изменении мощности
         log_type = 'Изменение мощности'
         SensorLog.objects.create(sensor=sensor, log_type=log_type, previous_power=previous_power,
                                  previous_watt=sensor.watt, previous_volt=sensor.volt)

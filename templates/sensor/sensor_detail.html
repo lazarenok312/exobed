@@ -382,7 +382,6 @@
             var power = $(this).val();
             var sensorId = {{ sensor.id }};
 
-
             $.ajax({
                 url: '{% url "update_sensor_power" sensor.id %}',
                 method: 'POST',
