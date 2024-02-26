@@ -23,12 +23,21 @@ class SensorDetailView(DetailView):
     template_name = 'sensor/sensor_detail.html'
     context_object_name = 'sensor'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.prefetch_related('sensorlog_set').all()
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         sensor = self.get_object()
-        logs = SensorLog.objects.filter(sensor=sensor)
+        logs = sensor.sensorlog_set.all()
         context['logs'] = logs
         context['sensor_id'] = sensor.id
+
+        if logs.exists():
+            context['latest_log'] = logs.last()
+        else:
+            context['latest_log'] = None
         return context
 
     def post(self, request, *args, **kwargs):

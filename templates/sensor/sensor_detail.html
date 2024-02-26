@@ -322,7 +322,9 @@
             </div>
             <div class="d-flex " style="margin-top: 5px">
                 <i class="material-icons text-sm my-auto me-1">schedule</i>
-                <p class="mb-0 text-sm">Последнее обновление {{ sensor.date_added | date:"H:i:s" }}</p>
+                {% if latest_log %}
+                    <p class="mb-0 text-sm">Последнее обновление {{ latest_log.timestamp | date:"H:i:s" }}</p>
+                {% endif %}
             </div>
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                 {% include 'charts/power.html' %}
@@ -330,8 +332,8 @@
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                 {% include 'charts/voltage.html' %}
             </div>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card" style="width: 202%;height: 280px">
+            <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
+                <div class="card" style="height: 280px">
                     <div class="card-header p-3 pt-2">
                         <div class="icon icon-lg icon-shape bg-gradient-info shadow-primary text-center border-radius-xl mt-n4 position-absolute">
                             <i class="material-icons opacity-10">border_color</i>
@@ -343,9 +345,7 @@
                     <div class="card-footer p-3" id="myDiv" style="overflow-y:scroll;width: 100%;height: 290px">
                         {% for log in logs %}
                             <li>{{ log.log_type }} - {{ log.timestamp }}</li>
-                            {% if log.log_type == 'Изменение мощности' %}
-                                <li>Мощность: {{ log.previous_power }}%</li>
-                            {% endif %}
+                            <li>Мощность: {{ log.previous_power }}%</li>
                             {% if log.previous_watt %}
                                 <li>{{ log.previous_watt }} Watt | {% if log.previous_volt %}
                                     {{ log.previous_volt }} Volt
@@ -381,6 +381,7 @@
         $('#range').on('input', function () {
             var power = $(this).val();
             var sensorId = {{ sensor.id }};
+
 
             $.ajax({
                 url: '{% url "update_sensor_power" sensor.id %}',
@@ -418,7 +419,7 @@
     function scrollToBottom() {
         var currentScroll = myDiv.scrollTop;
         var targetScroll = myDiv.scrollHeight;
-        var scrollStep = 60;
+        var scrollStep = 20;
 
         function animateScroll() {
             if (currentScroll < targetScroll) {
