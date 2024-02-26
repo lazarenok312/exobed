@@ -52,6 +52,25 @@ class SensorDetailView(DetailView):
         return data
 
 
+def update_sensor_power(request, sensor_id):
+    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        power = request.POST.get('power')
+
+        sensor = Sensor.objects.get(pk=sensor_id)
+        previous_power = sensor.power  # Сохраняем предыдущее значение мощности
+        sensor.power = power
+        sensor.save()
+
+        # Создаем лог об изменении мощности
+        log_type = 'Изменение мощности'
+        SensorLog.objects.create(sensor=sensor, log_type=log_type, previous_power=previous_power,
+                                 previous_watt=sensor.watt, previous_volt=sensor.volt)
+
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'error': 'This endpoint only accepts AJAX requests'}, status=400)
+
+
 def stream_sensor_logs(request, sensor_id):
     if not sensor_id:
         return HttpResponseBadRequest("No sensor_id provided")
@@ -73,19 +92,6 @@ def stream_sensor_logs(request, sensor_id):
 
     response.streaming_content = generate()
     return response
-
-
-def update_sensor_power(request, sensor_id):
-    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        power = request.POST.get('power')
-
-        sensor = Sensor.objects.get(pk=sensor_id)
-        sensor.power = power
-        sensor.save()
-
-        return JsonResponse({'success': True})
-    else:
-        return JsonResponse({'error': 'This endpoint only accepts AJAX requests'}, status=400)
 
 
 class SensorLogsAPIView(View):
