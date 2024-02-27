@@ -4047,7 +4047,7 @@ fieldset:disabled .btn {
 
 .btn-link {
     --bs-btn-font-weight: 400;
-    --bs-btn-color: #e91e63;
+    --bs-btn-color: #419aec;
     --bs-btn-bg: transparent;
     --bs-btn-border-color: transparent;
     --bs-btn-hover-color: #e91e63;
@@ -24886,7 +24886,7 @@ body:not(.dark-version) .sidenav.bg-transparent .collapse .nav-item .nav-link.ac
     z-index: 3;
     color: #344767;
     border-radius: 0.5rem;
-    background-color: inherit;
+    /*background-color: inherit;*/
 }
 
 .nav.nav-pills .nav-link.active {
