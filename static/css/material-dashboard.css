@@ -4045,16 +4045,17 @@ fieldset:disabled .btn {
     --bs-gradient: none;
 }
 
+
 .btn-link {
     --bs-btn-font-weight: 400;
     --bs-btn-color: #419aec;
     --bs-btn-bg: transparent;
     --bs-btn-border-color: transparent;
-    --bs-btn-hover-color: #e91e63;
+    --bs-btn-hover-color: #419aec;
     --bs-btn-hover-border-color: transparent;
-    --bs-btn-active-color: #e91e63;
+    --bs-btn-active-color: #419aec;
     --bs-btn-active-border-color: transparent;
-    --bs-btn-disabled-color: #6c757d;
+    --bs-btn-disabled-color: #419aec;
     --bs-btn-disabled-border-color: transparent;
     --bs-btn-box-shadow: none;
     --bs-btn-focus-shadow-rgb: 198, 26, 84;
