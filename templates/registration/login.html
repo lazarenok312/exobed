@@ -3,12 +3,77 @@
 <title>
     Авторизация
 </title>
+<style>
+    .input-group {
+        position: relative;
+    }
+
+    .input-group input[type="text"],
+    .input-group input[type="email"],
+    .input-group input[type="password"] {
+        border: none;
+        border-bottom: 2px solid #ccc;
+        padding: 10px;
+        width: 100%;
+        transition: border-color 0.3s;
+    }
+
+    .input-group input[type="text"]:focus,
+    .input-group input[type="email"]:focus,
+    .input-group input[type="password"]:focus {
+        border-color: #007bff;
+    }
+
+    .input-group label {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        pointer-events: none;
+        transition: top 0.3s, font-size 0.3s;
+    }
+
+    .input-group input[type="text"]:focus + label,
+    .input-group input[type="text"]:valid + label,
+    .input-group input[type="email"]:focus + label,
+    .input-group input[type="email"]:valid + label,
+    .input-group input[type="password"]:focus + label,
+    .input-group input[type="password"]:valid + label {
+        top: -40px;
+        font-size: 12px;
+        color: #007bff;
+    }
+
+    .input-group input[type="text"]:focus,
+    .input-group input[type="email"]:focus,
+    .input-group input[type="password"]:focus {
+        border-bottom: 3px solid #007bff;
+    }
+
+    .input-group label::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 2px;
+        background-color: #007bff;
+        transition: width 0.3s;
+    }
+
+    .input-group input[type="text"]:focus + label::after,
+    .input-group input[type="email"]:focus + label::after,
+    .input-group input[type="password"]:focus + label::after,
+    .input-group input[type="text"]:valid + label::after,
+    .input-group input[type="email"]:valid + label::after,
+    .input-group input[type="password"]:valid + label::after {
+        width: 100%;
+    }
+</style>
 <body class="bg-gray-200">
 <div class="container position-sticky z-index-sticky top-0">
     <div class="row">
         <div class="col-12">
-            <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
+            <nav class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-3">
                 <div class="container-fluid ps-2 pe-0">
                     <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="{% url 'sensor_list' %}">
                         Главная
@@ -55,11 +120,12 @@
         </div>
     </div>
 </div>
+
 <main class="main-content  mt-0">
     <div class="page-header align-items-start min-vh-100"
          style="background-image: url({% static 'img/shifrovanie.webp' %});">
         <span class="mask bg-gradient-dark opacity-6"></span>
-        <div class="container my-auto">
+        <div class="container my-8">
             <div class="row">
                 <div class="col-lg-4 col-md-8 col-12 mx-auto">
                     <div class="card z-index-0 fadeIn3 fadeInBottom">
@@ -89,12 +155,12 @@
                             <form action="{% url 'login' %}" method="post">
                                 {% csrf_token %}
                                 <div class="input-group input-group-outline my-3">
-                                    <label class="form-label">Логин</label>
-                                    <input type="text" class="form-control" name="username">
+                                    <input type="text" class="form-control" id="username" name="username" required>
+                                    <label for="username">Логин</label>
                                 </div>
                                 <div class="input-group input-group-outline mb-3">
-                                    <label class="form-label">Пароль</label>
-                                    <input type="password" class="form-control" name="password">
+                                    <input type="password" class="form-control" id="username" name="password" required>
+                                    <label for="username">Пароль</label>
                                 </div>
                                 <div class="form-check form-switch d-flex align-items-center mb-3">
                                     <input class="form-check-input" type="checkbox" id="rememberMe" checked>
@@ -127,5 +193,23 @@
         </div>
     </div>
 </main>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var input = document.querySelectorAll('.input-group input[type="text"], .input-group input[type="email"], .input-group input[type="password"]');
+        input.forEach(function (el) {
+            el.addEventListener('focus', function () {
+                el.nextElementSibling.style.top = '-18px';
+                el.nextElementSibling.style.fontSize = '12px';
+            });
+
+            el.addEventListener('blur', function () {
+                if (!el.value) {
+                    el.nextElementSibling.style.top = '10px';
+                    el.nextElementSibling.style.fontSize = '';
+                }
+            });
+        });
+    });
+</script>
 {% include 'include/script.html' %}
 </body>

@@ -22558,7 +22558,7 @@ body.dark-version {
 
 .form-check:not(.form-switch) .form-check-input[type="checkbox"]:checked,
 .form-check:not(.form-switch) .form-check-input[type="radio"]:checked {
-    border-color: #e91e63;
+    border-color: #1e76e7;
 }
 
 .form-check:not(.form-switch) .form-check-input[type="checkbox"] {

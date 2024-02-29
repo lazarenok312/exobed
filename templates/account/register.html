@@ -55,10 +55,11 @@
         box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.22), 0px 19px 60px rgba(0, 0, 0, 0.3);
         color: #000000;
         text-align: left;
+        position: relative;
+        z-index: 9999;
     }
 
     .close {
-        z-index: 9999;
         float: right;
         width: 30px;
         height: 30px;
@@ -94,6 +95,12 @@
         transform: scale(1);
     }
 
+    @media (max-width: 767px) {
+        .dm-modal {
+            top: 85px;
+        }
+    }
+
     @-moz-keyframes fade {
         from {
             opacity: 0;
@@ -120,13 +127,129 @@
             opacity: 1
         }
     }
+
+    .input-group {
+        position: relative;
+    }
+
+    .input-group input[type="text"],
+    .input-group input[type="email"],
+    .input-group input[type="password"] {
+        border: none;
+        border-bottom: 2px solid #ccc;
+        padding: 10px;
+        width: 100%;
+        transition: border-color 0.3s;
+    }
+
+    .input-group input[type="text"]:focus,
+    .input-group input[type="email"]:focus,
+    .input-group input[type="password"]:focus {
+        border-color: #007bff;
+    }
+
+    .input-group label {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        pointer-events: none;
+        transition: top 0.3s, font-size 0.3s;
+    }
+
+    .input-group input[type="text"]:focus + label,
+    .input-group input[type="text"]:valid + label,
+    .input-group input[type="email"]:focus + label,
+    .input-group input[type="email"]:valid + label,
+    .input-group input[type="password"]:focus + label,
+    .input-group input[type="password"]:valid + label {
+        top: -40px;
+        font-size: 12px;
+        color: #007bff;
+    }
+
+    .input-group input[type="text"]:focus,
+    .input-group input[type="email"]:focus,
+    .input-group input[type="password"]:focus {
+        border-bottom: 3px solid #007bff;
+    }
+
+    .input-group label::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 2px;
+        background-color: #007bff;
+        transition: width 0.3s;
+    }
+
+    .input-group input[type="text"]:focus + label::after,
+    .input-group input[type="email"]:focus + label::after,
+    .input-group input[type="password"]:focus + label::after,
+    .input-group input[type="text"]:valid + label::after,
+    .input-group input[type="email"]:valid + label::after,
+    .input-group input[type="password"]:valid + label::after {
+        width: 100%;
+    }
 </style>
 <body class="bg-gray-200">
+<div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+        <div class="col-12">
+            <nav class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-3 shadow position-absolute  py-2 start-0 end-0 mx-3 my-3"
+                 style="margin-bottom: 20px">
+                <div class="container-fluid ps-2 pe-0">
+                    <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="{% url 'sensor_list' %}">
+                        Главная
+                    </a>
+                    <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false"
+                            aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon mt-2">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navigation">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item">
+                                <a class="nav-link me-2" href="#">
+                                    <i class="fa fa-user opacity-6 text-dark me-1"></i>
+                                    Профиль
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link me-2" href="{% url 'login' %}">
+                                    <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
+                                    Войти
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link me-2" href="{% url "password_reset" %}">
+                                    <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
+                                    Сброс пароля
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link me-2" href="{% url 'register' %}">
+                                    <i class="fas fa-key opacity-6 text-dark me-1"></i>
+                                    Регистрация
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
 <main class="main-content  mt-0">
     <div class="page-header align-items-start min-vh-100"
          style="background-image: url({% static 'img/shifrovanie.webp' %});">
         <span class="mask bg-gradient-dark opacity-6"></span>
-        <div class="container my-auto">
+        <div class="container my-9">
             <div class="row">
                 <div class="col-lg-4 col-md-8 col-12 mx-auto">
                     <div class="card z-index-0 fadeIn3 fadeInBottom">
@@ -135,52 +258,30 @@
                                 <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Регистрация
                                     пользователя</h4>
                                 <p class="text-white text-center mt-2 mb-0">Введите логин и пароль для регистрации</p>
-                                <div class="row mt-4">
-                                    <div class="col-2 text-center ms-auto">
-                                        <a class="btn btn-link px-3" href="{% url 'sensor_list' %}">
-                                            <i class="fas fa-home text-white text-lg"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-2 text-center px-1">
-                                        <a class="btn btn-link px-3" href="{% url 'register' %}">
-                                            <i class="fas fa-user-circle text-white text-lg"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-2 text-center px-1">
-                                        <a class="btn btn-link px-3" href="{% url 'login' %}">
-                                            <i class="fas fa-key text-white text-lg"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-2 text-center me-auto">
-                                        <a class="btn btn-link px-3" href="{% url 'register' %}">
-                                            <i class="fa fa-google text-white text-lg"></i>
-                                        </a>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="card-body">
                             <form role="form" action="." method="post">
                                 {% csrf_token %}
                                 <div class="input-group input-group-outline mb-3">
-                                    <label class="form-label">Логин</label>
-                                    <input type="text" class="form-control" name="username">
+                                    <input type="text" class="form-control" id="username" name="username" required>
+                                    <label for="username">Логин</label>
                                 </div>
                                 <div class="input-group input-group-outline mb-3">
-                                    <label class="form-label">Имя пользователя</label>
-                                    <input type="text" class="form-control" name="first_name">
+                                    <input type="text" class="form-control" id="username" name="first_name" required>
+                                    <label for="username">Имя пользователя</label>
                                 </div>
                                 <div class="input-group input-group-outline mb-3">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" class="form-control" name="email">
+                                    <input type="email" class="form-control" id="username" name="email" required>
+                                    <label for="username">Email</label>
                                 </div>
                                 <div class="input-group input-group-outline mb-3">
-                                    <label class="form-label">Пароль</label>
-                                    <input type="password" class="form-control" name="password">
+                                    <input type="password" class="form-control" id="username" name="password" required>
+                                    <label for="username">Пароль</label>
                                 </div>
                                 <div class="input-group input-group-outline mb-3">
-                                    <label class="form-label">Повторный пароль</label>
-                                    <input type="password" class="form-control" name="password2">
+                                    <input type="password" class="form-control" id="username" name="password2" required>
+                                    <label for="username">Повторный пароль</label>
                                 </div>
                                 <div class="form-check form-check-info text-start ps-0">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
@@ -250,5 +351,23 @@
         </div>
     </div>
 </main>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var input = document.querySelectorAll('.input-group input[type="text"], .input-group input[type="email"], .input-group input[type="password"]');
+        input.forEach(function (el) {
+            el.addEventListener('focus', function () {
+                el.nextElementSibling.style.top = '-18px';
+                el.nextElementSibling.style.fontSize = '12px';
+            });
+
+            el.addEventListener('blur', function () {
+                if (!el.value) {
+                    el.nextElementSibling.style.top = '10px';
+                    el.nextElementSibling.style.fontSize = '';
+                }
+            });
+        });
+    });
+</script>
 {% include 'include/script.html' %}
 </body>
