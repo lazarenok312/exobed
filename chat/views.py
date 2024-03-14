@@ -31,13 +31,18 @@ def chat_view(request):
     if request.method == "GET":
         users = User.objects.exclude(username=request.user.username)
 
+        support_users = [user for user in users if user.is_staff]
+        regular_users = [user for user in users if not user.is_staff]
+
+        support_displayed = False
+        user_displayed = False
+
         for user in users:
             latest_message = Message.objects.filter(
                 Q(sender=request.user, receiver=user) | Q(sender=user, receiver=request.user)
             ).last()
             user.latest_message = latest_message
             not_read_count = Message.objects.filter(sender=user, receiver=request.user, is_read=False).count()
-
             user.not_read_count = not_read_count
 
         if 'user_id' in request.GET:
@@ -50,9 +55,12 @@ def chat_view(request):
         context = {
             'unread_messages_count': unread_messages_count,
             'users': users,
+            'support_users': support_users,
+            'regular_users': regular_users,
+            'support_displayed': support_displayed,
+            'user_displayed': user_displayed,
         }
         return render(request, 'chat/chat.html', context)
-
 
 def message_view(request, sender, receiver):
     if request.method == "GET":

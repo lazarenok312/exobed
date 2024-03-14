@@ -357,7 +357,6 @@
     </div>
 </aside>
 <div class="main-content position-relative max-height-vh-100 h-100">
-    <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
          data-scroll="true">
         <div class="container-fluid py-1 px-3">
@@ -370,10 +369,9 @@
             {% include 'include/navbar.html' %}
         </div>
     </nav>
-    <!-- End Navbar -->
     <div class="container-fluid px-2 px-md-4">
         <div class="page-header min-height-300 border-radius-xl mt-4"
-             style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
+             style="background-image: url({% static 'img/message.jpg' %});">
             <span class="mask  bg-gradient-success  opacity-6"></span>
         </div>
         <div class="card card-body mx-3 mx-md-4 mt-n6">
@@ -384,13 +382,6 @@
                            role="tab" aria-selected="true">
                             <i class="material-icons text-lg position-relative">message</i>
                             <span class="ms-1">Мои сообщения</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab"
-                           aria-selected="false">
-                            <i class="material-icons text-lg position-relative">settings</i>
-                            <span class="ms-1">Настройки</span>
                         </a>
                     </li>
                 </ul>
@@ -420,33 +411,49 @@
                                         <span class="time text-muted small">Всего непрочитанных сообщений: {{ unread_messages_count }}</span>
                                     {% endif %}
 
-                                    {% for user in users %}
-                                        <a href="{% url 'chat' request.user.id user.id %}" class="collection-item row">
-                                            <div class="friend-drawer friend-drawer--onhover">
-                                                <img class="profile-image"
-                                                     src="{% static 'img/default.png' %}"
-                                                     alt="">
-                                                <div class="text">
-                                                    <h6>{{ user.username }}</h6>
-                                                    {% if user.latest_message %}
-                                                        <p>{{ user.latest_message.message |truncatechars_html:30 |safe|striptags }}</p>
-                                                    {% else %}
-                                                        <p>Сообщений нет!</p>
-                                                    {% endif %}
-                                                </div>
-                                                <div class="pt-1">
-                                                    {% if user.latest_message %}
-                                                        <span class="time text-muted small">{{ user.latest_message.timestamp|date:"d.m H:i" }}</span>
-                                                    {% endif %}
-                                                    {% if user.not_read_count %}
-                                                        <span class="badge bg-danger rounded-pill float-end">{{ user.not_read_count }}</span>
-                                                    {% else %}
-                                                        <span class="badge bg-success rounded-pill float-end">{{ user.not_read_count }}</span>
-                                                    {% endif %}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    {% endfor %}
+                                    {% if users %}
+    {% for user in users %}
+        {% if user.is_staff %}
+            {% ifchanged %}
+                <div class="support-heading">
+                    Поддержка
+                </div>
+            {% endifchanged %}
+        {% elif user.is_authenticated %}
+            {% ifchanged %}
+                <div class="user-heading">
+                    Все пользователи
+                </div>
+            {% endifchanged %}
+        {% endif %}
+        <a href="{% url 'chat' request.user.id user.id %}" class="collection-item row">
+            <div class="friend-drawer friend-drawer--onhover">
+                <img class="profile-image" src="{% static 'img/default.png' %}" alt="">
+                <div class="text">
+                    <h6>{{ user.username }}</h6>
+                    {% if user.latest_message %}
+                        <p>{{ user.latest_message.message |truncatechars_html:30 |safe|striptags }}</p>
+                    {% else %}
+                        <p>Сообщений нет!</p>
+                    {% endif %}
+                </div>
+                <div class="pt-1">
+                    {% if user.latest_message %}
+                        <span class="time text-muted small">{{ user.latest_message.timestamp|date:"d.m H:i" }}</span>
+                    {% endif %}
+                    {% if user.not_read_count %}
+                        <span class="badge bg-danger rounded-pill float-end">{{ user.not_read_count }}</span>
+                    {% else %}
+                        <span class="badge bg-success rounded-pill float-end">{{ user.not_read_count }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+{% else %}
+    <p>Нет пользователей.</p>
+{% endif %}
+
                                 </div>
                                 <div class="col s9">
                                     <div style="box-shadow: -8px 0 12px -2px rgba(0, 0, 0, 0.20);">
@@ -491,120 +498,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tabs-panel" data-index="1">
-                        <div class="row">
-                            <div class="row">
-                                <div class="col-12 col-xl-4">
-                                    <div class="card card-plain h-100">
-                                        <div class="card-header pb-0 p-3">
-                                            <h6 class="mb-0">Настройки платформы</h6>
-                                        </div>
-                                        <div class="card-body p-3">
-                                            <h6 class="text-uppercase text-body text-xs font-weight-bolder">Аккаунт</h6>
-                                            <ul class="list-group">
-                                                <li class="list-group-item border-0 px-0">
-                                                    <div class="form-check form-switch ps-0">
-                                                        <input class="form-check-input ms-auto" type="checkbox"
-                                                               id="flexSwitchCheckDefault" checked>
-                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                               for="flexSwitchCheckDefault">В разработке</label>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item border-0 px-0">
-                                                    <div class="form-check form-switch ps-0">
-                                                        <input class="form-check-input ms-auto" type="checkbox"
-                                                               id="flexSwitchCheckDefault1">
-                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                               for="flexSwitchCheckDefault1">В разработке</label>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item border-0 px-0">
-                                                    <div class="form-check form-switch ps-0">
-                                                        <input class="form-check-input ms-auto" type="checkbox"
-                                                               id="flexSwitchCheckDefault2" checked>
-                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                               for="flexSwitchCheckDefault2">В разработке</label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                            <h6 class="text-uppercase text-body text-xs font-weight-bolder mt-4">
-                                                ПРИЛОЖЕНИЕ</h6>
-                                            <ul class="list-group">
-                                                <li class="list-group-item border-0 px-0">
-                                                    <div class="form-check form-switch ps-0">
-                                                        <input class="form-check-input ms-auto" type="checkbox"
-                                                               id="flexSwitchCheckDefault3">
-                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                               for="flexSwitchCheckDefault3">В разработке</label>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item border-0 px-0">
-                                                    <div class="form-check form-switch ps-0">
-                                                        <input class="form-check-input ms-auto" type="checkbox"
-                                                               id="flexSwitchCheckDefault4" checked>
-                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                               for="flexSwitchCheckDefault4">В разработке</label>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item border-0 px-0 pb-0">
-                                                    <div class="form-check form-switch ps-0">
-                                                        <input class="form-check-input ms-auto" type="checkbox"
-                                                               id="flexSwitchCheckDefault5">
-                                                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                               for="flexSwitchCheckDefault5">В разработке</label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-xl-4">
-                                    <div class="card card-plain h-100">
-                                        <div class="card-header pb-0 p-3">
-                                            <div class="row">
-                                                <div class="col-md-8 d-flex align-items-center">
-                                                    <h6 class="mb-0">Информация профиля</h6>
-                                                </div>
-                                                <div class="col-md-4 text-end">
-                                                    <a href="javascript:;">
-                                                        <i class="fas fa-user-edit text-secondary text-sm"
-                                                           data-bs-toggle="tooltip"
-                                                           data-bs-placement="top" title="Изменить данные"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body p-3">
-                                            <hr class="horizontal gray-light my-4">
-                                            <ul class="list-group">
-                                                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong
-                                                        class="text-dark">Полное имя:</strong>
-                                                    &nbsp; {{ profile.surnames }} {{ profile.name }} </li>
-                                                <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                        class="text-dark">Телефон:</strong>
-                                                    &nbsp; {{ profile.work_phone }}
-                                                </li>
-                                                <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                        class="text-dark">Email:</strong> &nbsp; {{ profile.email }}
-                                                </li>
-                                                <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                        class="text-dark">Местоположение:</strong>
-                                                    &nbsp; В разработке
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
-{#{% include 'include/setting.html' %}#}
 {% include 'include/script.html' %}
 <script>
     const tabLinks = document.querySelectorAll(".tabs a");
