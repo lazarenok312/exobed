@@ -306,7 +306,9 @@
                                                                        style="font-size: 50px;">airline_seat_flat</i>
                                                                 </div>
                                                                 <div class="d-flex flex-column justify-content-center">
-                                                                    <a href="{% url 'sensor_detail' sensor.pk %}"> <h6 class="mb-0 text-sm">{{ sensor.name }}</h6></a>
+                                                                    <a href="{% url 'sensor_detail' sensor.pk %}"><h6
+                                                                            class="mb-0 text-sm">{{ sensor.name }}</h6>
+                                                                    </a>
                                                                     {% for country in sensor.country.all %}
                                                                         <p class="text-xs text-secondary mb-0">{{ country.name }}</p>
                                                                     {% endfor %}
@@ -320,10 +322,14 @@
                                                             <p class="text-xs font-weight-bold mb-0">{{ sensor.owner }}</p>
                                                         </td>
                                                         <td class="align-middle text-center text-sm">
-                                                            {% if sensor.work %}
-                                                                <span class="badge badge-sm bg-gradient-success">Online</span>
+                                                            {% if sensor.is_blocked %}
+                                                                <span class="badge badge-sm bg-gradient-danger">Заблокирован</span>
                                                             {% else %}
-                                                                <span class="badge badge-sm bg-gradient-secondary">Offline</span>
+                                                                {% if sensor.work %}
+                                                                    <span class="badge badge-sm bg-gradient-success">Онлайн</span>
+                                                                {% else %}
+                                                                    <span class="badge badge-sm bg-gradient-secondary">Оффлайн</span>
+                                                                {% endif %}
                                                             {% endif %}
                                                         </td>
                                                         <td class="align-middle text-center">
@@ -344,7 +350,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -477,7 +482,8 @@
                                         <ul class="list-group">
                                             <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
                                                 <div class="avatar me-3">
-                                                    <img src="{% static 'img/ava.png' %}" alt="kal" class="border-radius-lg shadow">
+                                                    <img src="{% static 'img/ava.png' %}" alt="kal"
+                                                         class="border-radius-lg shadow">
                                                 </div>
                                                 <div class="d-flex align-items-start flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">Sophie B.</h6>
@@ -488,7 +494,8 @@
                                             </li>
                                             <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
                                                 <div class="avatar me-3">
-                                                    <img src="{% static 'img/ava.png' %}" alt="kal" class="border-radius-lg shadow">
+                                                    <img src="{% static 'img/ava.png' %}" alt="kal"
+                                                         class="border-radius-lg shadow">
                                                 </div>
                                                 <div class="d-flex align-items-start flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">Anne Marie</h6>
@@ -499,7 +506,8 @@
                                             </li>
                                             <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
                                                 <div class="avatar me-3">
-                                                    <img src="{% static 'img/ava.png' %}" alt="kal" class="border-radius-lg shadow">
+                                                    <img src="{% static 'img/ava.png' %}" alt="kal"
+                                                         class="border-radius-lg shadow">
                                                 </div>
                                                 <div class="d-flex align-items-start flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">Ivanna</h6>
@@ -510,7 +518,8 @@
                                             </li>
                                             <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
                                                 <div class="avatar me-3">
-                                                    <img src="{% static 'img/ava.png' %}" alt="kal" class="border-radius-lg shadow">
+                                                    <img src="{% static 'img/ava.png' %}" alt="kal"
+                                                         class="border-radius-lg shadow">
                                                 </div>
                                                 <div class="d-flex align-items-start flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">Peterson</h6>
@@ -521,7 +530,8 @@
                                             </li>
                                             <li class="list-group-item border-0 d-flex align-items-center px-0">
                                                 <div class="avatar me-3">
-                                                    <img src="{% static 'img/ava.png' %}" alt="kal" class="border-radius-lg shadow">
+                                                    <img src="{% static 'img/ava.png' %}" alt="kal"
+                                                         class="border-radius-lg shadow">
                                                 </div>
                                                 <div class="d-flex align-items-start flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">Nick Daniel</h6>

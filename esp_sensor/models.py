@@ -46,9 +46,13 @@ class Sensor(models.Model):
     watt = models.IntegerField("Потребление мощности", default=0)
     volt = models.IntegerField("Электрическое напряжение", default=0)
     work = models.BooleanField('Онлайн', default=True)
+    blocked = models.BooleanField('Заблокирован', default=False)
 
     def __str__(self):
         return self.name
+
+    def is_blocked(self):
+        return self.blocked
 
     def get_absolute_url(self):
         return reverse('sensor_detail', args=[str(self.id)])

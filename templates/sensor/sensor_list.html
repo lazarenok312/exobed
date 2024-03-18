@@ -139,10 +139,14 @@
                                             <p class="text-xs font-weight-bold mb-0">{{ sensor.owner }}</p>
                                         </td>
                                         <td class="align-middle text-center text-sm">
-                                            {% if sensor.work %}
-                                                <span class="badge badge-sm bg-gradient-success">Online</span>
+                                            {% if sensor.is_blocked %}
+                                                <span class="badge badge-sm bg-gradient-danger">Заблокирован</span>
                                             {% else %}
-                                                <span class="badge badge-sm bg-gradient-secondary">Offline</span>
+                                                {% if sensor.work %}
+                                                    <span class="badge badge-sm bg-gradient-success">Онлайн</span>
+                                                {% else %}
+                                                    <span class="badge badge-sm bg-gradient-secondary">Оффлайн</span>
+                                                {% endif %}
                                             {% endif %}
                                         </td>
                                         <td class="align-middle text-center">

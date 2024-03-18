@@ -1,6 +1,17 @@
 {% load static %}
 {% include 'base.html' %}
 <style>
+    .blocked {
+        display: inline-block;
+        height: 38px;
+        line-height: 38px;
+        margin-right: 10px;
+        position: relative;
+        vertical-align: middle;
+        font-size: 20px;
+        user-select: none;
+    }
+
     .checkbox-green {
         display: inline-block;
         height: 28px;
@@ -192,6 +203,45 @@
         border-radius: 30%;
         box-shadow: -0.3em -0.3em 0.5em #0d518c inset, 0 -0.2em 0.2em 0 rgba(0, 0, 0, 0.2), 0.3em 0.5em 0.8em rgba(0, 0, 0, 0.3);
     }
+
+    .blocked-text {
+        --bs-badge-padding-x: 0.9em;
+        --bs-badge-padding-y: 0.55em;
+        --bs-badge-font-size: 0.75em;
+        --bs-badge-font-weight: 700;
+        --bs-badge-color: #fff;
+        --bs-badge-border-radius: 0.45rem;
+        display: inline-block;
+        padding: var(--bs-badge-padding-y) var(--bs-badge-padding-x);
+        font-size: var(--bs-badge-font-size);
+        font-weight: var(--bs-badge-font-weight);
+        line-height: 1;
+        color: var(--bs-badge-color);
+        text-align: center;
+        vertical-align: baseline;
+        border-radius: var(--bs-badge-border-radius);
+    }
+
+    .blocked {
+        margin-bottom: 10px;
+        white-space: normal;
+    }
+
+    @media only screen and (max-width: 667px) {
+        .blocked {
+            text-align: left;
+            white-space: normal;
+        }
+    }
+
+    .text-warningg {
+        color: #0d518c;
+        text-decoration: none;
+    }
+
+    .text-warningg:hover {
+        color: #439f47;
+    }
 </style>
 <title>Датчик {{ sensor.name }}</title>
 <body class="g-sidenav-show  bg-gray-200">
@@ -298,22 +348,38 @@
             {% include 'include/navbar.html' %}
         </div>
     </nav>
-    <!-- End Navbar -->
     <div class="container-fluid">
+    <div class="blocked">
+    {% if user.is_authenticated %}
+        {% if user.is_superuser %}
+            {% if sensor.is_blocked %}
+                <span class="badge badge-sm bg-gradient-danger">Это устройство заблокировано!</span>
+            {% endif %}
+        {% else %}
+            <span class="blocked-text badge-sm bg-gradient-danger">
+                Ваше устройство заблокировано, <a href="{% url 'chats' %}" class="text-warningg">обратитесь в поддержку</a>
+            </span>
+        {% endif %}
+    {% endif %}
+</div>
         <div class="row">
-            <form method="post">
-                {% csrf_token %}
-                <label class="checkbox-green">
-                    <input type="checkbox" name="work" {% if sensor.work %}checked{% endif %}>
-                    <span class="checkbox-green-switch" data-label-on="ВКЛ" data-label-off="ВЫКЛ"></span>
-                </label>
-                <input type="submit" style="display: none;">
-            </form>
-            <div class="range-slider">
-                <div class="label-range">Регулировка мощности</div>
-                <label for="range"></label><input id="range" type="range" name="range" min="0" max="100" step="1"
-                                                  value="{{ sensor.power }}"/>
-            </div>
+
+            {% if sensor.is_blocked %}
+            {% else %}
+                <form method="post">
+                    {% csrf_token %}
+                    <label class="checkbox-green">
+                        <input type="checkbox" name="work" {% if sensor.work %}checked{% endif %}>
+                        <span class="checkbox-green-switch" data-label-on="ВКЛ" data-label-off="ВЫКЛ"></span>
+                    </label>
+                    <input type="submit" style="display: none;">
+                </form>
+                <div class="range-slider">
+                    <div class="label-range">Регулировка мощности</div>
+                    <label for="range"></label><input id="range" type="range" name="range" min="0" max="100" step="1"
+                                                      value="{{ sensor.power }}"/>
+                </div>
+            {% endif %}
             <div class="d-flex " style="margin-top: 5px">
                 <i class="material-icons text-sm my-auto me-1">schedule</i>
                 {% if latest_log %}
