@@ -9,5 +9,6 @@ urlpatterns = [
     path('api/sensor_logs_volt/<int:sensor_id>/', SensorLogsVoltAPIView.as_view(), name='sensor_logs_volt_api'),
     path('search/', views.search_sensors, name='search_sensors'),
     path('sensor/<int:sensor_id>/stream_logs/', views.stream_sensor_logs, name='stream_sensor_logs'),
-    path('update_sensor_power/<int:sensor_id>/', views.update_sensor_power, name='update_sensor_power')
+    path('update_sensor_power/<int:sensor_id>/', views.update_sensor_power, name='update_sensor_power'),
+    path('block_toggle/<int:sensor_id>/', views.block_toggle, name='block_toggle'),
 ]

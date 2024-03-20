@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
-from .models import Sensor, SensorLog
-from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse, HttpResponseBadRequest
+from django.urls import reverse
 from django.views.generic import View
+from .models import Sensor, SensorLog
+
 import json
 import time
 
@@ -22,6 +24,7 @@ class SensorDetailView(DetailView):
     model = Sensor
     template_name = 'sensor/sensor_detail.html'
     context_object_name = 'sensor'
+    paginate_by = 15
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -39,6 +42,30 @@ class SensorDetailView(DetailView):
         else:
             context['latest_log'] = None
         return context
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     sensor = self.get_object()
+    #     logs = sensor.sensorlog_set.all()
+    #
+    #     paginator = Paginator(logs, self.paginate_by)
+    #     page = self.request.GET.get('page')
+    #
+    #     try:
+    #         logs = paginator.page(page)
+    #     except PageNotAnInteger:
+    #         logs = paginator.page(1)
+    #     except EmptyPage:
+    #         logs = paginator.page(paginator.num_pages)
+    #
+    #     context['logs'] = logs
+    #     context['sensor_id'] = sensor.id
+    #
+    #     if logs:
+    #         context['latest_log'] = logs[0]
+    #     else:
+    #         context['latest_log'] = None
+    #     return context
 
     def post(self, request, *args, **kwargs):
         sensor = self.get_object()
@@ -59,6 +86,15 @@ class SensorDetailView(DetailView):
         logs = SensorLog.objects.filter(sensor_id=sensor_id).order_by('timestamp')
         data = [[log.timestamp.timestamp() * 1000, log.previous_watt] for log in logs]
         return data
+
+
+def block_toggle(request, sensor_id):
+    sensor = get_object_or_404(Sensor, pk=sensor_id)
+    sensor.blocked = not sensor.blocked
+    sensor.save()
+    redirect_url = request.META.get('HTTP_REFERER') or reverse(
+        'home')  # Замените 'home' на имя вашего представления главной страницы
+    return HttpResponseRedirect(redirect_url)
 
 
 def update_sensor_power(request, sensor_id):

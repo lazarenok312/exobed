@@ -329,6 +329,20 @@
                         </a>
                     </li>
                 {% endif %}
+                {% if user.is_superuser %}
+                    <li class="nav-item mt-3">
+                        <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Панель
+                            администратора</h6>
+                    </li>
+                    <a class="nav-link text-white" href="{% url 'block_toggle' sensor_id=sensor.id %}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">{% if sensor.blocked %}lock{% else %}
+                                lock_open{% endif %}</i>
+                        </div>
+                        <span class="nav-link-text ms-1">{% if sensor.blocked %}Разблокировать{% else %}
+                            Заблокировать{% endif %}</span>
+                    </a>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -349,19 +363,20 @@
         </div>
     </nav>
     <div class="container-fluid">
-    <div class="blocked">
-    {% if user.is_authenticated %}
-        {% if user.is_superuser %}
-            {% if sensor.is_blocked %}
-                <span class="badge badge-sm bg-gradient-danger">Это устройство заблокировано!</span>
-            {% endif %}
-        {% else %}
-            <span class="blocked-text badge-sm bg-gradient-danger">
-                Ваше устройство заблокировано, <a href="{% url 'chats' %}" class="text-warningg">обратитесь в поддержку</a>
+        <div class="blocked">
+            {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                    {% if sensor.is_blocked %}
+                        <span class="badge badge-sm bg-gradient-danger">Это устройство заблокировано!</span>
+                    {% endif %}
+                {% else %}
+                    <span class="blocked-text badge-sm bg-gradient-danger">
+                Ваше устройство заблокировано! <a href="{% url 'chats' %}"
+                                                  class="text-warningg">Обратитесь в поддержку</a>
             </span>
-        {% endif %}
-    {% endif %}
-</div>
+                {% endif %}
+            {% endif %}
+        </div>
         <div class="row">
 
             {% if sensor.is_blocked %}
@@ -403,16 +418,18 @@
                         </div>
                     </div>
                     <div class="card-footer p-3" id="myDiv" style="overflow-y:scroll;width: 100%;height: 290px">
-                        {% for log in logs %}
-                            <li>{{ log.log_type }} - {{ log.timestamp }}</li>
-                            <li>Мощность: {{ log.previous_power }}%</li>
-                            {% if log.previous_watt %}
-                                <li>{{ log.previous_watt }} Watt | {% if log.previous_volt %}
-                                    {{ log.previous_volt }} Volt
-                                {% endif %}</li>
-                            {% endif %}
-                            <hr class="dark horizontal my-0">
-                        {% endfor %}
+                        <div id="logs-container">
+                            {% for log in logs %}
+                                <li>{{ log.log_type }} - {{ log.timestamp }}</li>
+                                <li>Мощность: {{ log.previous_power }}%</li>
+                                {% if log.previous_watt %}
+                                    <li>{{ log.previous_watt }} Watt | {% if log.previous_volt %}
+                                        {{ log.previous_volt }} Volt
+                                    {% endif %}</li>
+                                {% endif %}
+                                <hr class="dark horizontal my-0">
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -442,13 +459,13 @@
             var power = $(this).val();
             var sensorId = {{ sensor.id }};
 
-
             $.ajax({
                 url: '{% url "update_sensor_power" sensor.id %}',
                 method: 'POST',
                 data: {'power': power, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
                 success: function (data) {
-                    $('#myDiv').load(window.location.href + ' #myDiv');
+                    // Обновляем содержимое #logs-container
+                    $('#logs-container').load('{% url "sensor_detail" sensor.id %} #logs-container');
                 },
                 error: function (xhr, errmsg, err) {
                     console.error('Failed to update power:', err);
