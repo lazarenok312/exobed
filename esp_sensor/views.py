@@ -43,30 +43,6 @@ class SensorDetailView(DetailView):
             context['latest_log'] = None
         return context
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     sensor = self.get_object()
-    #     logs = sensor.sensorlog_set.all()
-    #
-    #     paginator = Paginator(logs, self.paginate_by)
-    #     page = self.request.GET.get('page')
-    #
-    #     try:
-    #         logs = paginator.page(page)
-    #     except PageNotAnInteger:
-    #         logs = paginator.page(1)
-    #     except EmptyPage:
-    #         logs = paginator.page(paginator.num_pages)
-    #
-    #     context['logs'] = logs
-    #     context['sensor_id'] = sensor.id
-    #
-    #     if logs:
-    #         context['latest_log'] = logs[0]
-    #     else:
-    #         context['latest_log'] = None
-    #     return context
-
     def post(self, request, *args, **kwargs):
         sensor = self.get_object()
         previous_power = sensor.power
@@ -93,7 +69,7 @@ def block_toggle(request, sensor_id):
     sensor.blocked = not sensor.blocked
     sensor.save()
     redirect_url = request.META.get('HTTP_REFERER') or reverse(
-        'home')  # Замените 'home' на имя вашего представления главной страницы
+        'home')
     return HttpResponseRedirect(redirect_url)
 
 
