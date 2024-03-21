@@ -336,10 +336,104 @@
         }
 
         .timer-button {
-            width: 150px;
+            width: 120px;
         }
     }
 
+    .temperature-widget {
+        display: flex;
+        align-items: center;
+        width: 200px;
+        padding: 10px;
+        font-family: Arial, sans-serif;
+    }
+
+    .temperature-icon {
+        font-size: 60px;
+        margin-right: 20px;
+    }
+
+    .temperature-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .temperature-value {
+        font-size: 48px;
+        font-weight: bold;
+    }
+
+    .temperature-unit {
+        font-size: 24px;
+    }
+
+    .cold {
+        color: #007bff;
+    }
+
+    .normal {
+        color: #28a745;
+    }
+
+    .hot {
+        color: #dc3545;
+    }
+
+    .temperature-title {
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    .fan-widget {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        font-family: Arial, sans-serif;
+    }
+
+    .fan-icon {
+        font-size: 60px;
+        margin-right: 20px;
+    }
+
+    .fan-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .fan-value {
+        font-size: 48px;
+        font-weight: bold;
+    }
+
+    .fan-unit {
+        font-size: 24px;
+    }
+
+    .low-speed {
+        color: #007bff;
+    }
+
+    .normal-speed {
+        color: #28a745;
+    }
+
+    .high-speed {
+        color: #dc3545;
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .spin-animation {
+        animation: spin 2s linear infinite;
+    }
 </style>
 <title>Датчик {{ sensor.name }}</title>
 <body class="g-sidenav-show  bg-gray-200">
@@ -566,13 +660,45 @@
                             {% endfor %}
                         </div>
                         <div class="progress">
-                            <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;"
+                            <div id="progress-bar" class="progress-bar" role="progressbar"
                                  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         {% if logs.has_next %}
                             <button id="show-more-btn" data-next-page="{{ logs.next_page_number }}">Показать еще
                             </button>
                         {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mt-4">
+                <div class="card">
+                    <div class="temperature-title">
+                        <h3>Температура</h3>
+                    </div>
+                    <div class="temperature-widget">
+                        <div class="temperature-icon">
+                            <i class="fas fa-thermometer-half"></i>
+                        </div>
+                        <div class="temperature-info">
+                            <div class="temperature-value" id="temperature-value">55<sup>°C</sup></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mt-4">
+                <div class="card">
+                    <div class="temperature-title">
+                        <h3>Скорость кулера</h3>
+                    </div>
+                    <div class="fan-widget">
+                        <div class="fan-icon">
+                            <i class="fas fa-fan spin-animation"></i>
+                        </div>
+                        <div class="fan-info">
+                            <div class="fan-value" id="fan-value">1300<sup>об/мин</sup></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -593,6 +719,71 @@
 {% include 'include/setting.html' %}
 {% include 'include/script.html' %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script>
+    function updateTemperature(temperature) {
+        const temperatureElement = document.getElementById('temperature-value');
+
+        if (!isNaN(temperature)) {
+            temperatureElement.innerHTML = `${temperature}<sup>°C</sup>`;
+        } else {
+            temperatureElement.textContent = temperature;
+        }
+
+        let temperatureClass = '';
+        if (temperature < 15) {
+            temperatureClass = 'cold';
+        } else if (temperature >= 15 && temperature <= 25) {
+            temperatureClass = 'normal';
+        } else {
+            temperatureClass = 'hot';
+        }
+
+        temperatureElement.className = 'temperature-value ' + temperatureClass;
+    }
+
+    updateTemperature(10);
+</script>
+<script>
+    function updateFanSpeed(speed) {
+        const fanElement = document.querySelector('.fan-icon i');
+
+        if (!isNaN(speed)) {
+            document.getElementById('fan-value').innerHTML = `${speed}<sup>об/мин</sup>`;
+        } else {
+            document.getElementById('fan-value').textContent = speed;
+        }
+
+        let speedClass = '';
+        if (speed < 1000) {
+            speedClass = 'low-speed';
+        } else if (speed >= 1000 && speed <= 1500) {
+            speedClass = 'normal-speed';
+        } else {
+            speedClass = 'high-speed';
+        }
+
+        document.getElementById('fan-value').className = 'fan-value ' + speedClass;
+
+        let rotationSpeed;
+        if (speed >= 1 && speed <= 500) {
+            rotationSpeed = 1000 / speed;
+        } else if (speed >= 1700 && speed <= 2000) {
+            rotationSpeed = 2000 / speed;
+        } else {
+            rotationSpeed = 1;
+        }
+        fanElement.style.animationDuration = `${rotationSpeed}s`;
+
+        if (speed > 0) {
+            fanElement.parentElement.classList.add('spin-animation');
+        } else {
+            fanElement.parentElement.classList.remove('spin-animation');
+        }
+    }
+
+    updateFanSpeed(1900);
+</script>
 <script>
     const startTimerButton = document.getElementById('startTimer');
     startTimerButton.addEventListener('click', () => {
