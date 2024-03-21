@@ -1,6 +1,6 @@
 {% load static %}
 <style>
-    form {
+    .custom-form {
         position: relative;
         width: 200px;
         margin: 0 auto;
@@ -44,7 +44,7 @@
 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
         <div class="d1">
-            <form action="{% url 'search_sensors' %}" method="get">
+            <form class="custom-form" action="{% url 'search_sensors' %}" method="get">
                 <input id="search" type="text" name="q" placeholder="Искать здесь...">
                 <button type="submit"></button>
             </form>

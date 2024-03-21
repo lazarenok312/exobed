@@ -5,9 +5,10 @@ from django.http import HttpResponseRedirect, JsonResponse, HttpResponse, HttpRe
 from django.urls import reverse
 from django.views.generic import View
 from .models import Sensor, SensorLog
-
+from django.core.paginator import Paginator
 import json
 import time
+from django.template.loader import render_to_string
 
 
 class SensorListView(ListView):
@@ -30,19 +31,6 @@ class SensorDetailView(DetailView):
         queryset = super().get_queryset()
         return queryset.prefetch_related('sensorlog_set').all()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        sensor = self.get_object()
-        logs = sensor.sensorlog_set.all()
-        context['logs'] = logs
-        context['sensor_id'] = sensor.id
-
-        if logs.exists():
-            context['latest_log'] = logs.last()
-        else:
-            context['latest_log'] = None
-        return context
-
     def post(self, request, *args, **kwargs):
         sensor = self.get_object()
         previous_power = sensor.power
@@ -56,6 +44,49 @@ class SensorDetailView(DetailView):
                                  previous_watt=previous_watt, previous_volt=previous_volt)
 
         return JsonResponse({'success': True, 'power_changed': previous_power != sensor.power})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        sensor = self.get_object()
+        logs = sensor.sensorlog_set.all().order_by('-timestamp')
+        paginator = Paginator(logs, 10)  # Здесь 10 - количество логов на странице
+        page_number = self.request.GET.get('page')
+        page_logs = paginator.get_page(page_number)
+        context['logs'] = page_logs
+        context['sensor_id'] = sensor.id
+
+        if logs.exists():
+            context['latest_log'] = logs.last()
+        else:
+            context['latest_log'] = None
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            logs_html = self.render_logs_to_html(context['logs'])
+            num_pages = context['logs'].paginator.num_pages
+            return JsonResponse(
+                {'logs_html': logs_html, 'has_next': context['logs'].has_next(), 'num_pages': num_pages})
+        else:
+            return super().render_to_response(context, **response_kwargs)
+
+    def render_logs_to_html(self, logs):
+        return ''.join([self.render_log_to_html(log) for log in logs])
+
+    def render_log_to_html(self, log):
+        russian_months = {
+            1: 'января', 2: 'февраля', 3: 'марта', 4: 'апреля', 5: 'мая', 6: 'июня',
+            7: 'июля', 8: 'августа', 9: 'сентября', 10: 'октября', 11: 'ноября', 12: 'декабря'
+        }
+        month = russian_months[log.timestamp.month]
+        html = f"""
+            <li>{log.log_type} - {log.timestamp.strftime('%d')} {month} {log.timestamp.strftime('%Y г. %H:%M')}</li>
+            <li>Мощность: {log.previous_power}%</li>
+            """
+        if log.previous_watt:
+            html += f"<li>{log.previous_watt} Watt | {log.previous_volt} Volt</li>"
+        html += "<hr class='dark horizontal my-0'>"
+        return html
 
     @staticmethod
     def get_sensor_logs(sensor_id):
@@ -71,6 +102,24 @@ def block_toggle(request, sensor_id):
     redirect_url = request.META.get('HTTP_REFERER') or reverse(
         'home')
     return HttpResponseRedirect(redirect_url)
+
+
+def download_logs(request, device_slug):
+    # Получаем объект Sensor по его slug
+    sensor = get_object_or_404(Sensor, slug=device_slug)
+
+    logs = SensorLog.objects.filter(sensor=sensor)  # Получаем все логи для данного датчика
+
+    # Здесь вы можете создать строку с данными в нужном формате, используя функцию render_to_string
+    # Например, если вы хотите сгенерировать CSV файл:
+    csv_data = render_to_string('logs/csv_template.txt', {'logs': logs})
+
+    # Используйте имя устройства для формирования имени файла
+    filename = f'{sensor.name}_logs.csv'
+
+    response = HttpResponse(csv_data, content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    return response
 
 
 def update_sensor_power(request, sensor_id):

@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import SensorDetailView, SensorListView, SensorLogsAPIView, SensorLogsVoltAPIView
+from .views import *
 
 urlpatterns = [
     path('', SensorListView.as_view(), name='sensor_list'),
@@ -11,4 +11,5 @@ urlpatterns = [
     # path('sensor/<int:sensor_id>/stream_logs/', views.stream_sensor_logs, name='stream_sensor_logs'),
     path('update_sensor_power/<int:sensor_id>/', views.update_sensor_power, name='update_sensor_power'),
     path('block_toggle/<int:sensor_id>/', views.block_toggle, name='block_toggle'),
+    path('download-logs/<slug:device_slug>/', download_logs, name='download_logs'),
 ]

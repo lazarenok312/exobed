@@ -1,0 +1,4 @@
+"Log Type","Timestamp","Previous Power","Previous Watt","Previous Volt"
+{% for log in logs %}
+"{{ log.log_type }}","{{ log.timestamp }}","{{ log.previous_power }}","{{ log.previous_watt }}","{{ log.previous_volt }}"
+{% endfor %}

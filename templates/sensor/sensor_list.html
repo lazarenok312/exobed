@@ -152,13 +152,19 @@
                                         <td class="align-middle text-center">
                                             <span class="text-secondary text-xs font-weight-bold">{{ sensor.date_added | date:"Y/m/d H:i:s" }}</span>
                                         </td>
-                                        <td class="align-middle">
-                                            <a href="{% url 'sensor_detail' sensor.pk %}"
-                                               class="text-secondary font-weight-bold text-xs"
-                                               data-toggle="tooltip" data-original-title="Edit user">
-                                                Подробнее
-                                            </a>
-                                        </td>
+                                        {% if user.is_authenticated %}
+                                            <td class="align-middle">
+                                                <a href="{% url 'sensor_detail' sensor.pk %}"
+                                                   class="text-secondary font-weight-bold text-xs"
+                                                   data-toggle="tooltip" data-original-title="Edit user">
+                                                    Подробнее
+                                                </a>
+                                            </td>
+                                        {% else %}
+                                            <td class="align-middle">
+                                                <span style="text-decoration: line-through;">Подробнее</span>
+                                            </td>
+                                        {% endif %}
                                     </tr>
                                 {% endfor %}
                                 </tbody>
