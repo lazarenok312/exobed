@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSRF Token Input</title>
+</head>
+<body>
+<form action="{% url 'set_csrf_token' %}" method="post">
+    {% csrf_token %}
+    <label for="csrf_token">CSRF Token:</label>
+    <input type="text" id="csrf_token" name="csrf_token">
+    <input type="submit" value="Set CSRF Token">
+</form>
+</body>
+</html>

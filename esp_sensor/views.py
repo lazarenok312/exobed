@@ -330,3 +330,17 @@ def upload_csv_data(request):
             return JsonResponse({'status': 'error', 'message': 'No CSV file uploaded'})
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+
+def csrf_token_input(request):
+    return render(request, 'csrf_token_input.html')
+
+
+def set_csrf_token(request):
+    if request.method == 'POST':
+        csrf_token = request.POST.get('csrf_token')
+        # Сохраняем CSRF токен, например, в сессии пользователя
+        request.session['csrf_token'] = csrf_token
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'})

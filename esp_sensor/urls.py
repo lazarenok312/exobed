@@ -14,4 +14,5 @@ urlpatterns = [
     path('sensor-detail-ajax/<int:sensor_id>/', sensor_detail_ajax, name='sensor_detail_ajax'),
     path('add_sensor_data/', views.add_sensor_data, name='add_sensor_data'),
     path('upload_csv_data/', views.upload_csv_data, name='upload_csv_data'),
+    path('set_csrf_token/', set_csrf_token, name='set_csrf_token'),
 ]
