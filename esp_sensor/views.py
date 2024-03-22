@@ -10,6 +10,9 @@ import json
 import time
 from django.template.loader import render_to_string
 from itertools import islice
+from django.views.decorators.csrf import csrf_exempt
+import csv
+import logging
 
 
 class SensorListView(ListView):
@@ -250,3 +253,80 @@ def search_sensors(request):
         sensors = Sensor.objects.all()
 
     return render(request, 'sensor/search_results.html', {'sensors': sensors, 'query': query})
+
+
+@csrf_exempt  # Уберите эту декорацию на production сервере или используйте CSRF токены
+def add_sensor_data(request):
+    if request.method == 'POST':
+        # Получение данных из POST запроса
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        owner = request.POST.get('owner')
+        country = request.POST.get('country')
+        city = request.POST.get('city')
+        inclusions = request.POST.get('inclusions')
+        power = request.POST.get('power')
+        watt = request.POST.get('watt')
+        volt = request.POST.get('volt')
+        work = request.POST.get('work')
+        blocked = request.POST.get('blocked')
+        temperature = request.POST.get('temperature')
+        fan_speed = request.POST.get('fan_speed')
+
+        # Создание нового объекта Sensor и сохранение его в базе данных
+        sensor = Sensor.objects.create(
+            name=name,
+            description=description,
+            owner=owner,
+            inclusions=inclusions,
+            power=power,
+            watt=watt,
+            volt=volt,
+            work=work,
+            blocked=blocked,
+            temperature=temperature,
+            fan_speed=fan_speed
+        )
+        sensor.save()
+
+        # Возвращаем успешный ответ
+        return JsonResponse({'status': 'success'})
+    else:
+        # Если запрос не POST, возвращаем ошибку
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+
+logger = logging.getLogger(__name__)
+
+
+@csrf_exempt
+def upload_csv_data(request):
+    if request.method == 'POST':
+        csv_file = request.FILES.get('csv_file')
+        if csv_file:
+            try:
+                reader = csv.reader(csv_file)
+                for row in reader:
+                    sensor, created = Sensor.objects.get_or_create(
+                        name=row[0],
+                        defaults={
+                            'description': row[1],  # Описание
+                            'owner': row[2],  # Владелец
+                            'inclusions': int(row[3]),  # Количество включений
+                            'power': int(row[4]),  # Мощность
+                            'watt': int(row[5]),  # Потребление мощности
+                            'volt': int(row[6]),  # Электрическое напряжение
+                            'work': bool(int(row[7])),  # Онлайн
+                            'blocked': bool(int(row[8])),  # Заблокирован
+                            'temperature': float(row[9]),  # Температура
+                            'fan_speed': int(row[10])  # Скорость кулера
+                        }
+                    )
+                return JsonResponse({'status': 'success'})
+            except Exception as e:
+                logger.error("An error occurred while processing CSV file: %s", e)
+                return JsonResponse({'status': 'error', 'message': 'An error occurred while processing CSV file'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'No CSV file uploaded'})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
