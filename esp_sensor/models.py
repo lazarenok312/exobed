@@ -64,6 +64,9 @@ class Sensor(models.Model):
         verbose_name_plural = 'Датчики'
 
     def save(self, *args, **kwargs):
+        if self.blocked:
+            self.work = False
+
         if not self.work:
             self.watt = 0
             self.volt = 0

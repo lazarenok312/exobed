@@ -61,33 +61,54 @@ class SensorDetailView(DetailView):
         context['temperature'] = temperature
         context['fan_speed'] = fan_speed
 
-        context['warnings'] = []
-
-        previous_temperatures = self.request.session.get('previous_temperatures', [])
-
-        temperature = sensor.temperature
-        previous_temperatures.append(temperature)
-        self.request.session['previous_temperatures'] = previous_temperatures
-
-        if len(previous_temperatures) >= 5:
-            if all(previous_temperatures[i] < previous_temperatures[i + 1] for i in
-                   range(len(previous_temperatures) - 1)):
-                context['warnings'].append(
-                    'Температура постоянно растет.')
-            elif temperature < previous_temperatures[-2]:
-                previous_temperatures.clear()
-                self.request.session['previous_temperatures'] = previous_temperatures
-        else:
-            if temperature is not None and temperature > 80:
-                context['warnings'].append('Высокая температура устройства')
-            if fan_speed is not None and fan_speed < 1000:
-                context['warnings'].append('Низкая скорость кулера')
+        self.add_warnings_to_context(sensor, context)
+        self.add_recommendations_to_context(sensor, context)
 
         if logs.exists():
             context['latest_log'] = logs.last()
         else:
             context['latest_log'] = None
+
         return context
+
+    def add_warnings_to_context(self, sensor, context):
+        warnings = []
+
+        previous_temperatures = self.request.session.get('previous_temperatures', [])
+        temperature = sensor.temperature
+        fan_speed = sensor.fan_speed
+
+        if previous_temperatures:
+            last_three_temperatures = previous_temperatures[-3:]
+            if all(temp > last_three_temperatures[i - 1] for i, temp in
+                   enumerate(last_three_temperatures[1:], start=1)):
+                warnings.append('Температура постоянно растет.')
+        else:
+            warnings.append('Начало отслеживания температуры.')
+
+        previous_temperatures.append(temperature)
+        self.request.session['previous_temperatures'] = previous_temperatures
+
+        if temperature is not None and temperature > 80:
+            warnings.append('Высокая температура устройства')
+        if fan_speed is not None and fan_speed < 100:
+            warnings.append('Низкая скорость кулера')
+
+        context['warnings'] = warnings
+
+    def add_recommendations_to_context(self, sensor, context):
+        recommendations = []
+
+        previous_powers = self.request.session.get('previous_powers', [])
+
+        power = sensor.power
+        previous_powers.append(power)
+        self.request.session['previous_powers'] = previous_powers
+
+        if len(previous_powers) >= 5 and all(p > 90 for p in previous_powers[-5:]):
+            recommendations.append('Мощность устройства долгое время превышает 90%. Рекомендуется снизить мощность.')
+
+        context['recommendations'] = recommendations
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':

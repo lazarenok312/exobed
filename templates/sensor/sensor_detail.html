@@ -725,19 +725,14 @@
                     </div>
                     <div class="recommendations-content" style="overflow-y: auto; max-height: 100px;">
                         <ul style="list-style: none;">
-                            <li class="d-flex" style="margin-left: -15px;">
-                                <div class="me-3 text-warning">
-                                    <i class="fas fa-exclamation-circle"></i>
-                                </div>
-                                <p style="margin-bottom: 0;">Проверьте температуру устройства и при необходимости
-                                    проведите охлаждение.</p>
-                            </li>
-                            <li class="d-flex" style="margin-left: -15px;">
-                                <div class="me-3 text-warning">
-                                    <i class="fas fa-power-off"></i>
-                                </div>
-                                <p style="margin-bottom: 0;">Выключить устройство.</p>
-                            </li>
+                            {% for recommendation in recommendations %}
+                                <li class="d-flex" style="margin-left: -15px;">
+                                    <div class="me-3 text-warning">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                    </div>
+                                    <p style="margin-bottom: 0;">{{ recommendation }}</p>
+                                </li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
