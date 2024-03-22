@@ -698,7 +698,7 @@
                             <i class="fas fa-thermometer-half"></i>
                         </div>
                         <div class="temperature-info">
-                            <div class="temperature-value" id="temperature-value">55<sup>°C</sup></div>
+                            <div class="temperature-value" id="temperature-value"></div>
                         </div>
                     </div>
                 </div>
@@ -713,7 +713,7 @@
                             <i class="fas fa-fan spin-animation"></i>
                         </div>
                         <div class="fan-info">
-                            <div class="fan-value" id="fan-value">1300<sup>об/мин</sup></div>
+                            <div class="fan-value" id="fan-value"></div>
                         </div>
                     </div>
                 </div>
@@ -748,7 +748,7 @@
                         <h4>Предупреждения</h4>
                     </div>
                     <div class="recommendations-content" style="overflow-y: auto; max-height: 100px;">
-                        <ul style="list-style: none;">
+                        <ul style="list-style: none;" id="warnings-list">
                             {% if sensor.work %}
                                 {% for warning in warnings %}
                                     <li class="d-flex" style="margin-left: -15px;">
@@ -795,8 +795,8 @@
             url: `/sensor-detail-ajax/${sensorId}/`,
             type: 'GET',
             success: function (response) {
-                updateTemperature(response.temperature); // Обновляем температуру
-                updateFanSpeed(response.fan_speed); // Обновляем скорость кулера
+                updateTemperature(response.temperature);
+                updateFanSpeed(response.fan_speed);
             },
             error: function (xhr, status, error) {
                 console.error('Ошибка при обновлении данных: ' + error);
@@ -805,7 +805,7 @@
     }
 
     $(document).ready(function () {
-        const sensorId = 1;
+        const sensorId = {{ sensor.id }};
         updateSensorInfo(sensorId);
         setInterval(function () {
             updateSensorInfo(sensorId);
@@ -816,7 +816,6 @@
         const temperatureElement = document.getElementById('temperature-value');
         const temperatureIcon = '<sup>°C</sup>';
 
-        // Обновляем значение температуры с значком градуса
         temperatureElement.innerHTML = temperature + temperatureIcon;
 
         let temperatureClass = '';
@@ -835,7 +834,6 @@
         const fanElement = document.getElementById('fan-value');
         const fanIcon = '<sup>об/мин</sup>';
 
-        // Обновляем значение скорости кулера с обозначением оборотов
         fanElement.innerHTML = speed + fanIcon;
 
         let speedClass = '';
@@ -868,6 +866,7 @@
         }
     }
 </script>
+
 <script>
     const startTimerButton = document.getElementById('startTimer');
     startTimerButton.addEventListener('click', () => {

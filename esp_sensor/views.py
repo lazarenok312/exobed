@@ -9,6 +9,7 @@ from django.core.paginator import Paginator
 import json
 import time
 from django.template.loader import render_to_string
+from itertools import islice
 
 
 class SensorListView(ListView):
@@ -61,10 +62,26 @@ class SensorDetailView(DetailView):
         context['fan_speed'] = fan_speed
 
         context['warnings'] = []
-        if temperature is not None and temperature > 80:
-            context['warnings'].append('Высокая температура устройства')
-        if fan_speed is not None and fan_speed < 1000:
-            context['warnings'].append('Низкая скорость кулера')
+
+        previous_temperatures = self.request.session.get('previous_temperatures', [])
+
+        temperature = sensor.temperature
+        previous_temperatures.append(temperature)
+        self.request.session['previous_temperatures'] = previous_temperatures
+
+        if len(previous_temperatures) >= 5:
+            if all(previous_temperatures[i] < previous_temperatures[i + 1] for i in
+                   range(len(previous_temperatures) - 1)):
+                context['warnings'].append(
+                    'Температура постоянно растет.')
+            elif temperature < previous_temperatures[-2]:
+                previous_temperatures.clear()
+                self.request.session['previous_temperatures'] = previous_temperatures
+        else:
+            if temperature is not None and temperature > 80:
+                context['warnings'].append('Высокая температура устройства')
+            if fan_speed is not None and fan_speed < 1000:
+                context['warnings'].append('Низкая скорость кулера')
 
         if logs.exists():
             context['latest_log'] = logs.last()
