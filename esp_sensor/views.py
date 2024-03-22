@@ -49,11 +49,22 @@ class SensorDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         sensor = self.get_object()
         logs = sensor.sensorlog_set.all().order_by('-timestamp')
-        paginator = Paginator(logs, 10)  # Здесь 10 - количество логов на странице
+        paginator = Paginator(logs, 10)
         page_number = self.request.GET.get('page')
         page_logs = paginator.get_page(page_number)
         context['logs'] = page_logs
         context['sensor_id'] = sensor.id
+
+        temperature = sensor.temperature
+        fan_speed = sensor.fan_speed
+        context['temperature'] = temperature
+        context['fan_speed'] = fan_speed
+
+        context['warnings'] = []
+        if temperature is not None and temperature > 80:
+            context['warnings'].append('Высокая температура устройства')
+        if fan_speed is not None and fan_speed < 1000:
+            context['warnings'].append('Низкая скорость кулера')
 
         if logs.exists():
             context['latest_log'] = logs.last()
@@ -105,21 +116,27 @@ def block_toggle(request, sensor_id):
 
 
 def download_logs(request, device_slug):
-    # Получаем объект Sensor по его slug
     sensor = get_object_or_404(Sensor, slug=device_slug)
 
-    logs = SensorLog.objects.filter(sensor=sensor)  # Получаем все логи для данного датчика
-
-    # Здесь вы можете создать строку с данными в нужном формате, используя функцию render_to_string
-    # Например, если вы хотите сгенерировать CSV файл:
+    logs = SensorLog.objects.filter(sensor=sensor)
     csv_data = render_to_string('logs/csv_template.txt', {'logs': logs})
-
-    # Используйте имя устройства для формирования имени файла
     filename = f'{sensor.name}_logs.csv'
 
     response = HttpResponse(csv_data, content_type='text/csv')
     response['Content-Disposition'] = f'attachment; filename="{filename}"'
     return response
+
+
+def sensor_detail_ajax(request, sensor_id):
+    sensor = Sensor.objects.get(pk=sensor_id)
+    data = {
+        'watt': sensor.watt,
+        'volt': sensor.volt,
+        'work': sensor.work,
+        'temperature': sensor.temperature,
+        'fan_speed': sensor.fan_speed,
+    }
+    return JsonResponse(data)
 
 
 def update_sensor_power(request, sensor_id):

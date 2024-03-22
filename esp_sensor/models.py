@@ -47,6 +47,8 @@ class Sensor(models.Model):
     volt = models.IntegerField("Электрическое напряжение", default=0)
     work = models.BooleanField('Онлайн', default=True)
     blocked = models.BooleanField('Заблокирован', default=False)
+    temperature = models.FloatField('Температура', default=0)
+    fan_speed = models.IntegerField('Скорость кулера', default=0)
 
     def __str__(self):
         return self.name
@@ -60,6 +62,14 @@ class Sensor(models.Model):
     class Meta:
         verbose_name = 'Датчик'
         verbose_name_plural = 'Датчики'
+
+    def save(self, *args, **kwargs):
+        if not self.work:
+            self.watt = 0
+            self.volt = 0
+            self.temperature = 0
+            self.fan_speed = 0
+        super().save(*args, **kwargs)
 
 
 class SensorLog(models.Model):

@@ -95,18 +95,18 @@
         }]
 
     });
-    setInterval(() => {
-        const chart = Highcharts.charts[1];
-        if (chart && !chart.renderer.forExport) {
-            const point = chart.series[0].points[0];
-            const currVal = point.y;
-
-            const minChange = -5;
-            const maxChange = 5;
-
-            let newVal = currVal + Math.floor(Math.random() * (maxChange - minChange + 1)) + minChange;
-
-            point.update(newVal);
-        }
-    }, 2000);
+    {#setInterval(() => {#}
+    {#    const chart = Highcharts.charts[1];#}
+    {#    if (chart && !chart.renderer.forExport) {#}
+    {#        const point = chart.series[0].points[0];#}
+    {#        const currVal = point.y;#}
+    {##}
+    {#        const minChange = -5;#}
+    {#        const maxChange = 5;#}
+    {##}
+    {#        let newVal = currVal + Math.floor(Math.random() * (maxChange - minChange + 1)) + minChange;#}
+    {##}
+    {#        point.update(newVal);#}
+    {#    }#}
+    {#, 2000);#}
 </script>

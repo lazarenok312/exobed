@@ -379,9 +379,9 @@
         color: #dc3545;
     }
 
-    .temperature-title {
+    .block-title {
         text-align: center;
-        margin-bottom: 5px;
+        font-size: 10px;
     }
 
     .fan-widget {
@@ -496,6 +496,14 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link text-white " href="{% url 'chats' %}">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">message</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Сообщения</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link text-white " href='{% url 'logout' %}'>
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">login</i>
@@ -573,50 +581,58 @@
             {% endif %}
         {% endif %}
         <div class="row">
-            {% if sensor.is_blocked %}
-            {% else %}
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-1">
-                            <form method="post">
-                                {% csrf_token %}
-                                <label class="checkbox-green">
-                                    <input type="checkbox" name="work" {% if sensor.work %}checked{% endif %}>
-                                    <span class="checkbox-green-switch" data-label-on="ВКЛ"
-                                          data-label-off="ВЫКЛ"></span>
-                                </label>
-                                <input type="submit" style="display: none;">
-                            </form>
-                        </div>
-                        <div class="col-sm-2">
-                            <button class="power">
-                                <i class="material-icons">power</i>
-                                Power
-                            </button>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="timer-container">
-                                <div>
-                                    <input type="number" id="minutes" class="timer-input">
-                                    <label for="minutes" class="timer-label">Минуты:</label>
-                                </div>
-                                <div>
-                                    <input type="number" id="seconds" class="timer-input">
-                                    <label for="seconds" class="timer-label">Секунды:</label>
-                                </div>
-                                <div>
-                                    <button id="startTimer" class="timer-button" style="margin-bottom: 19px;">Старт
+            {% if user.is_authenticated %}
+                {% if sensor.is_blocked %}
+                {% else %}
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <label class="checkbox-green">
+                                        <input type="checkbox" name="work" {% if sensor.work %}checked{% endif %}>
+                                        <span class="checkbox-green-switch" data-label-on="ВКЛ"
+                                              data-label-off="ВЫКЛ"></span>
+                                    </label>
+                                    <input type="submit" style="display: none;">
+                                </form>
+                            </div>
+                            {% if sensor.work %}
+                                <div class="col-sm-2">
+                                    <button class="power">
+                                        <i class="material-icons">power</i>
+                                        Power
                                     </button>
                                 </div>
-                            </div>
+                                <div class="col-sm-3">
+                                    <div class="timer-container">
+                                        <div>
+                                            <input type="number" id="minutes" class="timer-input">
+                                            <label for="minutes" class="timer-label">Минуты:</label>
+                                        </div>
+                                        <div>
+                                            <input type="number" id="seconds" class="timer-input">
+                                            <label for="seconds" class="timer-label">Секунды:</label>
+                                        </div>
+                                        <div>
+                                            <button id="startTimer" class="timer-button" style="margin-bottom: 19px;">
+                                                Старт
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                            {% endif %}
                         </div>
                     </div>
-                </div>
-                <div class="range-slider">
-                    <div class="label-range">Регулировка мощности</div>
-                    <label for="range"></label><input id="range" type="range" name="range" min="0" max="100" step="1"
-                                                      value="{{ sensor.power }}"/>
-                </div>
+                    <div class="range-slider">
+                        <div class="label-range">Регулировка мощности</div>
+                        <label for="range"></label><input id="range" type="range" name="range" min="0" max="100"
+                                                          step="1"
+                                                          value="{{ sensor.power }}"/>
+                    </div>
+                {% endif %}
+            {% else %}
             {% endif %}
             <div class="d-flex " style="margin-top: 5px">
                 <i class="material-icons text-sm my-auto me-1">schedule</i>
@@ -672,10 +688,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mt-4">
-                <div class="card">
-                    <div class="temperature-title">
-                        <h3>Температура</h3>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mt-4 d-flex">
+                <div class="card flex-grow-1">
+                    <div class="block-title">
+                        <h4>Температура</h4>
                     </div>
                     <div class="temperature-widget">
                         <div class="temperature-icon">
@@ -687,10 +703,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mt-4">
-                <div class="card">
-                    <div class="temperature-title">
-                        <h3>Скорость кулера</h3>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mt-4 d-flex">
+                <div class="card flex-grow-1">
+                    <div class="block-title">
+                        <h4>Скорость кулера</h4>
                     </div>
                     <div class="fan-widget">
                         <div class="fan-icon">
@@ -699,6 +715,58 @@
                         <div class="fan-info">
                             <div class="fan-value" id="fan-value">1300<sup>об/мин</sup></div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mt-4 d-flex">
+                <div class="card flex-grow-1">
+                    <div class="block-title">
+                        <h4>Рекомендации</h4>
+                    </div>
+                    <div class="recommendations-content" style="overflow-y: auto; max-height: 100px;">
+                        <ul style="list-style: none;">
+                            <li class="d-flex" style="margin-left: -15px;">
+                                <div class="me-3 text-warning">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </div>
+                                <p style="margin-bottom: 0;">Проверьте температуру устройства и при необходимости
+                                    проведите охлаждение.</p>
+                            </li>
+                            <li class="d-flex" style="margin-left: -15px;">
+                                <div class="me-3 text-warning">
+                                    <i class="fas fa-power-off"></i>
+                                </div>
+                                <p style="margin-bottom: 0;">Выключить устройство.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mt-4 d-flex" style="width: 390px;">
+                <div class="card flex-grow-1">
+                    <div class="block-title">
+                        <h4>Предупреждения</h4>
+                    </div>
+                    <div class="recommendations-content" style="overflow-y: auto; max-height: 100px;">
+                        <ul style="list-style: none;">
+                            {% if sensor.work %}
+                                {% for warning in warnings %}
+                                    <li class="d-flex" style="margin-left: -15px;">
+                                        <div class="me-3 text-danger">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                        </div>
+                                        <p style="margin-bottom: 0;">{{ warning }}</p>
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                <li class="d-flex" style="margin-left: -15px;">
+                                    <div class="me-3 text-danger">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                    <p style="margin-bottom: 0;">Устройство выключено</p>
+                                </li>
+                            {% endif %}
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -720,20 +788,41 @@
 {% include 'include/script.html' %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
 <script>
+    function updateSensorInfo(sensorId) {
+        $.ajax({
+            url: `/sensor-detail-ajax/${sensorId}/`,
+            type: 'GET',
+            success: function (response) {
+                updateTemperature(response.temperature); // Обновляем температуру
+                updateFanSpeed(response.fan_speed); // Обновляем скорость кулера
+            },
+            error: function (xhr, status, error) {
+                console.error('Ошибка при обновлении данных: ' + error);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        const sensorId = 1;
+        updateSensorInfo(sensorId);
+        setInterval(function () {
+            updateSensorInfo(sensorId);
+        }, 5000);
+    });
+
     function updateTemperature(temperature) {
         const temperatureElement = document.getElementById('temperature-value');
+        const temperatureIcon = '<sup>°C</sup>';
 
-        if (!isNaN(temperature)) {
-            temperatureElement.innerHTML = `${temperature}<sup>°C</sup>`;
-        } else {
-            temperatureElement.textContent = temperature;
-        }
+        // Обновляем значение температуры с значком градуса
+        temperatureElement.innerHTML = temperature + temperatureIcon;
 
         let temperatureClass = '';
-        if (temperature < 15) {
+        if (temperature < 30) {
             temperatureClass = 'cold';
-        } else if (temperature >= 15 && temperature <= 25) {
+        } else if (temperature >= 30 && temperature <= 50) {
             temperatureClass = 'normal';
         } else {
             temperatureClass = 'hot';
@@ -742,17 +831,12 @@
         temperatureElement.className = 'temperature-value ' + temperatureClass;
     }
 
-    updateTemperature(10);
-</script>
-<script>
     function updateFanSpeed(speed) {
-        const fanElement = document.querySelector('.fan-icon i');
+        const fanElement = document.getElementById('fan-value');
+        const fanIcon = '<sup>об/мин</sup>';
 
-        if (!isNaN(speed)) {
-            document.getElementById('fan-value').innerHTML = `${speed}<sup>об/мин</sup>`;
-        } else {
-            document.getElementById('fan-value').textContent = speed;
-        }
+        // Обновляем значение скорости кулера с обозначением оборотов
+        fanElement.innerHTML = speed + fanIcon;
 
         let speedClass = '';
         if (speed < 1000) {
@@ -763,7 +847,7 @@
             speedClass = 'high-speed';
         }
 
-        document.getElementById('fan-value').className = 'fan-value ' + speedClass;
+        fanElement.className = 'fan-value ' + speedClass;
 
         let rotationSpeed;
         if (speed >= 1 && speed <= 500) {
@@ -773,16 +857,16 @@
         } else {
             rotationSpeed = 1;
         }
-        fanElement.style.animationDuration = `${rotationSpeed}s`;
+
+        const fanIconElement = document.querySelector('.fan-icon i');
+        fanIconElement.style.animationDuration = `${rotationSpeed}s`;
 
         if (speed > 0) {
-            fanElement.parentElement.classList.add('spin-animation');
+            fanIconElement.parentElement.classList.add('spin-animation');
         } else {
-            fanElement.parentElement.classList.remove('spin-animation');
+            fanIconElement.parentElement.classList.remove('spin-animation');
         }
     }
-
-    updateFanSpeed(1900);
 </script>
 <script>
     const startTimerButton = document.getElementById('startTimer');
