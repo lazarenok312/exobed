@@ -194,8 +194,12 @@ def update_sensor_power(request, sensor_id):
         sensor.save()
 
         log_type = 'Изменение мощности'
-        SensorLog.objects.create(sensor=sensor, log_type=log_type, previous_power=previous_power,
-                                 previous_watt=sensor.watt, previous_volt=sensor.volt)
+        log_entry = SensorLog.objects.create(sensor=sensor, log_type=log_type,
+                                             previous_power=previous_power,
+                                             previous_watt=sensor.watt, previous_volt=sensor.volt)
+
+        log_entry.previous_power = sensor.power
+        log_entry.save()
 
         return JsonResponse({'success': True})
     else:
