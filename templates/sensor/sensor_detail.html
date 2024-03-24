@@ -908,18 +908,18 @@
 
 <script>
     $(document).ready(function () {
+        // Обработчик изменения ползунка
         $('#range').on('input', function () {
             var power = $(this).val();
             var sensorId = {{ sensor.id }};
 
+            // AJAX запрос для обновления мощности датчика
             $.ajax({
                 url: '{% url "update_sensor_power" sensor.id %}',
                 method: 'POST',
                 data: {'power': power, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
                 success: function (data) {
-                    // Проверяем, изменилась ли мощность
                     if (data.success) {
-                        // Добавляем новый лог в начало списка
                         var logItem = $('<li>').text('Мощность изменена: ' + power + '%');
                         $('#logs-container').prepend(logItem);
                     }
@@ -929,11 +929,8 @@
                 }
             });
         });
-    });
-</script>
 
-<script>
-    $(document).ready(function () {
+        // Обработчик изменения переключателя работы
         $('input[name="work"]').change(function () {
             $.post({
                 url: '{% url "sensor_detail" sensor.pk %}',
@@ -946,31 +943,24 @@
                 dataType: 'json'
             });
         });
-    });
-</script>
 
-<script>
-    $(window).keyup(function (e) {
-        var target = $('.checkbox-green input:focus');
-        if (e.keyCode == 9 && $(target).length) {
-            $(target).parent().addClass('focused');
-        }
-    });
 
-    $('.checkbox-green input').focusout(function () {
-        $(this).parent().removeClass('focused');
-    });
-</script>
+        // Обработчик нажатия клавиш
+        $(window).keyup(function (e) {
+            var target = $('.checkbox-green input:focus');
+            if (e.keyCode == 9 && $(target).length) {
+                $(target).parent().toggleClass('focused');
+            }
+        });
 
-<script>
-    window.addEventListener("DOMContentLoaded", () => {
-        let range = new rSlider({
+        // Инициализация слайдера
+        new rSlider({
             element: "#range",
             tick: 10
-        })
-    })
-    ;
+        });
+    });
 
+    // Класс для создания слайдера
     class rSlider {
         constructor(args) {
             this.el = document.querySelector(args.element);
@@ -988,6 +978,7 @@
             });
         }
 
+        // Добавление делений на слайдер
         addTicks() {
             let wrap = document.createElement("div");
             wrap.className = "range";
@@ -1007,6 +998,7 @@
             }
         }
 
+        // Получение процента для позиции ползунка
         getRangePercent() {
             let max = this.el.max,
                 min = this.el.min,
@@ -1016,6 +1008,7 @@
             return percent;
         }
 
+        // Обновление положения и значения ползунка
         updatePos() {
             let percent = this.getRangePercent(),
                 left = percent * 100,
@@ -1025,4 +1018,5 @@
         }
     }
 </script>
+
 </body>

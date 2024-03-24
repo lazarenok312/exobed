@@ -46,7 +46,8 @@ class SensorDetailView(DetailView):
         SensorLog.objects.create(sensor=sensor, log_type=log_type, previous_power=previous_power,
                                  previous_watt=previous_watt, previous_volt=previous_volt)
 
-        return JsonResponse({'success': True, 'power_changed': previous_power != sensor.power})
+        return JsonResponse(
+            {'success': True, 'power_changed': previous_power != sensor.power, 'current_power': sensor.power})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
