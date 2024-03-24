@@ -203,29 +203,6 @@ def update_sensor_power(request, sensor_id):
 
 
 # Функция для потоковой передачи логов датчика
-# def stream_sensor_logs(request, sensor_id):
-#     if not sensor_id:
-#         return HttpResponseBadRequest("No sensor_id provided")
-#
-#     response = HttpResponse(content_type='text/event-stream')
-#     response['Cache-Control'] = 'no-cache'
-#     response['Connection'] = 'keep-alive'
-#
-#     def get_sensor_logs(sensor_id):
-#         logs = SensorLog.objects.filter(sensor_id=sensor_id).order_by('timestamp')
-#         data = [[log.timestamp.timestamp() * 1000, log.previous_watt] for log in logs]
-#         return data
-#
-#     def generate():
-#         while True:
-#             logs = get_sensor_logs(sensor_id)
-#             yield "data: %s\n\n" % json.dumps(logs)
-#             time.sleep(1)
-#
-#     response.streaming_content = generate()
-#     return response
-
-# Функция для потоковой передачи логов датчика
 def stream_sensor_logs(request, sensor_id):
     if not sensor_id:
         return HttpResponseBadRequest("No sensor_id provided")
