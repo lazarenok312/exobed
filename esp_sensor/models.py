@@ -74,6 +74,12 @@ class Sensor(models.Model):
             self.fan_speed = 0
         super().save(*args, **kwargs)
 
+        if self.pk:
+            log_type = 'Изменение данных в базе'
+            SensorLog.objects.create(sensor=self, log_type=log_type, previous_power=self.power,
+                                     previous_watt=self.watt, previous_volt=self.volt)
+        super().save(*args, **kwargs)
+
 
 class SensorLog(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)

@@ -9,12 +9,10 @@ from django.core.paginator import Paginator
 import json
 import time
 from django.template.loader import render_to_string
-from itertools import islice
-from django.views.decorators.csrf import csrf_exempt
-import csv
-import logging
+from django.http import StreamingHttpResponse
 
 
+# Класс для отображения списка датчиков
 class SensorListView(ListView):
     model = Sensor
     template_name = 'sensor/sensor_list.html'
@@ -25,6 +23,7 @@ class SensorListView(ListView):
         return Sensor.objects.order_by('id')
 
 
+# Класс для отображения подробной информации о датчике
 class SensorDetailView(DetailView):
     model = Sensor
     template_name = 'sensor/sensor_detail.html'
@@ -147,6 +146,7 @@ class SensorDetailView(DetailView):
         return data
 
 
+# Функция для переключения состояния блокировки датчика
 def block_toggle(request, sensor_id):
     sensor = get_object_or_404(Sensor, pk=sensor_id)
     sensor.blocked = not sensor.blocked
@@ -156,6 +156,7 @@ def block_toggle(request, sensor_id):
     return HttpResponseRedirect(redirect_url)
 
 
+# Функция для загрузки логов датчика в формате CSV
 def download_logs(request, device_slug):
     sensor = get_object_or_404(Sensor, slug=device_slug)
 
@@ -168,6 +169,7 @@ def download_logs(request, device_slug):
     return response
 
 
+# Функция для обработки AJAX запроса с подробной информацией о датчике
 def sensor_detail_ajax(request, sensor_id):
     sensor = Sensor.objects.get(pk=sensor_id)
     data = {
@@ -180,6 +182,7 @@ def sensor_detail_ajax(request, sensor_id):
     return JsonResponse(data)
 
 
+# Функция для обновления данных датчика (мощности) через AJAX
 def update_sensor_power(request, sensor_id):
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         power = request.POST.get('power')
@@ -198,29 +201,56 @@ def update_sensor_power(request, sensor_id):
         return JsonResponse({'error': 'This endpoint only accepts AJAX requests'}, status=400)
 
 
+# Функция для потоковой передачи логов датчика
+# def stream_sensor_logs(request, sensor_id):
+#     if not sensor_id:
+#         return HttpResponseBadRequest("No sensor_id provided")
+#
+#     response = HttpResponse(content_type='text/event-stream')
+#     response['Cache-Control'] = 'no-cache'
+#     response['Connection'] = 'keep-alive'
+#
+#     def get_sensor_logs(sensor_id):
+#         logs = SensorLog.objects.filter(sensor_id=sensor_id).order_by('timestamp')
+#         data = [[log.timestamp.timestamp() * 1000, log.previous_watt] for log in logs]
+#         return data
+#
+#     def generate():
+#         while True:
+#             logs = get_sensor_logs(sensor_id)
+#             yield "data: %s\n\n" % json.dumps(logs)
+#             time.sleep(1)
+#
+#     response.streaming_content = generate()
+#     return response
+
+# Функция для потоковой передачи логов датчика
 def stream_sensor_logs(request, sensor_id):
     if not sensor_id:
         return HttpResponseBadRequest("No sensor_id provided")
 
-    response = HttpResponse(content_type='text/event-stream')
-    response['Cache-Control'] = 'no-cache'
-    response['Connection'] = 'keep-alive'
-
-    def get_sensor_logs(sensor_id):
-        logs = SensorLog.objects.filter(sensor_id=sensor_id).order_by('timestamp')
-        data = [[log.timestamp.timestamp() * 1000, log.previous_watt] for log in logs]
-        return data
-
-    def generate():
+    # Функция-генератор для получения логов датчика
+    def generate_logs(sensor_id):
         while True:
-            logs = get_sensor_logs(sensor_id)
-            yield "data: %s\n\n" % json.dumps(logs)
+            logs = SensorLog.objects.filter(sensor_id=sensor_id).order_by('timestamp')
+            for log in logs:
+                yield "data: %s\n\n" % json.dumps({
+                    'log_type': log.log_type,
+                    'timestamp': log.timestamp,
+                    'previous_power': log.previous_power,
+                    'previous_watt': log.previous_watt,
+                    'previous_volt': log.previous_volt
+                })
             time.sleep(1)
 
-    response.streaming_content = generate()
+    # Возвращаем потоковый HTTP-ответ
+    response = StreamingHttpResponse(generate_logs(sensor_id), content_type='text/event-stream')
+    response['Cache-Control'] = 'no-cache'
+    response['Connection'] = 'keep-alive'
     return response
 
 
+# Класс API для получения логов датчика
 class SensorLogsAPIView(View):
     def get(self, request, *args, **kwargs):
         sensor_id = self.kwargs['sensor_id']
@@ -229,6 +259,7 @@ class SensorLogsAPIView(View):
         return JsonResponse(data, safe=False)
 
 
+# Класс API для получения логов напряжения датчика
 class SensorLogsVoltAPIView(View):
     def get(self, request, *args, **kwargs):
         sensor_id = self.kwargs['sensor_id']
@@ -237,6 +268,7 @@ class SensorLogsVoltAPIView(View):
         return JsonResponse(data, safe=False)
 
 
+# Функция для поиска датчиков
 def search_sensors(request):
     query = request.GET.get('q')
 
@@ -253,94 +285,3 @@ def search_sensors(request):
         sensors = Sensor.objects.all()
 
     return render(request, 'sensor/search_results.html', {'sensors': sensors, 'query': query})
-
-
-@csrf_exempt  # Уберите эту декорацию на production сервере или используйте CSRF токены
-def add_sensor_data(request):
-    if request.method == 'POST':
-        # Получение данных из POST запроса
-        name = request.POST.get('name')
-        description = request.POST.get('description')
-        owner = request.POST.get('owner')
-        country = request.POST.get('country')
-        city = request.POST.get('city')
-        inclusions = request.POST.get('inclusions')
-        power = request.POST.get('power')
-        watt = request.POST.get('watt')
-        volt = request.POST.get('volt')
-        work = request.POST.get('work')
-        blocked = request.POST.get('blocked')
-        temperature = request.POST.get('temperature')
-        fan_speed = request.POST.get('fan_speed')
-
-        # Создание нового объекта Sensor и сохранение его в базе данных
-        sensor = Sensor.objects.create(
-            name=name,
-            description=description,
-            owner=owner,
-            inclusions=inclusions,
-            power=power,
-            watt=watt,
-            volt=volt,
-            work=work,
-            blocked=blocked,
-            temperature=temperature,
-            fan_speed=fan_speed
-        )
-        sensor.save()
-
-        # Возвращаем успешный ответ
-        return JsonResponse({'status': 'success'})
-    else:
-        # Если запрос не POST, возвращаем ошибку
-        return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
-
-
-logger = logging.getLogger(__name__)
-
-
-@csrf_exempt
-def upload_csv_data(request):
-    if request.method == 'POST':
-        csv_file = request.FILES.get('csv_file')
-        if csv_file:
-            try:
-                reader = csv.reader(csv_file)
-                for row in reader:
-                    sensor, created = Sensor.objects.get_or_create(
-                        name=row[0],
-                        defaults={
-                            'description': row[1],  # Описание
-                            'owner': row[2],  # Владелец
-                            'inclusions': int(row[3]),  # Количество включений
-                            'power': int(row[4]),  # Мощность
-                            'watt': int(row[5]),  # Потребление мощности
-                            'volt': int(row[6]),  # Электрическое напряжение
-                            'work': bool(int(row[7])),  # Онлайн
-                            'blocked': bool(int(row[8])),  # Заблокирован
-                            'temperature': float(row[9]),  # Температура
-                            'fan_speed': int(row[10])  # Скорость кулера
-                        }
-                    )
-                return JsonResponse({'status': 'success'})
-            except Exception as e:
-                logger.error("An error occurred while processing CSV file: %s", e)
-                return JsonResponse({'status': 'error', 'message': 'An error occurred while processing CSV file'})
-        else:
-            return JsonResponse({'status': 'error', 'message': 'No CSV file uploaded'})
-    else:
-        return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
-
-
-def csrf_token_input(request):
-    return render(request, 'csrf_token_input.html')
-
-
-def set_csrf_token(request):
-    if request.method == 'POST':
-        csrf_token = request.POST.get('csrf_token')
-        # Сохраняем CSRF токен, например, в сессии пользователя
-        request.session['csrf_token'] = csrf_token
-        return JsonResponse({'status': 'success'})
-    else:
-        return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
