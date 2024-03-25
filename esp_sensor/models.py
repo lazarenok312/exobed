@@ -35,7 +35,7 @@ class Sensor(models.Model):
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
     description = models.TextField('Описание', blank=True)
     owner = models.CharField("Владелец", max_length=100, blank=True)
-    date_added = models.DateTimeField('Дата добавления', default=timezone.now)
+    date_added = models.DateTimeField('Дата добавления', auto_now=True)
     country = models.ManyToManyField(Country, blank=True, verbose_name='Страна')
     city = models.ManyToManyField(City, blank=True, verbose_name='Город')
     inclusions = models.IntegerField("Количество включений", default=0)
@@ -72,13 +72,13 @@ class Sensor(models.Model):
             self.volt = 0
             self.temperature = 0
             self.fan_speed = 0
+
         super().save(*args, **kwargs)
 
         if self.pk:
             log_type = 'Изменение данных в базе'
             SensorLog.objects.create(sensor=self, log_type=log_type, previous_power=self.power,
                                      previous_watt=self.watt, previous_volt=self.volt)
-        super().save(*args, **kwargs)
 
 
 class SensorLog(models.Model):

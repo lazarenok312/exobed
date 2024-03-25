@@ -158,7 +158,7 @@
                                             {% endif %}
                                         </td>
                                         <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs font-weight-bold">{{ sensor.date_added | date:"Y/m/d H:i:s" }}</span>
+                                            <span class="text-secondary text-xs font-weight-bold">{{ sensor.last_updated | date:"Y/m/d H:i:s" }}</span>
                                         </td>
                                         {% if user.is_authenticated %}
                                             <td class="align-middle">

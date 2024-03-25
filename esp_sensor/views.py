@@ -10,17 +10,31 @@ import json
 import time
 from django.template.loader import render_to_string
 from django.http import StreamingHttpResponse
+from .data_generator import generate_random_data
 
+def some_view(request):
+    generate_random_data()
 
 # Класс для отображения списка датчиков
 class SensorListView(ListView):
     model = Sensor
     template_name = 'sensor/sensor_list.html'
     context_object_name = 'sensors'
-    paginate_by = 6
+    paginate_by = 8
 
     def get_queryset(self):
         return Sensor.objects.order_by('id')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        sensors = context['sensors']
+        for sensor in sensors:
+            latest_log = sensor.sensorlog_set.last()
+            if latest_log:
+                sensor.last_updated = latest_log.timestamp
+            else:
+                sensor.last_updated = sensor.date_added
+        return context
 
 
 # Класс для отображения подробной информации о датчике
@@ -68,7 +82,8 @@ class SensorDetailView(DetailView):
         self.add_recommendations_to_context(sensor, context)
 
         if logs.exists():
-            context['latest_log'] = logs.last()
+            context[
+                'latest_log'] = logs.first()  # Получить первую запись журнала, так как они уже отсортированы в порядке убывания
         else:
             context['latest_log'] = None
 
