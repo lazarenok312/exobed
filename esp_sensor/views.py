@@ -1,15 +1,13 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView
+from django.views.generic import View, ListView, DetailView, DeleteView
 from django.db.models import Q
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponse, HttpResponseBadRequest
-from django.urls import reverse
-from django.views.generic import View
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse, HttpResponseBadRequest, StreamingHttpResponse
+from django.urls import reverse, reverse_lazy
 from .models import Sensor, SensorLog
 from django.core.paginator import Paginator
 import json
 import time
 from django.template.loader import render_to_string
-from django.http import StreamingHttpResponse
 from .data_generator import generate_random_data
 
 def some_view(request):
@@ -83,7 +81,7 @@ class SensorDetailView(DetailView):
 
         if logs.exists():
             context[
-                'latest_log'] = logs.first()  # Получить первую запись журнала, так как они уже отсортированы в порядке убывания
+                'latest_log'] = logs.first()
         else:
             context['latest_log'] = None
 
@@ -161,6 +159,21 @@ class SensorDetailView(DetailView):
         data = [[log.timestamp.timestamp() * 1000, log.previous_watt] for log in logs]
         return data
 
+class SensorDeleteView(DeleteView):
+    model = Sensor
+    template_name = 'sensor/sensor_detail.html'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Sensor, pk=self.kwargs.get('pk'))
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
+
+    def get_success_url(self):
+        return reverse_lazy('sensor_list')
 
 # Функция для переключения состояния блокировки датчика
 def block_toggle(request, sensor_id):

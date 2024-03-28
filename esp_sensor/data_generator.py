@@ -2,15 +2,12 @@ import random
 import os
 import django
 import time
-import faker
 
-fake = faker.Faker()
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'exobed.settings')
 django.setup()
 from esp_sensor.models import Sensor
 
 def generate_random_data(sensor):
-    sensor.owner = fake.name()
     sensor.power = round(random.uniform(10, 90))
     sensor.watt = round(random.uniform(100, 900))
     sensor.volt = round(random.uniform(180, 230))
@@ -38,7 +35,7 @@ def main():
             print(f"Данные успешно сгенерированы для датчиков с {start_index + 1} по {end_index}")
             time.sleep(60)  # Подождать некоторое время перед обработкой следующего пакета
         print("Все данные успешно сгенерированы")
-        time.sleep(600)  # Подождать перед следующим циклом
+        time.sleep(300)  # Подождать перед следующим циклом
 
 if __name__ == "__main__":
     try:

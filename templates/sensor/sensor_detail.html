@@ -542,6 +542,31 @@
                         <span class="nav-link-text ms-1">{% if sensor.blocked %}Разблокировать{% else %}
                             Заблокировать{% endif %}</span>
                     </a>
+                    <a href="#" class="nav-link text-white active bg-gradient-danger" id="deleteSensorLink">
+                        <div class="text-white text-center d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">error</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Удалить датчик</span>
+                    </a>
+
+                    <div class="modal fade" id="deleteSensorModal" tabindex="-1" role="dialog"
+                         aria-labelledby="deleteSensorModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteSensorModalLabel">Подтверждение удаления</h5>
+                                </div>
+                                <div class="modal-body">
+                                    Вы уверены, что хотите удалить датчик?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Удалить</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 {% endif %}
             </ul>
         </div>
@@ -1018,5 +1043,37 @@
         }
     }
 </script>
+<script>
+    document.getElementById('deleteSensorLink').addEventListener('click', function (event) {
+        event.preventDefault();
+        $('#deleteSensorModal').modal('show');
+    });
 
+    document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+        var sensorId = {{ sensor.id }};
+        fetch(`/sensor/${sensorId}/delete/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            }
+        }).then(function (response) {
+            if (response.ok) {
+                window.location.href = '{{ success_url }}';
+            } else {
+                console.error('Ошибка удаления датчика:', response.status);
+            }
+        }).catch(function (error) {
+            console.error('Ошибка удаления датчика:', error);
+        });
+    });
+
+
+    $(document).mouseup(function(e) {
+        var container = $('#deleteSensorModal');
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            container.modal('hide');
+        }
+    });
+</script>
 </body>
