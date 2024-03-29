@@ -277,10 +277,11 @@
     .timer-label {
         font-size: 13px;
         margin-right: 5px;
+        text-align: center;
     }
 
     .timer-button {
-        width: 200px;
+        width: 180px;
         height: 40px;
         padding: 5px 10px;
         font-size: 16px;
@@ -624,7 +625,7 @@
                             </div>
                             {% if sensor.work %}
                                 <div class="col-sm-2">
-                                    <button class="power">
+                                    <button id="powerButton" class="power">
                                         <i class="material-icons">power</i>
                                         Power
                                     </button>
@@ -632,12 +633,12 @@
                                 <div class="col-sm-3">
                                     <div class="timer-container">
                                         <div>
-                                            <input type="number" id="minutes" class="timer-input">
-                                            <label for="minutes" class="timer-label">Минуты:</label>
+                                            <input type="number" id="minutesInput" class="timer-input">
+                                            <label for="minutesInput" class="timer-label">Минуты:</label>
                                         </div>
                                         <div>
-                                            <input type="number" id="seconds" class="timer-input">
-                                            <label for="seconds" class="timer-label">Секунды:</label>
+                                            <input type="number" id="secondsInput" class="timer-input">
+                                            <label for="secondsInput" class="timer-label">Секунды:</label>
                                         </div>
                                         <div>
                                             <button id="startTimer" class="timer-button" style="margin-bottom: 19px;">
@@ -808,7 +809,6 @@
 {% include 'include/script.html' %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-
 <script>
     function updateSensorInfo(sensorId) {
         $.ajax({
@@ -887,16 +887,62 @@
     }
 </script>
 
-<script>
-    const startTimerButton = document.getElementById('startTimer');
-    startTimerButton.addEventListener('click', () => {
-        const hours = parseInt(document.getElementById('hours').value);
-        const minutes = parseInt(document.getElementById('minutes').value);
-        const seconds = parseInt(document.getElementById('seconds').value);
-
-        const totalSeconds = hours * 3600 + minutes * 60 + seconds;
-    });
-</script>
+{#<script>#}
+{#    let timerInterval;#}
+{#    const startTimerButton = document.getElementById('startTimer');#}
+{#    const powerButton = document.getElementById('powerButton');#}
+{##}
+{#    startTimerButton.addEventListener('click', () => {#}
+{#        const minutes = parseInt(document.getElementById('minutesInput').value);#}
+{#        const seconds = parseInt(document.getElementById('secondsInput').value);#}
+{##}
+{#        const totalSeconds = minutes * 60 + seconds;#}
+{##}
+{#        if (totalSeconds <= 0 || totalSeconds > 1200) { // Проверка на допустимый диапазон времени (20 минут = 1200 секунд)#}
+{#            alert('Пожалуйста, введите время от 1 до 20 минут');#}
+{#            return;#}
+{#        }#}
+{##}
+{#        startTimer(totalSeconds);#}
+{#    });#}
+{##}
+{#    function startTimer(totalSeconds) {#}
+{#        let remainingSeconds = totalSeconds;#}
+{##}
+{#        timerInterval = setInterval(() => {#}
+{#            remainingSeconds--;#}
+{#            updateTimerDisplay(remainingSeconds);#}
+{##}
+{#            if (remainingSeconds <= 0) {#}
+{#                clearInterval(timerInterval);#}
+{#                startTimerButton.innerText = 'Старт'; // Меняем текст кнопки обратно на "Старт"#}
+{#                startTimerButton.disabled = false; // Разблокируем кнопку#}
+{#                powerButton.disabled = false; // Разблокируем кнопку питания#}
+{#                document.getElementById('minutesInput').value = ''; // Сбрасываем значения полей ввода#}
+{#                document.getElementById('secondsInput').value = '';#}
+{#            }#}
+{#        }, 1000);#}
+{##}
+{#        updateTimerDisplay(remainingSeconds); // Вызываем сразу после установки интервала, чтобы показать начальное время#}
+{##}
+{#        startTimerButton.innerText = 'Стоп'; // Меняем текст кнопки на "Стоп"#}
+{#        startTimerButton.disabled = true; // Блокируем кнопку, чтобы избежать множественных запусков таймера#}
+{#        powerButton.disabled = true; // Блокируем кнопку питания во время работы таймера#}
+{#    }#}
+{##}
+{#    function updateTimerDisplay(totalSeconds) {#}
+{#        const minutes = Math.floor(totalSeconds / 60);#}
+{#        const seconds = totalSeconds % 60;#}
+{##}
+{#        document.getElementById('minutesInput').value = String(minutes).padStart(2, '0');#}
+{#        document.getElementById('secondsInput').value = String(seconds).padStart(2, '0');#}
+{#    }#}
+{##}
+{#    powerButton.addEventListener('click', () => {#}
+{#        // Обработчик для кнопки питания, можно добавить соответствующую функциональность#}
+{#        alert('Button clicked!');#}
+{#    });#}
+{#</script>#}
 
 <script>
     $(document).ready(function () {
@@ -930,7 +976,6 @@
         });
     });
 </script>
-
 <script>
     $(document).ready(function () {
         // Обработчик изменения ползунка
@@ -1069,7 +1114,7 @@
     });
 
 
-    $(document).mouseup(function(e) {
+    $(document).mouseup(function (e) {
         var container = $('#deleteSensorModal');
         if (!container.is(e.target) && container.has(e.target).length === 0) {
             container.modal('hide');
