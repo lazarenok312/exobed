@@ -678,12 +678,19 @@
                         <div class="icon icon-lg icon-shape bg-gradient-info shadow-primary text-center border-radius-xl mt-n4 position-absolute">
                             <i class="material-icons opacity-10">border_color</i>
                         </div>
-                        <div class="icon icon-lg icon-shape bg-gradient-info shadow-primary text-center border-radius-xl mt-n4 position-absolute"
-                             style="left: 90px;">
-                            <a href="{% url 'download_logs' device_slug=sensor.slug %}" title="Скачать логи">
-                                <i class="material-icons opacity-10">download</i>
-                            </a>
-                        </div>
+                        <form action="{% url 'download_logs' device_slug=sensor.slug %}" method="GET">
+                            <div class="icon icon-lg icon-shape bg-gradient-info shadow-primary text-center border-radius-xl mt-n4 position-absolute"
+                                 style="left: 90px; width: 130px">
+                                <input type="date" name="start_date" class="form-control form-control-sm">
+                                <input type="date" name="end_date" class="form-control form-control-sm">
+                            </div>
+
+                            <button type="submit" title="Скачать логи"
+                                    class="icon icon-lg icon-shape bg-gradient-info shadow-primary text-center border-radius-xl mt-n4 position-absolute"
+                                    style="left: 230px; border: 0;">
+                                <i class="material-icons opacity-10" style="top: 2">download</i>
+                            </button>
+                        </form>
                         <div class="text-end pt-1">
                             <p class="text-sm mb-0 text-capitalize">Логирование</p>
                         </div>
@@ -808,7 +815,7 @@
 {% include 'include/setting.html' %}
 {% include 'include/script.html' %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
 <script>
     function updateSensorInfo(sensorId) {
         $.ajax({
@@ -886,63 +893,6 @@
         }
     }
 </script>
-
-{#<script>#}
-{#    let timerInterval;#}
-{#    const startTimerButton = document.getElementById('startTimer');#}
-{#    const powerButton = document.getElementById('powerButton');#}
-{##}
-{#    startTimerButton.addEventListener('click', () => {#}
-{#        const minutes = parseInt(document.getElementById('minutesInput').value);#}
-{#        const seconds = parseInt(document.getElementById('secondsInput').value);#}
-{##}
-{#        const totalSeconds = minutes * 60 + seconds;#}
-{##}
-{#        if (totalSeconds <= 0 || totalSeconds > 1200) { // Проверка на допустимый диапазон времени (20 минут = 1200 секунд)#}
-{#            alert('Пожалуйста, введите время от 1 до 20 минут');#}
-{#            return;#}
-{#        }#}
-{##}
-{#        startTimer(totalSeconds);#}
-{#    });#}
-{##}
-{#    function startTimer(totalSeconds) {#}
-{#        let remainingSeconds = totalSeconds;#}
-{##}
-{#        timerInterval = setInterval(() => {#}
-{#            remainingSeconds--;#}
-{#            updateTimerDisplay(remainingSeconds);#}
-{##}
-{#            if (remainingSeconds <= 0) {#}
-{#                clearInterval(timerInterval);#}
-{#                startTimerButton.innerText = 'Старт'; // Меняем текст кнопки обратно на "Старт"#}
-{#                startTimerButton.disabled = false; // Разблокируем кнопку#}
-{#                powerButton.disabled = false; // Разблокируем кнопку питания#}
-{#                document.getElementById('minutesInput').value = ''; // Сбрасываем значения полей ввода#}
-{#                document.getElementById('secondsInput').value = '';#}
-{#            }#}
-{#        }, 1000);#}
-{##}
-{#        updateTimerDisplay(remainingSeconds); // Вызываем сразу после установки интервала, чтобы показать начальное время#}
-{##}
-{#        startTimerButton.innerText = 'Стоп'; // Меняем текст кнопки на "Стоп"#}
-{#        startTimerButton.disabled = true; // Блокируем кнопку, чтобы избежать множественных запусков таймера#}
-{#        powerButton.disabled = true; // Блокируем кнопку питания во время работы таймера#}
-{#    }#}
-{##}
-{#    function updateTimerDisplay(totalSeconds) {#}
-{#        const minutes = Math.floor(totalSeconds / 60);#}
-{#        const seconds = totalSeconds % 60;#}
-{##}
-{#        document.getElementById('minutesInput').value = String(minutes).padStart(2, '0');#}
-{#        document.getElementById('secondsInput').value = String(seconds).padStart(2, '0');#}
-{#    }#}
-{##}
-{#    powerButton.addEventListener('click', () => {#}
-{#        // Обработчик для кнопки питания, можно добавить соответствующую функциональность#}
-{#        alert('Button clicked!');#}
-{#    });#}
-{#</script>#}
 
 <script>
     $(document).ready(function () {

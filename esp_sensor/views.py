@@ -9,7 +9,7 @@ import json
 import time
 from django.template.loader import render_to_string
 from .data_generator import generate_random_data
-
+from datetime import datetime
 def some_view(request):
     generate_random_data()
 
@@ -189,7 +189,16 @@ def block_toggle(request, sensor_id):
 def download_logs(request, device_slug):
     sensor = get_object_or_404(Sensor, slug=device_slug)
 
+    start_date_str = request.GET.get('start_date')
+    end_date_str = request.GET.get('end_date')
+
+    start_date = datetime.strptime(start_date_str, '%Y-%m-%d') if start_date_str else None
+    end_date = datetime.strptime(end_date_str, '%Y-%m-%d') if end_date_str else None
+
     logs = SensorLog.objects.filter(sensor=sensor)
+    if start_date and end_date:
+        logs = logs.filter(timestamp__range=(start_date, end_date))
+
     csv_data = render_to_string('logs/csv_template.txt', {'logs': logs})
     filename = f'{sensor.name}_logs.csv'
 
@@ -268,7 +277,6 @@ class SensorLogsAPIView(View):
         data = [[log.timestamp.timestamp() * 1000, log.previous_watt] for log in logs]
         return JsonResponse(data, safe=False)
 
-
 # Класс API для получения логов напряжения датчика
 class SensorLogsVoltAPIView(View):
     def get(self, request, *args, **kwargs):
@@ -276,7 +284,6 @@ class SensorLogsVoltAPIView(View):
         logs = SensorLog.objects.filter(sensor_id=sensor_id).order_by('timestamp')
         data = [[log.timestamp.timestamp() * 1000, log.previous_volt] for log in logs]
         return JsonResponse(data, safe=False)
-
 
 # Функция для поиска датчиков
 def search_sensors(request):
