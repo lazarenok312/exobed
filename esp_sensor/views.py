@@ -10,8 +10,13 @@ import time
 from django.template.loader import render_to_string
 from .data_generator import generate_random_data
 from datetime import datetime
+from django.views.decorators.csrf import csrf_exempt
+from django.middleware.csrf import get_token
+
+
 def some_view(request):
     generate_random_data()
+
 
 # Класс для отображения списка датчиков
 class SensorListView(ListView):
@@ -159,6 +164,7 @@ class SensorDetailView(DetailView):
         data = [[log.timestamp.timestamp() * 1000, log.previous_watt] for log in logs]
         return data
 
+
 class SensorDeleteView(DeleteView):
     model = Sensor
     template_name = 'sensor/sensor_detail.html'
@@ -174,6 +180,7 @@ class SensorDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('sensor_list')
+
 
 # Функция для переключения состояния блокировки датчика
 def block_toggle(request, sensor_id):
@@ -277,6 +284,7 @@ class SensorLogsAPIView(View):
         data = [[log.timestamp.timestamp() * 1000, log.previous_watt] for log in logs]
         return JsonResponse(data, safe=False)
 
+
 # Класс API для получения логов напряжения датчика
 class SensorLogsVoltAPIView(View):
     def get(self, request, *args, **kwargs):
@@ -284,6 +292,7 @@ class SensorLogsVoltAPIView(View):
         logs = SensorLog.objects.filter(sensor_id=sensor_id).order_by('timestamp')
         data = [[log.timestamp.timestamp() * 1000, log.previous_volt] for log in logs]
         return JsonResponse(data, safe=False)
+
 
 # Функция для поиска датчиков
 def search_sensors(request):
@@ -302,3 +311,45 @@ def search_sensors(request):
         sensors = Sensor.objects.all()
 
     return render(request, 'sensor/search_results.html', {'sensors': sensors, 'query': query})
+
+
+@csrf_exempt
+def receive_data(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            name = data.get('name', '')
+            temperature = data.get('temperature', 0.0)
+            humidity = data.get('humidity', 0.0)
+            inclusions = data.get('inclusions', 0)
+            power = data.get('power', 0)
+            watt = data.get('watt', 0)
+            volt = data.get('volt', 0)
+            work = data.get('work', False)
+            blocked = data.get('blocked', False)
+            fan_speed = data.get('fan_speed', 0)
+
+            sensor, created = Sensor.objects.get_or_create(name=name)
+
+            sensor.temperature = temperature
+            sensor.humidity = humidity
+            sensor.inclusions = inclusions
+            sensor.power = power
+            sensor.watt = watt
+            sensor.volt = volt
+            sensor.work = work
+            sensor.blocked = blocked
+            sensor.fan_speed = fan_speed
+
+            sensor.save()
+
+            return HttpResponse('OK')
+        except Exception as e:
+            return HttpResponse(f'Ошибка при обработке данных: {e}', status=500)
+
+    return HttpResponse('Метод не разрешен')
+
+
+def get_csrf_token(request):
+    csrf_token = get_token(request)
+    return JsonResponse({'csrf_token': csrf_token})

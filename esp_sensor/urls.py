@@ -15,4 +15,6 @@ urlpatterns = [
     path('sensor-detail-ajax/<int:sensor_id>/', sensor_detail_ajax, name='sensor_detail_ajax'),
     path('sensor/<int:pk>/', SensorDetailView.as_view(), name='sensor_detail'),
     path('sensor/<int:pk>/delete/', SensorDeleteView.as_view(), name='sensor_delete'),
+    path('api/data/', views.receive_data, name='receive_data'),
+    path('get_csrf_token/', get_csrf_token, name='get_csrf_token'),
 ]

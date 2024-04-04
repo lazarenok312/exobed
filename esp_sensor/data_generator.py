@@ -7,6 +7,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'exobed.settings')
 django.setup()
 from esp_sensor.models import Sensor
 
+
 def generate_random_data(sensor):
     sensor.power = round(random.uniform(10, 90))
     sensor.watt = round(random.uniform(100, 900))
@@ -15,15 +16,18 @@ def generate_random_data(sensor):
     sensor.fan_speed = round(random.uniform(100, 2000))
     sensor.save()
 
+
 def create_or_get_sensor(sensor_name):
     sensor, created = Sensor.objects.get_or_create(name=sensor_name, defaults={'slug': sensor_name})
     return sensor
 
+
 def generate_data_for_batch(start_index, end_index):
     for i in range(start_index, end_index):
-        sensor_name = f"Sensor_{i+1}"
+        sensor_name = f"Sensor_{i + 1}"
         sensor = create_or_get_sensor(sensor_name)
         generate_random_data(sensor)
+
 
 def main():
     while True:
@@ -36,6 +40,7 @@ def main():
             time.sleep(60)  # Подождать некоторое время перед обработкой следующего пакета
         print("Все данные успешно сгенерированы")
         time.sleep(300)  # Подождать перед следующим циклом
+
 
 if __name__ == "__main__":
     try:
