@@ -412,47 +412,49 @@
                                     {% endif %}
 
                                     {% if users %}
-    {% for user in users %}
-        {% if user.is_staff %}
-            {% ifchanged %}
-                <div class="support-heading">
-                    Поддержка
-                </div>
-            {% endifchanged %}
-        {% elif user.is_authenticated %}
-            {% ifchanged %}
-                <div class="user-heading">
-                    Все пользователи
-                </div>
-            {% endifchanged %}
-        {% endif %}
-        <a href="{% url 'chat' request.user.id user.id %}" class="collection-item row">
-            <div class="friend-drawer friend-drawer--onhover">
-                <img class="profile-image" src="{% static 'img/default.png' %}" alt="">
-                <div class="text">
-                    <h6>{{ user.username }}</h6>
-                    {% if user.latest_message %}
-                        <p>{{ user.latest_message.message |truncatechars_html:30 |safe|striptags }}</p>
-                    {% else %}
-                        <p>Сообщений нет!</p>
-                    {% endif %}
-                </div>
-                <div class="pt-1">
-                    {% if user.latest_message %}
-                        <span class="time text-muted small">{{ user.latest_message.timestamp|date:"d.m H:i" }}</span>
-                    {% endif %}
-                    {% if user.not_read_count %}
-                        <span class="badge bg-danger rounded-pill float-end">{{ user.not_read_count }}</span>
-                    {% else %}
-                        <span class="badge bg-success rounded-pill float-end">{{ user.not_read_count }}</span>
-                    {% endif %}
-                </div>
-            </div>
-        </a>
-    {% endfor %}
-{% else %}
-    <p>Нет пользователей.</p>
-{% endif %}
+                                        {% for user in users %}
+                                            {% if user.is_staff %}
+                                                {% ifchanged %}
+                                                    <div class="support-heading">
+                                                        Поддержка
+                                                    </div>
+                                                {% endifchanged %}
+                                            {% elif user.is_authenticated %}
+                                                {% ifchanged %}
+                                                    <div class="user-heading">
+                                                        Все пользователи
+                                                    </div>
+                                                {% endifchanged %}
+                                            {% endif %}
+                                            <a href="{% url 'chat' request.user.id user.id %}"
+                                               class="collection-item row">
+                                                <div class="friend-drawer friend-drawer--onhover">
+                                                    <img class="profile-image" src="{% static 'img/default.png' %}"
+                                                         alt="">
+                                                    <div class="text">
+                                                        <h6>{{ user.username }}</h6>
+                                                        {% if user.latest_message %}
+                                                            <p>{{ user.latest_message.message |truncatechars_html:30 |safe|striptags }}</p>
+                                                        {% else %}
+                                                            <p>Сообщений нет!</p>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="pt-1">
+                                                        {% if user.latest_message %}
+                                                            <span class="time text-muted small">{{ user.latest_message.timestamp|date:"d.m H:i" }}</span>
+                                                        {% endif %}
+                                                        {% if user.not_read_count %}
+                                                            <span class="badge bg-danger rounded-pill float-end">{{ user.not_read_count }}</span>
+                                                        {% else %}
+                                                            <span class="badge bg-success rounded-pill float-end">{{ user.not_read_count }}</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p>Нет пользователей.</p>
+                                    {% endif %}
 
                                 </div>
                                 <div class="col s9">
@@ -472,9 +474,9 @@
                                             </div>
                                         </div>
                                         <div id="board" class="section grey lighten-3"
-                                             style="height: 45vh; overflow-y: scroll">
+                                             style="height: 45vh; overflow-y: scroll" data-sender="{{ sender.id }}"
+                                             data-receiver="{{ receiver.id }}">
                                             {% block messages %}
-
                                             {% endblock %}
                                         </div>
                                         <div class="row">
@@ -578,6 +580,21 @@
         $("#searchInput").on("input", function () {
             filterUsers();
         });
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function updateChat() {
+        var senderId = $('#board').data('sender');
+        var receiverId = $('#board').data('receiver');
+        $.get('/api/messages/' + senderId + '/' + receiverId + '/', function (data) {
+            $('#board').html(data);
+        });
+    }
+
+    $(document).ready(function () {
+        updateChat(); // Обновляем чат при загрузке страницы
+        setInterval(updateChat, 5000); // Обновляем чат каждые 5 секунд (или другой интервал)
     });
 </script>
 </body>

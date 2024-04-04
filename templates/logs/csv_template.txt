@@ -1,4 +1,4 @@
-"Log Type","Timestamp","Previous Power","Previous Watt","Previous Volt"
+"Тип"|"Время"|"Мощность"|"Ватт"|"Вольт"
 {% for log in logs %}
-"{{ log.log_type }}","{{ log.timestamp }}","{{ log.previous_power }}","{{ log.previous_watt }}","{{ log.previous_volt }}"
+"{{ log.log_type }}","{{ log.timestamp }}","{{ log.previous_power }}%","{{ log.previous_watt }}W","{{ log.previous_volt }}V"
 {% endfor %}

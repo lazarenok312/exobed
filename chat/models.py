@@ -8,6 +8,7 @@ class Message(models.Model):
     message = models.CharField(max_length=1200, verbose_name='Сообщение')
     timestamp = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
+    file = models.FileField(upload_to='uploads/', blank=True, null=True)
 
     def __str__(self):
         return self.message

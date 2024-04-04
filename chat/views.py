@@ -1,11 +1,11 @@
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.http.response import JsonResponse, HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.http.response import JsonResponse
+from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from chat.models import Message
-from chat.serializers import MessageSerializer, UserSerializer
+from chat.serializers import MessageSerializer
 
 
 @csrf_exempt
@@ -61,6 +61,7 @@ def chat_view(request):
             'user_displayed': user_displayed,
         }
         return render(request, 'chat/chat.html', context)
+
 
 def message_view(request, sender, receiver):
     if request.method == "GET":
