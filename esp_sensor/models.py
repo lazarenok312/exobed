@@ -2,6 +2,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils.text import slugify
 
 
 class Country(models.Model):
@@ -66,6 +67,9 @@ class Sensor(models.Model):
     def save(self, *args, **kwargs):
         if self.blocked:
             self.work = False
+
+        if not self.slug:
+            self.slug = slugify(self.name)
 
         if not self.work:
             self.watt = 0
