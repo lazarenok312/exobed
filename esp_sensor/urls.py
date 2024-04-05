@@ -11,6 +11,7 @@ urlpatterns = [
     path('search/', views.search_sensors, name='search_sensors'),
     path('update_sensor_power/<int:sensor_id>/', views.update_sensor_power, name='update_sensor_power'),
     path('block_toggle/<int:sensor_id>/', views.block_toggle, name='block_toggle'),
+    path('toggle_start/<int:sensor_id>/', views.toggle_start, name='toggle_start'),
     path('download-logs/<slug:device_slug>/', views.download_logs, name='download_logs'),
     path('sensor-detail-ajax/<int:sensor_id>/', sensor_detail_ajax, name='sensor_detail_ajax'),
     path('sensor/<int:pk>/', SensorDetailView.as_view(), name='sensor_detail'),

@@ -48,6 +48,7 @@ class Sensor(models.Model):
     volt = models.IntegerField("Электрическое напряжение", default=0)
     work = models.BooleanField('Онлайн', default=True)
     blocked = models.BooleanField('Заблокирован', default=False)
+    start = models.BooleanField('Старт', default=False)
     temperature = models.FloatField('Температура', default=0)
     fan_speed = models.IntegerField('Скорость кулера', default=0)
 

@@ -191,6 +191,17 @@ def block_toggle(request, sensor_id):
         'home')
     return HttpResponseRedirect(redirect_url)
 
+def toggle_start(request, sensor_id):
+    try:
+        sensor = Sensor.objects.get(pk=sensor_id)
+        sensor.start = not sensor.start
+        sensor.save()
+        redirect_url = request.META.get('HTTP_REFERER') or reverse(
+            'home')
+        return HttpResponseRedirect(redirect_url)
+    except Sensor.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Sensor not found'})
+
 
 # Функция для загрузки логов датчика в формате CSV
 def download_logs(request, device_slug):

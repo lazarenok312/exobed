@@ -292,7 +292,7 @@
         cursor: pointer;
     }
 
-    .power {
+    .start {
         width: 200px;
         height: 40px;
         font-size: 24px;
@@ -305,16 +305,26 @@
         position: relative;
         overflow: hidden;
         -webkit-appearance: none;
-        background-color: #e94744;
-        color: white;
         border: none;
         border-radius: 5px;
     }
 
-    @media (min-width: 576px) and (max-width: 1485px) {
-        .power {
-            margin-left: 60px;
-        }
+    .start.stop {
+        background-color: red;
+    }
+
+    .start:not(.stop) {
+        background-color: #439f47;
+    }
+
+    .start > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .start > div > i {
+        margin-right: 5px;
     }
 
     @media (min-width: 1000px) and (max-width: 1485px) {
@@ -625,10 +635,14 @@
                             </div>
                             {% if sensor.work %}
                                 <div class="col-sm-2">
-                                    <button id="powerButton" class="power">
-                                        <i class="material-icons">power</i>
-                                        Power
-                                    </button>
+                                    <a class="nav-link text-white start {% if sensor.start %}stop{% endif %}"
+                                       href="{% url 'toggle_start' sensor_id=sensor.id %}">
+                                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                            <i class="material-icons opacity-10">{% if sensor.start %}power_on{% else %}
+                                                power_off{% endif %}</i>
+                                            <span>{% if sensor.start %}Стоп{% else %}Старт{% endif %}</span>
+                                        </div>
+                                    </a>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="timer-container">
@@ -835,7 +849,7 @@
         updateSensorInfo(sensorId);
         setInterval(function () {
             updateSensorInfo(sensorId);
-        }, 5000);
+        }, 10000);
     });
 
     function updateTemperature(temperature) {
