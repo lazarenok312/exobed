@@ -12,7 +12,7 @@ from .data_generator import generate_random_data
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import get_token
-
+import requests
 
 def some_view(request):
     generate_random_data()
@@ -181,7 +181,6 @@ class SensorDeleteView(DeleteView):
     def get_success_url(self):
         return reverse_lazy('sensor_list')
 
-
 # Функция для переключения состояния блокировки датчика
 def block_toggle(request, sensor_id):
     sensor = get_object_or_404(Sensor, pk=sensor_id)
@@ -196,9 +195,26 @@ def toggle_start(request, sensor_id):
         sensor = Sensor.objects.get(pk=sensor_id)
         sensor.start = not sensor.start
         sensor.save()
-        redirect_url = request.META.get('HTTP_REFERER') or reverse(
-            'home')
-        return HttpResponseRedirect(redirect_url)
+
+        # Определите IP-адрес и порт вашего устройства ESP8266
+        esp8266_ip = "192.168.4.1"  # Пример IP-адреса
+        esp8266_port = 80  # Пример порта
+
+        # Определите путь к обработчику на вашем устройстве ESP8266
+        esp8266_endpoint = "/toggle_lamp"
+
+        # Формируем URL-адрес запроса к устройству ESP8266
+        url = f"http://{esp8266_ip}:{esp8266_port}{esp8266_endpoint}"
+
+        # Отправляем запрос на устройство ESP8266
+        response = requests.post(url)
+
+        # Проверяем статус ответа от устройства ESP8266
+        if response.status_code == 200:
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Failed to toggle lamp on ESP8266'})
+
     except Sensor.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Sensor not found'})
 

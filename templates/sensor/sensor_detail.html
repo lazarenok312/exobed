@@ -1066,7 +1066,7 @@
             }
         }).then(function (response) {
             if (response.ok) {
-                window.location.href = '{{ success_url }}';
+                window.location.href = "{% url 'sensor_list' %}";
             } else {
                 console.error('Ошибка удаления датчика:', response.status);
             }
@@ -1074,7 +1074,6 @@
             console.error('Ошибка удаления датчика:', error);
         });
     });
-
 
     $(document).mouseup(function (e) {
         var container = $('#deleteSensorModal');
