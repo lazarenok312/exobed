@@ -210,10 +210,11 @@ def toggle_start(request, sensor_id):
         response = requests.post(url)
 
         # Проверяем статус ответа от устройства ESP8266
-        if response.status_code == 200:
-            return JsonResponse({'status': 'success'})
-        else:
-            return JsonResponse({'status': 'error', 'message': 'Failed to toggle lamp on ESP8266'})
+        response.raise_for_status()
+
+        return JsonResponse({'status': 'success'})
+    except (Sensor.DoesNotExist, requests.RequestException) as e:
+        return JsonResponse({'status': 'error', 'message': str(e)})
 
     except Sensor.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Sensor not found'})
