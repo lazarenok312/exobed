@@ -8,14 +8,10 @@ from django.core.paginator import Paginator
 import json
 import time
 from django.template.loader import render_to_string
-from .data_generator import generate_random_data
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import get_token
 import requests
-
-def some_view(request):
-    generate_random_data()
 
 
 # Класс для отображения списка датчиков
@@ -26,7 +22,9 @@ class SensorListView(ListView):
     paginate_by = 8
 
     def get_queryset(self):
-        return Sensor.objects.order_by('id')
+        queryset = super().get_queryset()
+        queryset = queryset.order_by('name', 'owner', '-blocked', '-date_added')
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -181,6 +179,7 @@ class SensorDeleteView(DeleteView):
     def get_success_url(self):
         return reverse_lazy('sensor_list')
 
+
 # Функция для переключения состояния блокировки датчика
 def block_toggle(request, sensor_id):
     sensor = get_object_or_404(Sensor, pk=sensor_id)
@@ -189,6 +188,7 @@ def block_toggle(request, sensor_id):
     redirect_url = request.META.get('HTTP_REFERER') or reverse(
         'home')
     return HttpResponseRedirect(redirect_url)
+
 
 def toggle_start(request, sensor_id):
     try:
