@@ -445,6 +445,30 @@
     .spin-animation {
         animation: spin 2s linear infinite;
     }
+
+    .demo {
+        max-height: 100px;
+    }
+
+    .parent {
+        overflow: auto;
+        transform: scaleX(-1);
+    }
+
+    .sleeve {
+        transform: scaleX(-1);
+    }
+
+    .parent2 {
+        unicode-bidi: bidi-override;
+        direction: rtl;
+        overflow: scroll;
+        overflow-x: hidden !important;
+    }
+
+    .sleeve2 {
+        direction: ltr;
+    }
 </style>
 <title>Датчик {{ sensor.name }}</title>
 <body class="g-sidenav-show  bg-gray-200">
@@ -687,7 +711,7 @@
                 {% include 'charts/voltage.html' %}
             </div>
             <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
-                <div class="card" style="height: 280px; margin-right: 10px;">
+                <div class="card" style="height: 100%">
                     <div class="card-header p-3 pt-2">
                         <div class="icon icon-lg icon-shape bg-gradient-info shadow-primary text-center border-radius-xl mt-n4 position-absolute">
                             <i class="material-icons opacity-10">border_color</i>
@@ -709,7 +733,8 @@
                             <p class="text-sm mb-0 text-capitalize">Логирование</p>
                         </div>
                     </div>
-                    <div class="card-footer p-3" id="myDiv" style="overflow-y: scroll; width: 100%; height: 290px">
+                    <div class="card-footer p-3 parent2  sleeve2  " id="myDiv"
+                         style="overflow-y: scroll; height: 290px;">
                         <div id="logs-container">
                             {% for log in logs %}
                                 <li>{{ log.log_type }} - {{ log.timestamp }}</li>
@@ -784,7 +809,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mt-4 d-flex" style="width: 390px;">
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mt-4 d-flex">
                 <div class="card flex-grow-1">
                     <div class="block-title">
                         <h4>Предупреждения</h4>
@@ -814,6 +839,19 @@
             </div>
         </div>
         <div class="row mt-4">
+            <div>
+                <div class="card" style="overflow: hidden;">
+                    <div class="block-title">
+                        <h4>Местоположение</h4>
+                    </div>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1929.0934648516875!2d74.63813907565734!3d42.87372287142946!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x389eb7a87341cc87%3A0x418f25e02c1d0649!2z0JrQoNCh0KM!5e0!3m2!1sru!2skg!4v1712504777277!5m2!1sru!2skg"
+                            width="100%" height="400" style="border:0; margin: 1px" allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
             {% include 'charts/power-chart.html' %}
         </div>
         <div class="row mt-4">
@@ -826,9 +864,42 @@
         </div>
 </main>
 
-{% include 'include/setting.html' %}
+{#{% include 'include/setting.html' %}#}
 {% include 'include/script.html' %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const startButton = document.getElementById('startButton');
+        const sensorId = startButton.dataset.sensorId;
+
+        startButton.addEventListener('click', function () {
+            const action = startButton.dataset.action;
+            const url = `/toggle_start/${sensorId}/`;
+
+            fetch(url, {method: 'GET'}) // Отправить GET-запрос для включения диода
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    // Обработка ответа
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        const stopButton = document.getElementById('stopButton');
+        stopButton.addEventListener('click', function () {
+            const action = stopButton.dataset.action;
+            const url = `/toggle_start/${sensorId}/`;
+
+            fetch(url, {method: 'POST'}) // Отправить POST-запрос для выключения диода
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    // Обработка ответа
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    });
+</script>
 <script>
     function updateSensorInfo(sensorId) {
         $.ajax({

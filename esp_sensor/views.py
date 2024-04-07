@@ -11,7 +11,6 @@ from django.template.loader import render_to_string
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import get_token
-import requests
 
 
 # Класс для отображения списка датчиков
@@ -190,34 +189,20 @@ def block_toggle(request, sensor_id):
     return HttpResponseRedirect(redirect_url)
 
 
+@csrf_exempt
 def toggle_start(request, sensor_id):
-    try:
-        sensor = Sensor.objects.get(pk=sensor_id)
-        sensor.start = not sensor.start
-        sensor.save()
+    if request.method == 'POST':
+        data = request.body.decode('utf-8')
+        action = json.loads(data)['action']
 
-        # Определите IP-адрес и порт вашего устройства ESP8266
-        esp8266_ip = "192.168.4.1"  # Пример IP-адреса
-        esp8266_port = 80  # Пример порта
+        if action == 'start':
 
-        # Определите путь к обработчику на вашем устройстве ESP8266
-        esp8266_endpoint = "/toggle_lamp"
+            return HttpResponse('OK')
+        elif action == 'stop':
 
-        # Формируем URL-адрес запроса к устройству ESP8266
-        url = f"http://{esp8266_ip}:{esp8266_port}{esp8266_endpoint}"
+            return HttpResponse('OK')
 
-        # Отправляем запрос на устройство ESP8266
-        response = requests.post(url)
-
-        # Проверяем статус ответа от устройства ESP8266
-        response.raise_for_status()
-
-        return JsonResponse({'status': 'success'})
-    except (Sensor.DoesNotExist, requests.RequestException) as e:
-        return JsonResponse({'status': 'error', 'message': str(e)})
-
-    except Sensor.DoesNotExist:
-        return JsonResponse({'status': 'error', 'message': 'Sensor not found'})
+    return HttpResponse('Bad Request')
 
 
 # Функция для загрузки логов датчика в формате CSV
