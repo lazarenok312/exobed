@@ -182,7 +182,7 @@ class SensorDeleteView(DeleteView):
 
 def send_command_to_esp8266(sensor_id, action):
     sensor = Sensor.objects.get(pk=sensor_id)
-    esp_ip = sensor.ip_address  # Замените на ваш способ получения IP-адреса ESP8266
+    esp_ip = sensor.ip_address
     url = f"http://{esp_ip}/control/"
     data = {'action': action}
     response = requests.post(url, json=data)
@@ -192,17 +192,15 @@ def send_command_to_esp8266(sensor_id, action):
         return False
 
 
-# Функция для обработки нажатия кнопки "Заблокировать/Разблокировать"
 def block_toggle(request, sensor_id):
     sensor = get_object_or_404(Sensor, pk=sensor_id)
     sensor.blocked = not sensor.blocked
     sensor.save()
 
-    # Отправка команды на устройство ESP8266
     if sensor.blocked:
-        action = 'stop'  # Команда для остановки передачи данных
+        action = 'stop'
     else:
-        action = 'start'  # Команда для продолжения передачи данных
+        action = 'start'
     send_command_to_esp8266(sensor_id, action)
 
     redirect_url = request.META.get('HTTP_REFERER') or reverse('home')
@@ -361,9 +359,9 @@ def receive_data(request):
             work = data.get('work', False)
             blocked = data.get('blocked', False)
             fan_speed = data.get('fan_speed', 0)
+            ip_address = data.get('ip_address', '')
 
             sensor, created = Sensor.objects.get_or_create(name=name)
-
             sensor.temperature = temperature
             sensor.humidity = humidity
             sensor.inclusions = inclusions
@@ -373,7 +371,7 @@ def receive_data(request):
             sensor.work = work
             sensor.blocked = blocked
             sensor.fan_speed = fan_speed
-
+            sensor.ip_address = ip_address
             sensor.save()
 
             return HttpResponse('OK')
