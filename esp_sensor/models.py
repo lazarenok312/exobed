@@ -51,6 +51,7 @@ class Sensor(models.Model):
     start = models.BooleanField('Старт', default=False)
     temperature = models.FloatField('Температура', default=0)
     fan_speed = models.IntegerField('Скорость кулера', default=0)
+    ip_address = models.CharField(max_length=15, blank=True)
 
     def __str__(self):
         return self.name

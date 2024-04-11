@@ -11,6 +11,7 @@ from django.template.loader import render_to_string
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import get_token
+import requests
 
 
 # Класс для отображения списка датчиков
@@ -179,13 +180,32 @@ class SensorDeleteView(DeleteView):
         return reverse_lazy('sensor_list')
 
 
-# Функция для переключения состояния блокировки датчика
+def send_command_to_esp8266(sensor_id, action):
+    sensor = Sensor.objects.get(pk=sensor_id)
+    esp_ip = sensor.ip_address  # Замените на ваш способ получения IP-адреса ESP8266
+    url = f"http://{esp_ip}/control/"
+    data = {'action': action}
+    response = requests.post(url, json=data)
+    if response.status_code == 200:
+        return True
+    else:
+        return False
+
+
+# Функция для обработки нажатия кнопки "Заблокировать/Разблокировать"
 def block_toggle(request, sensor_id):
     sensor = get_object_or_404(Sensor, pk=sensor_id)
     sensor.blocked = not sensor.blocked
     sensor.save()
-    redirect_url = request.META.get('HTTP_REFERER') or reverse(
-        'home')
+
+    # Отправка команды на устройство ESP8266
+    if sensor.blocked:
+        action = 'stop'  # Команда для остановки передачи данных
+    else:
+        action = 'start'  # Команда для продолжения передачи данных
+    send_command_to_esp8266(sensor_id, action)
+
+    redirect_url = request.META.get('HTTP_REFERER') or reverse('home')
     return HttpResponseRedirect(redirect_url)
 
 
