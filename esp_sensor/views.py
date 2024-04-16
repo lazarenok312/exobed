@@ -3,7 +3,7 @@ from django.views.generic import View, ListView, DetailView, DeleteView
 from django.db.models import Q
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse, HttpResponseBadRequest, StreamingHttpResponse
 from django.urls import reverse, reverse_lazy
-from .models import Sensor, SensorLog
+from .models import *
 from django.core.paginator import Paginator
 import json
 import time
@@ -11,7 +11,7 @@ from django.template.loader import render_to_string
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import get_token
-import requests
+import urllib.request
 
 
 # Класс для отображения списка датчиков
@@ -185,10 +185,16 @@ def send_command_to_esp8266(sensor_id, action):
     esp_ip = sensor.ip_address
     url = f"http://{esp_ip}/control/"
     data = {'action': action}
-    response = requests.post(url, json=data)
-    if response.status_code == 200:
-        return True
-    else:
+    data = json.dumps(data).encode('utf-8')  # Преобразовать данные в формат JSON и закодировать их
+    req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
+    try:
+        with urllib.request.urlopen(req) as response:
+            if response.getcode() == 200:
+                return True
+            else:
+                return False
+    except urllib.error.URLError as e:
+        print(e)
         return False
 
 
@@ -306,7 +312,7 @@ def stream_sensor_logs(request, sensor_id):
     response['Connection'] = 'keep-alive'
     return response
 
-
+print('Heloooo dimon')
 # Класс API для получения логов датчика
 class SensorLogsAPIView(View):
     def get(self, request, *args, **kwargs):
@@ -384,3 +390,8 @@ def receive_data(request):
 def get_csrf_token(request):
     csrf_token = get_token(request)
     return JsonResponse({'csrf_token': csrf_token})
+
+
+def notification(request):
+    notifications = Notification.objects.all()[:5]
+    return render(request, 'include/navbar.html', {'notifications': notifications})

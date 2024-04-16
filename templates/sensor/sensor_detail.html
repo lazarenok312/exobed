@@ -719,8 +719,10 @@
                         <form action="{% url 'download_logs' device_slug=sensor.slug %}" method="GET">
                             <div class="icon icon-lg icon-shape bg-gradient-info shadow-primary text-center border-radius-xl mt-n4 position-absolute"
                                  style="left: 90px; width: 130px">
-                                <input type="date" name="start_date" class="form-control form-control-sm">
-                                <input type="date" name="end_date" class="form-control form-control-sm">
+                                <input type="date" name="start_date" class="form-control form-control-sm"
+                                       style="color: white;">
+                                <input type="date" name="end_date" class="form-control form-control-sm"
+                                       style="color: white;">
                             </div>
 
                             <button type="submit" title="Скачать логи"
