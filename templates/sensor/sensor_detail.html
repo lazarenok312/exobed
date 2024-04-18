@@ -866,7 +866,6 @@
         </div>
 </main>
 
-{#{% include 'include/setting.html' %}#}
 {% include 'include/script.html' %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -875,10 +874,18 @@
         const sensorId = startButton.dataset.sensorId;
 
         startButton.addEventListener('click', function () {
-            const action = startButton.dataset.action;
             const url = `/toggle_start/${sensorId}/`;
+            const data = {action: 'start'};
+            const csrfToken = getCookie('csrftoken');
 
-            fetch(url, {method: 'GET'}) // Отправить GET-запрос для включения диода
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify(data)
+            })
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
@@ -889,10 +896,18 @@
 
         const stopButton = document.getElementById('stopButton');
         stopButton.addEventListener('click', function () {
-            const action = stopButton.dataset.action;
             const url = `/toggle_start/${sensorId}/`;
+            const data = {action: 'stop'};
+            const csrfToken = getCookie('csrftoken');
 
-            fetch(url, {method: 'POST'}) // Отправить POST-запрос для выключения диода
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify(data)
+            })
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
@@ -900,6 +915,22 @@
                 })
                 .catch(error => console.error('Error:', error));
         });
+
+        // Функция для получения CSRF токена из куки
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
     });
 </script>
 <script>

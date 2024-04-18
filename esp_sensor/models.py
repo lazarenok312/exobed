@@ -113,10 +113,6 @@ class SensorLog(models.Model):
                 pass
         super(SensorLog, self).save(*args, **kwargs)
 
-
-class Notification(models.Model):
-    message = models.CharField(max_length=255)
-    timestamp = models.DateTimeField(auto_now_add=True)
-
     class Meta:
-        ordering = ['-timestamp']
+        verbose_name = 'Логи'
+        verbose_name_plural = 'Логи'

@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import View, ListView, DetailView, DeleteView
 from django.db.models import Q
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse, HttpResponseBadRequest, StreamingHttpResponse
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from .models import *
 from django.core.paginator import Paginator
 import json
@@ -226,7 +226,7 @@ def toggle_start(request, sensor_id):
 
             return HttpResponse('OK')
 
-    return HttpResponse('Bad Request')
+    return HttpResponse('Неверный запрос')
 
 
 # Функция для загрузки логов датчика в формате CSV
@@ -312,7 +312,7 @@ def stream_sensor_logs(request, sensor_id):
     response['Connection'] = 'keep-alive'
     return response
 
-print('Heloooo dimon')
+
 # Класс API для получения логов датчика
 class SensorLogsAPIView(View):
     def get(self, request, *args, **kwargs):
@@ -390,8 +390,3 @@ def receive_data(request):
 def get_csrf_token(request):
     csrf_token = get_token(request)
     return JsonResponse({'csrf_token': csrf_token})
-
-
-def notification(request):
-    notifications = Notification.objects.all()[:5]
-    return render(request, 'include/navbar.html', {'notifications': notifications})
