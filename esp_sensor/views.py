@@ -180,53 +180,22 @@ class SensorDeleteView(DeleteView):
         return reverse_lazy('sensor_list')
 
 
-def send_command_to_esp8266(sensor_id, action):
-    sensor = Sensor.objects.get(pk=sensor_id)
-    esp_ip = sensor.ip_address
-    url = f"http://{esp_ip}/control/"
-    data = {'action': action}
-    data = json.dumps(data).encode('utf-8')  # Преобразовать данные в формат JSON и закодировать их
-    req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
-    try:
-        with urllib.request.urlopen(req) as response:
-            if response.getcode() == 200:
-                return True
-            else:
-                return False
-    except urllib.error.URLError as e:
-        print(e)
-        return False
-
-
 def block_toggle(request, sensor_id):
     sensor = get_object_or_404(Sensor, pk=sensor_id)
     sensor.blocked = not sensor.blocked
     sensor.save()
 
-    if sensor.blocked:
-        action = 'stop'
-    else:
-        action = 'start'
-    send_command_to_esp8266(sensor_id, action)
-
     redirect_url = request.META.get('HTTP_REFERER') or reverse('home')
     return HttpResponseRedirect(redirect_url)
 
 
-@csrf_exempt
 def toggle_start(request, sensor_id):
-    if request.method == 'POST':
-        data = request.body.decode('utf-8')
-        action = json.loads(data)['action']
+    sensor = get_object_or_404(Sensor, pk=sensor_id)
+    sensor.start = not sensor.start
+    sensor.save()
 
-        if action == 'start':
-
-            return HttpResponse('OK')
-        elif action == 'stop':
-
-            return HttpResponse('OK')
-
-    return HttpResponse('Неверный запрос')
+    redirect_url = request.META.get('HTTP_REFERER') or reverse('home')
+    return HttpResponseRedirect(redirect_url)
 
 
 # Функция для загрузки логов датчика в формате CSV

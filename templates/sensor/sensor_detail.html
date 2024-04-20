@@ -265,8 +265,8 @@
     }
 
     .timer-input {
-        width: 70px;
-        height: 30px;
+        width: 160px;
+        height: 40px;
         text-align: center;
         font-size: 16px;
         border: 1px solid #ccc;
@@ -274,14 +274,12 @@
         margin: 0 5px;
     }
 
-    .timer-label {
-        font-size: 13px;
-        margin-right: 5px;
-        text-align: center;
+    .invalid {
+        border: 1px solid red;
     }
 
     .timer-button {
-        width: 180px;
+        width: 160px;
         height: 40px;
         padding: 5px 10px;
         font-size: 16px;
@@ -293,7 +291,7 @@
     }
 
     .start {
-        width: 200px;
+        width: 160px;
         height: 40px;
         font-size: 24px;
         margin-left: 5px;
@@ -339,12 +337,9 @@
         }
 
         .timer-input {
-            width: 50px;
+            width: 120px;
         }
 
-        .timer-label {
-            font-size: 10px;
-        }
 
         .timer-button {
             width: 120px;
@@ -659,31 +654,32 @@
                             </div>
                             {% if sensor.work %}
                                 <div class="col-sm-2">
-                                    <a class="nav-link text-white start {% if sensor.start %}stop{% endif %}"
-                                       href="{% url 'toggle_start' sensor_id=sensor.id %}">
-                                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                            <i class="material-icons opacity-10">{% if sensor.start %}power_on{% else %}
-                                                power_off{% endif %}</i>
-                                            <span>{% if sensor.start %}Стоп{% else %}Старт{% endif %}</span>
-                                        </div>
-                                    </a>
+                                    <div class="col-sm-2">
+                                        <a class="nav-link text-white start {% if sensor.start %}stop{% endif %}"
+                                           href="{% url 'toggle_start' sensor_id=sensor.id %}" method="post">
+                                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                                <i class="material-icons opacity-10">{% if sensor.start %}
+                                                    power{% else %}
+                                                    power_off{% endif %}</i>
+                                                <span>{% if sensor.start %}Стоп{% else %}Старт{% endif %}</span>
+                                            </div>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-2">
                                     <div class="timer-container">
                                         <div>
-                                            <input type="number" id="minutesInput" class="timer-input">
-                                            <label for="minutesInput" class="timer-label">Минуты:</label>
+                                            <input type="number" id="minutesInput" class="timer-input" min="0" max="20"
+                                                   placeholder="Минуты">
                                         </div>
                                         <div>
-                                            <input type="number" id="secondsInput" class="timer-input">
-                                            <label for="secondsInput" class="timer-label">Секунды:</label>
-                                        </div>
-                                        <div>
-                                            <button id="startTimer" class="timer-button" style="margin-bottom: 19px;">
+                                            <button id="startTimer" class="timer-button">
                                                 Старт
                                             </button>
                                         </div>
                                     </div>
+
+                                    <div id="app"></div>
                                 </div>
                             {% else %}
                             {% endif %}
@@ -870,67 +866,32 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const startButton = document.getElementById('startButton');
-        const sensorId = startButton.dataset.sensorId;
+        const minutesInput = document.getElementById('minutesInput');
 
-        startButton.addEventListener('click', function () {
-            const url = `/toggle_start/${sensorId}/`;
-            const data = {action: 'start'};
-            const csrfToken = getCookie('csrftoken');
+        // Установка значений по умолчанию при загрузке страницы
+        minutesInput.placeholder = 'Минуты';
 
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    // Обработка ответа
-                })
-                .catch(error => console.error('Error:', error));
+        // Обработчик события фокуса для поля ввода минут
+        minutesInput.addEventListener('focus', function () {
+            this.placeholder = '';
         });
 
-        const stopButton = document.getElementById('stopButton');
-        stopButton.addEventListener('click', function () {
-            const url = `/toggle_start/${sensorId}/`;
-            const data = {action: 'stop'};
-            const csrfToken = getCookie('csrftoken');
-
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    // Обработка ответа
-                })
-                .catch(error => console.error('Error:', error));
-        });
-
-        // Функция для получения CSRF токена из куки
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
+        // Обработчик события потери фокуса для поля ввода минут
+        minutesInput.addEventListener('blur', function () {
+            if (this.value === '') {
+                this.placeholder = 'Минуты';
             }
-            return cookieValue;
-        }
+        });
+
+        // Обработчик события изменения для поля ввода минут
+        minutesInput.addEventListener('input', function () {
+            const minutes = parseInt(this.value, 10);
+            if (minutes > 20) {
+                this.classList.add('invalid');
+            } else {
+                this.classList.remove('invalid');
+            }
+        });
     });
 </script>
 <script>
