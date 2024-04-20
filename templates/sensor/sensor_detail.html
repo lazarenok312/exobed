@@ -94,7 +94,6 @@
         transform: translate3d(44px, 0, 0);
     }
 
-    /* Hover */
     .checkbox-green input[type="checkbox"]:not(:disabled) + .checkbox-green-switch:hover {
         cursor: pointer;
     }
@@ -103,13 +102,11 @@
         box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
     }
 
-    /* Disabled */
     .checkbox-green input[type=checkbox]:disabled + .checkbox-green-switch {
         opacity: 0.6;
         filter: grayscale(50%);
     }
 
-    /* Focus */
     .checkbox-green.focused .checkbox-green-switch:after {
         box-shadow: inset 0px 0px 4px #E53935;
     }
@@ -325,26 +322,6 @@
         margin-right: 5px;
     }
 
-    @media (min-width: 1000px) and (max-width: 1485px) {
-        .timer-container {
-            margin-left: 80px;
-        }
-    }
-
-    @media (min-width: 576px) and (max-width: 1000px) {
-        .timer-container {
-            margin-left: 180px;
-        }
-
-        .timer-input {
-            width: 120px;
-        }
-
-
-        .timer-button {
-            width: 120px;
-        }
-    }
 
     .temperature-widget {
         display: flex;
@@ -463,6 +440,38 @@
 
     .sleeve2 {
         direction: ltr;
+    }
+
+    .valid {
+        border: 1px solid green;
+    }
+
+    .timer-input {
+        box-sizing: border-box;
+        padding: 8px;
+        font-size: 16px;
+        width: calc(100% - 4px);
+        border: 1px solid black;
+        border-right: none;
+        border-radius: 5px 0 0 5px;
+        transition: border-color 0.3s ease-in-out;
+        background-color: white;
+    }
+
+    .timer-input.valid {
+        border-color: green;
+    }
+
+    .timer-input.warning {
+        border-color: yellow;
+    }
+
+    .timer-input.alert {
+        border-color: red;
+    }
+
+    .timer-button {
+        border-radius: 0 5px 5px 0;
     }
 </style>
 <title>Датчик {{ sensor.name }}</title>
@@ -666,11 +675,11 @@
                                         </a>
                                     </div>
                                 </div>
+
                                 <div class="col-sm-2">
                                     <div class="timer-container">
                                         <div>
-                                            <input type="number" id="minutesInput" class="timer-input" min="0" max="20"
-                                                   placeholder="Минуты">
+                                            <input type="text" id="timeInput" class="timer-input" placeholder="мин:сек">
                                         </div>
                                         <div>
                                             <button id="startTimer" class="timer-button">
@@ -678,8 +687,6 @@
                                             </button>
                                         </div>
                                     </div>
-
-                                    <div id="app"></div>
                                 </div>
                             {% else %}
                             {% endif %}
@@ -866,32 +873,88 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const minutesInput = document.getElementById('minutesInput');
+        const timeInput = document.getElementById('timeInput');
+        const startButton = document.getElementById('startTimer');
+        let countdownInterval;
+        let timerRunning = false;
 
-        // Установка значений по умолчанию при загрузке страницы
-        minutesInput.placeholder = 'Минуты';
-
-        // Обработчик события фокуса для поля ввода минут
-        minutesInput.addEventListener('focus', function () {
-            this.placeholder = '';
-        });
-
-        // Обработчик события потери фокуса для поля ввода минут
-        minutesInput.addEventListener('blur', function () {
-            if (this.value === '') {
-                this.placeholder = 'Минуты';
+        timeInput.addEventListener('input', function () {
+            let value = this.value.replace(/\D/g, '');
+            if (value.length > 2) {
+                value = value.substring(0, 2) + ':' + value.substring(2);
             }
+            if (value.length > 5) {
+                value = value.substring(0, 5);
+            }
+            this.value = value;
         });
 
-        // Обработчик события изменения для поля ввода минут
-        minutesInput.addEventListener('input', function () {
-            const minutes = parseInt(this.value, 10);
-            if (minutes > 20) {
-                this.classList.add('invalid');
+        function startCountdown() {
+            if (!timerRunning) {
+                const timeArray = timeInput.value.split(':');
+                const minutes = parseInt(timeArray[0], 10);
+                const seconds = parseInt(timeArray[1], 10);
+
+                if (isNaN(minutes) || isNaN(seconds) || minutes < 0 || seconds < 0 || seconds > 59) {
+                    alert('Пожалуйста, введите время в формате мм:сс');
+                    return;
+                }
+
+                let totalSeconds = minutes * 60 + seconds;
+                countdownInterval = setInterval(() => {
+                    totalSeconds--;
+                    if (totalSeconds < 0) {
+                        clearInterval(countdownInterval);
+                        alert('Сеанс завершен!');
+                        resetTimer();
+                    } else {
+                        updateTime(totalSeconds);
+                    }
+                }, 1000);
+
+                startButton.textContent = 'Стоп';
+                timerRunning = true;
             } else {
-                this.classList.remove('invalid');
+                clearInterval(countdownInterval);
+                resetTimer();
             }
-        });
+        }
+
+        function updateTime(totalSeconds) {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            timeInput.value = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            updateBorderColor(totalSeconds);
+        }
+
+        function updateBorderColor(totalSeconds) {
+            const minutes = Math.floor(totalSeconds / 60);
+            if (minutes > 10) {
+                timeInput.classList.remove('warning');
+                timeInput.classList.remove('alert');
+                timeInput.classList.add('valid');
+            } else if (minutes > 5) {
+                timeInput.classList.remove('valid');
+                timeInput.classList.remove('alert');
+                timeInput.classList.add('warning');
+            } else {
+                timeInput.classList.remove('valid');
+                timeInput.classList.remove('warning');
+                timeInput.classList.add('alert');
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(countdownInterval);
+            startButton.textContent = 'Старт';
+            timerRunning = false;
+            timeInput.value = '';
+            timeInput.classList.remove('valid');
+            timeInput.classList.remove('warning');
+            timeInput.classList.remove('alert');
+        }
+
+        startButton.addEventListener('click', startCountdown);
     });
 </script>
 <script>
