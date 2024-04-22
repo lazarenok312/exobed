@@ -292,7 +292,6 @@
         height: 40px;
         font-size: 24px;
         margin-left: 5px;
-        margin-bottom: 10px;
         letter-spacing: 0;
         text-transform: uppercase;
         background-size: 150%;
@@ -450,16 +449,14 @@
         box-sizing: border-box;
         padding: 8px;
         font-size: 16px;
-        width: calc(100% - 4px);
-        border: 1px solid black;
-        border-right: none;
-        border-radius: 5px 0 0 5px;
+        border: 2px solid black;
+        border-radius: 5px;
         transition: border-color 0.3s ease-in-out;
         background-color: white;
     }
 
     .timer-input.valid {
-        border-color: green;
+        border-color: #439f47;
     }
 
     .timer-input.warning {
@@ -471,7 +468,7 @@
     }
 
     .timer-button {
-        border-radius: 0 5px 5px 0;
+        border-radius: 5px;
     }
 </style>
 <title>Датчик {{ sensor.name }}</title>
@@ -663,28 +660,21 @@
                             </div>
                             {% if sensor.work %}
                                 <div class="col-sm-2">
-                                    <div class="col-sm-2">
-                                        <a class="nav-link text-white start {% if sensor.start %}stop{% endif %}"
-                                           href="{% url 'toggle_start' sensor_id=sensor.id %}" method="post">
-                                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                                <i class="material-icons opacity-10">{% if sensor.start %}
-                                                    power{% else %}
-                                                    power_off{% endif %}</i>
-                                                <span>{% if sensor.start %}Стоп{% else %}Старт{% endif %}</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-2">
                                     <div class="timer-container">
                                         <div>
                                             <input type="text" id="timeInput" class="timer-input" placeholder="мин:сек">
                                         </div>
                                         <div>
-                                            <button id="startTimer" class="timer-button">
-                                                Старт
-                                            </button>
+                                            <a id="startTimer"
+                                               class="nav-link text-white start {% if sensor.start %}stop{% endif %}"
+                                               href="#" method="post">
+                                                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                                    <i class="material-icons opacity-10">{% if sensor.start %}
+                                                        power{% else %}
+                                                        power_off{% endif %}</i>
+                                                    <span>{% if sensor.start %}Стоп{% else %}Старт{% endif %}</span>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -889,7 +879,8 @@
             this.value = value;
         });
 
-        function startCountdown() {
+        function startCountdown(event) {
+            event.preventDefault(); // Предотвращаем стандартное действие ссылки
             if (!timerRunning) {
                 const timeArray = timeInput.value.split(':');
                 const minutes = parseInt(timeArray[0], 10);
@@ -901,23 +892,52 @@
                 }
 
                 let totalSeconds = minutes * 60 + seconds;
+
+                // Вызываем функцию для изменения статуса start в модели перед началом отсчета времени
+                toggleStartSensor();
+
                 countdownInterval = setInterval(() => {
                     totalSeconds--;
                     if (totalSeconds < 0) {
                         clearInterval(countdownInterval);
                         alert('Сеанс завершен!');
                         resetTimer();
+                        toggleStartSensor(); // Вызываем функцию для изменения статуса start в модели
                     } else {
                         updateTime(totalSeconds);
                     }
                 }, 1000);
 
-                startButton.textContent = 'Стоп';
+                startButton.querySelector('span').textContent = 'Стоп';
                 timerRunning = true;
             } else {
                 clearInterval(countdownInterval);
                 resetTimer();
+                toggleStartSensor(); // Вызываем функцию для изменения статуса start в модели
             }
+        }
+
+        // Функция для отправки запроса на изменение статуса start в модели Sensor
+        function toggleStartSensor() {
+            fetch("{% url 'toggle_start' sensor_id=sensor.id %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка сети');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Здесь можно обработать ответ сервера, если необходимо
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                });
         }
 
         function updateTime(totalSeconds) {
@@ -946,7 +966,7 @@
 
         function resetTimer() {
             clearInterval(countdownInterval);
-            startButton.textContent = 'Старт';
+            startButton.querySelector('span').textContent = 'Старт';
             timerRunning = false;
             timeInput.value = '';
             timeInput.classList.remove('valid');
