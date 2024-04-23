@@ -153,16 +153,15 @@
             }
         });
 
-        document.getElementById('small').addEventListener('click', () => {
-            chart.setSize(400, 300);
-        });
+        {#document.getElementById('small').addEventListener('click', () => {#}
+        {#    chart.setSize(400, 300);#}
 
-        document.getElementById('large').addEventListener('click', () => {
-            chart.setSize(800, 400);
-        });
+        {##}
+        {#document.getElementById('large').addEventListener('click', () => {#}
+        {#    chart.setSize(800, 400);#}
 
-        document.getElementById('auto').addEventListener('click', () => {
-            chart.setSize(null);
-        });
+        {##}
+        {#document.getElementById('auto').addEventListener('click', () => {#}
+        {#    chart.setSize(null);#}
     })();
 </script>
