@@ -6,19 +6,39 @@
 #include <ArduinoJson.h>
 #include <DHT.h>
 #include <TinyGPS++.h>
+#include <WebSocketsClient.h>
 
 const char* serverUrl = "http://exobed.lazareub.beget.tech/api/data/";
 const char* csrfTokenEndpoint = "http://exobed.lazareub.beget.tech/get_csrf_token/";
+const char* webSocketServer = "ws://your_websocket_server_address:port";
 
 WiFiClient client;
 HTTPClient http;
 TinyGPSPlus gps;
+WebSocketsClient webSocket;
 
 String deviceName = "ESP8266";
 #define DHTPIN D4     // Указываем пин, к которому подключен датчик
 #define DHTTYPE DHT11 // Указываем тип датчика
 
 DHT dht(DHTPIN, DHTTYPE);
+bool ledState = false;
+
+void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
+    switch(type) {
+        case WStype_TEXT:
+            Serial.printf("[WebSocket] Message: %s\n", payload);
+            if (strcmp((char*)payload, "start") == 0) {
+                digitalWrite(LED_BUILTIN, HIGH); // Включаем светодиод
+                ledState = true;
+            } else if (strcmp((char*)payload, "stop") == 0) {
+                digitalWrite(LED_BUILTIN, LOW); // Выключаем светодиод
+                ledState = false;
+            }
+            break;
+    }
+}
+
 
 void sendDataWithCSRFToken(String data) {
     HTTPClient http;
@@ -59,6 +79,7 @@ void setup() {
     Serial.begin(115200);
 
     dht.begin(); // Инициализируем датчик DHT11
+    pinMode(LED_BUILTIN, OUTPUT);
 
     WiFiManager wifiManager;
 
@@ -71,6 +92,9 @@ void setup() {
 
     Serial.println("Connected to WiFi");
 
+    webSocket.begin("your_websocket_server_address", 80);
+    webSocket.onEvent(webSocketEvent);
+
     if (!SPIFFS.begin()) {
         Serial.println("Failed to initialize SPIFFS");
         return;
@@ -78,6 +102,9 @@ void setup() {
 }
 
 void loop() {
+
+  webSocket.loop(); // Поддерживаем соединение по веб-сокету
+
    while (Serial.available() > 0) {
         gps.encode(Serial.read());
     }
