@@ -10,7 +10,7 @@
 
 const char* serverUrl = "http://exobed.lazareub.beget.tech/api/data/";
 const char* csrfTokenEndpoint = "http://exobed.lazareub.beget.tech/get_csrf_token/";
-const char* webSocketServer = "ws://your_websocket_server_address:port";
+const char* webSocketServer = "ws://exobed.lazareub.beget.tech/ws/consumer/";
 
 WiFiClient client;
 HTTPClient http;
@@ -23,6 +23,7 @@ String deviceName = "ESP8266";
 
 DHT dht(DHTPIN, DHTTYPE);
 bool ledState = false;
+
 
 void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
     switch(type) {
@@ -92,7 +93,7 @@ void setup() {
 
     Serial.println("Connected to WiFi");
 
-    webSocket.begin("your_websocket_server_address", 80);
+    webSocket.begin("ws://exobed.lazareub.beget.tech/ws/consumer/", 80);
     webSocket.onEvent(webSocketEvent);
 
     if (!SPIFFS.begin()) {

@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 from .views import *
+from django.conf.urls import include
+from . import routing
 
 urlpatterns = [
     path('', SensorListView.as_view(), name='sensor_list'),
@@ -18,4 +20,6 @@ urlpatterns = [
     path('sensor/<int:pk>/delete/', SensorDeleteView.as_view(), name='sensor_delete'),
     path('api/data/', views.receive_data, name='receive_data'),
     path('get_csrf_token/', get_csrf_token, name='get_csrf_token'),
+    path('api/', include(routing.websocket_urlpatterns)),
+
 ]
