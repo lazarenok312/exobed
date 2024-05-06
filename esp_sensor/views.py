@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View, ListView, DetailView, DeleteView
 from django.db.models import Q
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse, HttpResponseBadRequest, StreamingHttpResponse
@@ -11,7 +11,6 @@ from django.template.loader import render_to_string
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import get_token
-import urllib.request
 
 
 # Класс для отображения списка датчиков
@@ -29,14 +28,31 @@ class SensorListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         sensors = context['sensors']
-        for sensor in sensors:
+
+        confirmed_sensors = [sensor for sensor in sensors if sensor.confirmed]
+        unconfirmed_sensors = [sensor for sensor in sensors if not sensor.confirmed]
+        for sensor in confirmed_sensors:
             latest_log = sensor.sensorlog_set.last()
             if latest_log:
                 sensor.last_updated = latest_log.timestamp
             else:
                 sensor.last_updated = sensor.date_added
+        for sensor in unconfirmed_sensors:
+            latest_log = sensor.sensorlog_set.last()
+            if latest_log:
+                sensor.last_updated = latest_log.timestamp
+            else:
+                sensor.last_updated = sensor.date_added
+        context['confirmed_sensors'] = confirmed_sensors
+        context['unconfirmed_sensors'] = unconfirmed_sensors
         return context
 
+class ConfirmSensorView(View):
+    def get(self, request, sensor_id):
+        sensor = get_object_or_404(Sensor, pk=sensor_id)
+        sensor.confirmed = True
+        sensor.save()
+        return redirect('sensor_list')
 
 # Класс для отображения подробной информации о датчике
 class SensorDetailView(DetailView):

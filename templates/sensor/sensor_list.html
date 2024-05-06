@@ -90,98 +90,195 @@
     </nav>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-        <div class="row">
-            <div class="col-12">
-                <div class="card my-4">
-                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="bg-gradient-info shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3">Список датчиков</h6>
+        {% if user.is_superuser %}
+            {% if unconfirmed_sensors %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card my-4">
+                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 pb-3">
+                                    <h6 class="text-white ps-3">Датчики на подтверждении</h6>
+                                </div>
+                            </div>
+                            <div class="card-body px-0 pb-2">
+                                <div class="table-responsive p-0">
+                                    <table class="table align-items-center mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Название
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                Информация
+                                            </th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Дата обновления
+                                            </th>
+                                            <th class="text-secondary opacity-7"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for sensor in sensors %}
+                                            {% if not sensor.confirmed %}
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex px-2 py-1">
+                                                            <div>
+                                                                <i class="material-icons" style="font-size: 50px;">airline_seat_flat</i>
+                                                            </div>
+                                                            <div class="d-flex flex-column justify-content-center">
+                                                                <a href="{% url 'sensor_detail' sensor.pk %}"
+                                                                   class="text-secondary font-weight-bold text-xs"
+                                                                   data-toggle="tooltip"
+                                                                   data-original-title="Edit user">
+                                                                    <h6 class="mb-0 text-sm">{{ sensor.name }}</h6>
+                                                                </a>
+
+                                                                {% for country in sensor.country.all %}
+                                                                    <p class="text-xs text-secondary mb-0">{{ country.name }}</p>
+                                                                {% endfor %}
+                                                                {% for city in sensor.city.all %}
+                                                                    <p class="text-xs text-secondary mb-0">{{ city.name }}</p>
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    {% if user.is_authenticated %}
+                                                        <td class="align-middle">
+                                                            <a href="{% url 'sensor_detail' sensor.pk %}"
+                                                               class="text-secondary font-weight-bold text-xs"
+                                                               data-toggle="tooltip" data-original-title="Edit user">
+                                                                Подробнее
+                                                            </a>
+                                                        </td>
+                                                    {% else %}
+                                                        <td class="align-middle">
+                                                            <span style="text-decoration: line-through;">Подробнее</span>
+                                                        </td>
+                                                    {% endif %}
+                                                    <td class="align-middle text-center">
+                                                        <span class="text-secondary text-xs font-weight-bold">{{ sensor.last_updated | date:"Y/m/d H:i:s" }}</span>
+                                                    </td>
+                                                    {% if user.is_authenticated %}
+                                                        <td class="align-middle">
+                                                            <a href="{% url 'confirm_sensor' sensor.pk %}"
+                                                               class="text-secondary font-weight-bold text-xs"
+                                                               data-toggle="tooltip"
+                                                               data-original-title="Confirm sensor">
+                                                                Подтвердить
+                                                            </a>
+                                                        </td>
+                                                    {% else %}
+                                                        <td class="align-middle">
+                                                            <span style="text-decoration: line-through;">Подтвердить</span>
+                                                        </td>
+                                                    {% endif %}
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-body px-0 pb-2">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
-                                <thead>
-                                <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Название
-                                    </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        Владелец
-                                    </th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Статус
-                                    </th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Дата обновления
-                                    </th>
-                                    <th class="text-secondary opacity-7"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for sensor in sensors %}
+                </div>
+            {% endif %}
+        {% endif %}
+        {% if confirmed_sensors %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="card my-4">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                            <div class="bg-gradient-info shadow-primary border-radius-lg pt-4 pb-3">
+                                <h6 class="text-white ps-3">Список датчиков</h6>
+                            </div>
+                        </div>
+                        <div class="card-body px-0 pb-2">
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0">
+                                    <thead>
                                     <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <i class="material-icons"
-                                                       style="font-size: 50px;">airline_seat_flat</i>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Название
+                                        </th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Владелец
+                                        </th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Статус
+                                        </th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Дата обновления
+                                        </th>
+                                        <th class="text-secondary opacity-7"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for sensor in sensors %}
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                        <i class="material-icons"
+                                                           style="font-size: 50px;">airline_seat_flat</i>
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <a href="{% url 'sensor_detail' sensor.pk %}"
+                                                           class="text-secondary font-weight-bold text-xs"
+                                                           data-toggle="tooltip" data-original-title="Edit user">
+                                                            <h6 class="mb-0 text-sm">{{ sensor.name }}</h6>
+                                                        </a>
+
+                                                        {% for country in sensor.country.all %}
+                                                            <p class="text-xs text-secondary mb-0">{{ country.name }}</p>
+                                                        {% endfor %}
+                                                        {% for city in sensor.city.all %}
+                                                            <p class="text-xs text-secondary mb-0">{{ city.name }}</p>
+                                                        {% endfor %}
+                                                    </div>
                                                 </div>
-                                                <div class="d-flex flex-column justify-content-center">
+                                            </td>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0">{{ sensor.owner }}</p>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                {% if sensor.is_blocked %}
+                                                    <span class="badge badge-sm bg-gradient-danger">Заблокирован</span>
+                                                {% else %}
+                                                    {% if sensor.work %}
+                                                        <span class="badge badge-sm bg-gradient-success">Онлайн</span>
+                                                    {% else %}
+                                                        <span class="badge badge-sm bg-gradient-secondary">Оффлайн</span>
+                                                    {% endif %}
+                                                {% endif %}
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-xs font-weight-bold">{{ sensor.last_updated | date:"Y/m/d H:i:s" }}</span>
+                                            </td>
+                                            {% if user.is_authenticated %}
+                                                <td class="align-middle">
                                                     <a href="{% url 'sensor_detail' sensor.pk %}"
                                                        class="text-secondary font-weight-bold text-xs"
                                                        data-toggle="tooltip" data-original-title="Edit user">
-                                                        <h6 class="mb-0 text-sm">{{ sensor.name }}</h6>
+                                                        Подробнее
                                                     </a>
-
-                                                    {% for country in sensor.country.all %}
-                                                        <p class="text-xs text-secondary mb-0">{{ country.name }}</p>
-                                                    {% endfor %}
-                                                    {% for city in sensor.city.all %}
-                                                        <p class="text-xs text-secondary mb-0">{{ city.name }}</p>
-                                                    {% endfor %}
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">{{ sensor.owner }}</p>
-                                        </td>
-                                        <td class="align-middle text-center text-sm">
-                                            {% if sensor.is_blocked %}
-                                                <span class="badge badge-sm bg-gradient-danger">Заблокирован</span>
+                                                </td>
                                             {% else %}
-                                                {% if sensor.work %}
-                                                    <span class="badge badge-sm bg-gradient-success">Онлайн</span>
-                                                {% else %}
-                                                    <span class="badge badge-sm bg-gradient-secondary">Оффлайн</span>
-                                                {% endif %}
+                                                <td class="align-middle">
+                                                    <span style="text-decoration: line-through;">Подробнее</span>
+                                                </td>
                                             {% endif %}
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs font-weight-bold">{{ sensor.last_updated | date:"Y/m/d H:i:s" }}</span>
-                                        </td>
-                                        {% if user.is_authenticated %}
-                                            <td class="align-middle">
-                                                <a href="{% url 'sensor_detail' sensor.pk %}"
-                                                   class="text-secondary font-weight-bold text-xs"
-                                                   data-toggle="tooltip" data-original-title="Edit user">
-                                                    Подробнее
-                                                </a>
-                                            </td>
-                                        {% else %}
-                                            <td class="align-middle">
-                                                <span style="text-decoration: line-through;">Подробнее</span>
-                                            </td>
-                                        {% endif %}
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
     </div>
     <div>
         <nav aria-label="Page navigation example">

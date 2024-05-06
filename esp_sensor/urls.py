@@ -21,5 +21,5 @@ urlpatterns = [
     path('api/data/', views.receive_data, name='receive_data'),
     path('get_csrf_token/', get_csrf_token, name='get_csrf_token'),
     path('api/', include(routing.websocket_urlpatterns)),
-
+    path('confirm_sensor/<int:sensor_id>/', ConfirmSensorView.as_view(), name='confirm_sensor'),
 ]
