@@ -9,5 +9,5 @@ class Consumer(AsyncWebsocketConsumer):
         pass
 
     async def receive(self, text_data):
-        # Обработка входящих сообщений от ESP8266
-        pass
+        # Обработка полученных данных
+        await self.send(text_data)
