@@ -20,6 +20,6 @@ urlpatterns = [
     path('sensor/<int:pk>/delete/', SensorDeleteView.as_view(), name='sensor_delete'),
     path('api/data/', views.receive_data, name='receive_data'),
     path('get_csrf_token/', get_csrf_token, name='get_csrf_token'),
-    path('api/', include(routing.websocket_urlpatterns)),
+    path('api/get_sensor_ids/', get_sensor_ids, name='get_sensor_ids'),
     path('confirm_sensor/<int:sensor_id>/', ConfirmSensorView.as_view(), name='confirm_sensor'),
 ]

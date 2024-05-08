@@ -118,63 +118,61 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {% for sensor in sensors %}
-                                            {% if not sensor.confirmed %}
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex px-2 py-1">
-                                                            <div>
-                                                                <i class="material-icons" style="font-size: 50px;">airline_seat_flat</i>
-                                                            </div>
-                                                            <div class="d-flex flex-column justify-content-center">
-                                                                <a href="{% url 'sensor_detail' sensor.pk %}"
-                                                                   class="text-secondary font-weight-bold text-xs"
-                                                                   data-toggle="tooltip"
-                                                                   data-original-title="Edit user">
-                                                                    <h6 class="mb-0 text-sm">{{ sensor.name }}</h6>
-                                                                </a>
-
-                                                                {% for country in sensor.country.all %}
-                                                                    <p class="text-xs text-secondary mb-0">{{ country.name }}</p>
-                                                                {% endfor %}
-                                                                {% for city in sensor.city.all %}
-                                                                    <p class="text-xs text-secondary mb-0">{{ city.name }}</p>
-                                                                {% endfor %}
-                                                            </div>
+                                        {% for sensor in unconfirmed_sensors %}
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex px-2 py-1">
+                                                        <div>
+                                                            <i class="material-icons" style="font-size: 50px;">airline_seat_flat</i>
                                                         </div>
-                                                    </td>
-                                                    {% if user.is_authenticated %}
-                                                        <td class="align-middle">
+                                                        <div class="d-flex flex-column justify-content-center">
                                                             <a href="{% url 'sensor_detail' sensor.pk %}"
                                                                class="text-secondary font-weight-bold text-xs"
-                                                               data-toggle="tooltip" data-original-title="Edit user">
-                                                                Подробнее
-                                                            </a>
-                                                        </td>
-                                                    {% else %}
-                                                        <td class="align-middle">
-                                                            <span style="text-decoration: line-through;">Подробнее</span>
-                                                        </td>
-                                                    {% endif %}
-                                                    <td class="align-middle text-center">
-                                                        <span class="text-secondary text-xs font-weight-bold">{{ sensor.last_updated | date:"Y/m/d H:i:s" }}</span>
-                                                    </td>
-                                                    {% if user.is_authenticated %}
-                                                        <td class="align-middle">
-                                                            <a href="{% url 'confirm_sensor' sensor.pk %}"
-                                                               class="text-secondary font-weight-bold text-xs"
                                                                data-toggle="tooltip"
-                                                               data-original-title="Confirm sensor">
-                                                                Подтвердить
+                                                               data-original-title="Edit user">
+                                                                <h6 class="mb-0 text-sm">{{ sensor.name }}</h6>
                                                             </a>
-                                                        </td>
-                                                    {% else %}
-                                                        <td class="align-middle">
-                                                            <span style="text-decoration: line-through;">Подтвердить</span>
-                                                        </td>
-                                                    {% endif %}
-                                                </tr>
-                                            {% endif %}
+
+                                                            {% for country in sensor.country.all %}
+                                                                <p class="text-xs text-secondary mb-0">{{ country.name }}</p>
+                                                            {% endfor %}
+                                                            {% for city in sensor.city.all %}
+                                                                <p class="text-xs text-secondary mb-0">{{ city.name }}</p>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                {% if user.is_authenticated %}
+                                                    <td class="align-middle">
+                                                        <a href="{% url 'sensor_detail' sensor.pk %}"
+                                                           class="text-secondary font-weight-bold text-xs"
+                                                           data-toggle="tooltip" data-original-title="Edit user">
+                                                            Подробнее
+                                                        </a>
+                                                    </td>
+                                                {% else %}
+                                                    <td class="align-middle">
+                                                        <span style="text-decoration: line-through;">Подробнее</span>
+                                                    </td>
+                                                {% endif %}
+                                                <td class="align-middle text-center">
+                                                    <span class="text-secondary text-xs font-weight-bold">{{ sensor.last_updated | date:"Y/m/d H:i:s" }}</span>
+                                                </td>
+                                                {% if user.is_authenticated %}
+                                                    <td class="align-middle">
+                                                        <a href="{% url 'confirm_sensor' sensor.pk %}"
+                                                           class="text-secondary font-weight-bold text-xs"
+                                                           data-toggle="tooltip"
+                                                           data-original-title="Confirm sensor">
+                                                            Подтвердить
+                                                        </a>
+                                                    </td>
+                                                {% else %}
+                                                    <td class="align-middle">
+                                                        <span style="text-decoration: line-through;">Подтвердить</span>
+                                                    </td>
+                                                {% endif %}
+                                            </tr>
                                         {% endfor %}
                                         </tbody>
                                     </table>
@@ -215,7 +213,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for sensor in sensors %}
+                                    {% for sensor in confirmed_sensors %}
                                         <tr>
                                             <td>
                                                 <div class="d-flex px-2 py-1">

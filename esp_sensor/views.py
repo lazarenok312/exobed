@@ -11,6 +11,10 @@ from django.template.loader import render_to_string
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import get_token
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 
 # Класс для отображения списка датчиков
@@ -27,25 +31,30 @@ class SensorListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        queryset = self.get_queryset()
         sensors = context['sensors']
 
-        confirmed_sensors = [sensor for sensor in sensors if sensor.confirmed]
-        unconfirmed_sensors = [sensor for sensor in sensors if not sensor.confirmed]
+        confirmed_sensors = [sensor for sensor in queryset if sensor.confirmed]
+        unconfirmed_sensors = [sensor for sensor in queryset if not sensor.confirmed]
+
         for sensor in confirmed_sensors:
             latest_log = sensor.sensorlog_set.last()
             if latest_log:
                 sensor.last_updated = latest_log.timestamp
             else:
                 sensor.last_updated = sensor.date_added
+
         for sensor in unconfirmed_sensors:
             latest_log = sensor.sensorlog_set.last()
             if latest_log:
                 sensor.last_updated = latest_log.timestamp
             else:
                 sensor.last_updated = sensor.date_added
+
         context['confirmed_sensors'] = confirmed_sensors
         context['unconfirmed_sensors'] = unconfirmed_sensors
         return context
+
 
 class ConfirmSensorView(View):
     def get(self, request, sensor_id):
@@ -53,6 +62,7 @@ class ConfirmSensorView(View):
         sensor.confirmed = True
         sensor.save()
         return redirect('sensor_list')
+
 
 # Класс для отображения подробной информации о датчике
 class SensorDetailView(DetailView):
@@ -375,3 +385,22 @@ def receive_data(request):
 def get_csrf_token(request):
     csrf_token = get_token(request)
     return JsonResponse({'csrf_token': csrf_token})
+
+
+@api_view(['GET'])
+def get_sensor_ids(request):
+    sensors = Sensor.objects.all()
+    sensor_ids = [sensor.id for sensor in sensors]
+    return Response(sensor_ids)
+
+
+def send_sensor_status_notification(sensor_id, blocked):
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        f"sensor_{sensor_id}",
+        {
+            "type": "sensor.status",
+            "sensor_id": sensor_id,
+            "blocked": blocked,
+        },
+    )
