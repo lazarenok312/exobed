@@ -11,10 +11,10 @@ from django.template.loader import render_to_string
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import get_token
-from asgiref.sync import async_to_sync
-from channels.layers import get_channel_layer
+
+from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework import status
 
 
 # Класс для отображения списка датчиков
@@ -375,32 +375,34 @@ def receive_data(request):
             sensor.ip_address = ip_address
             sensor.save()
 
-            return HttpResponse('OK')
+            return HttpResponse('Новые данные приняты на сервер')
         except Exception as e:
             return HttpResponse(f'Ошибка при обработке данных: {e}', status=500)
 
-    return HttpResponse('Метод не разрешен')
+    # Ответ на неразрешенный метод запроса
+    return HttpResponse('Отказано!')
+
+
+class DeviceStatus(APIView):
+    def get(self, request, slug):
+        try:
+            # Находим устройство по slug
+            sensor = Sensor.objects.get(slug=slug)
+
+            # Получаем данные о состоянии устройства
+            device_status = {
+                "name": sensor.name,
+                "blocked": sensor.blocked,
+                "work": sensor.work,
+            }
+
+            return Response(device_status, status=status.HTTP_200_OK)
+        except Sensor.DoesNotExist:
+            return Response({"error": "Device not found"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({"error": f"An error occurred: {e}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 def get_csrf_token(request):
     csrf_token = get_token(request)
     return JsonResponse({'csrf_token': csrf_token})
-
-
-@api_view(['GET'])
-def get_sensor_ids(request):
-    sensors = Sensor.objects.all()
-    sensor_ids = [sensor.id for sensor in sensors]
-    return Response(sensor_ids)
-
-
-def send_sensor_status_notification(sensor_id, blocked):
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)(
-        f"sensor_{sensor_id}",
-        {
-            "type": "sensor.status",
-            "sensor_id": sensor_id,
-            "blocked": blocked,
-        },
-    )

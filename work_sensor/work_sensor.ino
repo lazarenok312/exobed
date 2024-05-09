@@ -8,61 +8,52 @@
 #include <TinyGPS++.h>
 #include <WebSocketsClient.h>
 
+String deviceName = "ESP8266"; // Имя устройства по умолчанию
+
 const char* serverUrl = "http://exobed.lazareub.beget.tech/api/data/";
 const char* csrfTokenEndpoint = "http://exobed.lazareub.beget.tech/get_csrf_token/";
-const char* webSocketServer = "ws://exobed.lazareub.beget.tech/ws/consumer/";
+String deviceStateEndpoint = "http://exobed.lazareub.beget.tech/device/esp8266/";
 
+// Инициализация клиента Wi-Fi, HTTP, GPS и WebSocket
 WiFiClient client;
 HTTPClient http;
 TinyGPSPlus gps;
 WebSocketsClient webSocket;
 
-String deviceName = "ESP8266";
-#define DHTPIN D4     // Указываем пин, к которому подключен датчик
-#define DHTTYPE DHT11 // Указываем тип датчика
+#define DHTPIN D4     // Пин для подключения датчика DHT
+#define DHTTYPE DHT11 // Тип датчика DHT (DHT11)
+DHT dht(DHTPIN, DHTTYPE); // Инициализация датчика температуры и влажности
+bool ledState = false; // Переменная для состояния светодиода
+bool blocked = false; // Переменная для состояния блокировки устройства
 
-DHT dht(DHTPIN, DHTTYPE);
-bool ledState = false;
-
-
-void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
-    switch(type) {
-        case WStype_TEXT:
-            Serial.printf("[WebSocket] Message: %s\n", payload);
-            if (strcmp((char*)payload, "start") == 0) {
-                digitalWrite(LED_BUILTIN, HIGH); // Включаем светодиод
-                ledState = true;
-            } else if (strcmp((char*)payload, "stop") == 0) {
-                digitalWrite(LED_BUILTIN, LOW); // Выключаем светодиод
-                ledState = false;
-            }
-            break;
-    }
-}
-
-
+// Функция отправки данных с CSRF-токеном
 void sendDataWithCSRFToken(String data) {
     HTTPClient http;
+    // Запрос CSRF-токена
     http.begin(client, csrfTokenEndpoint);
     int httpResponseCode = http.GET();
     String csrfToken;
 
+    // Если запрос прошел успешно, получаем CSRF-токен
     if (httpResponseCode > 0) {
         csrfToken = http.getString();
     } else {
+        // В случае ошибки выводим сообщение
         Serial.print("Failed to get CSRF token, HTTP error code: ");
         Serial.println(httpResponseCode);
         return;
     }
 
-    http.end();
+    http.end(); // Завершаем соединение
 
+    // Отправляем данные на сервер с заголовком CSRF-токена
     http.begin(client, serverUrl);
     http.addHeader("Content-Type", "application/json");
     http.addHeader("X-CSRFToken", csrfToken);
 
-    httpResponseCode = http.POST(data);
+    httpResponseCode = http.POST(data); // Отправляем POST-запрос с данными
 
+    // Обрабатываем ответ от сервера
     if (httpResponseCode > 0) {
         Serial.print("HTTP Response code: ");
         Serial.println(httpResponseCode);
@@ -73,42 +64,83 @@ void sendDataWithCSRFToken(String data) {
         Serial.println(httpResponseCode);
     }
 
-    http.end();
+    http.end(); // Завершаем соединение
+}
+
+// Функция для получения состояния устройства с сервера Django
+void getDeviceState() {
+    HTTPClient http;
+
+    if (http.begin(client, deviceStateEndpoint.c_str())) {
+        int httpCode = http.GET();
+
+        if (httpCode == 200) {
+            String payload = http.getString();
+            // Распарсить JSON и обновить переменные на устройстве
+            DynamicJsonDocument doc(200);
+            deserializeJson(doc, payload);
+
+            // Получаем значения состояния устройства
+            blocked = doc["blocked"];
+            bool work = doc["work"];
+
+            // Обновляем переменные состояния устройства
+            updateDeviceState(work);
+
+        } else {
+            Serial.print("Error getting device state: ");
+            Serial.println(httpCode);
+        }
+
+        http.end();
+    } else {
+        Serial.println("Failed to connect to server");
+    }
+}
+
+void updateDeviceState(bool work) {
+    // Здесь вы можете использовать значения work 
+    // для принятия решений или изменения поведения устройства
+    // Например:
+
+    if (work) {
+        // Ваше действие при работающем устройстве
+    } else {
+        // Ваше действие при выключенном устройстве
+    }
 }
 
 void setup() {
-    Serial.begin(115200);
+    Serial.begin(115200); // Инициализация последовательного порта
 
-    dht.begin(); // Инициализируем датчик DHT11
-    pinMode(LED_BUILTIN, OUTPUT);
+    dht.begin(); // Инициализация датчика DHT
+    pinMode(LED_BUILTIN, OUTPUT); // Настройка пина светодиода
 
-    WiFiManager wifiManager;
+    WiFiManager wifiManager; // Инициализация менеджера Wi-Fi
 
+    // Добавление параметра для настройки имени устройства
     WiFiManagerParameter custom_device_name("device", "Device Name", deviceName.c_str(), 40);
     wifiManager.addParameter(&custom_device_name);
 
-    wifiManager.autoConnect("ESP8266_AP");
+    wifiManager.autoConnect("ESP8266_AP"); // Автоматическое подключение к Wi-Fi сети
 
-    deviceName = custom_device_name.getValue();
+    deviceName = custom_device_name.getValue(); // Получение значения имени устройства
 
-    Serial.println("Connected to WiFi");
+    Serial.println("Connected to WiFi"); // Вывод сообщения о подключении к Wi-Fi
 
-    webSocket.begin("ws://exobed.lazareub.beget.tech/ws/consumer/", 80);
-    webSocket.onEvent(webSocketEvent);
-
-    if (!SPIFFS.begin()) {
-        Serial.println("Failed to initialize SPIFFS");
+    if (!SPIFFS.begin()) { // Инициализация файловой системы SPIFFS
+        Serial.println("Failed to initialize SPIFFS"); // Вывод сообщения об ошибке
         return;
     }
 }
 
 void loop() {
-
-  webSocket.loop(); // Поддерживаем соединение по веб-сокету
-
-   while (Serial.available() > 0) {
-        gps.encode(Serial.read());
+    while (Serial.available() > 0) { // Проверка доступности данных в последовательном порту
+        gps.encode(Serial.read()); // Обработка данных GPS
     }
+
+    // Получение состояния устройства с сервера Django
+    getDeviceState();
 
     // Проверка наличия корректных данных GPS
     if (gps.location.isValid()) {
@@ -124,60 +156,51 @@ void loop() {
 
         // Вы также можете извлечь высоту, скорость, курс и т. д. из объекта gps при необходимости
     } else {
-        Serial.println("Данные GPS недоступны");
+        Serial.println("Данные GPS недоступны"); // Вывод сообщения о недоступности данных GPS
     }
 
-    StaticJsonDocument<200> doc;
+    StaticJsonDocument<200> doc; // Создание JSON-документа
 
-    float temperature = dht.readTemperature();
-    float humidity = dht.readHumidity();
+    float temperature = dht.readTemperature(); // Получение температуры
+    float humidity = dht.readHumidity(); // Получение влажности
 
+    // Вывод значений температуры и влажности
     Serial.print("Температура: ");
     Serial.print(temperature);
     Serial.print(" °C\t");
-
     Serial.print("Влажность: ");
     Serial.print(humidity);
     Serial.println(" %");
 
-    int power = random(10, 99);
-    int watt = random(100, 900);
-    int volt = random(180, 240);
-    bool work = true;
-    int fan_speed = random(10, 2000);
+    int power = random(10, 99); // Генерация случайной мощности
+    int watt = random(100, 900); // Генерация случайной мощности
+    int volt = random(180, 240); // Генерация случайного напряжения
+    int fan_speed = random(10, 2000); // Генерация скорости вентилятора
 
-    doc["name"] = deviceName;
-    doc["temperature"] = temperature;
-    doc["power"] = power;
-    doc["watt"] = watt;
-    doc["volt"] = volt;
-    doc["work"] = work;
-    doc["fan_speed"] = fan_speed;
+    // Проверяем, заблокировано ли устройство
+    if (!blocked) {
+      Serial.println("Устройство доступно!!!");
+        // Заполнение JSON-документа данными
+        doc["name"] = deviceName;
+        doc["temperature"] = temperature;
+        doc["power"] = power;
+        doc["watt"] = watt;
+        doc["volt"] = volt;
+        doc["work"] = true;
+        doc["fan_speed"] = fan_speed;
 
-    String jsonData;
-    serializeJson(doc, jsonData);
+        String jsonData; // Создание строки для JSON-данных
+        serializeJson(doc, jsonData); // Сериализация JSON-документа в строку
 
-    sendDataWithCSRFToken(jsonData);
-
-    delay(60000);
-}
-
-void toggleLamp() {
-    HTTPClient http;
-
-    if (http.begin(client, serverUrl)) { 
-        int httpCode = http.POST("");
-
-        if (httpCode == 200) {
-            Serial.println("Lamp toggled successfully");
-            digitalWrite(D1, !digitalRead(D1));
-        } else {
-            Serial.print("Error toggling lamp: ");
-            Serial.println(httpCode);
-        }
-
-        http.end();
+        sendDataWithCSRFToken(jsonData); // Отправка данных на сервер
     } else {
-        Serial.println("Failed to connect to server");
+        // Устройство заблокировано, мигаем светодиодом
+        Serial.println("Устройство заблокировано!!!");
+        digitalWrite(LED_BUILTIN, HIGH); // Включаем светодиод
+        delay(500); // Задержка
+        digitalWrite(LED_BUILTIN, LOW); // Выключаем светодиод
+        delay(500); // Задержка
     }
+
+    delay(30000); // Задержка 30 секунд
 }

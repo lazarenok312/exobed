@@ -7,8 +7,7 @@ from . import routing
 urlpatterns = [
     path('', SensorListView.as_view(), name='sensor_list'),
     path('sensors/<int:pk>/', SensorDetailView.as_view(), name='sensor_detail'),
-    path('api/sensor_logs/<int:sensor_id>/', SensorLogsAPIView.as_view(), name='sensor_logs_api'),
-    path('api/sensor_logs_volt/<int:sensor_id>/', SensorLogsVoltAPIView.as_view(), name='sensor_logs_volt_api'),
+
     path('sensor-logs/<int:sensor_id>/', views.stream_sensor_logs, name='sensor_logs'),
     path('search/', views.search_sensors, name='search_sensors'),
     path('update_sensor_power/<int:sensor_id>/', views.update_sensor_power, name='update_sensor_power'),
@@ -18,8 +17,12 @@ urlpatterns = [
     path('sensor-detail-ajax/<int:sensor_id>/', sensor_detail_ajax, name='sensor_detail_ajax'),
     path('sensor/<int:pk>/', SensorDetailView.as_view(), name='sensor_detail'),
     path('sensor/<int:pk>/delete/', SensorDeleteView.as_view(), name='sensor_delete'),
-    path('api/data/', views.receive_data, name='receive_data'),
     path('get_csrf_token/', get_csrf_token, name='get_csrf_token'),
-    path('api/get_sensor_ids/', get_sensor_ids, name='get_sensor_ids'),
+
+    path('api/data/', views.receive_data, name='receive_data'),
+    path('api/sensor_logs/<int:sensor_id>/', SensorLogsAPIView.as_view(), name='sensor_logs_api'),
+    path('api/sensor_logs_volt/<int:sensor_id>/', SensorLogsVoltAPIView.as_view(), name='sensor_logs_volt_api'),
+    path('device/<slug:slug>/', DeviceStatus.as_view(), name='device_status'),
+
     path('confirm_sensor/<int:sensor_id>/', ConfirmSensorView.as_view(), name='confirm_sensor'),
 ]
