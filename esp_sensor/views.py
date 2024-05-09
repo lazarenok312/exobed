@@ -361,6 +361,7 @@ def receive_data(request):
             blocked = data.get('blocked', False)
             fan_speed = data.get('fan_speed', 0)
             ip_address = data.get('ip_address', '')
+            mac_address = data.get('mac_address', '')
 
             sensor, created = Sensor.objects.get_or_create(name=name)
             sensor.temperature = temperature
@@ -373,6 +374,7 @@ def receive_data(request):
             sensor.blocked = blocked
             sensor.fan_speed = fan_speed
             sensor.ip_address = ip_address
+            sensor.mac_address = mac_address
             sensor.save()
 
             return HttpResponse('Новые данные приняты на сервер')
@@ -398,9 +400,9 @@ class DeviceStatus(APIView):
 
             return Response(device_status, status=status.HTTP_200_OK)
         except Sensor.DoesNotExist:
-            return Response({"error": "Device not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "Устройство не найдено"}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
-            return Response({"error": f"An error occurred: {e}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"error": f"Произошла ошибка: {e}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 def get_csrf_token(request):

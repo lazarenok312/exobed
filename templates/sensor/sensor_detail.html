@@ -506,6 +506,18 @@
                     <span class="nav-link-text ms-1">{{ sensor.name }}</span>
                 </a>
             {% endif %}
+            <a class="nav-link text-white active bg-gradient-warning">
+                <div class="text-white text-center d-flex align-items-center justify-content-center">
+                    <i class="material-icons opacity-10">language</i>
+                </div>
+                <span class="nav-link-text ms-1">{{ sensor.ip_address }}</span>
+            </a>
+            <a class="nav-link text-white active bg-gradient-warning">
+                <div class="text-white text-center d-flex align-items-center justify-content-center">
+                    <i class="material-icons opacity-10">cell_tower</i>
+                </div>
+                <span class="nav-link-text ms-1">{{ sensor.mac_address }}</span>
+            </a>
         </ul>
         <hr class="horizontal light mt-0 mb-2">
         <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">

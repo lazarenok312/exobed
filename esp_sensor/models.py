@@ -52,6 +52,7 @@ class Sensor(models.Model):
     temperature = models.FloatField('Температура', default=0)
     fan_speed = models.IntegerField('Скорость кулера', default=0)
     ip_address = models.CharField('IP Адрес', max_length=15, blank=True)
+    mac_address = models.CharField('MAC Адрес', max_length=20, blank=True)
     confirmed = models.BooleanField('Подтвержден администратором', default=False)
 
     def __str__(self):

@@ -6,25 +6,26 @@
 #include <ArduinoJson.h>
 #include <DHT.h>
 #include <TinyGPS++.h>
-#include <WebSocketsClient.h>
 
-String deviceName = "ESP8266"; // Имя устройства по умолчанию
+String deviceName = "esp8266";
+String deviceStateEndpoint;
 
 const char* serverUrl = "http://exobed.lazareub.beget.tech/api/data/";
 const char* csrfTokenEndpoint = "http://exobed.lazareub.beget.tech/get_csrf_token/";
-String deviceStateEndpoint = "http://exobed.lazareub.beget.tech/device/esp8266/";
 
+WiFiServer server(8888);
+
+bool blocked = false;
+String receivedCommand = "";
 // Инициализация клиента Wi-Fi, HTTP, GPS и WebSocket
 WiFiClient client;
 HTTPClient http;
 TinyGPSPlus gps;
-WebSocketsClient webSocket;
 
 #define DHTPIN D4     // Пин для подключения датчика DHT
 #define DHTTYPE DHT11 // Тип датчика DHT (DHT11)
 DHT dht(DHTPIN, DHTTYPE); // Инициализация датчика температуры и влажности
-bool ledState = false; // Переменная для состояния светодиода
-bool blocked = false; // Переменная для состояния блокировки устройства
+
 
 // Функция отправки данных с CSRF-токеном
 void sendDataWithCSRFToken(String data) {
@@ -39,7 +40,7 @@ void sendDataWithCSRFToken(String data) {
         csrfToken = http.getString();
     } else {
         // В случае ошибки выводим сообщение
-        Serial.print("Failed to get CSRF token, HTTP error code: ");
+        Serial.print("Не удалось получить токен CSRF, код ошибки HTTP: ");
         Serial.println(httpResponseCode);
         return;
     }
@@ -55,12 +56,13 @@ void sendDataWithCSRFToken(String data) {
 
     // Обрабатываем ответ от сервера
     if (httpResponseCode > 0) {
-        Serial.print("HTTP Response code: ");
+        Serial.print("\n");
+        Serial.print("Код ответа HTTP: ");
         Serial.println(httpResponseCode);
         String response = http.getString();
         Serial.println(response);
     } else {
-        Serial.print("Error code: ");
+        Serial.print("Код ошибки: ");
         Serial.println(httpResponseCode);
     }
 
@@ -88,20 +90,17 @@ void getDeviceState() {
             updateDeviceState(work);
 
         } else {
-            Serial.print("Error getting device state: ");
+            Serial.print("Ошибка получения состояния устройства: ");
             Serial.println(httpCode);
         }
 
         http.end();
     } else {
-        Serial.println("Failed to connect to server");
+        Serial.println("Не удалось подключиться к серверу");
     }
 }
 
 void updateDeviceState(bool work) {
-    // Здесь вы можете использовать значения work 
-    // для принятия решений или изменения поведения устройства
-    // Например:
 
     if (work) {
         // Ваше действие при работающем устройстве
@@ -114,22 +113,32 @@ void setup() {
     Serial.begin(115200); // Инициализация последовательного порта
 
     dht.begin(); // Инициализация датчика DHT
-    pinMode(LED_BUILTIN, OUTPUT); // Настройка пина светодиода
+    // Настройка пина светодиода
 
     WiFiManager wifiManager; // Инициализация менеджера Wi-Fi
 
     // Добавление параметра для настройки имени устройства
-    WiFiManagerParameter custom_device_name("device", "Device Name", deviceName.c_str(), 40);
+    WiFiManagerParameter custom_device_name("device", "Имя устройства в нижнем регистре (device_name)", deviceName.c_str(), 40);
     wifiManager.addParameter(&custom_device_name);
 
-    wifiManager.autoConnect("ESP8266_AP"); // Автоматическое подключение к Wi-Fi сети
+    // Подключение к Wi-Fi сети или создание точки доступа с паролем
+    if (!wifiManager.autoConnect("ESP8266_EXO", "exoadmin")) {
+        Serial.println("Не удалось подключиться к Wi-Fi и создать точку доступа.");
+        delay(1000);
+        ESP.reset();
+        delay(5000);
+    }
 
-    deviceName = custom_device_name.getValue(); // Получение значения имени устройства
+    // Получение значения имени устройства из параметра WiFiManager
+    deviceName = custom_device_name.getValue();
 
-    Serial.println("Connected to WiFi"); // Вывод сообщения о подключении к Wi-Fi
+    // Обновление URL для состояния устройства с учетом имени устройства
+    deviceStateEndpoint = "http://exobed.lazareub.beget.tech/device/" + deviceName + "/";
+
+    Serial.println("Подключено к Wi-Fi"); // Вывод сообщения о подключении к Wi-Fi
 
     if (!SPIFFS.begin()) { // Инициализация файловой системы SPIFFS
-        Serial.println("Failed to initialize SPIFFS"); // Вывод сообщения об ошибке
+        Serial.println("Не удалось инициализировать SPIFFS."); // Вывод сообщения об ошибке
         return;
     }
 }
@@ -165,21 +174,38 @@ void loop() {
     float humidity = dht.readHumidity(); // Получение влажности
 
     // Вывод значений температуры и влажности
+    Serial.print("-----------------------------");
+    Serial.print("\n");
     Serial.print("Температура: ");
     Serial.print(temperature);
     Serial.print(" °C\t");
     Serial.print("Влажность: ");
     Serial.print(humidity);
     Serial.println(" %");
+    Serial.print("-----------------------------");
+    Serial.print("\n");
 
-    int power = random(10, 99); // Генерация случайной мощности
-    int watt = random(100, 900); // Генерация случайной мощности
-    int volt = random(180, 240); // Генерация случайного напряжения
-    int fan_speed = random(10, 2000); // Генерация скорости вентилятора
+    
 
     // Проверяем, заблокировано ли устройство
     if (!blocked) {
+      int power = random(10, 99); // Генерация случайной мощности
+      int watt = random(100, 900); // Генерация случайной мощности
+      int volt = random(180, 240); // Генерация случайного напряжения
+      int fan_speed = random(10, 2000); // Генерация скорости вентилятора
+      int ip_address = WiFi.localIP();
+      String mac_address = WiFi.macAddress();
+      Serial.print("IP адрес: ");
+      Serial.print(ip_address);
+      Serial.print("\n");
+      Serial.print("MAC адрес: ");
+      Serial.print(mac_address);
+      Serial.print("\n");
+      Serial.print("-----------------------------");
+      Serial.print("\n");
+      Serial.print("\n");
       Serial.println("Устройство доступно!!!");
+      Serial.print("\n");
         // Заполнение JSON-документа данными
         doc["name"] = deviceName;
         doc["temperature"] = temperature;
@@ -188,6 +214,8 @@ void loop() {
         doc["volt"] = volt;
         doc["work"] = true;
         doc["fan_speed"] = fan_speed;
+        doc["ip_address"] = ip_address;
+        doc["mac_address"] = mac_address;
 
         String jsonData; // Создание строки для JSON-данных
         serializeJson(doc, jsonData); // Сериализация JSON-документа в строку
@@ -196,11 +224,42 @@ void loop() {
     } else {
         // Устройство заблокировано, мигаем светодиодом
         Serial.println("Устройство заблокировано!!!");
-        digitalWrite(LED_BUILTIN, HIGH); // Включаем светодиод
-        delay(500); // Задержка
-        digitalWrite(LED_BUILTIN, LOW); // Выключаем светодиод
-        delay(500); // Задержка
+        digitalWrite(LED_BUILTIN, LOW);
+        delay(1000);                     
+        digitalWrite(LED_BUILTIN, HIGH);
+        delay(2000); 
     }
 
     delay(30000); // Задержка 30 секунд
+}
+
+void handleCommand(String command) {
+    // Удаляем лишние пробелы в начале и в конце команды
+    command.trim();
+
+    Serial.print("Получена команда: ");
+    Serial.println(command);
+
+    if (command == "resetwifi") {
+        Serial.println("Сброс настроек Wi-Fi...");
+        WiFiManager wifiManager; // Создание объекта WiFiManager
+        wifiManager.resetSettings(); // Сброс настроек Wi-Fi
+        Serial.println("Wi-Fi настройки сброшены.");
+    } else {
+        Serial.println("Неизвестная команда."); // Обработка неизвестной команды
+    }
+}
+
+void serialEvent() {
+    // Обработка событий последовательного порта
+    while (Serial.available()) {
+        char c = Serial.read();
+        if (c == '\n') {
+            // Запуск обработки команды при получении символа новой строки
+            handleCommand(receivedCommand);
+            receivedCommand = ""; // Сброс строки для следующей команды
+        } else {
+            receivedCommand += c; // Добавление символа к текущей команде
+        }
+    }
 }
