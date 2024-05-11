@@ -24,3 +24,4 @@ class ESP8266Consumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'blocked': blocked
         }))
+

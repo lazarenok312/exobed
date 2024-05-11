@@ -559,6 +559,12 @@
                             <span class="nav-link-text ms-1">Выйти</span>
                         </a>
                     </li>
+                    <a href="#" class="nav-link text-white active bg-gradient-danger" id="">
+                        <div class="text-white text-center d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">error</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Сообщить об ошибке</span>
+                    </a>
                 {% else %}
                     <li class="nav-item">
                         <a class="nav-link text-white " href='{% url 'login' %}'>
@@ -637,13 +643,12 @@
     </nav>
     <div class="container-fluid">
         {% if user.is_authenticated %}
-            {% if user.is_superuser %}
-                {% if sensor.is_blocked %}
+            {% if sensor.is_blocked %}
+                {% if user.is_superuser %}
                     <div class="blocked">
                         <span class="badge badge-sm bg-gradient-danger">Это устройство заблокировано!</span>
                     </div>
                 {% endif %}
-            {% else %}
                 <div class="blocked">
                     <span class="blocked-text badge-sm bg-gradient-danger">
                 Ваше устройство заблокировано! <a href="{% url 'chats' %}"
@@ -851,10 +856,10 @@
                     <div class="block-title">
                         <h4>Местоположение</h4>
                     </div>
-                    {#                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1929.0934648516875!2d74.63813907565734!3d42.87372287142946!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x389eb7a87341cc87%3A0x418f25e02c1d0649!2z0JrQoNCh0KM!5e0!3m2!1sru!2skg!4v1712504777277!5m2!1sru!2skg"#}
-                    {#                            width="100%" height="400" style="border:0; margin: 1px" allowfullscreen=""#}
-                    {#                            loading="lazy"#}
-                    {#                            referrerpolicy="no-referrer-when-downgrade"></iframe>#}
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1929.0934648516875!2d74.63813907565734!3d42.87372287142946!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x389eb7a87341cc87%3A0x418f25e02c1d0649!2z0JrQoNCh0KM!5e0!3m2!1sru!2skg!4v1712504777277!5m2!1sru!2skg"
+                            width="100%" height="400" style="border:0; margin: 1px" allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>

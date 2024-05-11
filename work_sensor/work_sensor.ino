@@ -6,6 +6,7 @@
 #include <ArduinoJson.h>
 #include <DHT.h>
 #include <TinyGPS++.h>
+#include <FS.h>
 
 String deviceName = "esp8266";
 String deviceStateEndpoint;
@@ -111,9 +112,21 @@ void updateDeviceState(bool work) {
 
 void setup() {
     Serial.begin(115200); // Инициализация последовательного порта
+    SPIFFS.begin();
 
     dht.begin(); // Инициализация датчика DHT
-    // Настройка пина светодиода
+
+    File configFile = SPIFFS.open("/config.json", "r");
+    if (configFile) {
+        // Чтение содержимого файла и установка имени устройства
+        deviceName = configFile.readStringUntil('\n');
+        configFile.close();
+    }
+
+    // Если файл не существует или не удалось прочитать имя, используется значение по умолчанию
+    if (deviceName == "") {
+        deviceName = "esp8266";
+    }
 
     WiFiManager wifiManager; // Инициализация менеджера Wi-Fi
 
@@ -143,6 +156,41 @@ void setup() {
     }
 }
 
+void saveDeviceName(String name) {
+    // Сохранение имени устройства в файл
+    File configFile = SPIFFS.open("/config.json", "w");
+    if (configFile) {
+        configFile.println(name);
+        configFile.close();
+    } else {
+        Serial.println("Ошибка сохранения имени устройства в файл.");
+    }
+}
+
+void getGeoLocation() {
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    WiFiClient client;
+    http.begin(client, "http://api.ipstack.com/check?access_key=IMn1Q9PRWJPyauWg5bWox3KxfgCMsUod");
+    int httpCode = http.GET();
+    if (httpCode > 0) {
+      String payload = http.getString();
+      // Распарсить JSON и извлечь данные о местоположении
+      DynamicJsonDocument doc(1024);
+      deserializeJson(doc, payload);
+      float latitude = doc["latitude"];
+      float longitude = doc["longitude"];
+      Serial.print("Latitude: ");
+      Serial.println(latitude, 6);
+      Serial.print("Longitude: ");
+      Serial.println(longitude, 6);
+    } else {
+      Serial.println("Error on HTTP request");
+    }
+    http.end();
+  }
+}
+
 void loop() {
     while (Serial.available() > 0) { // Проверка доступности данных в последовательном порту
         gps.encode(Serial.read()); // Обработка данных GPS
@@ -150,6 +198,7 @@ void loop() {
 
     // Получение состояния устройства с сервера Django
     getDeviceState();
+    getGeoLocation();
 
     // Проверка наличия корректных данных GPS
     if (gps.location.isValid()) {
@@ -189,14 +238,16 @@ void loop() {
 
     // Проверяем, заблокировано ли устройство
     if (!blocked) {
-      int power = random(10, 99); // Генерация случайной мощности
-      int watt = random(100, 900); // Генерация случайной мощности
-      int volt = random(180, 240); // Генерация случайного напряжения
-      int fan_speed = random(10, 2000); // Генерация скорости вентилятора
-      int ip_address = WiFi.localIP();
+      IPAddress ip = WiFi.localIP(); // Получаем IP-адрес
+
+      int power = random(10, 99);
+      int watt = random(100, 900);
+      int volt = random(180, 240);
+      int fan_speed = random(10, 2000);
+      String ip_address = ip.toString();
       String mac_address = WiFi.macAddress();
       Serial.print("IP адрес: ");
-      Serial.print(ip_address);
+      Serial.println(ip.toString());
       Serial.print("\n");
       Serial.print("MAC адрес: ");
       Serial.print(mac_address);
@@ -230,7 +281,7 @@ void loop() {
         delay(2000); 
     }
 
-    delay(30000); // Задержка 30 секунд
+    delay(60000); // Задержка 30 секунд
 }
 
 void handleCommand(String command) {
