@@ -470,6 +470,92 @@
     .timer-button {
         border-radius: 5px;
     }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(104, 102, 102, 0.56);
+    }
+
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: 15% auto;
+        border: 1px solid #888;
+        width: 50%;
+        text-align: center;
+    }
+
+    .close {
+        color: #aaaaaa;
+        position: absolute;
+        top: 2px;
+        right: 10px;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .btn-groups {
+        position: relative;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .btn-whatsapp {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 10px 0 0 10px;
+        background-color: #66BB6A;
+        color: #fff;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        width: 40%;
+    }
+
+    .btn-whatsapp:hover {
+        background-color: #43A047;
+    }
+
+    .btn-email {
+        width: 40%;
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 0px 10px 10px 0px;
+        background-color: #49a3f1;
+        color: #fff;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-email:hover {
+        background-color: #1A73E8;
+    }
+
+    @media screen and (max-width: 1200px) {
+        .modal-content {
+            width: 98%;
+            margin: 3px;
+        }
+
+        .btn-whatsapp {
+            width: 50%;
+        }
+    }
 </style>
 <title>Датчик {{ sensor.name }}</title>
 <body class="g-sidenav-show  bg-gray-200">
@@ -559,12 +645,6 @@
                             <span class="nav-link-text ms-1">Выйти</span>
                         </a>
                     </li>
-                    <a href="#" class="nav-link text-white active bg-gradient-danger" id="">
-                        <div class="text-white text-center d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">error</i>
-                        </div>
-                        <span class="nav-link-text ms-1">Сообщить об ошибке</span>
-                    </a>
                 {% else %}
                     <li class="nav-item">
                         <a class="nav-link text-white " href='{% url 'login' %}'>
@@ -620,7 +700,32 @@
                             </div>
                         </div>
                     </div>
+                {% else %}
+                    <a href="#" class="nav-link text-white active bg-gradient-danger" id="report-error-btn">
+                        <div class="text-white text-center d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">error</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Сообщить об ошибке</span>
+                    </a>
 
+                    <div id="report-error-modal" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <p>Выберите способ сообщить об ошибке:</p>
+                            <div class="btn-groups" role="group" aria-label="Кнопки для WhatsApp и Email">
+                                <a href="https://wa.me/996500427713?text=На%20устройстве%20{{ sensor.name|urlencode }}%20возникли%20проблемы!"
+                                   class="btn btn-info btn-whatsapp" target="_blank">
+                                    <i class="fab fa-whatsapp"></i>
+                                    <span>WhatsApp</span>
+                                </a>
+                                <a href="mailto:dmitriy@klubnika-art.ru?subject=Проблемы%20на%20устройстве%20{{ sensor.name }}"
+                                   class="btn btn-info btn-email">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>Email</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 {% endif %}
             </ul>
         </div>
@@ -878,6 +983,43 @@
 
 {% include 'include/script.html' %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Получаем ссылку на кнопку "Сообщить об ошибке" и модальное окно
+        var reportErrorBtn = document.getElementById("report-error-btn");
+        var modal = document.getElementById("report-error-modal");
+
+        // Получаем кнопку закрытия модального окна
+        var closeModalBtn = modal.querySelector(".close");
+
+        // Добавляем обработчик события при нажатии на кнопку "Сообщить об ошибке"
+        reportErrorBtn.addEventListener("click", function () {
+            // Показываем модальное окно
+            modal.style.display = "block";
+        });
+
+        // Добавляем обработчик события для кнопки закрытия модального окна
+        closeModalBtn.addEventListener("click", function () {
+            // Закрываем модальное окно
+            modal.style.display = "none";
+        });
+
+        // Добавляем обработчики событий для кнопок WhatsApp и Email
+        var sendReportBtn = document.getElementById("send-report-btn");
+        var sendEmailBtn = document.getElementById("send-email-btn");
+
+        sendReportBtn.addEventListener("click", function () {
+            // Здесь должен быть ваш код для отправки сообщения через WhatsApp
+            alert("Отправка сообщения через WhatsApp");
+        });
+
+        sendEmailBtn.addEventListener("click", function () {
+            // Здесь должен быть ваш код для отправки сообщения по электронной почте
+            alert("Отправка сообщения по электронной почте");
+        });
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const timeInput = document.getElementById('timeInput');

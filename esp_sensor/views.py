@@ -27,6 +27,7 @@ class SensorListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.order_by('name', 'owner', '-blocked', '-date_added')
+        queryset = queryset.prefetch_related('sensorlog_set')
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -35,7 +36,6 @@ class SensorListView(ListView):
         sensors = context['sensors']
 
         confirmed_sensors = [sensor for sensor in queryset if sensor.confirmed]
-        unconfirmed_sensors = [sensor for sensor in queryset if not sensor.confirmed]
 
         for sensor in confirmed_sensors:
             latest_log = sensor.sensorlog_set.last()
@@ -43,6 +43,8 @@ class SensorListView(ListView):
                 sensor.last_updated = latest_log.timestamp
             else:
                 sensor.last_updated = sensor.date_added
+
+        unconfirmed_sensors = [sensor for sensor in queryset if not sensor.confirmed]
 
         for sensor in unconfirmed_sensors:
             latest_log = sensor.sensorlog_set.last()
@@ -381,17 +383,14 @@ def receive_data(request):
         except Exception as e:
             return HttpResponse(f'Ошибка при обработке данных: {e}', status=500)
 
-    # Ответ на неразрешенный метод запроса
     return HttpResponse('Отказано!')
 
 
 class DeviceStatus(APIView):
     def get(self, request, slug):
         try:
-            # Находим устройство по slug
             sensor = Sensor.objects.get(slug=slug)
 
-            # Получаем данные о состоянии устройства
             device_status = {
                 "name": sensor.name,
                 "blocked": sensor.blocked,
