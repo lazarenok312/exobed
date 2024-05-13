@@ -556,6 +556,17 @@
             width: 50%;
         }
     }
+
+    #error-text {
+        width: 90%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 </style>
 <title>Датчик {{ sensor.name }}</title>
 <body class="g-sidenav-show  bg-gray-200">
@@ -711,15 +722,17 @@
                     <div id="report-error-modal" class="modal">
                         <div class="modal-content">
                             <span class="close">&times;</span>
-                            <p>Выберите способ сообщить об ошибке:</p>
+                            <div style="margin-top: 10px" id="error-description">
+                                <label for="error-text">Опишите проблему:</label>
+                                <textarea id="error-text" rows="4" cols="50"></textarea>
+                            </div>
+                            <p>Выберите способ сообщния об ошибке:</p>
                             <div class="btn-groups" role="group" aria-label="Кнопки для WhatsApp и Email">
-                                <a href="https://wa.me/996500427713?text=На%20устройстве%20{{ sensor.name|urlencode }}%20возникли%20проблемы!"
-                                   class="btn btn-info btn-whatsapp" target="_blank">
+                                <a href="#" class="btn btn-info btn-whatsapp" id="whatsapp-btn" target="_blank">
                                     <i class="fab fa-whatsapp"></i>
                                     <span>WhatsApp</span>
                                 </a>
-                                <a href="mailto:dmitriy@klubnika-art.ru?subject=Проблемы%20на%20устройстве%20{{ sensor.name }}"
-                                   class="btn btn-info btn-email">
+                                <a href="#" class="btn btn-info btn-email" id="email-btn">
                                     <i class="fas fa-envelope"></i>
                                     <span>Email</span>
                                 </a>
@@ -983,40 +996,42 @@
 
 {% include 'include/script.html' %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function sendWhatsAppMessage(event) {
+        event.preventDefault();
+        var sensorName = "{{ sensor.name|urlencode }}";
+        var errorText = document.getElementById('error-text').value;
+        var deviceLink = encodeURIComponent("{{ request.build_absolute_uri }}");
+        var url = "https://wa.me/996500427713?text=На%20устройстве%20" + sensorName + "%20возникли%20проблемы:%0A" + errorText + "%0A%0AСсылка%20на%20устройство:%20" + deviceLink;
+        window.open(url, '_blank');
+    }
 
+    function sendEmail() {
+        var sensorName = "{{ sensor.name }}";
+        var errorText = document.getElementById('error-text').value;
+        var deviceLink = encodeURIComponent("{{ request.build_absolute_uri }}");
+        var subject = "Проблемы на устройстве " + sensorName;
+        var body = "Описание проблемы: " + errorText + "%0A%0AСсылка на устройство: " + deviceLink;
+        var url = "mailto:dmitriy@klubnika-art.ru?subject=" + subject + "&body=" + body;
+        window.location.href = url;
+    }
+
+    document.getElementById('whatsapp-btn').addEventListener('click', sendWhatsAppMessage);
+    document.getElementById('email-btn').addEventListener('click', sendEmail);
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Получаем ссылку на кнопку "Сообщить об ошибке" и модальное окно
         var reportErrorBtn = document.getElementById("report-error-btn");
         var modal = document.getElementById("report-error-modal");
 
-        // Получаем кнопку закрытия модального окна
         var closeModalBtn = modal.querySelector(".close");
 
-        // Добавляем обработчик события при нажатии на кнопку "Сообщить об ошибке"
         reportErrorBtn.addEventListener("click", function () {
-            // Показываем модальное окно
             modal.style.display = "block";
         });
 
-        // Добавляем обработчик события для кнопки закрытия модального окна
         closeModalBtn.addEventListener("click", function () {
-            // Закрываем модальное окно
             modal.style.display = "none";
-        });
-
-        // Добавляем обработчики событий для кнопок WhatsApp и Email
-        var sendReportBtn = document.getElementById("send-report-btn");
-        var sendEmailBtn = document.getElementById("send-email-btn");
-
-        sendReportBtn.addEventListener("click", function () {
-            // Здесь должен быть ваш код для отправки сообщения через WhatsApp
-            alert("Отправка сообщения через WhatsApp");
-        });
-
-        sendEmailBtn.addEventListener("click", function () {
-            // Здесь должен быть ваш код для отправки сообщения по электронной почте
-            alert("Отправка сообщения по электронной почте");
         });
     });
 </script>
