@@ -55,11 +55,11 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white active bg-gradient-success" href="{% url 'sensor_list' %}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">download_for_offline</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Обновить прошивку</span>
-                </a>
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">download_for_offline</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Обновить прошивку</span>
+                    </a>
                 </li>
             {% else %}
                 <li class="nav-item">
@@ -215,6 +215,9 @@
                                             Статус
                                         </th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Прошивка
+                                        </th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Дата обновления
                                         </th>
                                         <th class="text-secondary opacity-7"></th>
@@ -258,6 +261,9 @@
                                                         <span class="badge badge-sm bg-gradient-secondary">Оффлайн</span>
                                                     {% endif %}
                                                 {% endif %}
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-xs font-weight-bold">{{ sensor.version }}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">{{ sensor.last_updated | date:"Y/m/d H:i:s" }}</span>

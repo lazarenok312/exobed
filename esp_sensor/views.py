@@ -17,6 +17,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.utils import timezone
 
+
 # Класс для отображения списка датчиков
 class SensorListView(ListView):
     model = Sensor
@@ -365,6 +366,7 @@ def receive_data(request):
             fan_speed = data.get('fan_speed', 0)
             ip_address = data.get('ip_address', '')
             mac_address = data.get('mac_address', '')
+            version = data.get('version', '')
 
             sensor, created = Sensor.objects.get_or_create(name=name)
             sensor.temperature = temperature
@@ -378,15 +380,16 @@ def receive_data(request):
             sensor.fan_speed = fan_speed
             sensor.ip_address = ip_address
             sensor.mac_address = mac_address
+            sensor.version = version
             sensor.timestamp = timezone.now()
 
-            end_time = time.time()  # Конец измерения времени
-            processing_time = (end_time - start_time) * 1000  # Время обработки в миллисекундах
+            end_time = time.time()
+            processing_time = round((end_time - start_time) * 1000, 2)
 
             sensor.processing_time = processing_time
             sensor.save()
 
-            return HttpResponse('Новые данные приняты на сервер')
+            return HttpResponse(f'Новые данные приняты на сервер. Время обработки: {processing_time:.2f} мс')
         except Exception as e:
             return HttpResponse(f'Ошибка при обработке данных: {e}', status=500)
 
