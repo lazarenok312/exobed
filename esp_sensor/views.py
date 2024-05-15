@@ -15,7 +15,7 @@ from django.middleware.csrf import get_token
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
+from django.utils import timezone
 
 # Класс для отображения списка датчиков
 class SensorListView(ListView):
@@ -350,6 +350,7 @@ def search_sensors(request):
 @csrf_exempt
 def receive_data(request):
     if request.method == 'POST':
+        start_time = time.time()
         try:
             data = json.loads(request.body)
             name = data.get('name', '')
@@ -377,6 +378,12 @@ def receive_data(request):
             sensor.fan_speed = fan_speed
             sensor.ip_address = ip_address
             sensor.mac_address = mac_address
+            sensor.timestamp = timezone.now()
+
+            end_time = time.time()  # Конец измерения времени
+            processing_time = (end_time - start_time) * 1000  # Время обработки в миллисекундах
+
+            sensor.processing_time = processing_time
             sensor.save()
 
             return HttpResponse('Новые данные приняты на сервер')

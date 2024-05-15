@@ -18,7 +18,7 @@ WiFiServer server(8888);
 
 bool blocked = false;
 String receivedCommand = "";
-// Инициализация клиента Wi-Fi, HTTP, GPS и WebSocket
+
 WiFiClient client;
 HTTPClient http;
 TinyGPSPlus gps;
@@ -167,29 +167,6 @@ void saveDeviceName(String name) {
     }
 }
 
-void getGeoLocation() {
-  if (WiFi.status() == WL_CONNECTED) {
-    HTTPClient http;
-    WiFiClient client;
-    http.begin(client, "http://api.ipstack.com/check?access_key=IMn1Q9PRWJPyauWg5bWox3KxfgCMsUod");
-    int httpCode = http.GET();
-    if (httpCode > 0) {
-      String payload = http.getString();
-      // Распарсить JSON и извлечь данные о местоположении
-      DynamicJsonDocument doc(1024);
-      deserializeJson(doc, payload);
-      float latitude = doc["latitude"];
-      float longitude = doc["longitude"];
-      Serial.print("Latitude: ");
-      Serial.println(latitude, 6);
-      Serial.print("Longitude: ");
-      Serial.println(longitude, 6);
-    } else {
-      Serial.println("Error on HTTP request");
-    }
-    http.end();
-  }
-}
 
 void loop() {
     while (Serial.available() > 0) { // Проверка доступности данных в последовательном порту
@@ -198,7 +175,6 @@ void loop() {
 
     // Получение состояния устройства с сервера Django
     getDeviceState();
-    getGeoLocation();
 
     // Проверка наличия корректных данных GPS
     if (gps.location.isValid()) {
@@ -212,7 +188,6 @@ void loop() {
         Serial.print("Долгота: ");
         Serial.println(longitude, 6);
 
-        // Вы также можете извлечь высоту, скорость, курс и т. д. из объекта gps при необходимости
     } else {
         Serial.println("Данные GPS недоступны"); // Вывод сообщения о недоступности данных GPS
     }
@@ -222,7 +197,6 @@ void loop() {
     float temperature = dht.readTemperature(); // Получение температуры
     float humidity = dht.readHumidity(); // Получение влажности
 
-    // Вывод значений температуры и влажности
     Serial.print("-----------------------------");
     Serial.print("\n");
     Serial.print("Температура: ");
@@ -235,8 +209,6 @@ void loop() {
     Serial.print("\n");
 
     
-
-    // Проверяем, заблокировано ли устройство
     if (!blocked) {
       IPAddress ip = WiFi.localIP(); // Получаем IP-адрес
 
@@ -257,35 +229,29 @@ void loop() {
       Serial.print("\n");
       Serial.println("Устройство доступно!!!");
       Serial.print("\n");
-        // Заполнение JSON-документа данными
-        doc["name"] = deviceName;
-        doc["temperature"] = temperature;
-        doc["power"] = power;
-        doc["watt"] = watt;
-        doc["volt"] = volt;
-        doc["work"] = true;
-        doc["fan_speed"] = fan_speed;
-        doc["ip_address"] = ip_address;
-        doc["mac_address"] = mac_address;
 
-        String jsonData; // Создание строки для JSON-данных
-        serializeJson(doc, jsonData); // Сериализация JSON-документа в строку
+      doc["name"] = deviceName;
+      doc["temperature"] = temperature;
+      doc["power"] = power;
+      doc["watt"] = watt;
+      doc["volt"] = volt;
+      doc["work"] = true;
+      doc["fan_speed"] = fan_speed;
+      doc["ip_address"] = ip_address;
+      doc["mac_address"] = mac_address;
 
-        sendDataWithCSRFToken(jsonData); // Отправка данных на сервер
+      String jsonData; // Создание строки для JSON-данных
+      serializeJson(doc, jsonData); // Сериализация JSON-документа в строку
+
+      sendDataWithCSRFToken(jsonData); // Отправка данных на сервер
     } else {
         // Устройство заблокировано, мигаем светодиодом
         Serial.println("Устройство заблокировано!!!");
-        digitalWrite(LED_BUILTIN, LOW);
-        delay(1000);                     
-        digitalWrite(LED_BUILTIN, HIGH);
-        delay(2000); 
     }
-
     delay(60000); // Задержка 30 секунд
 }
 
 void handleCommand(String command) {
-    // Удаляем лишние пробелы в начале и в конце команды
     command.trim();
 
     Serial.print("Получена команда: ");
