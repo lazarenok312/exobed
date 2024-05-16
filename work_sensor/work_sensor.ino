@@ -12,13 +12,13 @@
 String deviceName = "esp8266";
 String deviceStateEndpoint;
 
-const char* version = "1.0.1";
+const char* version = "1.0.0";
 const char* firmwareFileName = "work_sensor.ino.bin";
 const char* currentVersion = version;
 const char* serverUrl = "http://exobed.lazareub.beget.tech/api/data/";
 const char* csrfTokenEndpoint = "http://exobed.lazareub.beget.tech/get_csrf_token/";
 const char* updateUrl = "http://exobed.lazareub.beget.tech/api/latest-firmware/";
-
+const char* firmwareUrl = "http://exobed.lazareub.beget.tech/media/firmwares/work_sensor.ino.bin";
 
 bool blocked = false;
 String receivedCommand = "";
@@ -172,6 +172,8 @@ void saveDeviceName(String name) {
 }
 
 void checkForUpdates() {
+  Serial.println("Проверка обновлений...");
+
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
     http.begin(client, updateUrl);
@@ -184,6 +186,12 @@ void checkForUpdates() {
 
       const char* latestVersion = doc["version"];
       const char* firmwareUrl = doc["url"];
+
+      Serial.println("Получена информация о версии прошивки:");
+      Serial.print("Новая версия: ");
+      Serial.println(latestVersion);
+      Serial.print("URL прошивки: ");
+      Serial.println(firmwareUrl);
 
       if (String(latestVersion) != String(currentVersion)) {
         Serial.println("Доступна новая версия прошивки: " + String(latestVersion));
@@ -215,6 +223,23 @@ void checkForUpdates() {
   }
 }
 
+void updateFirmware() {
+    Serial.println("Загрузка прошивки...");
+
+    t_httpUpdate_return ret = ESPhttpUpdate.update(client, firmwareUrl, currentVersion);
+    switch (ret) {
+        case HTTP_UPDATE_FAILED:
+            Serial.printf("HTTP_UPDATE_FAILED Error (%d): %s\n", ESPhttpUpdate.getLastError(), ESPhttpUpdate.getLastErrorString().c_str());
+            break;
+        case HTTP_UPDATE_NO_UPDATES:
+            Serial.println("HTTP_UPDATE_NO_UPDATES");
+            break;
+        case HTTP_UPDATE_OK:
+            Serial.println("HTTP_UPDATE_OK");
+            break;
+    }
+}
+
 void loop() {
     while (Serial.available() > 0) { // Проверка доступности данных в последовательном порту
         gps.encode(Serial.read()); // Обработка данных GPS
@@ -222,6 +247,11 @@ void loop() {
 
     // Получение состояния устройства с сервера Django
     getDeviceState();
+    // Проверка обновлений
+    checkForUpdates();
+
+    // Загрузка прошивки
+    updateFirmware();
 
     // Проверка наличия корректных данных GPS
     if (gps.location.isValid()) {
