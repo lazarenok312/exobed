@@ -17,7 +17,7 @@ const char* firmwareFileName = "work_sensor.ino.bin";
 const char* currentVersion = version;
 const char* serverUrl = "http://exobed.lazareub.beget.tech/api/data/";
 const char* csrfTokenEndpoint = "http://exobed.lazareub.beget.tech/get_csrf_token/";
-const char* updateUrl = "http://exobed.lazareub.beget.tech/media/firmwares/work_sensor.ino.bin";
+const char* updateUrl = "http://exobed.lazareub.beget.tech/api/latest-firmware/";
 
 
 bool blocked = false;

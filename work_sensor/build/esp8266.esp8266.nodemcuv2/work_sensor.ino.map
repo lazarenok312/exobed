@@ -18921,7 +18921,7 @@ END GROUP
  *(.dtors)
                 0x000000004021f1d4                . = ALIGN (0x4)
                 0x000000004021f1d4                _bss_table_start = ABSOLUTE (.)
-                0x000000004021f1d4        0x4 LONG 0x3ffe9788 _bss_start
+                0x000000004021f1d4        0x4 LONG 0x3ffe9790 _bss_start
                 0x000000004021f1d8        0x4 LONG 0x3ffefef8 _bss_end
                 0x000000004021f1dc                _bss_table_end = ABSOLUTE (.)
  *libgcc.a:unwind-dw2.o(.literal .text .rodata .literal.* .text.* .rodata.*)
@@ -26310,7 +26310,7 @@ END GROUP
                 0x0000000040106c19                _text_end = ABSOLUTE (.)
                 0x0000000040106c19                _etext = .
 
-.rodata         0x000000003ffe8630     0x1154
+.rodata         0x000000003ffe8630     0x115c
                 0x000000003ffe8630                _rodata_start = ABSOLUTE (.)
  *(.sdk.version)
  .sdk.version   0x000000003ffe8630       0x13 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libmain.a(app_main.o)
@@ -26371,312 +26371,312 @@ END GROUP
                 0x000000003ffe8e48       0x48 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\sketch\work_sensor.ino.cpp.o
                 0x000000003ffe8e48                _ZZN11ArduinoJson7V704PB26detail11FloatTraitsIdLj8EE25positiveBinaryPowersOfTenEvE7factors
  .rodata.str1.1
-                0x000000003ffe8e90       0xaa C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\sketch\work_sensor.ino.cpp.o
-                                         0xbe (size before relaxing)
+                0x000000003ffe8e90       0xaf C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\sketch\work_sensor.ino.cpp.o
  .rodata._ZN10HTTPClient9addHeaderERK6StringS2_bb.str1.1
-                0x000000003ffe8f3a       0xaa C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266HTTPClient\ESP8266HTTPClient.a(ESP8266HTTPClient.cpp.o)
+                0x000000003ffe8f3f       0xaf C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266HTTPClient\ESP8266HTTPClient.a(ESP8266HTTPClient.cpp.o)
                                           0x6 (size before relaxing)
  .rodata._ZN10HTTPClient13beginInternalERK6StringPKc.str1.1
-                0x000000003ffe8f3a        0xb C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266HTTPClient\ESP8266HTTPClient.a(ESP8266HTTPClient.cpp.o)
+                0x000000003ffe8f3f        0xb C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266HTTPClient\ESP8266HTTPClient.a(ESP8266HTTPClient.cpp.o)
  .rodata._ZN10HTTPClient11sendRequestEPKcPKhj.str1.1
-                0x000000003ffe8f45        0x9 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266HTTPClient\ESP8266HTTPClient.a(ESP8266HTTPClient.cpp.o)
+                0x000000003ffe8f4a        0x9 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266HTTPClient\ESP8266HTTPClient.a(ESP8266HTTPClient.cpp.o)
  .rodata._ZN10HTTPClient4POSTEPKhj.str1.1
-                0x000000003ffe8f4e        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266HTTPClient\ESP8266HTTPClient.a(ESP8266HTTPClient.cpp.o)
- .rodata.CSWTCH$186
                 0x000000003ffe8f53        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266HTTPClient\ESP8266HTTPClient.a(ESP8266HTTPClient.cpp.o)
+ .rodata.CSWTCH$186
+                0x000000003ffe8f58        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266HTTPClient\ESP8266HTTPClient.a(ESP8266HTTPClient.cpp.o)
+ *fill*         0x000000003ffe8f5d        0x3 
  .rodata._ZZNSt19_Sp_make_shared_tag5_S_tiEvE5__tag
-                0x000000003ffe8f58        0x8 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266WiFi\ESP8266WiFi.a(ESP8266WiFiGeneric.cpp.o)
-                0x000000003ffe8f58                _ZZNSt19_Sp_make_shared_tag5_S_tiEvE5__tag
+                0x000000003ffe8f60        0x8 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266WiFi\ESP8266WiFi.a(ESP8266WiFiGeneric.cpp.o)
+                0x000000003ffe8f60                _ZZNSt19_Sp_make_shared_tag5_S_tiEvE5__tag
  .rodata._ZN19ESP8266WiFiSTAClass10macAddressEv.str1.1
-                0x000000003ffe8f60       0x1e C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266WiFi\ESP8266WiFi.a(ESP8266WiFiSTA.cpp.o)
+                0x000000003ffe8f68       0x1e C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266WiFi\ESP8266WiFi.a(ESP8266WiFiSTA.cpp.o)
  .rodata.CSWTCH$68
-                0x000000003ffe8f7e        0x6 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266WiFi\ESP8266WiFi.a(ESP8266WiFiSTA.cpp.o)
+                0x000000003ffe8f86        0x6 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266WiFi\ESP8266WiFi.a(ESP8266WiFiSTA.cpp.o)
  .rodata._ZN20WiFiManagerParameterC2Ev.str1.1
-                0x000000003ffe8f84        0x1 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe8f8c        0x1 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager10getMenuOutEv.str1.1
-                0x000000003ffe8f84        0xd C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe8f8c        0xd C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager16getDefaultAPNameEv.str1.1
-                0x000000003ffe8f91        0x2 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe8f99        0x2 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager10toStringIpE9IPAddress.str1.1
-                0x000000003ffe8f93        0x2 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe8f9b        0x2 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager12htmlEntitiesE6Stringb.str1.1
-                0x000000003ffe8f93       0x23 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe8f9b       0x23 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
                                          0x27 (size before relaxing)
  .rodata._ZN11WiFiManager11getInfoDataE6String.str1.1
-                0x000000003ffe8fb6       0x1d C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe8fbe       0x1d C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZNSt6vectorIPKcSaIS1_EEC2ESt16initializer_listIS1_ERKS2_.str1.1
-                0x000000003ffe8fd3       0x31 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe8fdb       0x31 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager8DEBUG_WMIPK19__FlashStringHelperjEEv15wm_debuglevel_tT_T0_.str1.1
-                0x000000003ffe9004        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe900c        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager11getParamOutEv.str1.1
-                0x000000003ffe9009        0x3 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe9011        0x3 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager14WiFi_enableSTAEbb.str1.1
-                0x000000003ffe900c        0xf C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe9014        0xf C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager15validApPasswordEv.str1.1
-                0x000000003ffe901b        0x8 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe9023        0x8 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager14WiFiSetCountryEv.str1.1
-                0x000000003ffe9023        0x6 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe902b        0x6 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
                                           0x9 (size before relaxing)
  .rodata._ZN11WiFiManager12reportStatusER6String.str1.1
-                0x000000003ffe9029        0x6 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe9031        0x6 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
                                           0x2 (size before relaxing)
  .rodata._ZN11WiFiManager17WiFi_scanCompleteEi.str1.1
-                0x000000003ffe9029        0x8 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe9031        0x8 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager11connectWifiE6StringS0_b.str1.1
-                0x000000003ffe9031        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe9039        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager11doParamSaveEv.str1.1
-                0x000000003ffe9036        0x2 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe903e        0x2 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN16esp8266webserver24ESP8266WebServerTemplateI10WiFiServerE10sendHeaderERK6StringS5_b.str1.1
-                0x000000003ffe9038        0x3 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe9040        0x3 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager5eraseEb.str1.1
-                0x000000003ffe9038        0x8 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe9040        0x8 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager17WiFi_scanNetworksEbb.str1.1
-                0x000000003ffe9040       0x26 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe9048       0x26 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager14getScanItemOutEv.str1.1
-                0x000000003ffe9066       0x10 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe906e       0x10 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager14handleUpdatingEv.str1.1
-                0x000000003ffe9076       0x14 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe907e       0x14 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager17debugSoftAPConfigEv.str1.1
-                0x000000003ffe908a        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe9092        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManagerC2Ev.str1.1
-                0x000000003ffe908f        0x7 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe9097        0x7 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN16esp8266webserver24ESP8266WebServerTemplateI10WiFiServerE10_parseFormER10WiFiClientRK6Stringj.str1.1
-                0x000000003ffe9096        0x7 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe909e        0x7 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
                                           0xa (size before relaxing)
  .rodata._ZN16esp8266webserver24ESP8266WebServerTemplateI10WiFiServerE13_parseRequestER10WiFiClient.str1.1
-                0x000000003ffe909d        0x2 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
- .rodata._ZN16esp8266webserver24ESP8266WebServerTemplateI10WiFiServerE11sendContentEP6Streami.str1.1
-                0x000000003ffe909f        0x6 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
- .rodata._ZN16esp8266webserver24ESP8266WebServerTemplateI10WiFiServerE14_prepareHeaderER6StringiPKcj.str1.1
                 0x000000003ffe90a5        0x2 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+ .rodata._ZN16esp8266webserver24ESP8266WebServerTemplateI10WiFiServerE11sendContentEP6Streami.str1.1
+                0x000000003ffe90a7        0x6 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+ .rodata._ZN16esp8266webserver24ESP8266WebServerTemplateI10WiFiServerE14_prepareHeaderER6StringiPKcj.str1.1
+                0x000000003ffe90ad        0x2 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager13captivePortalEv.str1.1
-                0x000000003ffe90a7       0x17 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe90af       0x17 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager16handleUpdateDoneEv.str1.1
-                0x000000003ffe90be        0xc C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe90c6        0xc C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager12handleUpdateEv.str1.1
-                0x000000003ffe90ca        0x4 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe90d2        0x4 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager10handleInfoEv.str1.1
-                0x000000003ffe90ce       0x83 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe90d6       0x83 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11WiFiManager14handleWifiSaveEv.str1.1
-                0x000000003ffe9151       0x3e C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe9159       0x3e C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
                                          0x4c (size before relaxing)
  .rodata._ZN16esp8266webserver24ESP8266WebServerTemplateI10WiFiServerE9urlDecodeERK6String.str1.1
-                0x000000003ffe918f        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe9197        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata.str1.1
-                0x000000003ffe9194      0x33f C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe919c      0x33f C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
                                         0x350 (size before relaxing)
- *fill*         0x000000003ffe94d3        0x1 
+ *fill*         0x000000003ffe94db        0x1 
  .rodata.C$29$5
-                0x000000003ffe94d4       0x14 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe94dc       0x14 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata.C$28$4
-                0x000000003ffe94e8       0x14 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe94f0       0x14 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata.C$27$3
-                0x000000003ffe94fc       0x10 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe9504       0x10 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZL13WM_COUNTRY_JP
-                0x000000003ffe950c        0x6 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe9514        0x6 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZL13WM_COUNTRY_CN
-                0x000000003ffe9512        0x6 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe951a        0x6 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZL13WM_COUNTRY_US
-                0x000000003ffe9518        0x6 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
+                0x000000003ffe9520        0x6 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\WiFiManager\WiFiManager.cpp.o
  .rodata._ZN11TinyGPSPlus16endOfTermHandlerEv.str1.1
-                0x000000003ffe951e       0x18 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\TinyGPSPlus\TinyGPS++.cpp.o
+                0x000000003ffe9526       0x18 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\TinyGPSPlus\TinyGPS++.cpp.o
  .rodata._ZN8EspClass14getCoreVersionEv.str1.1
-                0x000000003ffe9536        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(Esp.cpp.o)
- *fill*         0x000000003ffe953b        0x1 
+                0x000000003ffe953e        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(Esp.cpp.o)
+ *fill*         0x000000003ffe9543        0x1 
  .rodata.CSWTCH$136
-                0x000000003ffe953c       0x1c C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(Esp.cpp.o)
+                0x000000003ffe9544       0x1c C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(Esp.cpp.o)
  .rodata.CSWTCH$125
-                0x000000003ffe9558       0x28 C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(Esp.cpp.o)
+                0x000000003ffe9560       0x28 C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(Esp.cpp.o)
  .rodata._ZNK10MD5Builder8getCharsEPc.str1.1
-                0x000000003ffe9580        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(MD5Builder.cpp.o)
+                0x000000003ffe9588        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(MD5Builder.cpp.o)
  .rodata._ZN5Print7printlnEv.str1.1
-                0x000000003ffe9585        0x3 C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(Print.cpp.o)
+                0x000000003ffe958d        0x3 C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(Print.cpp.o)
  .rodata.str1.1
-                0x000000003ffe9585        0x6 C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(core_esp8266_main.cpp.o)
+                0x000000003ffe958d        0x6 C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(core_esp8266_main.cpp.o)
  .rodata.dtostrf.str1.1
-                0x000000003ffe958b        0x8 C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(core_esp8266_noniso.cpp.o)
+                0x000000003ffe9593        0x8 C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(core_esp8266_noniso.cpp.o)
  .rodata.CSWTCH$10
-                0x000000003ffe9593       0x10 C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(core_esp8266_flash_quirks.cpp.o)
- *fill*         0x000000003ffe95a3        0x1 
+                0x000000003ffe959b       0x10 C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(core_esp8266_flash_quirks.cpp.o)
+ *fill*         0x000000003ffe95ab        0x1 
  .rodata.str1.4
-                0x000000003ffe95a4        0xb C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libpp.a(pm.o)
- *fill*         0x000000003ffe95af        0x1 
+                0x000000003ffe95ac        0xb C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libpp.a(pm.o)
+ *fill*         0x000000003ffe95b7        0x1 
  .rodata.str1.4
-                0x000000003ffe95b0        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libpp.a(pm_for_bcn_only_mode.o)
+                0x000000003ffe95b8        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libpp.a(pm_for_bcn_only_mode.o)
                                           0xc (size before relaxing)
  .rodata.str1.4
-                0x000000003ffe95b4        0x8 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libpp.a(pp.o)
+                0x000000003ffe95bc        0x8 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libpp.a(pp.o)
                                          0x10 (size before relaxing)
  .rodata.str1.4
-                0x000000003ffe95bc        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libpp.a(wdev.o)
+                0x000000003ffe95c4        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libpp.a(wdev.o)
                                           0xc (size before relaxing)
  .rodata.str1.4
-                0x000000003ffe95c0        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libpp.a(lmac.o)
+                0x000000003ffe95c8        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libpp.a(lmac.o)
                                           0xc (size before relaxing)
  .rodata.str1.4
-                0x000000003ffe95c4        0x3 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libnet80211.a(ieee80211_hostap.o)
+                0x000000003ffe95cc        0x3 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libnet80211.a(ieee80211_hostap.o)
                                           0x8 (size before relaxing)
  .rodata.str1.4
-                0x000000003ffe95c7        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libnet80211.a(ieee80211_sta.o)
+                0x000000003ffe95cf        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libnet80211.a(ieee80211_sta.o)
  .rodata.str1.4
-                0x000000003ffe95c7        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libnet80211.a(ieee80211_ie_vendor.o)
+                0x000000003ffe95cf        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libnet80211.a(ieee80211_ie_vendor.o)
  .rodata.str1.1
-                0x000000003ffe95c7       0x41 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(lwip-esp.o)
+                0x000000003ffe95cf       0x41 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(lwip-esp.o)
  .rodata.dhcp_cleanup.str1.1
-                0x000000003ffe9608       0x13 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(lwip-esp.o)
+                0x000000003ffe9610       0x13 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(lwip-esp.o)
  .rodata.dhcp_release.str1.1
-                0x000000003ffe961b       0x13 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(lwip-esp.o)
+                0x000000003ffe9623       0x13 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(lwip-esp.o)
  .rodata.CSWTCH$34
-                0x000000003ffe962e       0x10 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(lwip-esp.o)
+                0x000000003ffe9636       0x10 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(lwip-esp.o)
  .rodata.CSWTCH$31
-                0x000000003ffe963e       0x11 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(lwip-esp.o)
+                0x000000003ffe9646       0x11 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(lwip-esp.o)
  .rodata.ethbroadcast
-                0x000000003ffe964f        0x6 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(lwip-esp.o)
-                0x000000003ffe964f                ethbroadcast
+                0x000000003ffe9657        0x6 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(lwip-esp.o)
+                0x000000003ffe9657                ethbroadcast
  .rodata.ethzero
-                0x000000003ffe9655        0x6 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(ethernet.o)
-                0x000000003ffe9655                ethzero
+                0x000000003ffe965d        0x6 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(ethernet.o)
+                0x000000003ffe965d                ethzero
  .rodata.ethbroadcast_LWIP2
-                0x000000003ffe965b        0x6 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(ethernet.o)
-                0x000000003ffe965b                ethbroadcast_LWIP2
+                0x000000003ffe9663        0x6 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(ethernet.o)
+                0x000000003ffe9663                ethbroadcast_LWIP2
  .rodata.dns_gethostbyname_addrtype.str1.1
-                0x000000003ffe9661        0x7 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(dns.o)
+                0x000000003ffe9669        0x7 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(dns.o)
  .rodata.dns_mquery_v4group
-                0x000000003ffe9668        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(dns.o)
-                0x000000003ffe9668                dns_mquery_v4group
+                0x000000003ffe9670        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(dns.o)
+                0x000000003ffe9670                dns_mquery_v4group
  .rodata.memp_pools
-                0x000000003ffe966c       0x2c C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(memp.o)
-                0x000000003ffe966c                memp_pools
+                0x000000003ffe9674       0x2c C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(memp.o)
+                0x000000003ffe9674                memp_pools
  .rodata.memp_PBUF_POOL
-                0x000000003ffe9698        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(memp.o)
-                0x000000003ffe9698                memp_PBUF_POOL
- .rodata.memp_PBUF
-                0x000000003ffe969a        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(memp.o)
-                0x000000003ffe969a                memp_PBUF
- .rodata.memp_SYS_TIMEOUT
-                0x000000003ffe969c        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(memp.o)
-                0x000000003ffe969c                memp_SYS_TIMEOUT
- .rodata.memp_IGMP_GROUP
-                0x000000003ffe969e        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(memp.o)
-                0x000000003ffe969e                memp_IGMP_GROUP
- .rodata.memp_ARP_QUEUE
                 0x000000003ffe96a0        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(memp.o)
-                0x000000003ffe96a0                memp_ARP_QUEUE
- .rodata.memp_REASSDATA
+                0x000000003ffe96a0                memp_PBUF_POOL
+ .rodata.memp_PBUF
                 0x000000003ffe96a2        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(memp.o)
-                0x000000003ffe96a2                memp_REASSDATA
- .rodata.memp_TCP_SEG
+                0x000000003ffe96a2                memp_PBUF
+ .rodata.memp_SYS_TIMEOUT
                 0x000000003ffe96a4        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(memp.o)
-                0x000000003ffe96a4                memp_TCP_SEG
- .rodata.memp_TCP_PCB_LISTEN
+                0x000000003ffe96a4                memp_SYS_TIMEOUT
+ .rodata.memp_IGMP_GROUP
                 0x000000003ffe96a6        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(memp.o)
-                0x000000003ffe96a6                memp_TCP_PCB_LISTEN
- .rodata.memp_TCP_PCB
+                0x000000003ffe96a6                memp_IGMP_GROUP
+ .rodata.memp_ARP_QUEUE
                 0x000000003ffe96a8        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(memp.o)
-                0x000000003ffe96a8                memp_TCP_PCB
- .rodata.memp_UDP_PCB
+                0x000000003ffe96a8                memp_ARP_QUEUE
+ .rodata.memp_REASSDATA
                 0x000000003ffe96aa        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(memp.o)
-                0x000000003ffe96aa                memp_UDP_PCB
- .rodata.memp_RAW_PCB
+                0x000000003ffe96aa                memp_REASSDATA
+ .rodata.memp_TCP_SEG
                 0x000000003ffe96ac        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(memp.o)
-                0x000000003ffe96ac                memp_RAW_PCB
- *fill*         0x000000003ffe96ae        0x2 
+                0x000000003ffe96ac                memp_TCP_SEG
+ .rodata.memp_TCP_PCB_LISTEN
+                0x000000003ffe96ae        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(memp.o)
+                0x000000003ffe96ae                memp_TCP_PCB_LISTEN
+ .rodata.memp_TCP_PCB
+                0x000000003ffe96b0        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(memp.o)
+                0x000000003ffe96b0                memp_TCP_PCB
+ .rodata.memp_UDP_PCB
+                0x000000003ffe96b2        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(memp.o)
+                0x000000003ffe96b2                memp_UDP_PCB
+ .rodata.memp_RAW_PCB
+                0x000000003ffe96b4        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(memp.o)
+                0x000000003ffe96b4                memp_RAW_PCB
+ *fill*         0x000000003ffe96b6        0x2 
  .rodata.tcp_pcb_lists
-                0x000000003ffe96b0       0x10 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(tcp.o)
-                0x000000003ffe96b0                tcp_pcb_lists
+                0x000000003ffe96b8       0x10 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(tcp.o)
+                0x000000003ffe96b8                tcp_pcb_lists
  .rodata.tcp_persist_backoff
-                0x000000003ffe96c0        0x7 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(tcp.o)
+                0x000000003ffe96c8        0x7 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(tcp.o)
  .rodata.tcp_backoff
-                0x000000003ffe96c7        0xd C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(tcp.o)
+                0x000000003ffe96cf        0xd C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(tcp.o)
  .rodata.dhcp_discover_request_options
-                0x000000003ffe96d4        0x5 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(dhcp.o)
- *fill*         0x000000003ffe96d9        0x3 
+                0x000000003ffe96dc        0x5 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(dhcp.o)
+ *fill*         0x000000003ffe96e1        0x3 
  .rodata.ip_addr_broadcast
-                0x000000003ffe96dc        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(ip4_addr.o)
-                0x000000003ffe96dc                ip_addr_broadcast
+                0x000000003ffe96e4        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(ip4_addr.o)
+                0x000000003ffe96e4                ip_addr_broadcast
  .rodata.ip_addr_any
-                0x000000003ffe96e0        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(ip4_addr.o)
-                0x000000003ffe96e0                ip_addr_any
+                0x000000003ffe96e8        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(ip4_addr.o)
+                0x000000003ffe96e8                ip_addr_any
  .rodata.memp_PPP_PCB
-                0x000000003ffe96e4        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(ppp.o)
-                0x000000003ffe96e4                memp_PPP_PCB
+                0x000000003ffe96ec        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(ppp.o)
+                0x000000003ffe96ec                memp_PPP_PCB
  .rodata.memp_PPPOS_PCB
-                0x000000003ffe96e6        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(pppos.o)
-                0x000000003ffe96e6                memp_PPPOS_PCB
+                0x000000003ffe96ee        0x2 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\liblwip2-536-feat.a(pppos.o)
+                0x000000003ffe96ee                memp_PPPOS_PCB
  .rodata.str1.4
-                0x000000003ffe96e8        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libmain.a(app_main.o)
+                0x000000003ffe96f0        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libmain.a(app_main.o)
                                           0xc (size before relaxing)
  .rodata.str1.4
-                0x000000003ffe96ec        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libmain.a(ets_timer.o)
+                0x000000003ffe96f4        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libmain.a(ets_timer.o)
                                           0xc (size before relaxing)
  .rodata._ZSt7nothrow
-                0x000000003ffe96f0        0x1 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\libstdc++.a(new_handler.o)
-                0x000000003ffe96f0                _ZSt7nothrow
+                0x000000003ffe96f8        0x1 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib\libstdc++.a(new_handler.o)
+                0x000000003ffe96f8                _ZSt7nothrow
  .rodata.str1.1
-                0x000000003ffe96f1        0x8 c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-nano-vfprintf_float.o)
+                0x000000003ffe96f9        0x8 c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-nano-vfprintf_float.o)
                                          0x12 (size before relaxing)
  .rodata.str1.1
-                0x000000003ffe96f9        0x5 c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-nano-vfscanf_float.o)
+                0x000000003ffe9701        0x5 c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-nano-vfscanf_float.o)
                                           0x6 (size before relaxing)
  .rodata.str1.1
-                0x000000003ffe96fe       0x1e c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-rand.o)
+                0x000000003ffe9706       0x1e c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-rand.o)
  .rodata.str1.1
-                0x000000003ffe971c       0x1e c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-strtod.o)
+                0x000000003ffe9724       0x1e c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-strtod.o)
                                           0xd (size before relaxing)
  .rodata.str1.1
-                0x000000003ffe971c       0x25 c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-dtoa.o)
+                0x000000003ffe9724       0x25 c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-dtoa.o)
                                          0x3e (size before relaxing)
  .rodata.str1.1
-                0x000000003ffe9741        0xf c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-gdtoa-gethex.o)
+                0x000000003ffe9749        0xf c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-gdtoa-gethex.o)
                                          0x20 (size before relaxing)
  .rodata.str1.1
-                0x000000003ffe9750        0x3 c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-lnumeric.o)
+                0x000000003ffe9758        0x3 c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-lnumeric.o)
  .rodata.str1.1
-                0x000000003ffe9750        0x6 c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-locale.o)
+                0x000000003ffe9758        0x6 c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-locale.o)
                                           0xb (size before relaxing)
  .rodata.str1.1
-                0x000000003ffe9756        0x8 c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-mprec.o)
+                0x000000003ffe975e        0x8 c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-mprec.o)
                                          0x30 (size before relaxing)
  .rodata.str1.1
-                0x000000003ffe975e       0x11 c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-nano-svfprintf.o)
+                0x000000003ffe9766       0x11 c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-nano-svfprintf.o)
  .rodata.str1.1
-                0x000000003ffe976f       0x11 c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-nano-vfprintf.o)
+                0x000000003ffe9777       0x11 c:/users/lazar/appdata/local/arduino15/packages/esp8266/tools/xtensa-lx106-elf-gcc/3.1.0-gcc10.3-e5f9fec/bin/../lib/gcc/xtensa-lx106-elf/10.3.0/../../../../xtensa-lx106-elf/lib\libc.a(lib_a-nano-vfprintf.o)
  .rodata._ZN18ESP8266WiFiAPClass16softAPmacAddressEv.str1.1
-                0x000000003ffe976f       0x1e C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266WiFi\ESP8266WiFi.a(ESP8266WiFiAP.cpp.o)
+                0x000000003ffe9777       0x1e C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266WiFi\ESP8266WiFi.a(ESP8266WiFiAP.cpp.o)
  .rodata._ZN20ESP8266WiFiScanClass8BSSIDstrEh.str1.1
-                0x000000003ffe976f       0x1f C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266WiFi\ESP8266WiFi.a(ESP8266WiFiScan.cpp.o)
+                0x000000003ffe9777       0x1f C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266WiFi\ESP8266WiFi.a(ESP8266WiFiScan.cpp.o)
  .rodata.CSWTCH$41
-                0x000000003ffe976f        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266WiFi\ESP8266WiFi.a(ESP8266WiFiScan.cpp.o)
+                0x000000003ffe9777        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\ESP8266WiFi\ESP8266WiFi.a(ESP8266WiFiScan.cpp.o)
  .rodata._ZN9DNSServer26downcaseAndRemoveWwwPrefixER6String.str1.1
-                0x000000003ffe9774        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\DNSServer\DNSServer.a(DNSServer.cpp.o)
+                0x000000003ffe977c        0x5 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\DNSServer\DNSServer.a(DNSServer.cpp.o)
  .rodata._ZN9DNSServer16respondToRequestEPhj.str1.1
-                0x000000003ffe9779        0x4 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\DNSServer\DNSServer.a(DNSServer.cpp.o)
+                0x000000003ffe9781        0x4 C:\Users\lazar\AppData\Local\Temp\arduino\sketches\A4ADBAB5276BE0328FBD04DF017F365C\libraries\DNSServer\DNSServer.a(DNSServer.cpp.o)
                                           0x6 (size before relaxing)
- *fill*         0x000000003ffe977d        0x3 
+ *fill*         0x000000003ffe9785        0x3 
  .rodata._ZN10DhcpServer11MagicCookieE
-                0x000000003ffe9780        0x4 C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(LwipDhcpServer.cpp.o)
-                0x000000003ffe9780                _ZN10DhcpServer11MagicCookieE
+                0x000000003ffe9788        0x4 C:\Users\lazar\AppData\Local\Temp\arduino\cores\9763f39293d8298998d62b5dca34b74c\core.a(LwipDhcpServer.cpp.o)
+                0x000000003ffe9788                _ZN10DhcpServer11MagicCookieE
  *(.gnu.linkonce.r.*)
  *(.rodata1)
-                0x000000003ffe9784                __XT_EXCEPTION_TABLE__ = ABSOLUTE (.)
+                0x000000003ffe978c                __XT_EXCEPTION_TABLE__ = ABSOLUTE (.)
  *(.xt_except_table)
  *(.gcc_except_table)
  *(.gnu.linkonce.e.*)
  *(.gnu.version_r)
  *(.eh_frame)
-                0x000000003ffe9784                . = ALIGN (0x4)
-                0x000000003ffe9784                __XT_EXCEPTION_DESCS__ = ABSOLUTE (.)
+                0x000000003ffe978c                . = ALIGN (0x4)
+                0x000000003ffe978c                __XT_EXCEPTION_DESCS__ = ABSOLUTE (.)
  *(.xt_except_desc)
  *(.gnu.linkonce.h.*)
-                0x000000003ffe9784                __XT_EXCEPTION_DESCS_END__ = ABSOLUTE (.)
+                0x000000003ffe978c                __XT_EXCEPTION_DESCS_END__ = ABSOLUTE (.)
  *(.xt_except_desc_end)
  *(.dynamic)
  *(.gnu.version_d)
-                0x000000003ffe9784                _rodata_end = ABSOLUTE (.)
+                0x000000003ffe978c                _rodata_end = ABSOLUTE (.)
 
-.bss            0x000000003ffe9788     0x6770
-                0x000000003ffe9788                . = ALIGN (0x8)
-                0x000000003ffe9788                _bss_start = ABSOLUTE (.)
+.bss            0x000000003ffe9790     0x6768
+                0x000000003ffe9790                . = ALIGN (0x8)
+                0x000000003ffe9790                _bss_start = ABSOLUTE (.)
  *(.dynsbss)
  *(.sbss)
  *(.sbss.*)
@@ -26687,63 +26687,63 @@ END GROUP
  *(.gnu.linkonce.sb2.*)
  *(.dynbss)
  *(.bss)
- .bss           0x000000003ffe9788        0x7 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libphy.a(phy_sleep.o)
-                0x000000003ffe9788                periodic_cal_sat
-                0x000000003ffe9789                rtc_cali_trig_en
-                0x000000003ffe978a                lslp_mem_opt_8266
-                0x000000003ffe978c                software_slp_reject
-                0x000000003ffe978d                SDIO_slp_reject
-                0x000000003ffe978e                hardware_reject
- *fill*         0x000000003ffe978f        0x1 
- .bss           0x000000003ffe9790        0x3 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libphy.a(phy_chip_v6_ana.o)
-                0x000000003ffe9790                or_pll_cap_last
-                0x000000003ffe9791                tout_dis_txpwr_track
-                0x000000003ffe9792                sleep_mode_flag
- *fill*         0x000000003ffe9793        0x5 
- .bss           0x000000003ffe9798      0x15b C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libphy.a(phy_chip_v6.o)
-                0x000000003ffe9798                g_phyFuns
-                0x000000003ffe979c                rxiq_compute_num
-                0x000000003ffe97a0                rx_table_renew_en
-                0x000000003ffe97a4                check_result
-                0x000000003ffe97a8                chip6_sleep_params
-                0x000000003ffe983c                chip6_phy_init_ctrl
-                0x000000003ffe98b0                phy_freq_offset
-                0x000000003ffe98b2                do_pwctrl_flag
-                0x000000003ffe98b3                txbk_dpdby_flag
-                0x000000003ffe98b5                sw_scan_mode
-                0x000000003ffe98b6                rxmax_ext_level
-                0x000000003ffe98b8                phy_rx_gain_dc_table
-                0x000000003ffe98bc                tx_data1
-                0x000000003ffe98c0                tx_data2
-                0x000000003ffe98c4                tx_data3
-                0x000000003ffe98c8                tx_data4
-                0x000000003ffe98cc                periodic_cal_flag
-                0x000000003ffe98cd                bbpll_cal_flag
-                0x000000003ffe98ce                phy_in_most_power
-                0x000000003ffe98cf                init_rf_no_cal
-                0x000000003ffe98d0                test_print_time
-                0x000000003ffe98d4                phy_in_vdd33_offset
-                0x000000003ffe98d5                phy_set_most_tpw_disbg
-                0x000000003ffe98d6                phy_set_most_tpw_index
-                0x000000003ffe98d8                adc_rand_noise
-                0x000000003ffe98dc                chan14_mic_en
-                0x000000003ffe98dd                chan14_mic_flag
-                0x000000003ffe98de                phy_in_most_power_bk
-                0x000000003ffe98df                phy_rx_gain_dc_flag
-                0x000000003ffe98e0                dpd_bypass_original
-                0x000000003ffe98e2                phy_txpwr_diff_flash
-                0x000000003ffe98e8                noise_array
- *fill*         0x000000003ffe98f3        0x1 
- .bss           0x000000003ffe98f4        0x9 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libphy.a(phy_chip_v6_cal.o)
-                0x000000003ffe98f4                phy_tx_power_out
-                0x000000003ffe98f6                phy_tx_pwr_error
-                0x000000003ffe98f8                tx_pwctrl_track_num
-                0x000000003ffe98f9                rxiq_cover_fail_num
-                0x000000003ffe98fa                phy_meas_freq_offset
-                0x000000003ffe98fc                tx_pwctrl_pk_num
- *fill*         0x000000003ffe98fd        0x3 
- .bss           0x000000003ffe9900        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libphy.a(phy.o)
- *fill*         0x000000003ffe9904        0xc 
+ .bss           0x000000003ffe9790        0x7 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libphy.a(phy_sleep.o)
+                0x000000003ffe9790                periodic_cal_sat
+                0x000000003ffe9791                rtc_cali_trig_en
+                0x000000003ffe9792                lslp_mem_opt_8266
+                0x000000003ffe9794                software_slp_reject
+                0x000000003ffe9795                SDIO_slp_reject
+                0x000000003ffe9796                hardware_reject
+ *fill*         0x000000003ffe9797        0x1 
+ .bss           0x000000003ffe9798        0x3 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libphy.a(phy_chip_v6_ana.o)
+                0x000000003ffe9798                or_pll_cap_last
+                0x000000003ffe9799                tout_dis_txpwr_track
+                0x000000003ffe979a                sleep_mode_flag
+ *fill*         0x000000003ffe979b        0x5 
+ .bss           0x000000003ffe97a0      0x15b C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libphy.a(phy_chip_v6.o)
+                0x000000003ffe97a0                g_phyFuns
+                0x000000003ffe97a4                rxiq_compute_num
+                0x000000003ffe97a8                rx_table_renew_en
+                0x000000003ffe97ac                check_result
+                0x000000003ffe97b0                chip6_sleep_params
+                0x000000003ffe9844                chip6_phy_init_ctrl
+                0x000000003ffe98b8                phy_freq_offset
+                0x000000003ffe98ba                do_pwctrl_flag
+                0x000000003ffe98bb                txbk_dpdby_flag
+                0x000000003ffe98bd                sw_scan_mode
+                0x000000003ffe98be                rxmax_ext_level
+                0x000000003ffe98c0                phy_rx_gain_dc_table
+                0x000000003ffe98c4                tx_data1
+                0x000000003ffe98c8                tx_data2
+                0x000000003ffe98cc                tx_data3
+                0x000000003ffe98d0                tx_data4
+                0x000000003ffe98d4                periodic_cal_flag
+                0x000000003ffe98d5                bbpll_cal_flag
+                0x000000003ffe98d6                phy_in_most_power
+                0x000000003ffe98d7                init_rf_no_cal
+                0x000000003ffe98d8                test_print_time
+                0x000000003ffe98dc                phy_in_vdd33_offset
+                0x000000003ffe98dd                phy_set_most_tpw_disbg
+                0x000000003ffe98de                phy_set_most_tpw_index
+                0x000000003ffe98e0                adc_rand_noise
+                0x000000003ffe98e4                chan14_mic_en
+                0x000000003ffe98e5                chan14_mic_flag
+                0x000000003ffe98e6                phy_in_most_power_bk
+                0x000000003ffe98e7                phy_rx_gain_dc_flag
+                0x000000003ffe98e8                dpd_bypass_original
+                0x000000003ffe98ea                phy_txpwr_diff_flash
+                0x000000003ffe98f0                noise_array
+ *fill*         0x000000003ffe98fb        0x1 
+ .bss           0x000000003ffe98fc        0x9 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libphy.a(phy_chip_v6_cal.o)
+                0x000000003ffe98fc                phy_tx_power_out
+                0x000000003ffe98fe                phy_tx_pwr_error
+                0x000000003ffe9900                tx_pwctrl_track_num
+                0x000000003ffe9901                rxiq_cover_fail_num
+                0x000000003ffe9902                phy_meas_freq_offset
+                0x000000003ffe9904                tx_pwctrl_pk_num
+ *fill*         0x000000003ffe9905        0x3 
+ .bss           0x000000003ffe9908        0x4 C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libphy.a(phy.o)
+ *fill*         0x000000003ffe990c        0x4 
  .bss           0x000000003ffe9910      0x13a C:\Users\lazar\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lib/NONOSDK22x_190703\libpp.a(pm.o)
                 0x000000003ffe9910                pmc
  *fill*         0x000000003ffe9a4a        0x2 

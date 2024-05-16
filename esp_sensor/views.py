@@ -429,8 +429,8 @@ def get_csrf_token(request):
 def esp_update(request):
     if request.method == 'POST':
         firmware_file = request.FILES['firmware']
-        firmware_name = os.path.basename(firmware_file.name)
-        firmware_path = os.path.join(settings.MEDIA_ROOT, 'firmwares', firmware_name)
+        device_name = os.path.splitext(firmware_file.name)[0]
+        firmware_path = os.path.join(settings.MEDIA_ROOT, 'firmwares', f'{device_name}.bin')
         version = request.POST.get('firmware_version', '')
 
         os.makedirs(os.path.dirname(firmware_path), exist_ok=True)
@@ -439,7 +439,9 @@ def esp_update(request):
             for chunk in firmware_file.chunks():
                 destination.write(chunk)
 
-        firmware = Firmware(version=version, file=firmware_file)
+        # Save the actual filename without the random string
+        actual_filename = f'{device_name}.bin'
+        firmware = Firmware(version=version, file=actual_filename)
         firmware.save()
 
         messages.success(request, 'Прошивка успешно загружена')
@@ -450,7 +452,8 @@ def esp_update(request):
 def get_latest_firmware(request):
     try:
         latest_firmware = Firmware.objects.latest('uploaded_at')
-        return JsonResponse({'version': latest_firmware.version, 'url': latest_firmware.file.url})
+        filename = latest_firmware.file.name
+        return JsonResponse({'version': latest_firmware.version, 'url': filename})
     except ObjectDoesNotExist:
         return JsonResponse({'error': 'Прошивки не найдены'}, status=404)
 
