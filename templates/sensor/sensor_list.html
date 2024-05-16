@@ -2,6 +2,7 @@
 {% include 'base.html' %}
 <title>Главная страница</title>
 <body class="g-sidenav-show  bg-gray-200">
+
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
        id="sidenav-main">
     <div class="sidenav-header">
@@ -54,12 +55,51 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white active bg-gradient-success" href="{% url 'sensor_list' %}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">download_for_offline</i>
+                    <a class="nav-link text-white active bg-gradient-success" href="#" data-bs-toggle="modal"
+                       data-bs-target="#firmwareModal">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">download_for_offline</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Обновить прошивку</span>
+                    </a>
+
+                    <div class="modal fade" id="firmwareModal" tabindex="-1" aria-labelledby="firmwareModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="firmwareModalLabel">Загрузить прошивку</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{% url 'esp_update' %}" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="mb-3">
+                                            <label for="firmware" class="form-label">Загрузить прошивку</label>
+                                            <input class="form-control" type="file" id="firmware" name="firmware"
+                                                   required>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn bg-gradient-info" data-bs-dismiss="modal">
+                                                Закрыть
+                                            </button>
+                                            <button type="submit" class="btn bg-gradient-success" id="uploadFirmware">
+                                                Загрузить
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
-                    <span class="nav-link-text ms-1">Обновить прошивку</span>
-                </a>
+
+                    <script>
+                        document.getElementById('uploadFirmware').addEventListener('click', function () {
+                            document.getElementById('firmwareForm').submit();
+                        });
+                    </script>
                 </li>
             {% else %}
                 <li class="nav-item">
@@ -215,6 +255,12 @@
                                             Статус
                                         </th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Мощность
+                                        </th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Прошивка
+                                        </th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Дата обновления
                                         </th>
                                         <th class="text-secondary opacity-7"></th>
@@ -258,6 +304,21 @@
                                                         <span class="badge badge-sm bg-gradient-secondary">Оффлайн</span>
                                                     {% endif %}
                                                 {% endif %}
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <span class="me-2 text-xs font-weight-bold">{{ sensor.power }}%</span>
+                                                    <div>
+                                                        <div class="progress">
+                                                            <div class="progress-bar bg-gradient-info"
+                                                                 role="progressbar" aria-valuenow="{{ sensor.power }}" aria-valuemin="0"
+                                                                 aria-valuemax="100" style="width: {{ sensor.power }}%;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-xs font-weight-bold">{{ sensor.version }}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">{{ sensor.last_updated | date:"Y/m/d H:i:s" }}</span>
@@ -319,7 +380,37 @@
             </ul>
         </nav>
     </div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="position-fixed bottom-1 end-1 z-index-2">
+                <div class="toast fade hide p-2 mt-2 bg-gradient-info" role="alert" aria-live="assertive" id="infoToast"
+                     aria-atomic="true">
+                    <div class="toast-header bg-transparent border-0">
+                        <i class="material-icons text-white me-2">
+                            notifications
+                        </i>
+                        <span class="me-auto text-white font-weight-bold">Оповещение</span>
+                        <small class="text-white">Только что</small>
+                        <i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast"
+                           aria-label="Close"></i>
+                    </div>
+                    <hr class="horizontal light m-0">
+                    <div class="toast-body text-white">
+                        {{ message }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
 </main>
-{% include 'include/setting.html' %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+        var toastList = toastElList.map(function (toastEl) {
+            return new bootstrap.Toast(toastEl, {});
+        });
+        toastList.forEach(toast => toast.show());
+    });
+</script>
 </body>
 {% include 'include/script.html' %}

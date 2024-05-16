@@ -11,6 +11,7 @@
 String deviceName = "esp8266";
 String deviceStateEndpoint;
 
+const char* version = "1.0.0";
 const char* serverUrl = "http://exobed.lazareub.beget.tech/api/data/";
 const char* csrfTokenEndpoint = "http://exobed.lazareub.beget.tech/get_csrf_token/";
 
@@ -239,6 +240,7 @@ void loop() {
       doc["fan_speed"] = fan_speed;
       doc["ip_address"] = ip_address;
       doc["mac_address"] = mac_address;
+      doc["version"] = version;
 
       String jsonData; // Создание строки для JSON-данных
       serializeJson(doc, jsonData); // Сериализация JSON-документа в строку
@@ -272,7 +274,6 @@ void serialEvent() {
     while (Serial.available()) {
         char c = Serial.read();
         if (c == '\n') {
-            // Запуск обработки команды при получении символа новой строки
             handleCommand(receivedCommand);
             receivedCommand = ""; // Сброс строки для следующей команды
         } else {

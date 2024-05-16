@@ -24,5 +24,7 @@ urlpatterns = [
     path('api/sensor_logs_volt/<int:sensor_id>/', SensorLogsVoltAPIView.as_view(), name='sensor_logs_volt_api'),
     path('device/<slug:slug>/', DeviceStatus.as_view(), name='device_status'),
 
+    path('esp_update/', views.esp_update, name='esp_update'),
+
     path('confirm_sensor/<int:sensor_id>/', ConfirmSensorView.as_view(), name='confirm_sensor'),
 ]
