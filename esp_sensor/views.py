@@ -1,21 +1,29 @@
-from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View, ListView, DetailView, DeleteView
+from django.views.decorators.csrf import csrf_exempt
+
 from django.db.models import Q
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponse, HttpResponseBadRequest, StreamingHttpResponse
-from django.urls import reverse_lazy
 from .models import *
+
+from django.urls import reverse_lazy
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.core.paginator import Paginator
+from django.template.loader import render_to_string
+from django.middleware.csrf import get_token
+from django.utils import timezone
+from django.conf import settings
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse, HttpResponseBadRequest, StreamingHttpResponse
+
+
+from datetime import datetime
 import json
 import time
-from django.template.loader import render_to_string
-from datetime import datetime
-from django.views.decorators.csrf import csrf_exempt
-from django.middleware.csrf import get_token
+import os
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.utils import timezone
+
 
 
 # Класс для отображения списка датчиков
@@ -417,3 +425,20 @@ class DeviceStatus(APIView):
 def get_csrf_token(request):
     csrf_token = get_token(request)
     return JsonResponse({'csrf_token': csrf_token})
+
+
+def esp_update(request):
+    if request.method == 'POST':
+        firmware_file = request.FILES['firmware']
+        device_name = os.path.splitext(firmware_file.name)[0]
+        firmware_path = os.path.join(settings.MEDIA_ROOT, 'firmwares', f'{device_name}.bin')
+
+        os.makedirs(os.path.dirname(firmware_path), exist_ok=True)
+
+        with open(firmware_path, 'wb+') as destination:
+            for chunk in firmware_file.chunks():
+                destination.write(chunk)
+
+        messages.success(request, 'Прошивка успешно загружена')
+        return redirect('sensor_list')
+    return redirect('sensor_list')
