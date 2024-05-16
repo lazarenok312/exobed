@@ -7,15 +7,18 @@
 #include <DHT.h>
 #include <TinyGPS++.h>
 #include <FS.h>
+#include <ESP8266httpUpdate.h>
 
 String deviceName = "esp8266";
 String deviceStateEndpoint;
 
-const char* version = "1.0.0";
+const char* version = "1.0.1";
+const char* firmwareFileName = "work_sensor.ino.bin";
+const char* currentVersion = version;
 const char* serverUrl = "http://exobed.lazareub.beget.tech/api/data/";
 const char* csrfTokenEndpoint = "http://exobed.lazareub.beget.tech/get_csrf_token/";
+const char* updateUrl = "http://exobed.lazareub.beget.tech/media/firmwares/work_sensor.ino.bin";
 
-WiFiServer server(8888);
 
 bool blocked = false;
 String receivedCommand = "";
@@ -168,6 +171,49 @@ void saveDeviceName(String name) {
     }
 }
 
+void checkForUpdates() {
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    http.begin(client, updateUrl);
+    int httpCode = http.GET();
+
+    if (httpCode == HTTP_CODE_OK) {
+      String payload = http.getString();
+      DynamicJsonDocument doc(1024);
+      deserializeJson(doc, payload);
+
+      const char* latestVersion = doc["version"];
+      const char* firmwareUrl = doc["url"];
+
+      if (String(latestVersion) != String(currentVersion)) {
+        Serial.println("Доступна новая версия прошивки: " + String(latestVersion));
+        Serial.println("Качаю прошивку с: " + String(firmwareUrl));
+
+        t_httpUpdate_return ret = ESPhttpUpdate.update(client, firmwareUrl, currentVersion);
+
+        switch (ret) {
+          case HTTP_UPDATE_FAILED:
+            Serial.printf("HTTP_UPDATE_FAILED Error (%d): %s\n", ESPhttpUpdate.getLastError(), ESPhttpUpdate.getLastErrorString().c_str());
+            break;
+
+          case HTTP_UPDATE_NO_UPDATES:
+            Serial.println("HTTP_UPDATE_NO_UPDATES");
+            break;
+
+          case HTTP_UPDATE_OK:
+            Serial.println("HTTP_UPDATE_OK");
+            break;
+        }
+      } else {
+        Serial.println("Прошивка актуальна");
+      }
+    } else {
+      Serial.printf("HTTP request failed with error code: %d\n", httpCode);
+    }
+
+    http.end();
+  }
+}
 
 void loop() {
     while (Serial.available() > 0) { // Проверка доступности данных в последовательном порту
