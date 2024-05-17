@@ -154,12 +154,15 @@ void saveDeviceName(String name) {
     if (configFile) {
         configFile.println(name);
         configFile.close();
+        Serial.print("Имя устройства '");
+        Serial.print(name);
+        Serial.println("' записано в память.");
     } else {
         Serial.println("Ошибка сохранения имени устройства в файл.");
     }
 }
 
-void checkForUpdates() {
+void UpdatesFirmware() {
   Serial.println("Проверка обновлений...");
 
   if (WiFi.status() == WL_CONNECTED) {
@@ -173,19 +176,23 @@ void checkForUpdates() {
       deserializeJson(doc, payload);
 
       const char* latestVersion = doc["version"];
-      const char* firmwareUrl = doc["url"];
+      String relativeFirmwareUrl = doc["url"];
 
-      Serial.println("Получена информация о версии прошивки:");
-      Serial.print("Новая версия: ");
-      Serial.println(latestVersion);
-      Serial.print("URL прошивки: ");
-      Serial.println(firmwareUrl);
+      String firmwareUrl;
+      if (relativeFirmwareUrl.startsWith("http://") || relativeFirmwareUrl.startsWith("https://")) {
+        firmwareUrl = relativeFirmwareUrl;
+      } else {
+        firmwareUrl = "http://exobed.lazareub.beget.tech/media/firmwares/" + relativeFirmwareUrl;
+      }
 
       if (String(latestVersion) != String(currentVersion)) {
         Serial.println("Доступна новая версия прошивки: " + String(latestVersion));
-        Serial.println("Закачиваю прошивку: " + String(firmwareUrl));
+        Serial.println("Закачиваю прошивку: " + firmwareUrl);
 
-        t_httpUpdate_return ret = ESPhttpUpdate.update(client, firmwareUrl, currentVersion);
+        Serial.print("Уровень сигнала Wi-Fi: ");
+        Serial.println(WiFi.RSSI());
+
+        t_httpUpdate_return ret = ESPhttpUpdate.update(client, firmwareUrl.c_str(), currentVersion);
 
         switch (ret) {
           case HTTP_UPDATE_FAILED:
@@ -208,9 +215,10 @@ void checkForUpdates() {
     }
 
     http.end();
+  } else {
+    Serial.println("Нет подключения к Wi-Fi");
   }
 }
-
 
 void loop() {
     while (Serial.available() > 0) { // Проверка доступности данных в последовательном порту
@@ -218,7 +226,7 @@ void loop() {
     }
 
     getDeviceState();
-    checkForUpdates();
+    UpdatesFirmware();
 
     // Проверка наличия корректных данных GPS
     if (gps.location.isValid()) {
