@@ -1,6 +1,72 @@
 {% load static %}
 {% include 'base.html' %}
 <title>Главная страница</title>
+
+<style>
+    .custom-file {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        height: calc(1.5em + 0.75rem + 2px);
+        margin-bottom: 0;
+    }
+
+    .custom-file-input {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: calc(1.5em + 0.75rem + 2px);
+        margin: 0;
+        opacity: 0;
+    }
+
+    .custom-file-label {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1;
+        height: calc(1.5em + 0.75rem + 2px);
+        padding: 0.375rem 0.75rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        pointer-events: none;
+    }
+
+    .custom-file-label::after {
+        content: "Выбрать файл";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 3;
+        display: block;
+        height: calc(1.5em + 0.75rem);
+        padding: 0.375rem 0.75rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #e9ecef;
+        border-left: inherit;
+        border-radius: 0 0.25rem 0.25rem 0;
+    }
+
+    .custom-file-input:focus ~ .custom-file-label {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .custom-file-input:focus ~ .custom-file-label::after {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .custom-file-label.selected {
+        color: #495057;
+    }
+</style>
 <body class="g-sidenav-show  bg-gray-200">
 
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
@@ -76,9 +142,23 @@
                                     <form action="{% url 'esp_update' %}" method="post" enctype="multipart/form-data">
                                         {% csrf_token %}
                                         <div class="mb-3">
-                                            <label for="firmware" class="form-label">Загрузить прошивку</label>
-                                            <input class="form-control" type="file" id="firmware" name="firmware"
-                                                   required>
+                                            <label for="firmware" class="form-label">Выберите файл прошивки .bin</label>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="firmware"
+                                                       name="firmware" accept=".bin" required>
+                                                <label class="custom-file-label" for="firmware">Выберите файл</label>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="firmwareVersion" class="form-label">Версия прошивки
+                                                (х.х.х)</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control border border-info"
+                                                       id="firmwareVersion" name="firmware_version" required
+                                                       pattern="\d{1,3}\.\d{1,3}\.\d{1,3}"
+                                                       title="Введите версию прошивки в формате х.х.х (например, 1.0.0)"
+                                                       oninput="formatFirmwareVersion(this)">
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn bg-gradient-info" data-bs-dismiss="modal">
@@ -90,16 +170,9 @@
                                         </div>
                                     </form>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
-                    <script>
-                        document.getElementById('uploadFirmware').addEventListener('click', function () {
-                            document.getElementById('firmwareForm').submit();
-                        });
-                    </script>
                 </li>
             {% else %}
                 <li class="nav-item">
@@ -311,8 +384,10 @@
                                                     <div>
                                                         <div class="progress">
                                                             <div class="progress-bar bg-gradient-info"
-                                                                 role="progressbar" aria-valuenow="{{ sensor.power }}" aria-valuemin="0"
-                                                                 aria-valuemax="100" style="width: {{ sensor.power }}%;"></div>
+                                                                 role="progressbar" aria-valuenow="{{ sensor.power }}"
+                                                                 aria-valuemin="0"
+                                                                 aria-valuemax="100"
+                                                                 style="width: {{ sensor.power }}%;"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -404,12 +479,43 @@
     {% endif %}
 </main>
 <script>
+    function formatFirmwareVersion(input) {
+        let value = input.value.trim();
+        value = value.replace(/[^\d]/g, '');
+
+        if (value.length >= 1) {
+            value = value.slice(0, 1) + '.' + value.slice(1);
+        }
+        if (value.length >= 3) {
+            value = value.slice(0, 3) + '.' + value.slice(3);
+        }
+
+        input.value = value;
+    }
+</script>
+<script>
+    document.getElementById('uploadFirmware').addEventListener('click', function () {
+        document.getElementById('firmwareForm').submit();
+    });
+</script>
+<script>
     document.addEventListener('DOMContentLoaded', function () {
         var toastElList = [].slice.call(document.querySelectorAll('.toast'));
         var toastList = toastElList.map(function (toastEl) {
             return new bootstrap.Toast(toastEl, {});
         });
         toastList.forEach(toast => toast.show());
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // Обновление метки при выборе файла
+    $('.custom-file-input').on('change', function () {
+        var fileName = $(this).val().split('\\').pop();
+        $(this).next('.custom-file-label').addClass("selected").html(fileName);
     });
 </script>
 </body>

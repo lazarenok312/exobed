@@ -1,8 +1,6 @@
 from django.urls import path
 from . import views
 from .views import *
-from django.conf.urls import include
-from . import routing
 
 urlpatterns = [
     path('', SensorListView.as_view(), name='sensor_list'),
@@ -19,10 +17,14 @@ urlpatterns = [
     path('sensor/<int:pk>/delete/', SensorDeleteView.as_view(), name='sensor_delete'),
     path('get_csrf_token/', get_csrf_token, name='get_csrf_token'),
 
+    path('device/<slug:slug>/', DeviceStatus.as_view(), name='device_status'),
+    path('esp_update/', views.esp_update, name='esp_update'),
+
     path('api/data/', views.receive_data, name='receive_data'),
     path('api/sensor_logs/<int:sensor_id>/', SensorLogsAPIView.as_view(), name='sensor_logs_api'),
     path('api/sensor_logs_volt/<int:sensor_id>/', SensorLogsVoltAPIView.as_view(), name='sensor_logs_volt_api'),
-    path('device/<slug:slug>/', DeviceStatus.as_view(), name='device_status'),
+    path('api/latest-firmware/', get_latest_firmware, name='latest_firmware'),
+    path('api/download-firmware/<str:version>/', download_firmware, name='download_firmware'),
 
     path('esp_update/', views.esp_update, name='esp_update'),
 

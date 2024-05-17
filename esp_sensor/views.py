@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from django.db.models import Q
 from .models import *
-
+from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse_lazy
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
@@ -12,8 +12,8 @@ from django.template.loader import render_to_string
 from django.middleware.csrf import get_token
 from django.utils import timezone
 from django.conf import settings
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponse, HttpResponseBadRequest, StreamingHttpResponse
-
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse, HttpResponseBadRequest, StreamingHttpResponse, \
+    FileResponse
 
 from datetime import datetime
 import json
@@ -23,7 +23,6 @@ import os
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
 
 
 # Класс для отображения списка датчиков
@@ -432,6 +431,7 @@ def esp_update(request):
         firmware_file = request.FILES['firmware']
         device_name = os.path.splitext(firmware_file.name)[0]
         firmware_path = os.path.join(settings.MEDIA_ROOT, 'firmwares', f'{device_name}.bin')
+        version = request.POST.get('firmware_version', '')
 
         os.makedirs(os.path.dirname(firmware_path), exist_ok=True)
 
@@ -439,6 +439,25 @@ def esp_update(request):
             for chunk in firmware_file.chunks():
                 destination.write(chunk)
 
+        # Save the actual filename without the random string
+        actual_filename = f'{device_name}.bin'
+        firmware = Firmware(version=version, file=actual_filename)
+        firmware.save()
+
         messages.success(request, 'Прошивка успешно загружена')
         return redirect('sensor_list')
     return redirect('sensor_list')
+
+
+def get_latest_firmware(request):
+    try:
+        latest_firmware = Firmware.objects.latest('uploaded_at')
+        filename = latest_firmware.file.name
+        return JsonResponse({'version': latest_firmware.version, 'url': filename})
+    except ObjectDoesNotExist:
+        return JsonResponse({'error': 'Прошивки не найдены'}, status=404)
+
+
+def download_firmware(request, version):
+    firmware = get_object_or_404(Firmware, version=version)
+    return FileResponse(firmware.file)

@@ -118,3 +118,13 @@ class SensorLog(models.Model):
     class Meta:
         verbose_name = 'Логи'
         verbose_name_plural = 'Логи'
+
+
+class Firmware(models.Model):
+    version = models.CharField("Версия", max_length=10)
+    file = models.FileField(upload_to='firmwares/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Прошивка'
+        verbose_name_plural = 'Прошивки'

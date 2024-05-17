@@ -2,6 +2,11 @@ from django.contrib import admin
 from .models import *
 
 
+@admin.register(Firmware)
+class FirmwareAdmin(admin.ModelAdmin):
+    list_display = ['version', 'file', ]
+
+
 @admin.register(SensorLog)
 class SensorLogAdmin(admin.ModelAdmin):
     list_display = ['sensor', 'previous_power', 'previous_watt', 'previous_volt', ]
