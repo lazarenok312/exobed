@@ -25,6 +25,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
+
 # Класс для отображения списка датчиков
 class SensorListView(ListView):
     model = Sensor
@@ -439,7 +440,6 @@ def esp_update(request):
             for chunk in firmware_file.chunks():
                 destination.write(chunk)
 
-        # Save the actual filename without the random string
         actual_filename = f'{device_name}.bin'
         firmware = Firmware(version=version, file=actual_filename)
         firmware.save()

@@ -50,16 +50,15 @@ void sendDataWithCSRFToken(String data) {
         return;
     }
 
-    http.end(); // Завершаем соединение
+    http.end();
 
     // Отправляем данные на сервер с заголовком CSRF-токена
     http.begin(client, serverUrl);
     http.addHeader("Content-Type", "application/json");
     http.addHeader("X-CSRFToken", csrfToken);
 
-    httpResponseCode = http.POST(data); // Отправляем POST-запрос с данными
+    httpResponseCode = http.POST(data);
 
-    // Обрабатываем ответ от сервера
     if (httpResponseCode > 0) {
         Serial.print("\n");
         Serial.print("Код ответа HTTP: ");
@@ -71,7 +70,7 @@ void sendDataWithCSRFToken(String data) {
         Serial.println(httpResponseCode);
     }
 
-    http.end(); // Завершаем соединение
+    http.end(); 
 }
 
 // Функция для получения состояния устройства с сервера Django
@@ -91,9 +90,6 @@ void getDeviceState() {
             blocked = doc["blocked"];
             bool work = doc["work"];
 
-            // Обновляем переменные состояния устройства
-            updateDeviceState(work);
-
         } else {
             Serial.print("Ошибка получения состояния устройства: ");
             Serial.println(httpCode);
@@ -105,14 +101,6 @@ void getDeviceState() {
     }
 }
 
-void updateDeviceState(bool work) {
-
-    if (work) {
-        // Ваше действие при работающем устройстве
-    } else {
-        // Ваше действие при выключенном устройстве
-    }
-}
 
 void setup() {
     Serial.begin(115200); // Инициализация последовательного порта
@@ -195,7 +183,7 @@ void checkForUpdates() {
 
       if (String(latestVersion) != String(currentVersion)) {
         Serial.println("Доступна новая версия прошивки: " + String(latestVersion));
-        Serial.println("Качаю прошивку с: " + String(firmwareUrl));
+        Serial.println("Закачиваю прошивку: " + String(firmwareUrl));
 
         t_httpUpdate_return ret = ESPhttpUpdate.update(client, firmwareUrl, currentVersion);
 
@@ -223,35 +211,14 @@ void checkForUpdates() {
   }
 }
 
-void updateFirmware() {
-    Serial.println("Загрузка прошивки...");
-
-    t_httpUpdate_return ret = ESPhttpUpdate.update(client, firmwareUrl, currentVersion);
-    switch (ret) {
-        case HTTP_UPDATE_FAILED:
-            Serial.printf("HTTP_UPDATE_FAILED Error (%d): %s\n", ESPhttpUpdate.getLastError(), ESPhttpUpdate.getLastErrorString().c_str());
-            break;
-        case HTTP_UPDATE_NO_UPDATES:
-            Serial.println("HTTP_UPDATE_NO_UPDATES");
-            break;
-        case HTTP_UPDATE_OK:
-            Serial.println("HTTP_UPDATE_OK");
-            break;
-    }
-}
 
 void loop() {
     while (Serial.available() > 0) { // Проверка доступности данных в последовательном порту
         gps.encode(Serial.read()); // Обработка данных GPS
     }
 
-    // Получение состояния устройства с сервера Django
     getDeviceState();
-    // Проверка обновлений
     checkForUpdates();
-
-    // Загрузка прошивки
-    updateFirmware();
 
     // Проверка наличия корректных данных GPS
     if (gps.location.isValid()) {
@@ -274,20 +241,20 @@ void loop() {
     float temperature = dht.readTemperature(); // Получение температуры
     float humidity = dht.readHumidity(); // Получение влажности
 
-    Serial.print("-----------------------------");
+    Serial.print("----------------------------------------------------------");
     Serial.print("\n");
     Serial.print("Температура: ");
     Serial.print(temperature);
-    Serial.print(" °C\t");
+    Serial.print(" °C  |\t");
     Serial.print("Влажность: ");
     Serial.print(humidity);
     Serial.println(" %");
-    Serial.print("-----------------------------");
+    Serial.print("----------------------------------------------------------");
     Serial.print("\n");
 
     
     if (!blocked) {
-      IPAddress ip = WiFi.localIP(); // Получаем IP-адрес
+      IPAddress ip = WiFi.localIP();
 
       int power = random(10, 99);
       int watt = random(100, 900);
@@ -297,12 +264,10 @@ void loop() {
       String mac_address = WiFi.macAddress();
       Serial.print("IP адрес: ");
       Serial.println(ip.toString());
-      Serial.print("\n");
       Serial.print("MAC адрес: ");
       Serial.print(mac_address);
       Serial.print("\n");
-      Serial.print("-----------------------------");
-      Serial.print("\n");
+      Serial.print("----------------------------------------------------------");
       Serial.print("\n");
       Serial.println("Устройство доступно!!!");
       Serial.print("\n");
@@ -318,15 +283,13 @@ void loop() {
       doc["mac_address"] = mac_address;
       doc["version"] = version;
 
-      String jsonData; // Создание строки для JSON-данных
-      serializeJson(doc, jsonData); // Сериализация JSON-документа в строку
-
-      sendDataWithCSRFToken(jsonData); // Отправка данных на сервер
+      String jsonData;
+      serializeJson(doc, jsonData);
+      sendDataWithCSRFToken(jsonData);
     } else {
-        // Устройство заблокировано, мигаем светодиодом
         Serial.println("Устройство заблокировано!!!");
     }
-    delay(60000); // Задержка 30 секунд
+    delay(60000);
 }
 
 void handleCommand(String command) {
