@@ -25,6 +25,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
+
 # Класс для отображения списка датчиков
 class SensorListView(ListView):
     model = Sensor
