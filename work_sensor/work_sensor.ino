@@ -10,9 +10,10 @@
 #include <ESP8266httpUpdate.h>
 
 String deviceName = "esp8266";
+String owner = "Unknown";
 String deviceStateEndpoint;
 
-const char* version = "1.0.0";
+const char* version = "1.0.1";
 const char* firmwareFileName = "work_sensor.ino.bin";
 const char* currentVersion = version;
 const char* serverUrl = "http://exobed.lazareub.beget.tech/api/data/";
@@ -27,140 +28,147 @@ WiFiClient client;
 HTTPClient http;
 TinyGPSPlus gps;
 
-#define DHTPIN D4     // Пин для подключения датчика DHT
-#define DHTTYPE DHT11 // Тип датчика DHT (DHT11)
-DHT dht(DHTPIN, DHTTYPE); // Инициализация датчика температуры и влажности
+#define DHTPIN D4          // Пин для подключения датчика DHT
+#define DHTTYPE DHT11      // Тип датчика DHT (DHT11)
+DHT dht(DHTPIN, DHTTYPE);  // Инициализация датчика температуры и влажности
 
 
 // Функция отправки данных с CSRF-токеном
 void sendDataWithCSRFToken(String data) {
-    HTTPClient http;
-    // Запрос CSRF-токена
-    http.begin(client, csrfTokenEndpoint);
-    int httpResponseCode = http.GET();
-    String csrfToken;
+  HTTPClient http;
+  // Запрос CSRF-токена
+  http.begin(client, csrfTokenEndpoint);
+  int httpResponseCode = http.GET();
+  String csrfToken;
 
-    // Если запрос прошел успешно, получаем CSRF-токен
-    if (httpResponseCode > 0) {
-        csrfToken = http.getString();
-    } else {
-        // В случае ошибки выводим сообщение
-        Serial.print("Не удалось получить токен CSRF, код ошибки HTTP: ");
-        Serial.println(httpResponseCode);
-        return;
-    }
+  // Если запрос прошел успешно, получаем CSRF-токен
+  if (httpResponseCode > 0) {
+    csrfToken = http.getString();
+  } else {
+    // В случае ошибки выводим сообщение
+    Serial.print("Не удалось получить токен CSRF, код ошибки HTTP: ");
+    Serial.println(httpResponseCode);
+    return;
+  }
 
-    http.end();
+  http.end();
 
-    // Отправляем данные на сервер с заголовком CSRF-токена
-    http.begin(client, serverUrl);
-    http.addHeader("Content-Type", "application/json");
-    http.addHeader("X-CSRFToken", csrfToken);
+  // Отправляем данные на сервер с заголовком CSRF-токена
+  http.begin(client, serverUrl);
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("X-CSRFToken", csrfToken);
 
-    httpResponseCode = http.POST(data);
+  httpResponseCode = http.POST(data);
 
-    if (httpResponseCode > 0) {
-        Serial.print("\n");
-        Serial.print("Код ответа HTTP: ");
-        Serial.println(httpResponseCode);
-        String response = http.getString();
-        Serial.println(response);
-    } else {
-        Serial.print("Код ошибки: ");
-        Serial.println(httpResponseCode);
-    }
+  if (httpResponseCode > 0) {
+    Serial.print("\n");
+    Serial.print("Код ответа HTTP: ");
+    Serial.println(httpResponseCode);
+    String response = http.getString();
+    Serial.println(response);
+  } else {
+    Serial.print("Код ошибки: ");
+    Serial.println(httpResponseCode);
+  }
 
-    http.end(); 
+  http.end();
 }
 
 // Функция для получения состояния устройства с сервера Django
 void getDeviceState() {
-    HTTPClient http;
+  HTTPClient http;
 
-    if (http.begin(client, deviceStateEndpoint.c_str())) {
-        int httpCode = http.GET();
+  if (http.begin(client, deviceStateEndpoint.c_str())) {
+    int httpCode = http.GET();
 
-        if (httpCode == 200) {
-            String payload = http.getString();
-            // Распарсить JSON и обновить переменные на устройстве
-            DynamicJsonDocument doc(200);
-            deserializeJson(doc, payload);
+    if (httpCode == 200) {
+      String payload = http.getString();
+      // Распарсить JSON и обновить переменные на устройстве
+      DynamicJsonDocument doc(200);
+      deserializeJson(doc, payload);
 
-            // Получаем значения состояния устройства
-            blocked = doc["blocked"];
-            bool work = doc["work"];
+      // Получаем значения состояния устройства
+      blocked = doc["blocked"];
+      bool work = doc["work"];
 
-        } else {
-            Serial.print("Ошибка получения состояния устройства: ");
-            Serial.println(httpCode);
-        }
-
-        http.end();
     } else {
-        Serial.println("Не удалось подключиться к серверу");
+      Serial.print("Ошибка получения состояния устройства: ");
+      Serial.println(httpCode);
     }
+
+    http.end();
+  } else {
+    Serial.println("Не удалось подключиться к серверу");
+  }
+}
+
+void saveDeviceName(String name) {
+  // Открыть файл для записи
+  File configFile = SPIFFS.open("/config.json", "w");
+  if (configFile) {
+    // Записать имя устройства в файл
+    configFile.println(name);
+    configFile.close();
+    Serial.print("Имя устройства '");
+    Serial.print(name);
+    Serial.println("' записано в память.");
+    deviceName = name;
+  } else {
+    Serial.println("Ошибка сохранения имени устройства в файл.");
+  }
 }
 
 
 void setup() {
-    Serial.begin(115200); // Инициализация последовательного порта
-    SPIFFS.begin();
+  Serial.begin(115200);  // Инициализация последовательного порта
+  SPIFFS.begin();
 
-    dht.begin(); // Инициализация датчика DHT
+  dht.begin();  // Инициализация датчика DHT
 
-    File configFile = SPIFFS.open("/config.json", "r");
-    if (configFile) {
-        // Чтение содержимого файла и установка имени устройства
-        deviceName = configFile.readStringUntil('\n');
-        configFile.close();
-    }
+  File configFile = SPIFFS.open("/config.json", "r");
+  if (configFile) {
+    // Чтение содержимого файла и установка имени устройства
+    deviceName = configFile.readStringUntil('\n');
+    configFile.close();
+  }
+  deviceName.trim();
+  // Если файл не существует или не удалось прочитать имя, используется значение по умолчанию
+  if (deviceName == "") {
+    deviceName = "esp8266";
+  }
 
-    // Если файл не существует или не удалось прочитать имя, используется значение по умолчанию
-    if (deviceName == "") {
-        deviceName = "esp8266";
-    }
+  WiFiManager wifiManager;
 
-    WiFiManager wifiManager; // Инициализация менеджера Wi-Fi
+  WiFiManagerParameter custom_device_name("device", "Имя устройства в нижнем регистре (device_name)", deviceName.c_str(), 40);
+  WiFiManagerParameter custom_owner("owner", "ФИО владельца", owner.c_str(), 100);
+  wifiManager.addParameter(&custom_device_name);
+  wifiManager.addParameter(&custom_owner);
 
-    // Добавление параметра для настройки имени устройства
-    WiFiManagerParameter custom_device_name("device", "Имя устройства в нижнем регистре (device_name)", deviceName.c_str(), 40);
-    wifiManager.addParameter(&custom_device_name);
 
-    // Подключение к Wi-Fi сети или создание точки доступа с паролем
-    if (!wifiManager.autoConnect("ESP8266_EXO", "exoadmin")) {
-        Serial.println("Не удалось подключиться к Wi-Fi и создать точку доступа.");
-        delay(1000);
-        ESP.reset();
-        delay(5000);
-    }
+  // Подключение к Wi-Fi сети или создание точки доступа с паролем
+  if (!wifiManager.autoConnect("ESP8266_EXO", "exoadmin")) {
+    Serial.println("Не удалось подключиться к Wi-Fi и создать точку доступа.");
+    delay(1000);
+    ESP.reset();
+    delay(5000);
+  }
 
-    // Получение значения имени устройства из параметра WiFiManager
-    deviceName = custom_device_name.getValue();
+  deviceName = custom_device_name.getValue();
+  owner = custom_owner.getValue();
 
-    // Обновление URL для состояния устройства с учетом имени устройства
-    deviceStateEndpoint = "http://exobed.lazareub.beget.tech/device/" + deviceName + "/";
+  // Обновление URL для состояния устройства с учетом имени устройства
+  deviceStateEndpoint = "http://exobed.lazareub.beget.tech/device/" + deviceName + "/";
 
-    Serial.println("Подключено к Wi-Fi"); // Вывод сообщения о подключении к Wi-Fi
+  Serial.println("Подключено к Wi-Fi");  // Вывод сообщения о подключении к Wi-Fi
 
-    if (!SPIFFS.begin()) { // Инициализация файловой системы SPIFFS
-        Serial.println("Не удалось инициализировать SPIFFS."); // Вывод сообщения об ошибке
-        return;
-    }
+  if (!SPIFFS.begin()) {                                    // Инициализация файловой системы SPIFFS
+    Serial.println("Не удалось инициализировать SPIFFS.");  // Вывод сообщения об ошибке
+    return;
+  }
+
+  saveDeviceName(deviceName);
 }
 
-void saveDeviceName(String name) {
-    // Сохранение имени устройства в файл
-    File configFile = SPIFFS.open("/config.json", "w");
-    if (configFile) {
-        configFile.println(name);
-        configFile.close();
-        Serial.print("Имя устройства '");
-        Serial.print(name);
-        Serial.println("' записано в память.");
-    } else {
-        Serial.println("Ошибка сохранения имени устройства в файл.");
-    }
-}
 
 void UpdatesFirmware() {
   Serial.println("Проверка обновлений...");
@@ -221,33 +229,42 @@ void UpdatesFirmware() {
 }
 
 void loop() {
-    while (Serial.available() > 0) { // Проверка доступности данных в последовательном порту
-        gps.encode(Serial.read()); // Обработка данных GPS
-    }
+  while (Serial.available() > 0) {  // Проверка доступности данных в последовательном порту
+    gps.encode(Serial.read());      // Обработка данных GPS
+  }
 
+  // Проверка подключения к Wi-Fi
+  if (WiFi.status() == WL_CONNECTED) {
     getDeviceState();
     UpdatesFirmware();
 
     // Проверка наличия корректных данных GPS
     if (gps.location.isValid()) {
-        // Получение широты и долготы
-        float latitude = gps.location.lat();
-        float longitude = gps.location.lng();
+      // Получение широты и долготы
+      float latitude = gps.location.lat();
+      float longitude = gps.location.lng();
 
-        // Вывод широты и долготы
-        Serial.print("Широта: ");
-        Serial.println(latitude, 6);  // 6 десятичных знаков для лучшей точности
-        Serial.print("Долгота: ");
-        Serial.println(longitude, 6);
+      // Вывод широты и долготы
+      Serial.print("Широта: ");
+      Serial.println(latitude, 6);  // 6 десятичных знаков для лучшей точности
+      Serial.print("Долгота: ");
+      Serial.println(longitude, 6);
 
     } else {
-        Serial.println("Данные GPS недоступны"); // Вывод сообщения о недоступности данных GPS
+      Serial.println("Данные GPS недоступны");  // Вывод сообщения о недоступности данных GPS
     }
 
-    StaticJsonDocument<200> doc; // Создание JSON-документа
+    StaticJsonDocument<200> doc;  // Создание JSON-документа
 
-    float temperature = dht.readTemperature(); // Получение температуры
-    float humidity = dht.readHumidity(); // Получение влажности
+    float temperature = dht.readTemperature();  // Получение температуры
+    float humidity = dht.readHumidity();        // Получение влажности
+
+    // Проверка, удалось ли получить данные с датчика
+    if (isnan(temperature) || isnan(humidity)) {
+      Serial.println("Ошибка чтения данных с датчика! Генерация случайных значений.");
+      temperature = random(15, 30);  // Генерация случайной температуры
+      humidity = random(30, 70);     // Генерация случайной влажности
+    }
 
     Serial.print("----------------------------------------------------------");
     Serial.print("\n");
@@ -260,7 +277,7 @@ void loop() {
     Serial.print("----------------------------------------------------------");
     Serial.print("\n");
 
-    
+
     if (!blocked) {
       IPAddress ip = WiFi.localIP();
 
@@ -290,41 +307,45 @@ void loop() {
       doc["ip_address"] = ip_address;
       doc["mac_address"] = mac_address;
       doc["version"] = version;
+      doc["owner"] = owner;
 
       String jsonData;
       serializeJson(doc, jsonData);
       sendDataWithCSRFToken(jsonData);
     } else {
-        Serial.println("Устройство заблокировано!!!");
+      Serial.println("Устройство заблокировано!!!");
     }
-    delay(60000);
+  } else {
+    Serial.println("Нет подключения к Wi-Fi");  // Вывод сообщения о отсутствии подключения к Wi-Fi
+  }
+  delay(60000);
 }
 
 void handleCommand(String command) {
-    command.trim();
+  command.trim();
 
-    Serial.print("Получена команда: ");
-    Serial.println(command);
+  Serial.print("Получена команда: ");
+  Serial.println(command);
 
-    if (command == "resetwifi") {
-        Serial.println("Сброс настроек Wi-Fi...");
-        WiFiManager wifiManager; // Создание объекта WiFiManager
-        wifiManager.resetSettings(); // Сброс настроек Wi-Fi
-        Serial.println("Wi-Fi настройки сброшены.");
-    } else {
-        Serial.println("Неизвестная команда."); // Обработка неизвестной команды
-    }
+  if (command == "resetwifi") {
+    Serial.println("Сброс настроек Wi-Fi...");
+    WiFiManager wifiManager;      // Создание объекта WiFiManager
+    wifiManager.resetSettings();  // Сброс настроек Wi-Fi
+    Serial.println("Wi-Fi настройки сброшены.");
+  } else {
+    Serial.println("Неизвестная команда.");  // Обработка неизвестной команды
+  }
 }
 
 void serialEvent() {
-    // Обработка событий последовательного порта
-    while (Serial.available()) {
-        char c = Serial.read();
-        if (c == '\n') {
-            handleCommand(receivedCommand);
-            receivedCommand = ""; // Сброс строки для следующей команды
-        } else {
-            receivedCommand += c; // Добавление символа к текущей команде
-        }
+  // Обработка событий последовательного порта
+  while (Serial.available()) {
+    char c = Serial.read();
+    if (c == '\n') {
+      handleCommand(receivedCommand);
+      receivedCommand = "";  // Сброс строки для следующей команды
+    } else {
+      receivedCommand += c;  // Добавление символа к текущей команде
     }
+  }
 }

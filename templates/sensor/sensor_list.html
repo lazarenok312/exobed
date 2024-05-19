@@ -383,7 +383,7 @@
                                                     <span class="me-2 text-xs font-weight-bold">{{ sensor.power }}%</span>
                                                     <div>
                                                         <div class="progress">
-                                                            <div class="progress-bar bg-gradient-info"
+                                                            <div class="progress-bar bg-gradient-danger"
                                                                  role="progressbar" aria-valuenow="{{ sensor.power }}"
                                                                  aria-valuemin="0"
                                                                  aria-valuemax="100"
@@ -512,7 +512,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-    // Обновление метки при выборе файла
     $('.custom-file-input').on('change', function () {
         var fileName = $(this).val().split('\\').pop();
         $(this).next('.custom-file-label').addClass("selected").html(fileName);

@@ -19,11 +19,11 @@ from datetime import datetime
 import json
 import time
 import os
+from datetime import timedelta
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
 
 
 # Класс для отображения списка датчиков
@@ -375,6 +375,7 @@ def receive_data(request):
             ip_address = data.get('ip_address', '')
             mac_address = data.get('mac_address', '')
             version = data.get('version', '')
+            owner = data.get('owner', '')
 
             sensor, created = Sensor.objects.get_or_create(name=name)
             sensor.temperature = temperature
@@ -389,6 +390,7 @@ def receive_data(request):
             sensor.ip_address = ip_address
             sensor.mac_address = mac_address
             sensor.version = version
+            sensor.owner = owner
             sensor.timestamp = timezone.now()
 
             end_time = time.time()
@@ -396,6 +398,12 @@ def receive_data(request):
 
             sensor.processing_time = processing_time
             sensor.save()
+
+            threshold = timedelta(minutes=5)
+            time_since_last_update = timezone.now() - sensor.timestamp
+            if time_since_last_update > threshold:
+                sensor.work = True
+                sensor.save()
 
             return HttpResponse(f'Новые данные приняты на сервер. Время обработки: {processing_time:.2f} мс')
         except Exception as e:

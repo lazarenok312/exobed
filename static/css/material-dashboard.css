@@ -25828,13 +25828,13 @@ body:not(.dark-version) .sidenav.bg-transparent .collapse .nav-item .nav-link.ac
 }
 
 .table td .progress {
-    height: 3px;
+    height: 7px;
     width: 120px;
     margin: 0;
 }
 
 .table td .progress .progress-bar {
-    height: 3px;
+    height: 7px;
 }
 
 .table td,
