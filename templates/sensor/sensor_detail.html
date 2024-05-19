@@ -567,6 +567,77 @@
         margin-top: 10px;
         margin-bottom: 10px;
     }
+
+    .heart-rate-widget {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100px;
+        width: 100%;
+        color: #e74c3c;
+    }
+
+    .heartbeat-2 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    .heartbeat-2 svg {
+        stroke: #e74c3c;
+        stroke-width: 2px;
+        fill: none;
+        stroke-dasharray: 150, 200;
+        stroke-dashoffset: 0;
+        animation: heartbeat-2 5s infinite linear;
+        width: 100%;
+        height: 100%;
+    }
+
+    .overlay {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+    }
+
+    .heart-icon i {
+        font-size: 3rem;
+        margin-right: 20px;
+        animation: heartbeat 1s infinite;
+
+    }
+
+    .heart-rate-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .heart-rate-value {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #e74c3c;
+    }
+
+    @keyframes heartbeat-2 {
+        to {
+            stroke-dashoffset: 1050;
+        }
+    }
+
+    @keyframes heartbeat {
+        0%, 100% {
+            transform: scale(1);
+        }
+        25%, 75% {
+            transform: scale(1.1);
+        }
+    }
 </style>
 <title>Датчик {{ sensor.name }}</title>
 <body class="g-sidenav-show  bg-gray-200">
@@ -972,6 +1043,30 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-xl-12 mt-4 d-flex">
+                <div class="card flex-grow-1">
+                    <div class="block-title">
+                        <h4>Датчик сердцебиения</h4>
+                    </div>
+                    <div class="heart-rate-widget">
+                        <div class="heartbeat-2">
+                            <svg viewBox="0 0 298 53.9" preserveAspectRatio="none">
+                                <path d="M297.5,41.2h-76.6c-0.5,0-0.9,0.4-1,0.8l-1.6,11.3l-3.1-32c0-0.5-0.4-0.9-0.9-0.9c-0.5,0-0.9,0.3-1,0.8 l-5.3,25.5l-2.3-10.9c-0.1-0.4-0.4-0.7-0.9-0.8c-0.4,0-0.8,0.2-1,0.6l-2.3,4.8h-107c0,0,0,0,0,0H82c-1.6,0-2.2,1.1-2.2,1.6 l-1.6,11.3l-3.1-52c0-0.5-0.4-0.9-0.9-0.9c-0.5,0-0.9,0.3-1,0.8l-9.3,45.5l-2.3-10.9c-0.1-0.4-0.4-0.7-0.9-0.8c-0.4,0-0.8,0.2-1,0.6 l-2.3,4.8H0.5"/>
+                            </svg>
+                        </div>
+                        <div class="overlay">
+                            <div class="heart-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <div class="heart-rate-info">
+                                <div class="heart-rate-value" id="heart-rate-value">72 bpm</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row mt-4">
             <div>
                 <div class="card" style="overflow: hidden;">
@@ -1000,6 +1095,18 @@
 
 {% include 'include/script.html' %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const heartRateValue = document.getElementById('heart-rate-value');
+
+        function updateHeartRate() {
+            const newHeartRate = Math.floor(Math.random() * (100 - 60 + 1)) + 60;
+            heartRateValue.textContent = `${newHeartRate} bpm`;
+        }
+
+        setInterval(updateHeartRate, 5000);
+    });
+</script>
 <script>
     function sendWhatsAppMessage(event) {
         event.preventDefault();
