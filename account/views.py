@@ -6,6 +6,9 @@ from django.contrib.auth import update_session_auth_hash
 from .forms import LoginForm, UserRegistrationForm, ProfileEditForm
 from django.contrib import messages
 from django.shortcuts import render, redirect
+import random
+import string
+from .models import RegistrationCode
 
 
 def register(request):
@@ -67,3 +70,17 @@ def edit(request, slug):
         profile_form = ProfileEditForm(instance=request.user.profile)
 
     return render(request, 'profile/profile_edit.html', {'profile_form': profile_form})
+
+
+def generate_code():
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+
+
+def generate_code_view(request):
+    if request.method == 'POST':
+        code = generate_code()
+        max_usages = request.POST.get('max_usages', 1)
+        new_code = RegistrationCode.objects.create(code=code, max_usages=max_usages)
+        return render(request, 'account/code_generated.html',
+                      {'code': new_code.code, 'max_usages': new_code.max_usages})
+    return render(request, 'account/generate_code.html')

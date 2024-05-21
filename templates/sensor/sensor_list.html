@@ -120,60 +120,68 @@
                         <span class="nav-link-text ms-1">Выйти</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white active bg-gradient-success" href="#" data-bs-toggle="modal"
-                       data-bs-target="#firmwareModal">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">download_for_offline</i>
-                        </div>
-                        <span class="nav-link-text ms-1">Обновить прошивку</span>
-                    </a>
-
-                    <div class="modal fade" id="firmwareModal" tabindex="-1" aria-labelledby="firmwareModalLabel"
-                         aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="firmwareModalLabel">Загрузить прошивку</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{% url 'esp_update' %}" method="post" enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                        <div class="mb-3">
-                                            <label for="firmware" class="form-label">Выберите файл прошивки .bin</label>
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="firmware"
-                                                       name="firmware" accept=".bin" required>
-                                                <label class="custom-file-label" for="firmware">Выберите файл</label>
-                                            </div>
+                {% if user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white active bg-gradient-success" href="#" data-bs-toggle="modal"
+                           data-bs-target="#firmwareModal">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">download_for_offline</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Обновить прошивку</span>
+                        </a>
+                    <li class="nav-item">
+                        <a class="nav-link text-white active bg-gradient-warning" href="{% url 'generate_code' %}">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">touch_app</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Коды регистрации</span>
+                        </a>
+                    </li>
+                {% endif %}
+                <div class="modal fade" id="firmwareModal" tabindex="-1" aria-labelledby="firmwareModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="firmwareModalLabel">Загрузить прошивку</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{% url 'esp_update' %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="firmware" class="form-label">Выберите файл прошивки .bin</label>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="firmware"
+                                                   name="firmware" accept=".bin" required>
+                                            <label class="custom-file-label" for="firmware">Выберите файл</label>
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="firmwareVersion" class="form-label">Версия прошивки
-                                                (х.х.х)</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control border border-info"
-                                                       id="firmwareVersion" name="firmware_version" required
-                                                       pattern="\d{1,3}\.\d{1,3}\.\d{1,3}"
-                                                       title="Введите версию прошивки в формате х.х.х (например, 1.0.0)"
-                                                       oninput="formatFirmwareVersion(this)">
-                                            </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="firmwareVersion" class="form-label">Версия прошивки
+                                            (х.х.х)</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control border border-info"
+                                                   id="firmwareVersion" name="firmware_version" required
+                                                   pattern="\d{1,3}\.\d{1,3}\.\d{1,3}"
+                                                   title="Введите версию прошивки в формате х.х.х (например, 1.0.0)"
+                                                   oninput="formatFirmwareVersion(this)">
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn bg-gradient-info" data-bs-dismiss="modal">
-                                                Закрыть
-                                            </button>
-                                            <button type="submit" class="btn bg-gradient-success" id="uploadFirmware">
-                                                Загрузить
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn bg-gradient-info" data-bs-dismiss="modal">
+                                            Закрыть
+                                        </button>
+                                        <button type="submit" class="btn bg-gradient-success" id="uploadFirmware">
+                                            Загрузить
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </li>
+                </div>
             {% else %}
                 <li class="nav-item">
                     <a class="nav-link text-white " href='{% url 'login' %}'>

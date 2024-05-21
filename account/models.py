@@ -42,3 +42,16 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver
 def safe_user_profile(sender, instance, *kwargs):
     instance.profile.save()
+
+
+class RegistrationCode(models.Model):
+    code = models.CharField('Код', max_length=10, unique=True)
+    usage_count = models.IntegerField('Кол-во использований', default=0)
+    max_usages = models.IntegerField('Максимальное кол-во использований')
+
+    def __str__(self):
+        return self.code
+
+    class Meta:
+        verbose_name = 'Регистрационный код'
+        verbose_name_plural = 'Регистрационный код'

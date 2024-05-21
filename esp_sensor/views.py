@@ -1,6 +1,7 @@
 from django.views.generic import View, ListView, DetailView, DeleteView
 from django.views.decorators.csrf import csrf_exempt
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
@@ -76,7 +77,7 @@ class ConfirmSensorView(View):
 
 
 # Класс для отображения подробной информации о датчике
-class SensorDetailView(DetailView):
+class SensorDetailView(LoginRequiredMixin, DetailView):
     model = Sensor
     template_name = 'sensor/sensor_detail.html'
     context_object_name = 'sensor'
@@ -200,7 +201,7 @@ class SensorDetailView(DetailView):
         return data
 
 
-class SensorDeleteView(DeleteView):
+class SensorDeleteView(LoginRequiredMixin, DeleteView):
     model = Sensor
     template_name = 'sensor/sensor_detail.html'
 
@@ -217,6 +218,7 @@ class SensorDeleteView(DeleteView):
         return reverse_lazy('sensor_list')
 
 
+@login_required
 def block_toggle(request, sensor_id):
     sensor = get_object_or_404(Sensor, pk=sensor_id)
     sensor.blocked = not sensor.blocked
@@ -226,6 +228,7 @@ def block_toggle(request, sensor_id):
     return HttpResponseRedirect(redirect_url)
 
 
+@login_required
 def toggle_start(request, sensor_id):
     sensor = get_object_or_404(Sensor, pk=sensor_id)
     sensor.start = not sensor.start
@@ -236,6 +239,7 @@ def toggle_start(request, sensor_id):
 
 
 # Функция для загрузки логов датчика в формате CSV
+@login_required
 def download_logs(request, device_slug):
     sensor = get_object_or_404(Sensor, slug=device_slug)
 

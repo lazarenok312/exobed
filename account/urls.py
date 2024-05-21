@@ -1,6 +1,6 @@
 from django.contrib.auth import views
 from django.urls import path
-from account.views import edit, register
+from account.views import edit, register, generate_code_view
 
 urlpatterns = [
     path('login/', views.LoginView.as_view(), name='login'),
@@ -12,5 +12,6 @@ urlpatterns = [
     path('reset/done/', views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('password-change/', views.PasswordChangeView.as_view(), name='password_change'),
     path('password-change/done/', views.PasswordChangeDoneView.as_view(), name='password_change_done'),
+    path('generate-code/', generate_code_view, name='generate_code'),
     path('<slug:slug>/', edit, name='profile_edit'),
 ]
