@@ -16,6 +16,12 @@ class UserRegistrationForm(forms.ModelForm):
         model = User
         fields = ('username', 'first_name', 'email')
 
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError('Пользователь с таким логином уже существует.')
+        return username
+
     def clean_password2(self):
         cd = self.cleaned_data
         if cd['password'] != cd['password2']:

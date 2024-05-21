@@ -192,6 +192,12 @@
     .input-group input[type="password"]:valid + label::after {
         width: 100%;
     }
+
+    .alert-message {
+        border-radius: 0.5rem;
+        margin-bottom: 10px;
+        padding: 7px;
+    }
 </style>
 <body class="bg-gray-200">
 <div class="container position-sticky z-index-sticky top-0">
@@ -263,6 +269,18 @@
                         <div class="card-body">
                             <form role="form" action="." method="post">
                                 {% csrf_token %}
+                                {% if user_form.errors %}
+                                    <div class=" alert-message bg-gradient-danger" role="alert">
+                                        {% for field in user_form %}
+                                            {% for error in field.errors %}
+                                                <p class="text-white text-center mt-2 mb-0"> {{ error }}</p>
+                                            {% endfor %}
+                                        {% endfor %}
+                                        {% for error in user_form.non_field_errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                                 <div class="input-group input-group-outline mb-3">
                                     <input type="text" class="form-control" id="username" name="username" required>
                                     <label for="username">Логин</label>
