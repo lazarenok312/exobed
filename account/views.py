@@ -15,10 +15,11 @@ def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
-            new_user = user_form.save(commit=False)
-            new_user.set_password(user_form.cleaned_data['password'])
-            new_user.save()
-            return render(request, 'account/register_done.html', {'new_user': new_user})
+            user_form.save()
+            messages.success(request, 'Регистрация прошла успешно.')
+            return redirect('login')
+        else:
+            messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
     else:
         user_form = UserRegistrationForm()
     return render(request, 'account/register.html', {'user_form': user_form})
@@ -79,8 +80,11 @@ def generate_code():
 def generate_code_view(request):
     if request.method == 'POST':
         code = generate_code()
-        max_usages = request.POST.get('max_usages', 1)
+        max_usages = int(request.POST.get('max_usages', 1))
         new_code = RegistrationCode.objects.create(code=code, max_usages=max_usages)
-        return render(request, 'account/code_generated.html',
-                      {'code': new_code.code, 'max_usages': new_code.max_usages})
-    return render(request, 'account/generate_code.html')
+        messages.success(request,
+                         f'Сгенерированный код: {new_code.code}, Максимальное количество использований: {new_code.max_usages}')
+        return redirect('generate_code')
+
+    codes = RegistrationCode.objects.all()
+    return render(request, 'account/generate_code.html', {'codes': codes})
