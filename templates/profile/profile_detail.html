@@ -164,18 +164,6 @@
                         <span class="nav-link-text ms-1">Выйти</span>
                     </a>
                 </li>
-                {% if messages %}
-                    {% for message in messages %}
-                        <li class="nav-item">
-                            <a class="nav-link text-white active bg-gradient-success message-item">
-                                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                    <i class="material-icons opacity-10">backup</i>
-                                </div>
-                                <span class="nav-link-text ms-1">{{ message }}</span>
-                            </a>
-                        </li>
-                    {% endfor %}
-                {% endif %}
             {% else %}
                 <li class="nav-item">
                     <a class="nav-link text-white " href='{% url 'login' %}'>
@@ -219,9 +207,9 @@
             <div class="row gx-4 mb-2">
                 <div class="col-auto">
                     <div class="avatar avatar-xl position-relative">
-                        <img src="{% static 'img/ava.png' %}" alt="profile_image"
-                             class="w-100 border-radius-lg shadow-sm" height="50">
-                    </div>
+                    <img src="{{ profile.photo.url }}" alt="profile_image"
+                         class="w-100 border-radius-lg shadow-sm" height="50">
+                </div>
                 </div>
                 <div class="col-auto my-auto">
                     <div class="h-100">
@@ -552,8 +540,40 @@
         </div>
     </div>
 </div>
+{% if messages %}
+    {% for message in messages %}
+        <div class="position-fixed bottom-1 end-1 z-index-2">
+            <div class="toast fade show p-2 mt-2 bg-gradient-info" role="alert" aria-live="assertive" id="infoToast"
+                 aria-atomic="true" data-bs-delay="5000">
+                <div class="toast-header bg-transparent border-0">
+                    <i class="material-icons text-white me-2">
+                        notifications
+                    </i>
+                    <span class="me-auto text-white font-weight-bold">Оповещение</span>
+                    <small class="text-white">Только что</small>
+                    <i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast"
+                       aria-label="Close"></i>
+                </div>
+                <hr class="horizontal light m-0">
+                <div class="toast-body text-white">
+                    {{ message }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
 {% include 'include/setting.html' %}
 {% include 'include/script.html' %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+        var toastList = toastElList.map(function (toastEl) {
+            return new bootstrap.Toast(toastEl, {
+                delay: 5000
+            }).show();
+        });
+    });
+</script>
 <script>
     const tabLinks = document.querySelectorAll(".tabs a");
     const tabPanels = document.querySelectorAll(".tabs-panel");
