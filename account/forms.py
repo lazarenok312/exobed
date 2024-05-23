@@ -29,15 +29,6 @@ class UserRegistrationForm(forms.ModelForm):
 
         return code
 
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        if commit:
-            user.save()
-            registration_code = RegistrationCode.objects.get(code=self.cleaned_data['code'])
-            registration_code.usage_count += 1
-            registration_code.save()
-        return user
-
     def clean_username(self):
         username = self.cleaned_data['username']
         if User.objects.filter(username=username).exists():
@@ -50,19 +41,35 @@ class UserRegistrationForm(forms.ModelForm):
             raise forms.ValidationError('Пароли не совпадают.')
         return cd['password2']
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data['password'])
+        if commit:
+            user.save()
+            registration_code = RegistrationCode.objects.get(code=self.cleaned_data['code'])
+            registration_code.usage_count += 1
+            registration_code.save()
+        return user
+
 
 class ProfileEditForm(forms.ModelForm):
     phone_number = forms.CharField(max_length=15, required=False)
+    username = forms.CharField(max_length=150, required=True)
 
     class Meta:
         model = Profile
-        fields = ('name', 'surnames', 'phone_number', 'email', 'photo')
+        fields = ('username', 'name', 'surnames', 'phone_number', 'email', 'photo')
 
     def save(self, commit=True):
         profile = super().save(commit=False)
+        user = profile.user
         phone_number = self.cleaned_data.get('phone_number')
         if phone_number:
             profile.work_phone = phone_number
+
+        user.username = self.cleaned_data['username']
+        user.save()
+
         if commit:
             profile.save()
         return profile

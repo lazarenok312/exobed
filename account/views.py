@@ -59,16 +59,17 @@ def change_password(request):
 
 @login_required
 def edit(request, slug):
+    profile = request.user.profile
     if request.method == 'POST':
-        profile_form = ProfileEditForm(instance=request.user.profile, data=request.POST, files=request.FILES)
+        profile_form = ProfileEditForm(instance=profile, data=request.POST, files=request.FILES)
         if profile_form.is_valid():
             profile_form.save()
             messages.success(request, 'Профиль обновлен!')
-            return redirect('profiles:profile_detail', slug=request.user.profile.slug)
+            return redirect('profiles:profile_detail', slug=profile.slug)
         else:
             messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
     else:
-        profile_form = ProfileEditForm(instance=request.user.profile)
+        profile_form = ProfileEditForm(instance=profile)
 
     return render(request, 'profile/profile_edit.html', {'profile_form': profile_form})
 

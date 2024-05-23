@@ -178,6 +178,11 @@
                             <div class="card-body px-0 pb-2">
                                 <div class="input-container">
                                     <i class="icon"><i class="material-icons opacity-10">person</i></i>
+                                    <input class="input-field" type="text" placeholder="Логин" name="username"
+                                           value="{{ profile_form.instance.user.username }}">
+                                </div>
+                                <div class="input-container">
+                                    <i class="icon"><i class="material-icons opacity-10">person</i></i>
                                     <input class="input-field" type="text" placeholder="Имя" name="name"
                                            value="{{ profile_form.instance.name }}">
                                 </div>
@@ -189,7 +194,7 @@
                                 <div class="input-container">
                                     <i class="icon"><i class="material-icons opacity-10">add_ic_call</i></i>
                                     <input class="input-field" type="text" placeholder="Номер телефона"
-                                           name="phone_number">
+                                           name="phone_number" value="{{ profile_form.instance.work_phone }}">
                                 </div>
                                 <div class="input-container">
                                     <i class="icon"><i class="material-icons opacity-10">attach_email</i></i>
@@ -198,9 +203,10 @@
                                 </div>
                                 <div class="input-container file-input-container">
                                     <label for="photo" class="file-input-label">
-                                        <i class="material-icons opacity-10" style="color:#fff;">photo</i> <span style="color: white;">Выберите фото.</span>
+                                        <i class="material-icons opacity-10" style="color:#fff;">photo</i> <span
+                                            style="color: white;">Выберите фото.</span>
                                     </label>
-                                     <input class="file-input" type="file" id="photo" name="photo" accept="image/*">
+                                    <input class="file-input" type="file" id="photo" name="photo" accept="image/*">
                                 </div>
                                 {% csrf_token %}
                                 <button type="submit" class="btn">Изменить</button>

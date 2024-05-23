@@ -392,7 +392,7 @@
                                 <div class="col-md-4 border-right">
                                     <div class="settings-tray">
                                         <img class="profile-image"
-                                             src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/filip.jpg"
+                                             src="{% static 'img/default.png' %}"
                                              alt="Profile img">
                                         <span class="settings-tray--right">
                             			<i class="material-icons">cached</i>
@@ -467,10 +467,15 @@
                                                 <div class="text">
                                                     <h6 style="color:#ffffff;">{{ receiver.username }}</h6>
                                                 </div>
-                                                <span class="settings-tray--right">
-                                                    <button class="btn btn-floating blue lighten-2 waves-effect waves-light"
-                                                            onclick="reload_interval(200);"><i
-                                                            class="material-icons">cached</i></button></span>
+                                                <div class="settings-tray">
+                                                    <span class="settings-tray--right" onclick="reloadPage()">
+            <i class="material-icons">cached</i>
+        </span>
+                                                </div>
+                                                {#                                                <span class="settings-tray--right">#}
+                                                {#                                                    <button class="btn btn-floating blue lighten-2 waves-effect waves-light"#}
+                                                {#                                                            onclick="reload_interval(200);"><i#}
+                                                {#                                                            class="material-icons">cached</i></button></span>#}
                                             </div>
                                         </div>
                                         <div id="board" class="section grey lighten-3"
@@ -506,26 +511,8 @@
     </div>
 </div>
 {% include 'include/script.html' %}
-<script>
-    const tabLinks = document.querySelectorAll(".tabs a");
-    const tabPanels = document.querySelectorAll(".tabs-panel");
-
-    for (let el of tabLinks) {
-        el.addEventListener("click", e => {
-            e.preventDefault();
-
-            document.querySelector(".tabs li.active").classList.remove("active");
-            document.querySelector(".tabs-panel.active").classList.remove("active");
-
-            const parentListItem = el.parentElement;
-            parentListItem.classList.add("active");
-            const index = [...parentListItem.parentElement.children].indexOf(parentListItem);
-
-            const panel = [...tabPanels].filter(el => el.getAttribute("data-index") == index);
-            panel[0].classList.add("active");
-        });
-    }
-</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+<script src="{% static 'js/chat.js' %}"></script>
 <script>
     $('.friend-drawer--onhover').on('click', function () {
 
@@ -533,14 +520,10 @@
 
     });
 </script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
-<script src="{% static 'js/chat.js' %}"></script>
 <script>
-    // For receiving
     sender_id = "{{ receiver.id }}";
     receiver_id = "{{ request.user.id }}";
 
-    //For sending
     $(function () {
         scrolltoend();
         $('#chat-box').on('submit', function (event) {
@@ -593,8 +576,13 @@
     }
 
     $(document).ready(function () {
-        updateChat(); // Обновляем чат при загрузке страницы
-        setInterval(updateChat, 5000); // Обновляем чат каждые 5 секунд (или другой интервал)
+        updateChat();
+        setInterval(updateChat, 5000);
     });
+</script>
+<script>
+    function reloadPage() {
+        location.reload();
+    }
 </script>
 </body>

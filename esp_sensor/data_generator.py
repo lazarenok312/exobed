@@ -30,16 +30,24 @@ def generate_data_for_batch(start_index, end_index):
 
 
 def main():
+    initial_sensors_count = 10
     while True:
-        batch_size = 10  # Размер пакета
+        batch_size = 10
         total_sensors = Sensor.objects.count()
+
+        if total_sensors < initial_sensors_count:
+            for i in range(total_sensors, initial_sensors_count):
+                create_or_get_sensor(f"Sensor_test_{i + 1}")
+            total_sensors = Sensor.objects.count()
+
         for start_index in range(0, total_sensors, batch_size):
             end_index = min(start_index + batch_size, total_sensors)
             generate_data_for_batch(start_index, end_index)
             print(f"Данные успешно сгенерированы для датчиков с {start_index + 1} по {end_index}")
-            time.sleep(60)  # Подождать некоторое время перед обработкой следующего пакета
+            time.sleep(60)
+
         print("Все данные успешно сгенерированы")
-        time.sleep(300)  # Подождать перед следующим циклом
+        time.sleep(300)
 
 
 if __name__ == "__main__":
