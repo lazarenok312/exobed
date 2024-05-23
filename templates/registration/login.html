@@ -155,12 +155,12 @@
                             <form action="{% url 'login' %}" method="post">
                                 {% csrf_token %}
                                 <div class="input-group input-group-outline my-3">
-                                    <input type="text" class="form-control" id="username" name="username" required>
+                                    <input type="text" class="form-control" id="username" name="username" autocomplete="username" required>
                                     <label for="username">Логин</label>
                                 </div>
                                 <div class="input-group input-group-outline mb-3">
-                                    <input type="password" class="form-control" id="username" name="password" required>
-                                    <label for="username">Пароль</label>
+                                    <input type="password" class="form-control" id="password" name="password" autocomplete="current-password" required>
+                                    <label for="password">Пароль</label>
                                 </div>
                                 <div class="form-check form-switch d-flex align-items-center mb-3">
                                     <input class="form-check-input" type="checkbox" id="rememberMe" checked>
@@ -176,15 +176,21 @@
                                    class="text-info text-gradient font-weight-bold">Зарегистрируйтесь!</a>
                             </p>
                             {% if form.errors %}
-                                <p class="text-info text-gradient font-weight-bold" style="text-align: center">
-                                    Не верный логин или пароль<br>
-                                    Пожалуйста, попробуйте еще раз.
-                                </p>
-                                <p class="mt-4 text-sm text-center">
-                                    Забыли пароль?
-                                    <a href="{% url "password_reset" %}"
-                                       class="text-info text-gradient font-weight-bold">Восстановите!</a>
-                                </p>
+                                <div class="error-messages" style="text-align: center">
+                                    {% for field in form %}
+                                        {% for error in field.errors %}
+                                            <p class="text-info text-gradient font-weight-bold">{{ error }}</p>
+                                        {% endfor %}
+                                    {% endfor %}
+                                    {% for error in form.non_field_errors %}
+                                        <p class="text-info text-gradient font-weight-bold">{{ error }}</p>
+                                    {% endfor %}
+                                    <p class="mt-4 text-sm text-center">
+                                        Забыли пароль?
+                                        <a href="{% url 'password_reset' %}"
+                                           class="text-info text-gradient font-weight-bold">Восстановите!</a>
+                                    </p>
+                                </div>
                             {% endif %}
                         </div>
                     </div>

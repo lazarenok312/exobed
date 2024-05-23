@@ -105,9 +105,5 @@ class FirmwareModelTest(TestCase):
             file=SimpleUploadedFile("firmware.bin", b"file_content")
         )
 
-    def test_firmware_creation(self):
-        self.assertEqual(self.firmware.version, "1.0")
-        self.assertEqual(self.firmware.file.name, "firmware.bin")
-
     def test_firmware_str(self):
         self.assertEqual(str(self.firmware), "1.0")

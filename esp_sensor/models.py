@@ -39,10 +39,10 @@ class Sensor(models.Model):
     country = models.ManyToManyField(Country, blank=True, verbose_name='Страна')
     city = models.ManyToManyField(City, blank=True, verbose_name='Город')
     inclusions = models.IntegerField("Количество включений", default=0)
-    power = models.IntegerField(default=0, blank=True, verbose_name='Мощность',
+    power = models.IntegerField(default=0, blank=True, verbose_name='Мощность %',
                                 validators=[MinValueValidator(0), MaxValueValidator(100)])
-    watt = models.IntegerField("Потребление мощности", default=0)
-    volt = models.IntegerField("Электрическое напряжение", default=0)
+    watt = models.IntegerField("Потребление мощности Ватт", default=0)
+    volt = models.IntegerField("Электрическое напряжение Вольт", default=0)
     work = models.BooleanField('Онлайн', default=True)
     blocked = models.BooleanField('Заблокирован', default=False)
     start = models.BooleanField('Старт', default=False)
@@ -123,6 +123,9 @@ class Firmware(models.Model):
     version = models.CharField("Версия", max_length=10)
     file = models.FileField(upload_to='firmwares/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.version
 
     class Meta:
         verbose_name = 'Прошивка'

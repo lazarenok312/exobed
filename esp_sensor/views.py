@@ -28,7 +28,8 @@ from rest_framework import status
 
 
 # Класс для отображения списка датчиков
-class SensorListView(ListView):
+
+class SensorListView(LoginRequiredMixin,ListView):
     model = Sensor
     template_name = 'sensor/sensor_list.html'
     context_object_name = 'sensors'
