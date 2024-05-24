@@ -4,7 +4,7 @@ from esp_sensor.models import Sensor
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
-
+from django.utils import timezone
 
 class Profile(models.Model):
     id = models.AutoField(primary_key=True)
@@ -17,10 +17,17 @@ class Profile(models.Model):
     photo = models.ImageField(upload_to='users/%Y/%m/%d', blank=True, verbose_name="Фото",
                               default='../static/img/default.png')
     slug = models.SlugField("URL", max_length=50, blank=True)
+    last_activity = models.DateTimeField(verbose_name="Последняя активность", default=timezone.now)
 
     @property
     def status(self):
         return "Администратор" if self.user.is_staff else "Пользователь"
+
+    @property
+    def is_online(self):
+        now = timezone.now()
+        return now - self.last_activity < timezone.timedelta(minutes=2)
+
     def __str__(self):
         return 'Профиль пользователя {}'.format(self.user.username)
 

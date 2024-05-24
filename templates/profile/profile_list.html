@@ -109,6 +109,9 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         Статус
                                     </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Онлайн
+                                    </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Профиль пользователя
                                     </th>
@@ -134,6 +137,15 @@
                                                     <span class="badge badge-sm bg-gradient-success">Администратор</span>
                                                 {% else %}
                                                     <span class="badge badge-sm bg-gradient-secondary">Пользователь</span>
+                                                {% endif %}
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">
+                                                {% if profile.is_online %}
+                                                    <span class="badge badge-sm bg-gradient-success">Онлайн</span>
+                                                {% else %}
+                                                    <span class="badge badge-sm bg-gradient-secondary">Оффлайн</span>
                                                 {% endif %}
                                             </p>
                                         </td>
