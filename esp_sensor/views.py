@@ -351,6 +351,8 @@ def search_sensors(request):
             Q(name__icontains=query) |
             Q(description__icontains=query) |
             Q(owner__icontains=query) |
+            Q(mac_address__icontains=query) |
+            Q(ip_address__icontains=query) |
             Q(country__name__icontains=query) |
             Q(city__name__icontains=query) |
             Q(inclusions__icontains=query)

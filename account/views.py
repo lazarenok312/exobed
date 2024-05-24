@@ -8,7 +8,8 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 import random
 import string
-from .models import RegistrationCode
+from .models import RegistrationCode, Profile
+from django.core.paginator import Paginator
 
 
 def register(request):
@@ -89,3 +90,13 @@ def generate_code_view(request):
 
     codes = RegistrationCode.objects.all()
     return render(request, 'account/generate_code.html', {'codes': codes})
+
+
+@login_required
+def profile_list(request):
+    profiles = Profile.objects.all()
+    paginator = Paginator(profiles, 10)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'profile/profile_list.html', {'page_obj': page_obj})

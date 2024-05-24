@@ -1,0 +1,246 @@
+{% include 'base.html' %}
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Профили</title>
+</head>
+<style>
+
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table th, .table td {
+        white-space: nowrap;
+    }
+</style>
+<body class="g-sidenav-show  bg-gray-200">
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
+       id="sidenav-main">
+    <div class="sidenav-header">
+        <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+           aria-hidden="true" id="iconSidenav"></i>
+        <a class="navbar-brand m-0" href="{% url 'sensor_list' %}">
+            <img src="{% static 'img/google-webdev.svg' %}" class="navbar-brand-img h-100" alt="main_logo">
+            <span class="ms-1 font-weight-bold text-white">Список профилей</span>
+        </a>
+    </div>
+    <hr class="horizontal light mt-0 mb-2">
+    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link text-white active bg-gradient-info" href="{% url 'sensor_list' %}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">table_view</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Датчики</span>
+                </a>
+            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item mt-3">
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Страницы
+                        аккаунта</h6>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white " href="{% url 'profiles:profile_detail' user.profile.slug %}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">person</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Профиль {{ user.username }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white " href='{% url 'logout' %}'>
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">login</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Выйти</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</aside>
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
+         data-scroll="true">
+        <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="{% url 'sensor_list' %}">Страница</a>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Список профилей</li>
+                </ol>
+            </nav>
+            {% include 'include/navbar.html' %}
+        </div>
+    </nav>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-info shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white ps-3">Список всех пользователей</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive">
+                            <div class="row" style="width: 40%; margin-left: 10px">
+                                <div class="input-group">
+                                    <input type="text" id="searchInput" class="form-control"
+                                           placeholder="Поиск по имени...">
+                                </div>
+                            </div>
+
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Имя
+                                        Фамилия
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Статус
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Профиль пользователя
+                                    </th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                                </thead>
+                                <tbody id="userTableBody">
+                                {% for profile in page_obj %}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div>
+                                                    <i class="material-icons" style="font-size: 50px;">person</i>
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">{{ profile.name }} {{ profile.surnames }}</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">
+                                                {% if profile.user.is_staff %}
+                                                    <span class="badge badge-sm bg-gradient-success">Администратор</span>
+                                                {% else %}
+                                                    <span class="badge badge-sm bg-gradient-secondary">Пользователь</span>
+                                                {% endif %}
+                                            </p>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="{% url 'profiles:profile_detail' profile.slug %}"
+                                               class="btn btn-sm bg-gradient-info">Профиль</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&lsaquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&rsaquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="position-fixed bottom-1 end-1 z-index-2">
+                <div class="toast show p-2 mt-2 bg-gradient-info" role="alert" aria-live="assertive" aria-atomic="true"
+                     id="infoToast">
+                    <div class="toast-header bg-transparent border-0">
+                        <i class="material-icons text-white me-2">
+                            notifications
+                        </i>
+                        <span class="me-auto text-white font-weight-bold">Оповещение</span>
+                        <small class="text-white">Только что</small>
+                        <i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast"
+                           aria-label="Close"></i>
+                    </div>
+                    <hr class="horizontal light m-0">
+                    <div class="toast-body text-white">
+                        {{ message }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</main>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        var toastList = toastElList.map(function (toastEl) {
+            return new bootstrap.Toast(toastEl, {delay: 10000})
+        });
+        toastList.forEach(toast => toast.show());
+    });
+</script>
+<script>
+    document.getElementById('searchInput').addEventListener('input', function () {
+        const searchText = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#userTableBody tr');
+
+        rows.forEach(row => {
+            const fullName = row.querySelector('h6').textContent.toLowerCase();
+            if (fullName.includes(searchText)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% include 'include/script.html' %}

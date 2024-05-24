@@ -18,6 +18,9 @@ class Profile(models.Model):
                               default='../static/img/default.png')
     slug = models.SlugField("URL", max_length=50, blank=True)
 
+    @property
+    def status(self):
+        return "Администратор" if self.user.is_staff else "Пользователь"
     def __str__(self):
         return 'Профиль пользователя {}'.format(self.user.username)
 
