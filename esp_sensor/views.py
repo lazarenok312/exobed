@@ -29,7 +29,7 @@ from rest_framework import status
 
 # Класс для отображения списка датчиков
 
-class SensorListView(LoginRequiredMixin,ListView):
+class SensorListView(LoginRequiredMixin, ListView):
     model = Sensor
     template_name = 'sensor/sensor_list.html'
     context_object_name = 'sensors'
@@ -449,6 +449,10 @@ def esp_update(request):
         firmware_path = os.path.join(settings.MEDIA_ROOT, 'firmwares', f'{device_name}.bin')
         version = request.POST.get('firmware_version', '')
 
+        if Firmware.objects.filter(version=version).exists():
+            messages.error(request, 'Прошивка с такой версией уже существует', extra_tags='bg-gradient-danger')
+            return redirect('sensor_list')
+
         os.makedirs(os.path.dirname(firmware_path), exist_ok=True)
 
         with open(firmware_path, 'wb+') as destination:
@@ -459,7 +463,7 @@ def esp_update(request):
         firmware = Firmware(version=version, file=actual_filename)
         firmware.save()
 
-        messages.success(request, 'Прошивка успешно загружена')
+        messages.success(request, 'Прошивка успешно загружена', extra_tags='bg-gradient-info')
         return redirect('sensor_list')
     return redirect('sensor_list')
 

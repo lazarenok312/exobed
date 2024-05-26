@@ -6,6 +6,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 
+
 class Profile(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.OneToOneField(User, verbose_name="Пользователь", on_delete=models.CASCADE)
