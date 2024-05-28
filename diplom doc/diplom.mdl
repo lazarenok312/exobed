@@ -539,9 +539,6 @@
 	    (object Class "NewClass"
 		quid       	"6651AA890157"
 		stereotype 	"Actor")
-	    (object Class "Admin"
-		quid       	"6651B1460098"
-		stereotype 	"Actor")
 	    (object Class "UserInterface"
 		quid       	"6651E1EA0165"
 		stereotype 	"Interface"
@@ -627,7 +624,1975 @@
 			concurrency 	"Sequential"
 			opExportControl 	"Public"
 			uid        	0)))
-	    (object Mechanism @1
+	    (object Association "$UNNAMED$0"
+		quid       	"6655E25703C1"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$1"
+			quid       	"6655E2580204"
+			supplier   	"Use Case View::NewPackage::оказать поддержку оператору"
+			quidu      	"6655E1C700C9"
+			is_navigable 	TRUE)
+		    (object Role "$UNNAMED$2"
+			quid       	"6655E2580206"
+			supplier   	"Use Case View::NewPackage::Device"
+			quidu      	"6655DED502C4")))
+	    (object Association "$UNNAMED$3"
+		quid       	"6655E26501F3"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$4"
+			quid       	"6655E26600BD"
+			supplier   	"Use Case View::NewPackage::оказать поддержку оператору"
+			quidu      	"6655E1C700C9"
+			is_navigable 	TRUE)
+		    (object Role "$UNNAMED$5"
+			quid       	"6655E26600BF"
+			supplier   	"Use Case View::NewPackage::Admin"
+			quidu      	"6651B1460098")))
+	    (object Association "$UNNAMED$6"
+		quid       	"6655E284012B"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$7"
+			quid       	"6655E28500AF"
+			supplier   	"Use Case View::NewPackage::обратиться в поддержку"
+			quidu      	"6655E196026F"
+			is_navigable 	TRUE)
+		    (object Role "$UNNAMED$8"
+			quid       	"6655E28500B1"
+			supplier   	"Use Case View::NewPackage::Operator"
+			quidu      	"6655DEC10323")))
+	    (object Association "$UNNAMED$9"
+		quid       	"6655E28F03A0"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$10"
+			quid       	"6655E2900292"
+			supplier   	"Use Case View::NewPackage::обратиться в поддержку"
+			quidu      	"6655E196026F"
+			is_navigable 	TRUE)
+		    (object Role "$UNNAMED$11"
+			quid       	"6655E2900294"
+			supplier   	"Use Case View::NewPackage::оказать поддержку оператору"
+			quidu      	"6655E1C700C9"
+			is_navigable 	TRUE)))
+	    (object Association "$UNNAMED$12"
+		quid       	"6655E58C002E"
+		roles      	(list role_list
+		    (object Role "$UNNAMED$13"
+			quid       	"6655E58C0346"
+			supplier   	"Use Case View::NewPackage::Device"
+			quidu      	"6655DED502C4"
+			is_navigable 	TRUE)
+		    (object Role "$UNNAMED$14"
+			quid       	"6655E58C034A"
+			supplier   	"Use Case View::NewPackage::отправить/получить данные"
+			quidu      	"6655E56D0353"
+			is_navigable 	TRUE)))
+	    (object Class_Category "NewPackage"
+		quid       	"6655EBD80381"
+		exportControl 	"Public"
+		logical_models 	(list unit_reference_list
+		    (object Class "Admin"
+			quid       	"6651B1460098"
+			stereotype 	"Actor"
+			visible_modules 	(list dependency_list
+			    (object Dependency_Relationship
+				quid       	"6655DFB900DD"
+				supplier   	"Use Case View::NewPackage::Функции ПС для администратора"
+				quidu      	"6655DEF100A0")))
+		    (object Class "Device"
+			quid       	"6655DED502C4"
+			stereotype 	"Actor")
+		    (object Class "Operator"
+			quid       	"6655DEC10323"
+			stereotype 	"Actor"
+			visible_modules 	(list dependency_list
+			    (object Dependency_Relationship
+				quid       	"6655E18D02AE"
+				supplier   	"Use Case View::NewPackage::Функции Пс для оператора"
+				quidu      	"6655DF5501E9")))
+		    (object UseCase "отправить/получить данные"
+			quid       	"6655E56D0353")
+		    (object UseCase "обратиться в поддержку"
+			quid       	"6655E196026F")
+		    (object UseCase "оказать поддержку оператору"
+			quid       	"6655E1C700C9")
+		    (object Class_Category "Функции Пс для оператора"
+			quid       	"6655DF5501E9"
+			visible_modules 	(list dependency_list
+			    (object Dependency_Relationship
+				quid       	"6655E5B70143"
+				supplier   	"Use Case View::NewPackage::отправить/получить данные"
+				quidu      	"6655E56D0353"))
+			exportControl 	"Public"
+			logical_models 	(list unit_reference_list
+			    (object UseCase "Регистрация"
+				quid       	"6655EA2C020F"
+				visible_modules 	(list dependency_list
+				    (object Dependency_Relationship
+					quid       	"6655EB420216"
+					stereotype 	"include"
+					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::Сгенерировать регистрационный код"
+					quidu      	"6655E966008C")
+				    (object Dependency_Relationship
+					quid       	"6655F0650185"
+					stereotype 	"include"
+					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Редактирование профиля"
+					quidu      	"6655F033004F")
+				    (object Dependency_Relationship
+					quid       	"6655F06C02BE"
+					stereotype 	"include"
+					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Просмотр информации на сайте"
+					quidu      	"6655F03F0068")))
+			    (object UseCase "Редактирование профиля"
+				quid       	"6655F033004F")
+			    (object UseCase "Просмотр информации на сайте"
+				quid       	"6655F03F0068")
+			    (object UseCase "Просмотр данных устройства"
+				quid       	"6655F19901A4"
+				visible_modules 	(list dependency_list
+				    (object Dependency_Relationship
+					quid       	"6655F1AC0337"
+					stereotype 	"extend"
+					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Просмотр информации на сайте"
+					quidu      	"6655F03F0068")))
+			    (object UseCase "Изменить настройки управления"
+				quid       	"6655F1C001A7"
+				visible_modules 	(list dependency_list
+				    (object Dependency_Relationship
+					quid       	"6655F1E303D6"
+					stereotype 	"extend"
+					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Просмотр данных устройства"
+					quidu      	"6655F19901A4")))
+			    (object UseCase "скачать логи"
+				quid       	"6655F1E902A2"
+				visible_modules 	(list dependency_list
+				    (object Dependency_Relationship
+					quid       	"6655F1F0024E"
+					stereotype 	"extend"
+					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Просмотр данных устройства"
+					quidu      	"6655F19901A4")))
+			    (object UseCase "смена пароля"
+				quid       	"6655F2E80004"
+				visible_modules 	(list dependency_list
+				    (object Dependency_Relationship
+					quid       	"6655F30000EA"
+					stereotype 	"extend"
+					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Редактирование профиля"
+					quidu      	"6655F033004F")))
+			    (object UseCase "смена почты"
+				quid       	"6655F2F60387"
+				visible_modules 	(list dependency_list
+				    (object Dependency_Relationship
+					quid       	"6655F3040192"
+					stereotype 	"extend"
+					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Редактирование профиля"
+					quidu      	"6655F033004F")))
+			    (object UseCase "поиск устройств"
+				quid       	"6655F325018F"
+				visible_modules 	(list dependency_list
+				    (object Dependency_Relationship
+					quid       	"6655F333010F"
+					stereotype 	"extend"
+					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Просмотр информации на сайте"
+					quidu      	"6655F03F0068")))
+			    (object UseCase "получение логов за период"
+				quid       	"6655F36A03BB"
+				visible_modules 	(list dependency_list
+				    (object Dependency_Relationship
+					quid       	"6655F3770136"
+					stereotype 	"extend"
+					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::скачать логи"
+					quidu      	"6655F1E902A2")))
+			    (object Association "$UNNAMED$15"
+				quid       	"6655EFFB03BA"
+				roles      	(list role_list
+				    (object Role "$UNNAMED$16"
+					quid       	"6655EFFC00DA"
+					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Регистрация"
+					quidu      	"6655EA2C020F"
+					is_navigable 	TRUE)
+				    (object Role "$UNNAMED$17"
+					quid       	"6655EFFC00DC"
+					supplier   	"Use Case View::NewPackage::Operator"
+					quidu      	"6655DEC10323"
+					is_navigable 	TRUE))))
+			logical_presentations 	(list unit_reference_list
+			    (object UseCaseDiagram "Main"
+				quid       	"6655EA28029E"
+				title      	"Main"
+				zoom       	100
+				max_height 	28350
+				max_width  	21600
+				origin_x   	0
+				origin_y   	0
+				items      	(list diagram_item_list
+				    (object ClassView "Class" "Use Case View::NewPackage::Operator" @1
+					ShowCompartmentStereotypes 	TRUE
+					IncludeAttribute 	TRUE
+					IncludeOperation 	TRUE
+					location   	(320, 1040)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@1
+					    location   	(320, 1200)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	399
+					    justify    	0
+					    label      	"Operator")
+					icon       	"Actor"
+					icon_style 	"Icon"
+					line_color 	3342489
+					quidu      	"6655DEC10323"
+					annotation 	8
+					autoResize 	TRUE)
+				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::Регистрация" @2
+					location   	(1456, 1040)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@2
+					    location   	(1456, 1178)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"Регистрация")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655EA2C020F"
+					height     	118)
+				    (object AssociationViewNew "$UNNAMED$15" @3
+					location   	(861, 1040)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655EFFB03BA"
+					roleview_list 	(list RoleViews
+					    (object RoleView "$UNNAMED$16" @4
+						Parent_View 	@3
+						location   	(573, 640)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655EFFC00DA"
+						client     	@3
+						supplier   	@2
+						line_style 	0)
+					    (object RoleView "$UNNAMED$17" @5
+						Parent_View 	@3
+						location   	(573, 640)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655EFFC00DC"
+						client     	@3
+						supplier   	@1
+						line_style 	0)))
+				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::Редактирование профиля" @6
+					location   	(896, 1424)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@6
+					    location   	(896, 1562)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"Редактирование профиля")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655F033004F"
+					height     	118)
+				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::Просмотр информации на сайте" @7
+					location   	(2016, 1392)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@7
+					    location   	(2016, 1530)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"Просмотр информации на сайте")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655F03F0068"
+					height     	118)
+				    (object DependencyView "" @8
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					stereotype 	(object SegLabel @9
+					    Parent_View 	@8
+					    location   	(1122, 1215)
+					    font       	(object Font
+						size       	10
+						face       	"Arial"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	TRUE)
+					    anchor     	10
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	450
+					    justify    	0
+					    label      	"<<include>>"
+					    pctDist    	0.532800
+					    height     	43
+					    orientation 	1)
+					line_color 	3342489
+					quidu      	"6655F0650185"
+					client     	@2
+					supplier   	@6
+					line_style 	0)
+				    (object DependencyView "" @10
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					stereotype 	(object SegLabel @11
+					    Parent_View 	@10
+					    location   	(1843, 1201)
+					    font       	(object Font
+						size       	10
+						face       	"Arial"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	TRUE)
+					    anchor     	10
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	450
+					    justify    	0
+					    label      	"<<include>>"
+					    pctDist    	0.667403
+					    height     	69
+					    orientation 	0)
+					line_color 	3342489
+					quidu      	"6655F06C02BE"
+					client     	@2
+					supplier   	@7
+					line_style 	0)
+				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::Просмотр данных устройства" @12
+					location   	(2016, 2000)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@12
+					    location   	(2016, 2138)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"Просмотр данных устройства")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655F19901A4"
+					height     	118)
+				    (object DependencyView "" @13
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					stereotype 	(object SegLabel @14
+					    Parent_View 	@13
+					    location   	(1998, 1771)
+					    font       	(object Font
+						size       	10
+						face       	"Arial"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	TRUE)
+					    anchor     	10
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	450
+					    justify    	0
+					    label      	"<<extend>>"
+					    pctDist    	0.441873
+					    height     	19
+					    orientation 	0)
+					line_color 	3342489
+					quidu      	"6655F1AC0337"
+					client     	@12
+					supplier   	@7
+					line_style 	0)
+				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::Изменить настройки управления" @15
+					location   	(2624, 2368)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@15
+					    location   	(2624, 2506)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"Изменить настройки управления")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655F1C001A7"
+					height     	118)
+				    (object DependencyView "" @16
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					stereotype 	(object SegLabel @17
+					    Parent_View 	@16
+					    location   	(2344, 2339)
+					    font       	(object Font
+						size       	10
+						face       	"Arial"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	TRUE)
+					    anchor     	10
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	450
+					    justify    	0
+					    label      	"<<extend>>"
+					    pctDist    	0.500000
+					    height     	120
+					    orientation 	0)
+					line_color 	3342489
+					quidu      	"6655F1E303D6"
+					client     	@15
+					supplier   	@12
+					line_style 	0)
+				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::скачать логи" @18
+					location   	(1424, 2368)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@18
+					    location   	(1424, 2506)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"скачать логи")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655F1E902A2"
+					height     	118)
+				    (object DependencyView "" @19
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					stereotype 	(object SegLabel @20
+					    Parent_View 	@19
+					    location   	(1574, 2195)
+					    font       	(object Font
+						size       	10
+						face       	"Arial"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	TRUE)
+					    anchor     	10
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	450
+					    justify    	0
+					    label      	"<<extend>>"
+					    pctDist    	0.397453
+					    height     	67
+					    orientation 	0)
+					line_color 	3342489
+					quidu      	"6655F1F0024E"
+					client     	@18
+					supplier   	@12
+					line_style 	0)
+				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::смена пароля" @21
+					location   	(432, 1808)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@21
+					    location   	(432, 1946)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"смена пароля")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655F2E80004"
+					height     	118)
+				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::смена почты" @22
+					location   	(1264, 1824)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@22
+					    location   	(1264, 1962)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"смена почты")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655F2F60387"
+					height     	118)
+				    (object DependencyView "" @23
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					stereotype 	(object SegLabel @24
+					    Parent_View 	@23
+					    location   	(555, 1673)
+					    font       	(object Font
+						size       	10
+						face       	"Arial"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	TRUE)
+					    anchor     	10
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	450
+					    justify    	0
+					    label      	"<<extend>>"
+					    pctDist    	0.360593
+					    height     	23
+					    orientation 	0)
+					line_color 	3342489
+					quidu      	"6655F30000EA"
+					client     	@21
+					supplier   	@6
+					line_style 	0)
+				    (object DependencyView "" @25
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					stereotype 	(object SegLabel @26
+					    Parent_View 	@25
+					    location   	(1051, 1718)
+					    font       	(object Font
+						size       	10
+						face       	"Arial"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	TRUE)
+					    anchor     	10
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	450
+					    justify    	0
+					    label      	"<<extend>>"
+					    pctDist    	0.590868
+					    height     	86
+					    orientation 	0)
+					line_color 	3342489
+					quidu      	"6655F3040192"
+					client     	@22
+					supplier   	@6
+					line_style 	0)
+				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::поиск устройств" @27
+					location   	(2768, 1392)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@27
+					    location   	(2768, 1530)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"поиск устройств")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655F325018F"
+					height     	118)
+				    (object DependencyView "" @28
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					stereotype 	(object SegLabel @29
+					    Parent_View 	@28
+					    location   	(2421, 1367)
+					    font       	(object Font
+						size       	10
+						face       	"Arial"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	TRUE)
+					    anchor     	10
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	450
+					    justify    	0
+					    label      	"<<extend>>"
+					    pctDist    	0.442777
+					    height     	25
+					    orientation 	1)
+					line_color 	3342489
+					quidu      	"6655F333010F"
+					client     	@27
+					supplier   	@7
+					line_style 	0)
+				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::получение логов за период" @30
+					location   	(1008, 2656)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@30
+					    location   	(1008, 2794)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"получение логов за период")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655F36A03BB"
+					height     	118)
+				    (object DependencyView "" @31
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					stereotype 	(object SegLabel @32
+					    Parent_View 	@31
+					    location   	(1105, 2516)
+					    font       	(object Font
+						size       	10
+						face       	"Arial"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	TRUE)
+					    anchor     	10
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	450
+					    justify    	0
+					    label      	"<<extend>>"
+					    pctDist    	0.236399
+					    height     	57
+					    orientation 	0)
+					line_color 	3342489
+					quidu      	"6655F3770136"
+					client     	@30
+					supplier   	@18
+					line_style 	0)))))
+		    (object Class_Category "Функции ПС для администратора"
+			quid       	"6655DEF100A0"
+			visible_modules 	(list dependency_list
+			    (object Dependency_Relationship
+				quid       	"6655E5AF00C2"
+				supplier   	"Use Case View::NewPackage::отправить/получить данные"
+				quidu      	"6655E56D0353"))
+			exportControl 	"Public"
+			logical_models 	(list unit_reference_list
+			    (object Class "NewClass2"
+				quid       	"6655E7870143"
+				stereotype 	"Actor")
+			    (object UseCase "Регистрация устройств"
+				quid       	"6655E79A01F3")
+			    (object UseCase "Обновить прошивку"
+				quid       	"6655E9040078"
+				visible_modules 	(list dependency_list
+				    (object Dependency_Relationship
+					quid       	"6655EDB001A6"
+					stereotype 	"extend"
+					supplier   	"Use Case View::NewPackage::отправить/получить данные"
+					quidu      	"6655E56D0353")))
+			    (object UseCase "Сгенерировать регистрационный код"
+				quid       	"6655E966008C")
+			    (object UseCase "Добавление информации на сайте"
+				quid       	"6655E9BB0293")
+			    (object UseCase "Поиск операторов"
+				quid       	"6655EC9F0190")
+			    (object UseCase "Редактирование профиля оператора"
+				quid       	"6655EE1D0127")
+			    (object UseCase "удаление устройства"
+				quid       	"6655F0DE01F0")
+			    (object UseCase "Блокировка устройства"
+				quid       	"6655F12B0050")
+			    (object Association "$UNNAMED$18"
+				quid       	"6655E855010E"
+				roles      	(list role_list
+				    (object Role "$UNNAMED$19"
+					quid       	"6655E8550221"
+					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::Регистрация устройств"
+					quidu      	"6655E79A01F3"
+					is_navigable 	TRUE)
+				    (object Role "$UNNAMED$20"
+					quid       	"6655E8550223"
+					supplier   	"Use Case View::NewPackage::Admin"
+					quidu      	"6651B1460098"
+					is_navigable 	TRUE)))
+			    (object Association "$UNNAMED$21"
+				quid       	"6655E90C00C9"
+				roles      	(list role_list
+				    (object Role "$UNNAMED$22"
+					quid       	"6655E90C0303"
+					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::Обновить прошивку"
+					quidu      	"6655E9040078"
+					is_navigable 	TRUE)
+				    (object Role "$UNNAMED$23"
+					quid       	"6655E90C0305"
+					supplier   	"Use Case View::NewPackage::Admin"
+					quidu      	"6651B1460098"
+					is_navigable 	TRUE)))
+			    (object Association "$UNNAMED$24"
+				quid       	"6655E9860218"
+				roles      	(list role_list
+				    (object Role "$UNNAMED$25"
+					quid       	"6655E9870178"
+					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::Сгенерировать регистрационный код"
+					quidu      	"6655E966008C"
+					is_navigable 	TRUE)
+				    (object Role "$UNNAMED$26"
+					quid       	"6655E987017A"
+					supplier   	"Use Case View::NewPackage::Admin"
+					quidu      	"6651B1460098"
+					is_navigable 	TRUE)))
+			    (object Association "$UNNAMED$27"
+				quid       	"6655E9D00303"
+				roles      	(list role_list
+				    (object Role "$UNNAMED$28"
+					quid       	"6655E9D10111"
+					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::Добавление информации на сайте"
+					quidu      	"6655E9BB0293"
+					is_navigable 	TRUE)
+				    (object Role "$UNNAMED$29"
+					quid       	"6655E9D10113"
+					supplier   	"Use Case View::NewPackage::Admin"
+					quidu      	"6651B1460098"
+					is_navigable 	TRUE)))
+			    (object Association "$UNNAMED$30"
+				quid       	"6655ECB7023A"
+				roles      	(list role_list
+				    (object Role "$UNNAMED$31"
+					quid       	"6655ECB80055"
+					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::Поиск операторов"
+					quidu      	"6655EC9F0190"
+					is_navigable 	TRUE)
+				    (object Role "$UNNAMED$32"
+					quid       	"6655ECB80057"
+					supplier   	"Use Case View::NewPackage::Admin"
+					quidu      	"6651B1460098"
+					is_navigable 	TRUE)))
+			    (object Association "$UNNAMED$33"
+				quid       	"6655EE2E007B"
+				roles      	(list role_list
+				    (object Role "$UNNAMED$34"
+					quid       	"6655EE2E027B"
+					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::Редактирование профиля оператора"
+					quidu      	"6655EE1D0127"
+					is_navigable 	TRUE)
+				    (object Role "$UNNAMED$35"
+					quid       	"6655EE2E027D"
+					supplier   	"Use Case View::NewPackage::Admin"
+					quidu      	"6651B1460098"
+					is_navigable 	TRUE)))
+			    (object Association "$UNNAMED$36"
+				quid       	"6655F11203AE"
+				roles      	(list role_list
+				    (object Role "$UNNAMED$37"
+					quid       	"6655F113022F"
+					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::удаление устройства"
+					quidu      	"6655F0DE01F0"
+					is_navigable 	TRUE)
+				    (object Role "$UNNAMED$38"
+					quid       	"6655F1130231"
+					supplier   	"Use Case View::NewPackage::Admin"
+					quidu      	"6651B1460098"
+					is_navigable 	TRUE)))
+			    (object Association "$UNNAMED$39"
+				quid       	"6655F13200C3"
+				roles      	(list role_list
+				    (object Role "$UNNAMED$40"
+					quid       	"6655F132036B"
+					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::Блокировка устройства"
+					quidu      	"6655F12B0050"
+					is_navigable 	TRUE)
+				    (object Role "$UNNAMED$41"
+					quid       	"6655F132036D"
+					supplier   	"Use Case View::NewPackage::Admin"
+					quidu      	"6651B1460098"
+					is_navigable 	TRUE)))
+			    (object Association "$UNNAMED$42"
+				quid       	"6655F3B100B3"
+				roles      	(list role_list
+				    (object Role "$UNNAMED$43"
+					quid       	"6655F3B1032C"
+					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::скачать логи"
+					quidu      	"6655F1E902A2"
+					is_navigable 	TRUE)
+				    (object Role "$UNNAMED$44"
+					quid       	"6655F3B1032E"
+					supplier   	"Use Case View::NewPackage::Admin"
+					quidu      	"6651B1460098"
+					is_navigable 	TRUE))))
+			logical_presentations 	(list unit_reference_list
+			    (object UseCaseDiagram "Main"
+				quid       	"6655DF2503AD"
+				title      	"Main"
+				zoom       	100
+				max_height 	28350
+				max_width  	21600
+				origin_x   	0
+				origin_y   	0
+				items      	(list diagram_item_list
+				    (object UseCaseView "Use Case View::NewPackage::Функции ПС для администратора::Регистрация устройств" @33
+					location   	(1392, 480)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@33
+					    location   	(1392, 618)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"Регистрация устройств")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655E79A01F3"
+					height     	118)
+				    (object UseCaseView "Use Case View::NewPackage::Функции ПС для администратора::Обновить прошивку" @34
+					location   	(1184, 800)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@34
+					    location   	(1184, 938)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"Обновить прошивку")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655E9040078"
+					height     	118)
+				    (object UseCaseView "Use Case View::NewPackage::Функции ПС для администратора::Сгенерировать регистрационный код" @35
+					location   	(1168, 1152)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@35
+					    location   	(1168, 1290)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"Сгенерировать регистрационный код")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655E966008C"
+					height     	118)
+				    (object UseCaseView "Use Case View::NewPackage::Функции ПС для администратора::Добавление информации на сайте" @36
+					location   	(1904, 336)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@36
+					    location   	(1904, 474)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"Добавление информации на сайте")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655E9BB0293"
+					height     	118)
+				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::Регистрация" @37
+					location   	(352, 1152)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@37
+					    location   	(352, 1290)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"Регистрация")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655EA2C020F")
+				    (object DependencyView "" @38
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					stereotype 	(object SegLabel @39
+					    Parent_View 	@38
+					    location   	(728, 1098)
+					    font       	(object Font
+						size       	10
+						face       	"Arial"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	TRUE)
+					    anchor     	10
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	450
+					    justify    	0
+					    label      	"<<include>>"
+					    pctDist    	0.450111
+					    height     	55
+					    orientation 	0)
+					line_color 	3342489
+					quidu      	"6655EB420216"
+					client     	@37
+					supplier   	@35
+					line_style 	0)
+				    (object UseCaseView "Use Case View::NewPackage::Функции ПС для администратора::Поиск операторов" @40
+					location   	(2448, 384)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@40
+					    location   	(2448, 522)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"Поиск операторов")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655EC9F0190"
+					height     	118)
+				    (object UseCaseView "Use Case View::NewPackage::отправить/получить данные" @41
+					location   	(336, 800)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@41
+					    location   	(336, 938)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"отправить/получить данные")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655E56D0353")
+				    (object DependencyView "" @42
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					stereotype 	(object SegLabel @43
+					    Parent_View 	@42
+					    location   	(798, 751)
+					    font       	(object Font
+						size       	10
+						face       	"Arial"
+						charSet    	204
+						bold       	FALSE
+						italics    	FALSE
+						underline  	FALSE
+						strike     	FALSE
+						color      	0
+						default_color 	TRUE)
+					    anchor     	10
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	450
+					    justify    	0
+					    label      	"<<extend>>"
+					    pctDist    	0.437489
+					    height     	50
+					    orientation 	1)
+					line_color 	3342489
+					quidu      	"6655EDB001A6"
+					client     	@34
+					supplier   	@41
+					line_style 	0)
+				    (object UseCaseView "Use Case View::NewPackage::Функции ПС для администратора::Редактирование профиля оператора" @44
+					location   	(2752, 656)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@44
+					    location   	(2752, 794)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"Редактирование профиля оператора")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655EE1D0127"
+					height     	118)
+				    (object UseCaseView "Use Case View::NewPackage::Функции ПС для администратора::удаление устройства" @45
+					location   	(2736, 992)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@45
+					    location   	(2736, 1130)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"удаление устройства")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655F0DE01F0"
+					height     	118)
+				    (object UseCaseView "Use Case View::NewPackage::Функции ПС для администратора::Блокировка устройства" @46
+					location   	(2640, 1296)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@46
+					    location   	(2640, 1434)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"Блокировка устройства")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655F12B0050"
+					height     	118)
+				    (object ClassView "Class" "Use Case View::NewPackage::Admin" @47
+					ShowCompartmentStereotypes 	TRUE
+					IncludeAttribute 	TRUE
+					IncludeOperation 	TRUE
+					location   	(1984, 944)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@47
+					    location   	(1984, 1104)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	415
+					    justify    	0
+					    label      	"Admin")
+					icon       	"Actor"
+					icon_style 	"Icon"
+					line_color 	3342489
+					quidu      	"6651B1460098"
+					annotation 	8
+					autoResize 	TRUE)
+				    (object AssociationViewNew "$UNNAMED$18" @48
+					location   	(1763, 769)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655E855010E"
+					roleview_list 	(list RoleViews
+					    (object RoleView "$UNNAMED$19" @49
+						Parent_View 	@48
+						location   	(1443, 561)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655E8550221"
+						client     	@48
+						supplier   	@33
+						line_style 	0)
+					    (object RoleView "$UNNAMED$20" @50
+						Parent_View 	@48
+						location   	(1443, 561)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655E8550223"
+						client     	@48
+						supplier   	@47
+						line_style 	0)))
+				    (object AssociationViewNew "$UNNAMED$21" @51
+					location   	(1608, 874)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655E90C00C9"
+					roleview_list 	(list RoleViews
+					    (object RoleView "$UNNAMED$22" @52
+						Parent_View 	@51
+						location   	(1288, 666)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655E90C0303"
+						client     	@51
+						supplier   	@34
+						line_style 	0)
+					    (object RoleView "$UNNAMED$23" @53
+						Parent_View 	@51
+						location   	(1288, 666)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655E90C0305"
+						client     	@51
+						supplier   	@47
+						line_style 	0)))
+				    (object AssociationViewNew "$UNNAMED$24" @54
+					location   	(1599, 1038)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655E9860218"
+					roleview_list 	(list RoleViews
+					    (object RoleView "$UNNAMED$25" @55
+						Parent_View 	@54
+						location   	(1279, 830)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655E9870178"
+						client     	@54
+						supplier   	@35
+						line_style 	0)
+					    (object RoleView "$UNNAMED$26" @56
+						Parent_View 	@54
+						location   	(1279, 830)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655E987017A"
+						client     	@54
+						supplier   	@47
+						line_style 	0)))
+				    (object AssociationViewNew "$UNNAMED$27" @57
+					location   	(1948, 694)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655E9D00303"
+					roleview_list 	(list RoleViews
+					    (object RoleView "$UNNAMED$28" @58
+						Parent_View 	@57
+						location   	(-36, -250)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655E9D10111"
+						client     	@57
+						supplier   	@36
+						line_style 	0)
+					    (object RoleView "$UNNAMED$29" @59
+						Parent_View 	@57
+						location   	(-36, -250)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655E9D10113"
+						client     	@57
+						supplier   	@47
+						line_style 	0)))
+				    (object AssociationViewNew "$UNNAMED$30" @60
+					location   	(2177, 708)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655ECB7023A"
+					roleview_list 	(list RoleViews
+					    (object RoleView "$UNNAMED$31" @61
+						Parent_View 	@60
+						location   	(193, -236)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655ECB80055"
+						client     	@60
+						supplier   	@40
+						line_style 	0)
+					    (object RoleView "$UNNAMED$32" @62
+						Parent_View 	@60
+						location   	(193, -236)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655ECB80057"
+						client     	@60
+						supplier   	@47
+						line_style 	0)))
+				    (object AssociationViewNew "$UNNAMED$33" @63
+					location   	(2276, 830)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655EE2E007B"
+					roleview_list 	(list RoleViews
+					    (object RoleView "$UNNAMED$34" @64
+						Parent_View 	@63
+						location   	(292, -114)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655EE2E027B"
+						client     	@63
+						supplier   	@44
+						line_style 	0)
+					    (object RoleView "$UNNAMED$35" @65
+						Parent_View 	@63
+						location   	(292, -114)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655EE2E027D"
+						client     	@63
+						supplier   	@47
+						line_style 	0)))
+				    (object AssociationViewNew "$UNNAMED$36" @66
+					location   	(2333, 963)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655F11203AE"
+					roleview_list 	(list RoleViews
+					    (object RoleView "$UNNAMED$37" @67
+						Parent_View 	@66
+						location   	(349, 19)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655F113022F"
+						client     	@66
+						supplier   	@45
+						line_style 	0)
+					    (object RoleView "$UNNAMED$38" @68
+						Parent_View 	@66
+						location   	(349, 19)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655F1130231"
+						client     	@66
+						supplier   	@47
+						line_style 	0)))
+				    (object AssociationViewNew "$UNNAMED$39" @69
+					location   	(2287, 1105)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655F13200C3"
+					roleview_list 	(list RoleViews
+					    (object RoleView "$UNNAMED$40" @70
+						Parent_View 	@69
+						location   	(303, 161)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655F132036B"
+						client     	@69
+						supplier   	@46
+						line_style 	0)
+					    (object RoleView "$UNNAMED$41" @71
+						Parent_View 	@69
+						location   	(303, 161)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655F132036D"
+						client     	@69
+						supplier   	@47
+						line_style 	0)))
+				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::скачать логи" @72
+					location   	(1984, 1520)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    charSet    	204
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					label      	(object ItemLabel
+					    Parent_View 	@72
+					    location   	(1984, 1658)
+					    anchor_loc 	1
+					    nlines     	2
+					    max_width  	630
+					    justify    	0
+					    label      	"скачать логи")
+					icon_style 	"Icon"
+					line_color 	3342489
+					fill_color 	13434879
+					quidu      	"6655F1E902A2")
+				    (object AssociationViewNew "$UNNAMED$42" @73
+					location   	(1984, 1317)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655F3B100B3"
+					roleview_list 	(list RoleViews
+					    (object RoleView "$UNNAMED$43" @74
+						Parent_View 	@73
+						location   	(0, 373)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655F3B1032C"
+						client     	@73
+						supplier   	@72
+						line_style 	0)
+					    (object RoleView "$UNNAMED$44" @75
+						Parent_View 	@73
+						location   	(0, 373)
+						stereotype 	TRUE
+						line_color 	3342489
+						quidu      	"6655F3B1032E"
+						client     	@73
+						supplier   	@47
+						line_style 	0))))))))
+		logical_presentations 	(list unit_reference_list
+		    (object UseCaseDiagram "Main"
+			quid       	"664C0BDF011F"
+			title      	"Main"
+			zoom       	100
+			max_height 	28350
+			max_width  	21600
+			origin_x   	0
+			origin_y   	603
+			items      	(list diagram_item_list
+			    (object CategoryView "Use Case View::NewPackage::Функции ПС для администратора" @76
+				location   	(1360, 320)
+				font       	(object Font
+				    size       	10
+				    face       	"Arial"
+				    charSet    	204
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object ItemLabel
+				    Parent_View 	@76
+				    location   	(1013, 139)
+				    fill_color 	13434879
+				    nlines     	2
+				    max_width  	694
+				    justify    	0
+				    label      	"Функции ПС для администратора")
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"6655DEF100A0"
+				width      	706
+				height     	374)
+			    (object ClassView "Class" "Use Case View::NewPackage::Admin" @77
+				ShowCompartmentStereotypes 	TRUE
+				IncludeAttribute 	TRUE
+				IncludeOperation 	TRUE
+				location   	(352, 320)
+				font       	(object Font
+				    size       	10
+				    face       	"Arial"
+				    charSet    	204
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object ItemLabel
+				    Parent_View 	@77
+				    location   	(352, 480)
+				    anchor_loc 	1
+				    nlines     	2
+				    max_width  	385
+				    justify    	0
+				    label      	"Admin")
+				icon       	"Actor"
+				icon_style 	"Icon"
+				line_color 	3342489
+				quidu      	"6651B1460098"
+				annotation 	8
+				autoResize 	TRUE)
+			    (object DependencyView "" @78
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"6655DFB900DD"
+				client     	@77
+				supplier   	@76
+				line_style 	0)
+			    (object ClassView "Class" "Use Case View::NewPackage::Operator" @79
+				ShowCompartmentStereotypes 	TRUE
+				IncludeAttribute 	TRUE
+				IncludeOperation 	TRUE
+				location   	(352, 1760)
+				font       	(object Font
+				    size       	10
+				    face       	"Arial"
+				    charSet    	204
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object ItemLabel
+				    Parent_View 	@79
+				    location   	(352, 1920)
+				    anchor_loc 	1
+				    nlines     	2
+				    max_width  	395
+				    justify    	0
+				    label      	"Operator")
+				icon       	"Actor"
+				icon_style 	"Icon"
+				line_color 	3342489
+				quidu      	"6655DEC10323"
+				annotation 	8
+				autoResize 	TRUE)
+			    (object UseCaseView "Use Case View::NewPackage::оказать поддержку оператору" @80
+				location   	(352, 784)
+				font       	(object Font
+				    size       	10
+				    face       	"Arial"
+				    charSet    	204
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object ItemLabel
+				    Parent_View 	@80
+				    location   	(352, 922)
+				    anchor_loc 	1
+				    nlines     	2
+				    max_width  	630
+				    justify    	0
+				    label      	"оказать поддержку оператору")
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"6655E1C700C9"
+				height     	118)
+			    (object AssociationViewNew "$UNNAMED$3" @81
+				location   	(352, 615)
+				font       	(object Font
+				    size       	10
+				    face       	"Arial"
+				    charSet    	204
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"6655E26501F3"
+				roleview_list 	(list RoleViews
+				    (object RoleView "$UNNAMED$4" @82
+					Parent_View 	@81
+					location   	(96, 295)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655E26600BD"
+					client     	@81
+					supplier   	@80
+					line_style 	0)
+				    (object RoleView "$UNNAMED$5" @83
+					Parent_View 	@81
+					location   	(96, 295)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655E26600BF"
+					client     	@81
+					supplier   	@77
+					line_style 	0)))
+			    (object UseCaseView "Use Case View::NewPackage::обратиться в поддержку" @84
+				location   	(352, 1248)
+				font       	(object Font
+				    size       	10
+				    face       	"Arial"
+				    charSet    	204
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object ItemLabel
+				    Parent_View 	@84
+				    location   	(352, 1386)
+				    anchor_loc 	1
+				    nlines     	2
+				    max_width  	630
+				    justify    	0
+				    label      	"обратиться в поддержку")
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"6655E196026F"
+				height     	118)
+			    (object AssociationViewNew "$UNNAMED$6" @85
+				location   	(352, 1545)
+				font       	(object Font
+				    size       	10
+				    face       	"Arial"
+				    charSet    	204
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"6655E284012B"
+				roleview_list 	(list RoleViews
+				    (object RoleView "$UNNAMED$7" @86
+					Parent_View 	@85
+					location   	(96, -215)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655E28500AF"
+					client     	@85
+					supplier   	@84
+					line_style 	0)
+				    (object RoleView "$UNNAMED$8" @87
+					Parent_View 	@85
+					location   	(96, -215)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655E28500B1"
+					client     	@85
+					supplier   	@79
+					line_style 	0)))
+			    (object AssociationViewNew "$UNNAMED$9" @88
+				location   	(352, 1068)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"6655E28F03A0"
+				roleview_list 	(list RoleViews
+				    (object RoleView "$UNNAMED$10" @89
+					Parent_View 	@88
+					location   	(-688, 380)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655E2900292"
+					client     	@88
+					supplier   	@84
+					line_style 	0)
+				    (object RoleView "$UNNAMED$11" @90
+					Parent_View 	@88
+					location   	(-688, 380)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655E2900294"
+					client     	@88
+					supplier   	@80
+					line_style 	0)))
+			    (object CategoryView "Use Case View::NewPackage::Функции Пс для оператора" @91
+				location   	(1360, 1760)
+				font       	(object Font
+				    size       	10
+				    face       	"Arial"
+				    charSet    	204
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object ItemLabel
+				    Parent_View 	@91
+				    location   	(1013, 1588)
+				    fill_color 	13434879
+				    nlines     	2
+				    max_width  	694
+				    justify    	0
+				    label      	"Функции Пс для оператора")
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"6655DF5501E9"
+				width      	706
+				height     	356)
+			    (object DependencyView "" @92
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"6655E18D02AE"
+				client     	@79
+				supplier   	@91
+				line_style 	0)
+			    (object UseCaseView "Use Case View::NewPackage::отправить/получить данные" @93
+				location   	(1360, 1008)
+				font       	(object Font
+				    size       	10
+				    face       	"Arial"
+				    charSet    	204
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object ItemLabel
+				    Parent_View 	@93
+				    location   	(1360, 1146)
+				    anchor_loc 	1
+				    nlines     	2
+				    max_width  	630
+				    justify    	0
+				    label      	"отправить/получить данные")
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"6655E56D0353"
+				height     	118)
+			    (object ClassView "Class" "Use Case View::NewPackage::Device" @94
+				ShowCompartmentStereotypes 	TRUE
+				IncludeAttribute 	TRUE
+				IncludeOperation 	TRUE
+				location   	(880, 1008)
+				font       	(object Font
+				    size       	10
+				    face       	"Arial"
+				    charSet    	204
+				    bold       	FALSE
+				    italics    	FALSE
+				    underline  	FALSE
+				    strike     	FALSE
+				    color      	0
+				    default_color 	TRUE)
+				label      	(object ItemLabel
+				    Parent_View 	@94
+				    location   	(880, 1168)
+				    anchor_loc 	1
+				    nlines     	2
+				    max_width  	407
+				    justify    	0
+				    label      	"Device")
+				icon       	"Actor"
+				icon_style 	"Icon"
+				line_color 	3342489
+				quidu      	"6655DED502C4"
+				annotation 	8
+				autoResize 	TRUE)
+			    (object AssociationViewNew "$UNNAMED$12" @95
+				location   	(1093, 1008)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"6655E58C002E"
+				roleview_list 	(list RoleViews
+				    (object RoleView "$UNNAMED$13" @96
+					Parent_View 	@95
+					location   	(-459, -80)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655E58C0346"
+					client     	@95
+					supplier   	@94
+					line_style 	0)
+				    (object RoleView "$UNNAMED$14" @97
+					Parent_View 	@95
+					location   	(-459, -80)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"6655E58C034A"
+					client     	@95
+					supplier   	@93
+					line_style 	0)))
+			    (object DependencyView "" @98
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"6655E5B70143"
+				client     	@91
+				supplier   	@93
+				line_style 	0)
+			    (object DependencyView "" @99
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"6655E5AF00C2"
+				client     	@76
+				supplier   	@93
+				line_style 	0)))))
+	    (object Mechanism @100
 		logical_models 	(list unit_reference_list
 		    (object Object "Пользователь"
 			quid       	"6651AA8B02E6"
@@ -737,7 +2702,7 @@
 			persistence 	"Transient"
 			creationObj 	TRUE
 			multi      	FALSE)))
-	    (object Mechanism @2
+	    (object Mechanism @101
 		logical_models 	(list unit_reference_list
 		    (object Object "Администратор"
 			quid       	"6651B14C004F"
@@ -792,7 +2757,7 @@
 					ordinal    	7
 					quidu      	"000000000000"
 					creation   	FALSE))))
-			class      	"Use Case View::Admin"
+			class      	"Use Case View::NewPackage::Admin"
 			quidu      	"6651B1460098"
 			persistence 	"Transient"
 			creationObj 	FALSE
@@ -867,17 +2832,8 @@
 			creationObj 	FALSE
 			multi      	FALSE))))
 	logical_presentations 	(list unit_reference_list
-	    (object UseCaseDiagram "Main"
-		quid       	"664C0BDF011F"
-		title      	"Main"
-		zoom       	100
-		max_height 	28350
-		max_width  	21600
-		origin_x   	0
-		origin_y   	0
-		items      	(list diagram_item_list))
 	    (object InteractionDiagram "search"
-		mechanism_ref 	@1
+		mechanism_ref 	@100
 		quid       	"6651A978007B"
 		title      	"search"
 		zoom       	100
@@ -886,7 +2842,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object InterObjView "Пользователь" @3
+		    (object InterObjView "Пользователь" @102
 			location   	(480, 224)
 			font       	(object Font
 			    size       	10
@@ -899,7 +2855,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@3
+			    Parent_View 	@102
 			    location   	(480, 249)
 			    anchor_loc 	1
 			    nlines     	2
@@ -916,21 +2872,21 @@
 			icon_height 	162
 			icon_width 	120
 			icon_y_offset 	0
-			Focus_Of_Control 	(object Focus_Of_Control "" @4
+			Focus_Of_Control 	(object Focus_Of_Control "" @103
 			    location   	(480, 432)
 			    line_color 	3342489
-			    InterObjView 	@3
+			    InterObjView 	@102
 			    height     	120
 			    y_coord    	60
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @5
+			Focus_Of_Control 	(object Focus_Of_Control "" @104
 			    location   	(480, 1184)
 			    line_color 	3342489
-			    InterObjView 	@3
+			    InterObjView 	@102
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE))
-		    (object InterObjView "Система" @6
+		    (object InterObjView "Система" @105
 			location   	(1056, 224)
 			font       	(object Font
 			    size       	10
@@ -943,7 +2899,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@6
+			    Parent_View 	@105
 			    location   	(1056, 224)
 			    fill_color 	13434879
 			    anchor_loc 	1
@@ -961,28 +2917,28 @@
 			icon_width 	0
 			icon_y_offset 	0
 			annotation 	1
-			Focus_Of_Control 	(object Focus_Of_Control "" @7
+			Focus_Of_Control 	(object Focus_Of_Control "" @106
 			    location   	(1056, 432)
 			    line_color 	3342489
-			    InterObjView 	@6
+			    InterObjView 	@105
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @8
+			Focus_Of_Control 	(object Focus_Of_Control "" @107
 			    location   	(1056, 512)
 			    line_color 	3342489
-			    InterObjView 	@6
+			    InterObjView 	@105
 			    height     	244
 			    y_coord    	184
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @9
+			Focus_Of_Control 	(object Focus_Of_Control "" @108
 			    location   	(1056, 1056)
 			    line_color 	3342489
-			    InterObjView 	@6
+			    InterObjView 	@105
 			    height     	248
 			    y_coord    	188
 			    Nested     	FALSE))
-		    (object InterObjView "Поисковая система" @10
+		    (object InterObjView "Поисковая система" @109
 			location   	(1824, 224)
 			font       	(object Font
 			    size       	10
@@ -995,7 +2951,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@10
+			    Parent_View 	@109
 			    location   	(1824, 224)
 			    fill_color 	13434879
 			    anchor_loc 	1
@@ -1013,35 +2969,35 @@
 			icon_width 	0
 			icon_y_offset 	0
 			annotation 	1
-			Focus_Of_Control 	(object Focus_Of_Control "" @11
+			Focus_Of_Control 	(object Focus_Of_Control "" @110
 			    location   	(1824, 512)
 			    line_color 	3342489
-			    InterObjView 	@10
+			    InterObjView 	@109
 			    height     	184
 			    y_coord    	124
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @12
+			Focus_Of_Control 	(object Focus_Of_Control "" @111
 			    location   	(1824, 576)
 			    line_color 	3342489
-			    InterObjView 	@10
+			    InterObjView 	@109
 			    height     	60
 			    y_coord    	0
 			    Nested     	TRUE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @13
+			Focus_Of_Control 	(object Focus_Of_Control "" @112
 			    location   	(1824, 720)
 			    line_color 	3342489
-			    InterObjView 	@10
+			    InterObjView 	@109
 			    height     	120
 			    y_coord    	60
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @14
+			Focus_Of_Control 	(object Focus_Of_Control "" @113
 			    location   	(1824, 960)
 			    line_color 	3342489
-			    InterObjView 	@10
+			    InterObjView 	@109
 			    height     	404
 			    y_coord    	344
 			    Nested     	FALSE))
-		    (object InterObjView "База данных" @15
+		    (object InterObjView "База данных" @114
 			location   	(2560, 240)
 			font       	(object Font
 			    size       	10
@@ -1054,7 +3010,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@15
+			    Parent_View 	@114
 			    location   	(2560, 240)
 			    fill_color 	13434879
 			    anchor_loc 	1
@@ -1072,27 +3028,27 @@
 			icon_width 	0
 			icon_y_offset 	0
 			annotation 	1
-			Focus_Of_Control 	(object Focus_Of_Control "" @16
+			Focus_Of_Control 	(object Focus_Of_Control "" @115
 			    location   	(2560, 300)
-			    InterObjView 	@15
+			    InterObjView 	@114
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @17
+			Focus_Of_Control 	(object Focus_Of_Control "" @116
 			    location   	(2560, 720)
 			    line_color 	3342489
-			    InterObjView 	@15
+			    InterObjView 	@114
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @18
+			Focus_Of_Control 	(object Focus_Of_Control "" @117
 			    location   	(2560, 900)
 			    line_color 	3342489
-			    InterObjView 	@15
+			    InterObjView 	@114
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE))
-		    (object InterMessView "" @19
+		    (object InterMessView "" @118
 			location   	(720, 432)
 			font       	(object Font
 			    size       	10
@@ -1104,8 +3060,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @20
-			    Parent_View 	@19
+			label      	(object SegLabel @119
+			    Parent_View 	@118
 			    location   	(767, 388)
 			    font       	(object Font
 				size       	10
@@ -1127,14 +3083,14 @@
 			    height     	45
 			    orientation 	0)
 			line_color 	3342489
-			client     	@3
-			supplier   	@6
-			Focus_Src  	@4
-			Focus_Entry 	@7
+			client     	@102
+			supplier   	@105
+			Focus_Src  	@103
+			Focus_Entry 	@106
 			origin     	(495, 432)
 			terminus   	(1040, 432)
 			ordinal    	0)
-		    (object InterMessView "" @21
+		    (object InterMessView "" @120
 			location   	(16, 512)
 			font       	(object Font
 			    size       	10
@@ -1146,8 +3102,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @22
-			    Parent_View 	@21
+			label      	(object SegLabel @121
+			    Parent_View 	@120
 			    location   	(1439, 468)
 			    font       	(object Font
 				size       	10
@@ -1169,14 +3125,14 @@
 			    height     	45
 			    orientation 	0)
 			line_color 	3342489
-			client     	@6
-			supplier   	@10
-			Focus_Src  	@8
-			Focus_Entry 	@11
+			client     	@105
+			supplier   	@109
+			Focus_Src  	@107
+			Focus_Entry 	@110
 			origin     	(1071, 512)
 			terminus   	(1808, 512)
 			ordinal    	1)
-		    (object SelfMessView "" @23
+		    (object SelfMessView "" @122
 			location   	(16, 576)
 			font       	(object Font
 			    size       	10
@@ -1188,8 +3144,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @24
-			    Parent_View 	@23
+			label      	(object SegLabel @123
+			    Parent_View 	@122
 			    location   	(1994, 529)
 			    font       	(object Font
 				size       	10
@@ -1211,14 +3167,14 @@
 			    height     	47
 			    orientation 	0)
 			line_color 	3342489
-			client     	@10
-			supplier   	@10
-			Focus_Src  	@11
-			Focus_Entry 	@12
+			client     	@109
+			supplier   	@109
+			Focus_Src  	@110
+			Focus_Entry 	@111
 			origin     	(1840, 576)
 			terminus   	(1990, 576)
 			ordinal    	2)
-		    (object InterMessView "" @25
+		    (object InterMessView "" @124
 			location   	(2192, 720)
 			font       	(object Font
 			    size       	10
@@ -1230,8 +3186,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @26
-			    Parent_View 	@25
+			label      	(object SegLabel @125
+			    Parent_View 	@124
 			    location   	(2191, 676)
 			    font       	(object Font
 				size       	10
@@ -1253,14 +3209,14 @@
 			    height     	45
 			    orientation 	0)
 			line_color 	3342489
-			client     	@10
-			supplier   	@15
-			Focus_Src  	@13
-			Focus_Entry 	@17
+			client     	@109
+			supplier   	@114
+			Focus_Src  	@112
+			Focus_Entry 	@116
 			origin     	(1839, 720)
 			terminus   	(2544, 720)
 			ordinal    	3)
-		    (object InterMessView "" @27
+		    (object InterMessView "" @126
 			location   	(2192, 960)
 			font       	(object Font
 			    size       	10
@@ -1272,8 +3228,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @28
-			    Parent_View 	@27
+			label      	(object SegLabel @127
+			    Parent_View 	@126
 			    location   	(2192, 916)
 			    font       	(object Font
 				size       	10
@@ -1295,14 +3251,14 @@
 			    height     	45
 			    orientation 	1)
 			line_color 	3342489
-			client     	@15
-			supplier   	@10
-			Focus_Src  	@18
-			Focus_Entry 	@14
+			client     	@114
+			supplier   	@109
+			Focus_Src  	@117
+			Focus_Entry 	@113
 			origin     	(2544, 960)
 			terminus   	(1840, 960)
 			ordinal    	4)
-		    (object InterMessView "" @29
+		    (object InterMessView "" @128
 			location   	(16, 1056)
 			font       	(object Font
 			    size       	10
@@ -1314,8 +3270,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @30
-			    Parent_View 	@29
+			label      	(object SegLabel @129
+			    Parent_View 	@128
 			    location   	(1440, 1012)
 			    font       	(object Font
 				size       	10
@@ -1337,14 +3293,14 @@
 			    height     	45
 			    orientation 	1)
 			line_color 	3342489
-			client     	@10
-			supplier   	@6
-			Focus_Src  	@14
-			Focus_Entry 	@9
+			client     	@109
+			supplier   	@105
+			Focus_Src  	@113
+			Focus_Entry 	@108
 			origin     	(1808, 1056)
 			terminus   	(1072, 1056)
 			ordinal    	5)
-		    (object InterMessView "" @31
+		    (object InterMessView "" @130
 			location   	(752, 1184)
 			font       	(object Font
 			    size       	10
@@ -1356,8 +3312,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @32
-			    Parent_View 	@31
+			label      	(object SegLabel @131
+			    Parent_View 	@130
 			    location   	(768, 1140)
 			    font       	(object Font
 				size       	10
@@ -1379,15 +3335,15 @@
 			    height     	45
 			    orientation 	1)
 			line_color 	3342489
-			client     	@6
-			supplier   	@3
-			Focus_Src  	@9
-			Focus_Entry 	@5
+			client     	@105
+			supplier   	@102
+			Focus_Src  	@108
+			Focus_Entry 	@104
 			origin     	(1040, 1184)
 			terminus   	(496, 1184)
 			ordinal    	6)))
 	    (object InteractionDiagram "firmaware"
-		mechanism_ref 	@2
+		mechanism_ref 	@101
 		quid       	"6651B135006E"
 		title      	"firmaware"
 		zoom       	100
@@ -1396,7 +3352,7 @@
 		origin_x   	217
 		origin_y   	16
 		items      	(list diagram_item_list
-		    (object InterObjView "Администратор" @33
+		    (object InterObjView "Администратор" @132
 			location   	(416, 224)
 			font       	(object Font
 			    size       	10
@@ -1409,7 +3365,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@33
+			    Parent_View 	@132
 			    location   	(416, 249)
 			    anchor_loc 	1
 			    nlines     	2
@@ -1426,28 +3382,28 @@
 			icon_height 	162
 			icon_width 	120
 			icon_y_offset 	0
-			Focus_Of_Control 	(object Focus_Of_Control "" @34
+			Focus_Of_Control 	(object Focus_Of_Control "" @133
 			    location   	(416, 528)
 			    line_color 	3342489
-			    InterObjView 	@33
+			    InterObjView 	@132
 			    height     	1076
 			    y_coord    	1016
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @35
+			Focus_Of_Control 	(object Focus_Of_Control "" @134
 			    location   	(416, 1424)
 			    line_color 	3342489
-			    InterObjView 	@33
+			    InterObjView 	@132
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @36
+			Focus_Of_Control 	(object Focus_Of_Control "" @135
 			    location   	(416, 1664)
 			    line_color 	3342489
-			    InterObjView 	@33
+			    InterObjView 	@132
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE))
-		    (object InterObjView "Проверка наличия версии" @37
+		    (object InterObjView "Проверка наличия версии" @136
 			location   	(2000, 240)
 			font       	(object Font
 			    size       	10
@@ -1460,7 +3416,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@37
+			    Parent_View 	@136
 			    location   	(2000, 240)
 			    fill_color 	13434879
 			    anchor_loc 	1
@@ -1478,20 +3434,20 @@
 			icon_width 	0
 			icon_y_offset 	0
 			annotation 	1
-			Focus_Of_Control 	(object Focus_Of_Control "" @38
+			Focus_Of_Control 	(object Focus_Of_Control "" @137
 			    location   	(2000, 300)
-			    InterObjView 	@37
+			    InterObjView 	@136
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @39
+			Focus_Of_Control 	(object Focus_Of_Control "" @138
 			    location   	(2000, 1040)
 			    line_color 	3342489
-			    InterObjView 	@37
+			    InterObjView 	@136
 			    height     	408
 			    y_coord    	348
 			    Nested     	FALSE))
-		    (object InterObjView "Добавление прошивки в БД" @40
+		    (object InterObjView "Добавление прошивки в БД" @139
 			location   	(2816, 224)
 			font       	(object Font
 			    size       	10
@@ -1504,7 +3460,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@40
+			    Parent_View 	@139
 			    location   	(2816, 224)
 			    fill_color 	13434879
 			    anchor_loc 	1
@@ -1522,21 +3478,21 @@
 			icon_width 	0
 			icon_y_offset 	0
 			annotation 	1
-			Focus_Of_Control 	(object Focus_Of_Control "" @41
+			Focus_Of_Control 	(object Focus_Of_Control "" @140
 			    location   	(2816, 1168)
 			    line_color 	3342489
-			    InterObjView 	@40
+			    InterObjView 	@139
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @42
+			Focus_Of_Control 	(object Focus_Of_Control "" @141
 			    location   	(2816, 1604)
 			    line_color 	3342489
-			    InterObjView 	@40
+			    InterObjView 	@139
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE))
-		    (object InterObjView "Выбор файла" @43
+		    (object InterObjView "Выбор файла" @142
 			location   	(1168, 224)
 			font       	(object Font
 			    size       	10
@@ -1549,7 +3505,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@43
+			    Parent_View 	@142
 			    location   	(1168, 224)
 			    fill_color 	13434879
 			    anchor_loc 	1
@@ -1567,42 +3523,42 @@
 			icon_width 	0
 			icon_y_offset 	0
 			annotation 	1
-			Focus_Of_Control 	(object Focus_Of_Control "" @44
+			Focus_Of_Control 	(object Focus_Of_Control "" @143
 			    location   	(1168, 528)
 			    line_color 	3342489
-			    InterObjView 	@43
+			    InterObjView 	@142
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @45
+			Focus_Of_Control 	(object Focus_Of_Control "" @144
 			    location   	(1168, 640)
 			    line_color 	3342489
-			    InterObjView 	@43
+			    InterObjView 	@142
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @46
+			Focus_Of_Control 	(object Focus_Of_Control "" @145
 			    location   	(1168, 768)
 			    line_color 	3342489
-			    InterObjView 	@43
+			    InterObjView 	@142
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @47
+			Focus_Of_Control 	(object Focus_Of_Control "" @146
 			    location   	(1168, 960)
 			    line_color 	3342489
-			    InterObjView 	@43
+			    InterObjView 	@142
 			    height     	584
 			    y_coord    	524
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @48
+			Focus_Of_Control 	(object Focus_Of_Control "" @147
 			    location   	(1168, 1328)
 			    line_color 	3342489
-			    InterObjView 	@43
+			    InterObjView 	@142
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE))
-		    (object InterMessView "" @49
+		    (object InterMessView "" @148
 			location   	(16, 528)
 			font       	(object Font
 			    size       	10
@@ -1614,8 +3570,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @50
-			    Parent_View 	@49
+			label      	(object SegLabel @149
+			    Parent_View 	@148
 			    location   	(791, 484)
 			    font       	(object Font
 				size       	10
@@ -1637,14 +3593,14 @@
 			    height     	45
 			    orientation 	0)
 			line_color 	3342489
-			client     	@33
-			supplier   	@43
-			Focus_Src  	@34
-			Focus_Entry 	@44
+			client     	@132
+			supplier   	@142
+			Focus_Src  	@133
+			Focus_Entry 	@143
 			origin     	(431, 528)
 			terminus   	(1152, 528)
 			ordinal    	0)
-		    (object InterMessView "" @51
+		    (object InterMessView "" @150
 			location   	(16, 640)
 			font       	(object Font
 			    size       	10
@@ -1656,8 +3612,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @52
-			    Parent_View 	@51
+			label      	(object SegLabel @151
+			    Parent_View 	@150
 			    location   	(792, 612)
 			    font       	(object Font
 				size       	10
@@ -1679,14 +3635,14 @@
 			    height     	29
 			    orientation 	0)
 			line_color 	3342489
-			client     	@33
-			supplier   	@43
-			Focus_Src  	@34
-			Focus_Entry 	@45
+			client     	@132
+			supplier   	@142
+			Focus_Src  	@133
+			Focus_Entry 	@144
 			origin     	(431, 640)
 			terminus   	(1152, 640)
 			ordinal    	1)
-		    (object InterMessView "" @53
+		    (object InterMessView "" @152
 			location   	(16, 768)
 			font       	(object Font
 			    size       	10
@@ -1698,8 +3654,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @54
-			    Parent_View 	@53
+			label      	(object SegLabel @153
+			    Parent_View 	@152
 			    location   	(791, 724)
 			    font       	(object Font
 				size       	10
@@ -1721,14 +3677,14 @@
 			    height     	45
 			    orientation 	0)
 			line_color 	3342489
-			client     	@33
-			supplier   	@43
-			Focus_Src  	@34
-			Focus_Entry 	@46
+			client     	@132
+			supplier   	@142
+			Focus_Src  	@133
+			Focus_Entry 	@145
 			origin     	(431, 768)
 			terminus   	(1152, 768)
 			ordinal    	2)
-		    (object InterMessView "" @55
+		    (object InterMessView "" @154
 			location   	(16, 960)
 			font       	(object Font
 			    size       	10
@@ -1740,8 +3696,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @56
-			    Parent_View 	@55
+			label      	(object SegLabel @155
+			    Parent_View 	@154
 			    location   	(791, 916)
 			    font       	(object Font
 				size       	10
@@ -1763,14 +3719,14 @@
 			    height     	45
 			    orientation 	0)
 			line_color 	3342489
-			client     	@33
-			supplier   	@43
-			Focus_Src  	@34
-			Focus_Entry 	@47
+			client     	@132
+			supplier   	@142
+			Focus_Src  	@133
+			Focus_Entry 	@146
 			origin     	(431, 960)
 			terminus   	(1152, 960)
 			ordinal    	3)
-		    (object InterMessView "" @57
+		    (object InterMessView "" @156
 			location   	(16, 1040)
 			font       	(object Font
 			    size       	10
@@ -1782,8 +3738,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @58
-			    Parent_View 	@57
+			label      	(object SegLabel @157
+			    Parent_View 	@156
 			    location   	(1583, 996)
 			    font       	(object Font
 				size       	10
@@ -1805,14 +3761,14 @@
 			    height     	45
 			    orientation 	0)
 			line_color 	3342489
-			client     	@43
-			supplier   	@37
-			Focus_Src  	@47
-			Focus_Entry 	@39
+			client     	@142
+			supplier   	@136
+			Focus_Src  	@146
+			Focus_Entry 	@138
 			origin     	(1183, 1040)
 			terminus   	(1984, 1040)
 			ordinal    	4)
-		    (object InterMessView "" @59
+		    (object InterMessView "" @158
 			location   	(2272, 1168)
 			font       	(object Font
 			    size       	10
@@ -1824,8 +3780,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @60
-			    Parent_View 	@59
+			label      	(object SegLabel @159
+			    Parent_View 	@158
 			    location   	(2407, 1124)
 			    font       	(object Font
 				size       	10
@@ -1847,14 +3803,14 @@
 			    height     	45
 			    orientation 	0)
 			line_color 	3342489
-			client     	@37
-			supplier   	@40
-			Focus_Src  	@39
-			Focus_Entry 	@41
+			client     	@136
+			supplier   	@139
+			Focus_Src  	@138
+			Focus_Entry 	@140
 			origin     	(2015, 1168)
 			terminus   	(2800, 1168)
 			ordinal    	5)
-		    (object InterMessView "" @61
+		    (object InterMessView "" @160
 			location   	(16, 1328)
 			font       	(object Font
 			    size       	10
@@ -1866,8 +3822,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @62
-			    Parent_View 	@61
+			label      	(object SegLabel @161
+			    Parent_View 	@160
 			    location   	(1584, 1284)
 			    font       	(object Font
 				size       	10
@@ -1889,14 +3845,14 @@
 			    height     	45
 			    orientation 	1)
 			line_color 	3342489
-			client     	@37
-			supplier   	@43
-			Focus_Src  	@39
-			Focus_Entry 	@48
+			client     	@136
+			supplier   	@142
+			Focus_Src  	@138
+			Focus_Entry 	@147
 			origin     	(1984, 1328)
 			terminus   	(1184, 1328)
 			ordinal    	6)
-		    (object InterMessView "" @63
+		    (object InterMessView "" @162
 			location   	(1504, 1664)
 			font       	(object Font
 			    size       	10
@@ -1908,8 +3864,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @64
-			    Parent_View 	@63
+			label      	(object SegLabel @163
+			    Parent_View 	@162
 			    location   	(1616, 1620)
 			    font       	(object Font
 				size       	10
@@ -1931,14 +3887,14 @@
 			    height     	45
 			    orientation 	1)
 			line_color 	3342489
-			client     	@40
-			supplier   	@33
-			Focus_Src  	@42
-			Focus_Entry 	@36
+			client     	@139
+			supplier   	@132
+			Focus_Src  	@141
+			Focus_Entry 	@135
 			origin     	(2800, 1664)
 			terminus   	(432, 1664)
 			ordinal    	8)
-		    (object InterMessView "" @65
+		    (object InterMessView "" @164
 			location   	(16, 1424)
 			font       	(object Font
 			    size       	10
@@ -1950,8 +3906,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @66
-			    Parent_View 	@65
+			label      	(object SegLabel @165
+			    Parent_View 	@164
 			    location   	(792, 1380)
 			    font       	(object Font
 				size       	10
@@ -1973,10 +3929,10 @@
 			    height     	45
 			    orientation 	1)
 			line_color 	3342489
-			client     	@43
-			supplier   	@33
-			Focus_Src  	@47
-			Focus_Entry 	@35
+			client     	@142
+			supplier   	@132
+			Focus_Src  	@146
+			Focus_Entry 	@134
 			origin     	(1152, 1424)
 			terminus   	(432, 1424)
 			ordinal    	7)))))
@@ -2049,180 +4005,182 @@
 	    (object Class "NewInterface"
 		quid       	"66549E8A0192"
 		stereotype 	"Interface")
-	    (object Association "$UNNAMED$0"
+	    (object Class "NewClass3"
+		quid       	"6655EB9F01B0")
+	    (object Association "$UNNAMED$45"
 		quid       	"664C31520356"
 		stereotype 	"extend"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$1"
+		    (object Role "$UNNAMED$46"
 			quid       	"664C31530304"
 			supplier   	"Use Case View::Country"
 			quidu      	"664C2A5A01A5"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$2"
+		    (object Role "$UNNAMED$47"
 			quid       	"664C31530309"
 			supplier   	"Use Case View::Sensor"
 			quidu      	"664C0BEE0313")))
-	    (object Association "$UNNAMED$3"
+	    (object Association "$UNNAMED$48"
 		quid       	"664C6A260266"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$4"
+		    (object Role "$UNNAMED$49"
 			quid       	"664C6A2701A4"
 			supplier   	"Use Case View::Sensor"
 			quidu      	"664C0BEE0313"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$5"
+		    (object Role "$UNNAMED$50"
 			quid       	"664C6A2701AF"
 			supplier   	"Use Case View::SensorLog"
 			quidu      	"664C31A000FE")))
-	    (object Association "$UNNAMED$6"
+	    (object Association "$UNNAMED$51"
 		quid       	"664C6A4901C2"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$7"
+		    (object Role "$UNNAMED$52"
 			quid       	"664C6A4A0248"
 			supplier   	"Use Case View::Sensor"
 			quidu      	"664C0BEE0313"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$8"
+		    (object Role "$UNNAMED$53"
 			quid       	"664C6A4A024D"
 			supplier   	"Use Case View::Firmware"
 			quidu      	"664C31C301C3")))
-	    (object Association "$UNNAMED$9"
+	    (object Association "$UNNAMED$54"
 		quid       	"664C6A5703CE"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$10"
+		    (object Role "$UNNAMED$55"
 			quid       	"664C6A58015C"
 			supplier   	"Use Case View::Country"
 			quidu      	"664C2A5A01A5"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$11"
+		    (object Role "$UNNAMED$56"
 			quid       	"664C6A580164"
 			supplier   	"Use Case View::City"
 			quidu      	"664C2AFE017E")))
-	    (object Association "$UNNAMED$12"
+	    (object Association "$UNNAMED$57"
 		quid       	"664C6A5D0084"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$13"
+		    (object Role "$UNNAMED$58"
 			quid       	"664C6A5D02AB"
 			supplier   	"Use Case View::Sensor"
 			quidu      	"664C0BEE0313"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$14"
+		    (object Role "$UNNAMED$59"
 			quid       	"664C6A5D02B1"
 			supplier   	"Use Case View::City"
 			quidu      	"664C2AFE017E")))
-	    (object Association "$UNNAMED$15"
+	    (object Association "$UNNAMED$60"
 		quid       	"664C6A5F0210"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$16"
+		    (object Role "$UNNAMED$61"
 			quid       	"664C6A5F0342"
 			supplier   	"Use Case View::Sensor"
 			quidu      	"664C0BEE0313"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$17"
+		    (object Role "$UNNAMED$62"
 			quid       	"664C6A5F0348"
 			supplier   	"Use Case View::Country"
 			quidu      	"664C2A5A01A5")))
-	    (object Association "$UNNAMED$18"
+	    (object Association "$UNNAMED$63"
 		quid       	"664C7094031A"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$19"
+		    (object Role "$UNNAMED$64"
 			quid       	"664C7095010D"
 			supplier   	"Use Case View::Sensor"
 			quidu      	"664C0BEE0313"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$20"
+		    (object Role "$UNNAMED$65"
 			quid       	"664C70950114"
 			supplier   	"Use Case View::Profile"
 			quidu      	"664C6E700020")))
-	    (object Association "$UNNAMED$21"
+	    (object Association "$UNNAMED$66"
 		quid       	"664D9A8303C6"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$22"
+		    (object Role "$UNNAMED$67"
 			quid       	"664D9A840165"
 			supplier   	"Use Case View::User"
 			quidu      	"664D996903B3"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$23"
+		    (object Role "$UNNAMED$68"
 			quid       	"664D9A84016C"
 			supplier   	"Use Case View::Profile"
 			quidu      	"664C6E700020")))
-	    (object Association "$UNNAMED$24"
+	    (object Association "$UNNAMED$69"
 		quid       	"6651C1DA031D"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$25"
+		    (object Role "$UNNAMED$70"
 			quid       	"6651C1DB00C9"
 			supplier   	"Use Case View::User"
 			quidu      	"664D996903B3"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$26"
+		    (object Role "$UNNAMED$71"
 			quid       	"6651C1DB00CE"
 			supplier   	"Logical View::Message"
 			quidu      	"6651C13A0077")))
-	    (object Association "$UNNAMED$27"
+	    (object Association "$UNNAMED$72"
 		quid       	"66558D7D020B"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$28"
+		    (object Role "$UNNAMED$73"
 			quid       	"66558D7E01AD"
 			supplier   	"Use Case View::Country"
 			quidu      	"664C2A5A01A5"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$29"
+		    (object Role "$UNNAMED$74"
 			quid       	"66558D7E01B4"
 			supplier   	"Use Case View::City"
 			quidu      	"664C2AFE017E"
 			is_navigable 	TRUE
 			is_aggregate 	TRUE)))
-	    (object Association "$UNNAMED$30"
+	    (object Association "$UNNAMED$75"
 		quid       	"66558D88014C"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$31"
+		    (object Role "$UNNAMED$76"
 			quid       	"66558D880341"
 			supplier   	"Use Case View::Country"
 			quidu      	"664C2A5A01A5"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$32"
+		    (object Role "$UNNAMED$77"
 			quid       	"66558D880349"
 			supplier   	"Use Case View::Sensor"
 			quidu      	"664C0BEE0313"
 			is_navigable 	TRUE
 			is_aggregate 	TRUE)))
-	    (object Association "$UNNAMED$33"
+	    (object Association "$UNNAMED$78"
 		quid       	"66558D9B0021"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$34"
+		    (object Role "$UNNAMED$79"
 			quid       	"66558D9B016E"
 			supplier   	"Use Case View::Sensor"
 			quidu      	"664C0BEE0313"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$35"
+		    (object Role "$UNNAMED$80"
 			quid       	"66558D9B0177"
 			supplier   	"Use Case View::Country"
 			quidu      	"664C2A5A01A5"
 			is_navigable 	TRUE
 			is_aggregate 	TRUE)))
-	    (object Association "$UNNAMED$36"
+	    (object Association "$UNNAMED$81"
 		quid       	"66558D9F0160"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$37"
+		    (object Role "$UNNAMED$82"
 			quid       	"66558D9F01A2"
 			supplier   	"Use Case View::Sensor"
 			quidu      	"664C0BEE0313"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$38"
+		    (object Role "$UNNAMED$83"
 			quid       	"66558D9F01AA"
 			supplier   	"Use Case View::City"
 			quidu      	"664C2AFE017E"
 			is_navigable 	TRUE
 			is_aggregate 	TRUE)))
-	    (object Association "$UNNAMED$39"
+	    (object Association "$UNNAMED$84"
 		quid       	"66558DE400AE"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$40"
+		    (object Role "$UNNAMED$85"
 			quid       	"66558DE4035A"
 			supplier   	"Use Case View::SensorLog"
 			quidu      	"664C31A000FE"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$41"
+		    (object Role "$UNNAMED$86"
 			quid       	"66558DE40362"
 			supplier   	"Use Case View::Sensor"
 			quidu      	"664C0BEE0313"
@@ -2238,7 +4196,7 @@
 		origin_x   	0
 		origin_y   	300
 		items      	(list diagram_item_list
-		    (object ClassView "Class" "Use Case View::Firmware" @67
+		    (object ClassView "Class" "Use Case View::Firmware" @166
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -2254,7 +4212,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@67
+			    Parent_View 	@166
 			    location   	(2248, 125)
 			    fill_color 	13434879
 			    nlines     	1
@@ -2266,7 +4224,7 @@
 			fill_color 	13434879
 			quidu      	"664C31C301C3"
 			compartment 	(object Compartment
-			    Parent_View 	@67
+			    Parent_View 	@166
 			    location   	(2248, 230)
 			    font       	(object Font
 				size       	10
@@ -2287,7 +4245,7 @@
 			height     	382
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Use Case View::Profile" @68
+		    (object ClassView "Class" "Use Case View::Profile" @167
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -2303,7 +4261,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@68
+			    Parent_View 	@167
 			    location   	(2245, 562)
 			    fill_color 	13434879
 			    nlines     	1
@@ -2315,7 +4273,7 @@
 			fill_color 	13434879
 			quidu      	"664C6E700020"
 			compartment 	(object Compartment
-			    Parent_View 	@68
+			    Parent_View 	@167
 			    location   	(2245, 667)
 			    font       	(object Font
 				size       	10
@@ -2336,7 +4294,7 @@
 			height     	788
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Use Case View::User" @69
+		    (object ClassView "Class" "Use Case View::User" @168
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -2352,7 +4310,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@69
+			    Parent_View 	@168
 			    location   	(2238, 1475)
 			    fill_color 	13434879
 			    nlines     	1
@@ -2364,7 +4322,7 @@
 			fill_color 	13434879
 			quidu      	"664D996903B3"
 			compartment 	(object Compartment
-			    Parent_View 	@69
+			    Parent_View 	@168
 			    location   	(2238, 1580)
 			    font       	(object Font
 				size       	10
@@ -2380,12 +4338,12 @@
 			    fill_color 	13434879
 			    anchor     	2
 			    nlines     	15
-			    max_width  	450)
+			    max_width  	475)
 			width      	470
 			height     	882
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Logical View::Message" @70
+		    (object ClassView "Class" "Logical View::Message" @169
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -2401,7 +4359,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@70
+			    Parent_View 	@169
 			    location   	(2942, 1257)
 			    fill_color 	13434879
 			    nlines     	1
@@ -2413,7 +4371,7 @@
 			fill_color 	13434879
 			quidu      	"6651C13A0077"
 			compartment 	(object Compartment
-			    Parent_View 	@70
+			    Parent_View 	@169
 			    location   	(2942, 1318)
 			    font       	(object Font
 				size       	10
@@ -2434,7 +4392,7 @@
 			height     	486
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Use Case View::UserInterface" @71
+		    (object ClassView "Class" "Use Case View::UserInterface" @170
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -2450,7 +4408,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@71
+			    Parent_View 	@170
 			    location   	(3103, 2012)
 			    anchor_loc 	1
 			    nlines     	2
@@ -2463,7 +4421,7 @@
 			fill_color 	13434879
 			quidu      	"6651E1EA0165"
 			compartment 	(object Compartment
-			    Parent_View 	@71
+			    Parent_View 	@170
 			    location   	(2914, 2097)
 			    font       	(object Font
 				size       	10
@@ -2484,7 +4442,7 @@
 			height     	58
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Use Case View::MessageInterface" @72
+		    (object ClassView "Class" "Use Case View::MessageInterface" @171
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -2500,7 +4458,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@72
+			    Parent_View 	@171
 			    location   	(3727, 1596)
 			    anchor_loc 	1
 			    nlines     	2
@@ -2513,7 +4471,7 @@
 			fill_color 	13434879
 			quidu      	"6651E25D0252"
 			compartment 	(object Compartment
-			    Parent_View 	@72
+			    Parent_View 	@171
 			    location   	(3563, 1681)
 			    font       	(object Font
 				size       	10
@@ -2534,7 +4492,7 @@
 			height     	58
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Use Case View::ProfileInterface" @73
+		    (object ClassView "Class" "Use Case View::ProfileInterface" @172
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -2550,7 +4508,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@73
+			    Parent_View 	@172
 			    location   	(3471, 1052)
 			    anchor_loc 	1
 			    nlines     	2
@@ -2563,7 +4521,7 @@
 			fill_color 	13434879
 			quidu      	"6651E2E30117"
 			compartment 	(object Compartment
-			    Parent_View 	@73
+			    Parent_View 	@172
 			    location   	(3364, 1137)
 			    font       	(object Font
 				size       	10
@@ -2578,13 +4536,13 @@
 			    icon_style 	"Icon"
 			    anchor     	2
 			    nlines     	4
-			    max_width  	212
+			    max_width  	213
 			    justify    	0)
 			width      	58
 			height     	58
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Use Case View::FirmwareInterface" @74
+		    (object ClassView "Class" "Use Case View::FirmwareInterface" @173
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -2600,7 +4558,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@74
+			    Parent_View 	@173
 			    location   	(3263, 412)
 			    anchor_loc 	1
 			    nlines     	2
@@ -2613,7 +4571,7 @@
 			fill_color 	13434879
 			quidu      	"6651E32B0107"
 			compartment 	(object Compartment
-			    Parent_View 	@74
+			    Parent_View 	@173
 			    location   	(3156, 497)
 			    font       	(object Font
 				size       	10
@@ -2628,13 +4586,13 @@
 			    icon_style 	"Icon"
 			    anchor     	2
 			    nlines     	2
-			    max_width  	212
+			    max_width  	213
 			    justify    	0)
 			width      	58
 			height     	58
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Use Case View::SensorInteface" @75
+		    (object ClassView "Class" "Use Case View::SensorInteface" @174
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -2650,7 +4608,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@75
+			    Parent_View 	@174
 			    location   	(815, 236)
 			    anchor_loc 	1
 			    nlines     	2
@@ -2663,7 +4621,7 @@
 			fill_color 	13434879
 			quidu      	"6651E38702C8"
 			compartment 	(object Compartment
-			    Parent_View 	@75
+			    Parent_View 	@174
 			    location   	(636, 321)
 			    font       	(object Font
 				size       	10
@@ -2684,7 +4642,7 @@
 			height     	58
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Logical View::LogInterface" @76
+		    (object ClassView "Class" "Logical View::LogInterface" @175
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -2700,7 +4658,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@76
+			    Parent_View 	@175
 			    location   	(191, 1004)
 			    anchor_loc 	1
 			    nlines     	2
@@ -2713,7 +4671,7 @@
 			fill_color 	13434879
 			quidu      	"66549AAE02DB"
 			compartment 	(object Compartment
-			    Parent_View 	@76
+			    Parent_View 	@175
 			    location   	(18, 1045)
 			    font       	(object Font
 				size       	10
@@ -2734,7 +4692,7 @@
 			height     	58
 			annotation 	8
 			autoResize 	TRUE)
-		    (object RealizeView "" @77
+		    (object RealizeView "" @176
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -2745,8 +4703,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			stereotype 	(object SegLabel @78
-			    Parent_View 	@77
+			stereotype 	(object SegLabel @177
+			    Parent_View 	@176
 			    location   	(3503, 1464)
 			    font       	(object Font
 				size       	10
@@ -2769,10 +4727,10 @@
 			    orientation 	0)
 			line_color 	3342489
 			quidu      	"66549E4403CE"
-			client     	@70
-			supplier   	@72
+			client     	@169
+			supplier   	@171
 			line_style 	0)
-		    (object RealizeView "" @79
+		    (object RealizeView "" @178
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -2783,8 +4741,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			stereotype 	(object SegLabel @80
-			    Parent_View 	@79
+			stereotype 	(object SegLabel @179
+			    Parent_View 	@178
 			    location   	(2885, 1867)
 			    font       	(object Font
 				size       	10
@@ -2807,17 +4765,17 @@
 			    orientation 	0)
 			line_color 	3342489
 			quidu      	"6651E23602DE"
-			client     	@69
-			supplier   	@71
+			client     	@168
+			supplier   	@170
 			line_style 	0)
-		    (object UsesView "" @81
+		    (object UsesView "" @180
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6654A4DB008C"
-			client     	@68
-			supplier   	@69
+			client     	@167
+			supplier   	@168
 			line_style 	0)
-		    (object ClassView "Class" "Use Case View::Country" @82
+		    (object ClassView "Class" "Use Case View::Country" @181
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -2833,7 +4791,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@82
+			    Parent_View 	@181
 			    location   	(620, 1278)
 			    fill_color 	13434879
 			    nlines     	1
@@ -2845,7 +4803,7 @@
 			fill_color 	13434879
 			quidu      	"664C2A5A01A5"
 			compartment 	(object Compartment
-			    Parent_View 	@82
+			    Parent_View 	@181
 			    location   	(620, 1383)
 			    font       	(object Font
 				size       	10
@@ -2866,7 +4824,7 @@
 			height     	381
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Use Case View::City" @83
+		    (object ClassView "Class" "Use Case View::City" @182
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -2882,7 +4840,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@83
+			    Parent_View 	@182
 			    location   	(623, 1777)
 			    fill_color 	13434879
 			    nlines     	1
@@ -2894,7 +4852,7 @@
 			fill_color 	13434879
 			quidu      	"664C2AFE017E"
 			compartment 	(object Compartment
-			    Parent_View 	@83
+			    Parent_View 	@182
 			    location   	(623, 1882)
 			    font       	(object Font
 				size       	10
@@ -2915,7 +4873,7 @@
 			height     	438
 			annotation 	8
 			autoResize 	TRUE)
-		    (object AssociationViewNew "$UNNAMED$27" @84
+		    (object AssociationViewNew "$UNNAMED$72" @183
 			location   	(848, 1705)
 			font       	(object Font
 			    size       	10
@@ -2931,25 +4889,25 @@
 			line_color 	3342489
 			quidu      	"66558D7D020B"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$28" @85
-				Parent_View 	@84
+			    (object RoleView "$UNNAMED$73" @184
+				Parent_View 	@183
 				location   	(-1024, -711)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"66558D7E01AD"
-				client     	@84
-				supplier   	@82
+				client     	@183
+				supplier   	@181
 				line_style 	0)
-			    (object RoleView "$UNNAMED$29" @86
-				Parent_View 	@84
+			    (object RoleView "$UNNAMED$74" @185
+				Parent_View 	@183
 				location   	(-1024, -711)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"66558D7E01B4"
-				client     	@84
-				supplier   	@83
+				client     	@183
+				supplier   	@182
 				line_style 	0)))
-		    (object ClassView "Class" "Use Case View::SensorLog" @87
+		    (object ClassView "Class" "Use Case View::SensorLog" @186
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -2965,7 +4923,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@87
+			    Parent_View 	@186
 			    location   	(620, 593)
 			    fill_color 	13434879
 			    nlines     	1
@@ -2977,7 +4935,7 @@
 			fill_color 	13434879
 			quidu      	"664C31A000FE"
 			compartment 	(object Compartment
-			    Parent_View 	@87
+			    Parent_View 	@186
 			    location   	(620, 698)
 			    font       	(object Font
 				size       	10
@@ -2998,7 +4956,7 @@
 			height     	631
 			annotation 	8
 			autoResize 	TRUE)
-		    (object RealizeView "" @88
+		    (object RealizeView "" @187
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -3009,8 +4967,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			stereotype 	(object SegLabel @89
-			    Parent_View 	@88
+			stereotype 	(object SegLabel @188
+			    Parent_View 	@187
 			    location   	(445, 874)
 			    font       	(object Font
 				size       	10
@@ -3033,10 +4991,10 @@
 			    orientation 	1)
 			line_color 	3342489
 			quidu      	"66549E5203AA"
-			client     	@87
-			supplier   	@76
+			client     	@186
+			supplier   	@175
 			line_style 	0)
-		    (object ClassView "Class" "Use Case View::Sensor" @90
+		    (object ClassView "Class" "Use Case View::Sensor" @189
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -3052,7 +5010,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@90
+			    Parent_View 	@189
 			    location   	(1347, 119)
 			    fill_color 	13434879
 			    nlines     	1
@@ -3064,7 +5022,7 @@
 			fill_color 	13434879
 			quidu      	"664C0BEE0313"
 			compartment 	(object Compartment
-			    Parent_View 	@90
+			    Parent_View 	@189
 			    location   	(1347, 224)
 			    font       	(object Font
 				size       	10
@@ -3085,21 +5043,21 @@
 			height     	1963
 			annotation 	8
 			autoResize 	TRUE)
-		    (object UsesView "" @91
+		    (object UsesView "" @190
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"66549F5202F3"
-			client     	@68
-			supplier   	@90
+			client     	@167
+			supplier   	@189
 			line_style 	0)
-		    (object UsesView "" @92
+		    (object UsesView "" @191
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"66549F6401F6"
-			client     	@90
-			supplier   	@67
+			client     	@189
+			supplier   	@166
 			line_style 	0)
-		    (object AssociationViewNew "$UNNAMED$33" @93
+		    (object AssociationViewNew "$UNNAMED$78" @192
 			location   	(1211, 1302)
 			font       	(object Font
 			    size       	10
@@ -3115,25 +5073,25 @@
 			line_color 	3342489
 			quidu      	"66558D9B0021"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$34" @94
-				Parent_View 	@93
+			    (object RoleView "$UNNAMED$79" @193
+				Parent_View 	@192
 				location   	(-661, -586)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"66558D9B016E"
-				client     	@93
-				supplier   	@90
+				client     	@192
+				supplier   	@189
 				line_style 	0)
-			    (object RoleView "$UNNAMED$35" @95
-				Parent_View 	@93
+			    (object RoleView "$UNNAMED$80" @194
+				Parent_View 	@192
 				location   	(-661, -586)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"66558D9B0177"
-				client     	@93
-				supplier   	@82
+				client     	@192
+				supplier   	@181
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$36" @96
+		    (object AssociationViewNew "$UNNAMED$81" @195
 			location   	(1200, 1624)
 			font       	(object Font
 			    size       	10
@@ -3149,25 +5107,25 @@
 			line_color 	3342489
 			quidu      	"66558D9F0160"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$37" @97
-				Parent_View 	@96
+			    (object RoleView "$UNNAMED$82" @196
+				Parent_View 	@195
 				location   	(-672, -792)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"66558D9F01A2"
-				client     	@96
-				supplier   	@90
+				client     	@195
+				supplier   	@189
 				line_style 	0)
-			    (object RoleView "$UNNAMED$38" @98
-				Parent_View 	@96
+			    (object RoleView "$UNNAMED$83" @197
+				Parent_View 	@195
 				location   	(-672, -792)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"66558D9F01AA"
-				client     	@96
-				supplier   	@83
+				client     	@195
+				supplier   	@182
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$39" @99
+		    (object AssociationViewNew "$UNNAMED$84" @198
 			location   	(1211, 974)
 			font       	(object Font
 			    size       	10
@@ -3183,25 +5141,25 @@
 			line_color 	3342489
 			quidu      	"66558DE400AE"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$40" @100
-				Parent_View 	@99
+			    (object RoleView "$UNNAMED$85" @199
+				Parent_View 	@198
 				location   	(-1541, -546)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"66558DE4035A"
-				client     	@99
-				supplier   	@87
+				client     	@198
+				supplier   	@186
 				line_style 	0)
-			    (object RoleView "$UNNAMED$41" @101
-				Parent_View 	@99
+			    (object RoleView "$UNNAMED$86" @200
+				Parent_View 	@198
 				location   	(-1541, -546)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"66558DE40362"
-				client     	@99
-				supplier   	@90
+				client     	@198
+				supplier   	@189
 				line_style 	0)))
-		    (object RealizeView "" @102
+		    (object RealizeView "" @201
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -3213,15 +5171,15 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@102
+			    Parent_View 	@201
 			    location   	(2962, 304)
 			    anchor_loc 	1
 			    nlines     	1
 			    max_width  	144
 			    justify    	0
 			    label      	"")
-			stereotype 	(object SegLabel @103
-			    Parent_View 	@102
+			stereotype 	(object SegLabel @202
+			    Parent_View 	@201
 			    location   	(3009, 229)
 			    font       	(object Font
 				size       	10
@@ -3244,10 +5202,10 @@
 			    orientation 	0)
 			line_color 	3342489
 			quidu      	"66549E34035E"
-			client     	@67
-			supplier   	@74
+			client     	@166
+			supplier   	@173
 			line_style 	0)
-		    (object RealizeView "" @104
+		    (object RealizeView "" @203
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -3258,8 +5216,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			stereotype 	(object SegLabel @105
-			    Parent_View 	@104
+			stereotype 	(object SegLabel @204
+			    Parent_View 	@203
 			    location   	(3044, 905)
 			    font       	(object Font
 				size       	10
@@ -3282,17 +5240,17 @@
 			    orientation 	0)
 			line_color 	3342489
 			quidu      	"66549E39018E"
-			client     	@68
-			supplier   	@73
+			client     	@167
+			supplier   	@172
 			line_style 	0)
-		    (object UsesView "" @106
+		    (object UsesView "" @205
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6654A0500015"
-			client     	@69
-			supplier   	@68
+			client     	@168
+			supplier   	@167
 			line_style 	0)
-		    (object UsesView "receiver" @107
+		    (object UsesView "receiver" @206
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -3304,8 +5262,8 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@107
-			    location   	(2823, 1714)
+			    Parent_View 	@206
+			    location   	(2819, 1693)
 			    anchor_loc 	1
 			    nlines     	1
 			    max_width  	142
@@ -3314,14 +5272,14 @@
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6654A062015F"
-			client     	@69
-			supplier   	@70
+			client     	@168
+			supplier   	@169
 			vertices   	(list Points
-			    (2699, 1777)
-			    (2821, 1715)
-			    (2932, 1629))
+			    (2699, 1762)
+			    (2821, 1692)
+			    (2932, 1615))
 			line_style 	0)
-		    (object UsesView "sender" @108
+		    (object UsesView "sender" @207
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -3333,7 +5291,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@108
+			    Parent_View 	@207
 			    location   	(2806, 1588)
 			    anchor_loc 	1
 			    nlines     	1
@@ -3343,14 +5301,14 @@
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6655A8930240"
-			client     	@69
-			supplier   	@70
+			client     	@168
+			supplier   	@169
 			vertices   	(list Points
 			    (2699, 1662)
 			    (2759, 1603)
 			    (2932, 1546))
 			line_style 	0)
-		    (object RealizeView "" @109
+		    (object RealizeView "" @208
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -3361,8 +5319,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			stereotype 	(object SegLabel @110
-			    Parent_View 	@109
+			stereotype 	(object SegLabel @209
+			    Parent_View 	@208
 			    location   	(1032, 102)
 			    font       	(object Font
 				size       	10
@@ -3385,8 +5343,8 @@
 			    orientation 	1)
 			line_color 	3342489
 			quidu      	"66549BEF038A"
-			client     	@90
-			supplier   	@75
+			client     	@189
+			supplier   	@174
 			vertices   	(list Points
 			    (1337, 347)
 			    (1221, 125)
@@ -3662,7 +5620,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object SubSysView "Component View::Server" @111
+		    (object SubSysView "Component View::Server" @210
 			location   	(3984, 1712)
 			font       	(object Font
 			    size       	10
@@ -3675,7 +5633,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@111
+			    Parent_View 	@210
 			    location   	(809, 127)
 			    fill_color 	13434879
 			    nlines     	2
@@ -3688,7 +5646,7 @@
 			quidu      	"665196150346"
 			width      	6363
 			height     	3183)
-		    (object SubSysView "Component View::Server::Views" @112
+		    (object SubSysView "Component View::Server::Views" @211
 			location   	(2640, 976)
 			font       	(object Font
 			    size       	10
@@ -3701,7 +5659,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@112
+			    Parent_View 	@211
 			    location   	(1236, 276)
 			    fill_color 	13434879
 			    nlines     	2
@@ -3714,7 +5672,7 @@
 			quidu      	"665196780108"
 			width      	2820
 			height     	1413)
-		    (object SubSysView "Component View::Server::Models" @113
+		    (object SubSysView "Component View::Server::Models" @212
 			location   	(5600, 976)
 			font       	(object Font
 			    size       	10
@@ -3727,7 +5685,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@113
+			    Parent_View 	@212
 			    location   	(4200, 279)
 			    fill_color 	13434879
 			    nlines     	2
@@ -3740,7 +5698,7 @@
 			quidu      	"6651970C007F"
 			width      	2813
 			height     	1406)
-		    (object SubSysView "Component View::Server::Templates" @114
+		    (object SubSysView "Component View::Server::Templates" @213
 			location   	(2688, 2560)
 			font       	(object Font
 			    size       	10
@@ -3753,7 +5711,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@114
+			    Parent_View 	@213
 			    location   	(1350, 1895)
 			    fill_color 	13434879
 			    nlines     	2
@@ -3766,7 +5724,7 @@
 			quidu      	"66519727037D"
 			width      	2688
 			height     	1343)
-		    (object ModView "Component View::Server::ursl" "NotAModuleType" "NotAModulePart" @115
+		    (object ModView "Component View::Server::ursl" "NotAModuleType" "NotAModulePart" @214
 			location   	(1024, 960)
 			font       	(object Font
 			    size       	10
@@ -3779,7 +5737,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@115
+			    Parent_View 	@214
 			    location   	(974, 935)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -3794,7 +5752,7 @@
 			autoResize 	TRUE
 			width      	331
 			height     	162)
-		    (object ModView "Component View::Server::Models::Database" "NotAModuleType" "NotAModulePart" @116
+		    (object ModView "Component View::Server::Models::Database" "NotAModuleType" "NotAModulePart" @215
 			location   	(6000, 2576)
 			font       	(object Font
 			    size       	10
@@ -3807,7 +5765,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@116
+			    Parent_View 	@215
 			    location   	(5994, 3152)
 			    anchor_loc 	1
 			    nlines     	2
@@ -3824,7 +5782,7 @@
 			autoResize 	TRUE
 			width      	1618
 			height     	994)
-		    (object ModView "Component View::Server::Models::Profile" "NotAModuleType" "NotAModulePart" @117
+		    (object ModView "Component View::Server::Models::Profile" "NotAModuleType" "NotAModulePart" @216
 			location   	(4608, 560)
 			font       	(object Font
 			    size       	10
@@ -3837,7 +5795,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@117
+			    Parent_View 	@216
 			    location   	(4531, 525)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -3853,7 +5811,7 @@
 			autoResize 	TRUE
 			width      	525
 			height     	237)
-		    (object ModView "Component View::Server::Models::RegistrationCode" "NotAModuleType" "NotAModulePart" @118
+		    (object ModView "Component View::Server::Models::RegistrationCode" "NotAModuleType" "NotAModulePart" @217
 			location   	(5280, 560)
 			font       	(object Font
 			    size       	10
@@ -3866,7 +5824,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@118
+			    Parent_View 	@217
 			    location   	(5205, 524)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -3882,7 +5840,7 @@
 			autoResize 	TRUE
 			width      	512
 			height     	243)
-		    (object ModView "Component View::Server::Models::Message" "NotAModuleType" "NotAModulePart" @119
+		    (object ModView "Component View::Server::Models::Message" "NotAModuleType" "NotAModulePart" @218
 			location   	(4624, 896)
 			font       	(object Font
 			    size       	10
@@ -3895,7 +5853,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@119
+			    Parent_View 	@218
 			    location   	(4551, 861)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -3911,7 +5869,7 @@
 			autoResize 	TRUE
 			width      	494
 			height     	238)
-		    (object ModView "Component View::Server::Models::Country" "NotAModuleType" "NotAModulePart" @120
+		    (object ModView "Component View::Server::Models::Country" "NotAModuleType" "NotAModulePart" @219
 			location   	(4624, 1248)
 			font       	(object Font
 			    size       	10
@@ -3924,7 +5882,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@120
+			    Parent_View 	@219
 			    location   	(4551, 1212)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -3940,7 +5898,7 @@
 			autoResize 	TRUE
 			width      	493
 			height     	243)
-		    (object ModView "Component View::Server::Models::City" "NotAModuleType" "NotAModulePart" @121
+		    (object ModView "Component View::Server::Models::City" "NotAModuleType" "NotAModulePart" @220
 			location   	(5248, 1248)
 			font       	(object Font
 			    size       	10
@@ -3953,7 +5911,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@121
+			    Parent_View 	@220
 			    location   	(5169, 1212)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -3969,7 +5927,7 @@
 			autoResize 	TRUE
 			width      	537
 			height     	244)
-		    (object ModView "Component View::Server::Models::Sensor" "NotAModuleType" "NotAModulePart" @122
+		    (object ModView "Component View::Server::Models::Sensor" "NotAModuleType" "NotAModulePart" @221
 			location   	(6128, 784)
 			font       	(object Font
 			    size       	10
@@ -3982,7 +5940,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@122
+			    Parent_View 	@221
 			    location   	(5973, 711)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -3998,7 +5956,7 @@
 			autoResize 	TRUE
 			width      	1062
 			height     	506)
-		    (object ModView "Component View::Server::Models::SensorLog" "NotAModuleType" "NotAModulePart" @123
+		    (object ModView "Component View::Server::Models::SensorLog" "NotAModuleType" "NotAModulePart" @222
 			location   	(5856, 1248)
 			font       	(object Font
 			    size       	10
@@ -4011,7 +5969,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@123
+			    Parent_View 	@222
 			    location   	(5788, 1211)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4027,7 +5985,7 @@
 			autoResize 	TRUE
 			width      	462
 			height     	250)
-		    (object ModView "Component View::Server::Models::Firmware" "NotAModuleType" "NotAModulePart" @124
+		    (object ModView "Component View::Server::Models::Firmware" "NotAModuleType" "NotAModulePart" @223
 			location   	(6416, 1248)
 			font       	(object Font
 			    size       	10
@@ -4040,7 +5998,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@124
+			    Parent_View 	@223
 			    location   	(6343, 1212)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4056,7 +6014,7 @@
 			autoResize 	TRUE
 			width      	494
 			height     	243)
-		    (object ModView "Component View::Server::Views::SensorListView" "NotAModuleType" "NotAModulePart" @125
+		    (object ModView "Component View::Server::Views::SensorListView" "NotAModuleType" "NotAModulePart" @224
 			location   	(1472, 496)
 			font       	(object Font
 			    size       	10
@@ -4069,7 +6027,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@125
+			    Parent_View 	@224
 			    location   	(1411, 469)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4085,7 +6043,7 @@
 			autoResize 	TRUE
 			width      	413
 			height     	182)
-		    (object ModView "Component View::Server::Views::SensorDetailView" "NotAModuleType" "NotAModulePart" @126
+		    (object ModView "Component View::Server::Views::SensorDetailView" "NotAModuleType" "NotAModulePart" @225
 			location   	(1968, 496)
 			font       	(object Font
 			    size       	10
@@ -4098,7 +6056,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@126
+			    Parent_View 	@225
 			    location   	(1905, 469)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4114,7 +6072,7 @@
 			autoResize 	TRUE
 			width      	425
 			height     	181)
-		    (object ModView "Component View::Server::Views::SensorDeleteView" "NotAModuleType" "NotAModulePart" @127
+		    (object ModView "Component View::Server::Views::SensorDeleteView" "NotAModuleType" "NotAModulePart" @226
 			location   	(2480, 496)
 			font       	(object Font
 			    size       	10
@@ -4127,7 +6085,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@127
+			    Parent_View 	@226
 			    location   	(2410, 469)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4143,7 +6101,7 @@
 			autoResize 	TRUE
 			width      	475
 			height     	181)
-		    (object ModView "Component View::Server::Views::SensorLogsAPIView" "NotAModuleType" "NotAModulePart" @128
+		    (object ModView "Component View::Server::Views::SensorLogsAPIView" "NotAModuleType" "NotAModulePart" @227
 			location   	(1472, 784)
 			font       	(object Font
 			    size       	10
@@ -4156,7 +6114,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@128
+			    Parent_View 	@227
 			    location   	(1410, 757)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4172,7 +6130,7 @@
 			autoResize 	TRUE
 			width      	418
 			height     	181)
-		    (object ModView "Component View::Server::Views::SensorLogsVoltAPIView" "NotAModuleType" "NotAModulePart" @129
+		    (object ModView "Component View::Server::Views::SensorLogsVoltAPIView" "NotAModuleType" "NotAModulePart" @228
 			location   	(1968, 784)
 			font       	(object Font
 			    size       	10
@@ -4185,7 +6143,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@129
+			    Parent_View 	@228
 			    location   	(1902, 755)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4201,7 +6159,7 @@
 			autoResize 	TRUE
 			width      	444
 			height     	194)
-		    (object ModView "Component View::Server::Views::DeviceStatus" "NotAModuleType" "NotAModulePart" @130
+		    (object ModView "Component View::Server::Views::DeviceStatus" "NotAModuleType" "NotAModulePart" @229
 			location   	(2480, 784)
 			font       	(object Font
 			    size       	10
@@ -4214,7 +6172,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@130
+			    Parent_View 	@229
 			    location   	(2409, 756)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4230,7 +6188,7 @@
 			autoResize 	TRUE
 			width      	482
 			height     	187)
-		    (object ModView "Component View::Server::Views::register" "NotAModuleType" "NotAModulePart" @131
+		    (object ModView "Component View::Server::Views::register" "NotAModuleType" "NotAModulePart" @230
 			location   	(1456, 1072)
 			font       	(object Font
 			    size       	10
@@ -4243,7 +6201,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@131
+			    Parent_View 	@230
 			    location   	(1411, 1047)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4258,7 +6216,7 @@
 			autoResize 	TRUE
 			width      	298
 			height     	162)
-		    (object ModView "Component View::Server::Views::user_login" "NotAModuleType" "NotAModulePart" @132
+		    (object ModView "Component View::Server::Views::user_login" "NotAModuleType" "NotAModulePart" @231
 			location   	(1840, 1072)
 			font       	(object Font
 			    size       	10
@@ -4271,7 +6229,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@132
+			    Parent_View 	@231
 			    location   	(1784, 1046)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4287,7 +6245,7 @@
 			autoResize 	TRUE
 			width      	375
 			height     	169)
-		    (object ModView "Component View::Server::Views::change_password" "NotAModuleType" "NotAModulePart" @133
+		    (object ModView "Component View::Server::Views::change_password" "NotAModuleType" "NotAModulePart" @232
 			location   	(2256, 1072)
 			font       	(object Font
 			    size       	10
@@ -4300,7 +6258,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@133
+			    Parent_View 	@232
 			    location   	(2196, 1045)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4316,7 +6274,7 @@
 			autoResize 	TRUE
 			width      	406
 			height     	176)
-		    (object ModView "Component View::Server::Views::edit" "NotAModuleType" "NotAModulePart" @134
+		    (object ModView "Component View::Server::Views::edit" "NotAModuleType" "NotAModulePart" @233
 			location   	(1456, 1264)
 			font       	(object Font
 			    size       	10
@@ -4329,7 +6287,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@134
+			    Parent_View 	@233
 			    location   	(1411, 1239)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4344,7 +6302,7 @@
 			autoResize 	TRUE
 			width      	298
 			height     	162)
-		    (object ModView "Component View::Server::Views::generate_code_view" "NotAModuleType" "NotAModulePart" @135
+		    (object ModView "Component View::Server::Views::generate_code_view" "NotAModuleType" "NotAModulePart" @234
 			location   	(1488, 1472)
 			font       	(object Font
 			    size       	10
@@ -4357,7 +6315,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@135
+			    Parent_View 	@234
 			    location   	(1436, 1447)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4372,7 +6330,7 @@
 			autoResize 	TRUE
 			width      	352
 			height     	162)
-		    (object ModView "Component View::Server::Views::message_list" "NotAModuleType" "NotAModulePart" @136
+		    (object ModView "Component View::Server::Views::message_list" "NotAModuleType" "NotAModulePart" @235
 			location   	(1888, 1472)
 			font       	(object Font
 			    size       	10
@@ -4385,7 +6343,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@136
+			    Parent_View 	@235
 			    location   	(1839, 1445)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4401,7 +6359,7 @@
 			autoResize 	TRUE
 			width      	325
 			height     	175)
-		    (object ModView "Component View::Server::Views::chat_view" "NotAModuleType" "NotAModulePart" @137
+		    (object ModView "Component View::Server::Views::chat_view" "NotAModuleType" "NotAModulePart" @236
 			location   	(2256, 1472)
 			font       	(object Font
 			    size       	10
@@ -4414,7 +6372,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@137
+			    Parent_View 	@236
 			    location   	(2203, 1445)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4430,7 +6388,7 @@
 			autoResize 	TRUE
 			width      	357
 			height     	175)
-		    (object ModView "Component View::Server::Views::message_view" "NotAModuleType" "NotAModulePart" @138
+		    (object ModView "Component View::Server::Views::message_view" "NotAModuleType" "NotAModulePart" @237
 			location   	(2656, 1472)
 			font       	(object Font
 			    size       	10
@@ -4443,7 +6401,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@138
+			    Parent_View 	@237
 			    location   	(2603, 1445)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4459,7 +6417,7 @@
 			autoResize 	TRUE
 			width      	356
 			height     	175)
-		    (object ModView "Component View::Server::Views::download_logs" "NotAModuleType" "NotAModulePart" @139
+		    (object ModView "Component View::Server::Views::download_logs" "NotAModuleType" "NotAModulePart" @238
 			location   	(3024, 496)
 			font       	(object Font
 			    size       	10
@@ -4472,7 +6430,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@139
+			    Parent_View 	@238
 			    location   	(2937, 469)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4488,7 +6446,7 @@
 			autoResize 	TRUE
 			width      	594
 			height     	181)
-		    (object ModView "Component View::Server::Views::search_sensors" "NotAModuleType" "NotAModulePart" @140
+		    (object ModView "Component View::Server::Views::search_sensors" "NotAModuleType" "NotAModulePart" @239
 			location   	(3616, 496)
 			font       	(object Font
 			    size       	10
@@ -4501,7 +6459,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@140
+			    Parent_View 	@239
 			    location   	(3530, 469)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4517,7 +6475,7 @@
 			autoResize 	TRUE
 			width      	588
 			height     	181)
-		    (object ModView "Component View::Server::Views::receive_data" "NotAModuleType" "NotAModulePart" @141
+		    (object ModView "Component View::Server::Views::receive_data" "NotAModuleType" "NotAModulePart" @240
 			location   	(3024, 784)
 			font       	(object Font
 			    size       	10
@@ -4530,7 +6488,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@141
+			    Parent_View 	@240
 			    location   	(2955, 756)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4546,7 +6504,7 @@
 			autoResize 	TRUE
 			width      	463
 			height     	188)
-		    (object ModView "Component View::Server::Views::esp_update" "NotAModuleType" "NotAModulePart" @142
+		    (object ModView "Component View::Server::Views::esp_update" "NotAModuleType" "NotAModulePart" @241
 			location   	(3552, 784)
 			font       	(object Font
 			    size       	10
@@ -4559,7 +6517,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@142
+			    Parent_View 	@241
 			    location   	(3483, 757)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4575,7 +6533,7 @@
 			autoResize 	TRUE
 			width      	469
 			height     	181)
-		    (object ModView "Component View::Server::Views::download_firmware" "NotAModuleType" "NotAModulePart" @143
+		    (object ModView "Component View::Server::Views::download_firmware" "NotAModuleType" "NotAModulePart" @242
 			location   	(2752, 1072)
 			font       	(object Font
 			    size       	10
@@ -4588,7 +6546,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@143
+			    Parent_View 	@242
 			    location   	(2682, 1045)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4604,7 +6562,7 @@
 			autoResize 	TRUE
 			width      	475
 			height     	176)
-		    (object ModView "Component View::Server::Templates::sensor_list.html" "NotAModuleType" "NotAModulePart" @144
+		    (object ModView "Component View::Server::Templates::sensor_list.html" "NotAModuleType" "NotAModulePart" @243
 			location   	(1760, 2096)
 			font       	(object Font
 			    size       	10
@@ -4617,7 +6575,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@144
+			    Parent_View 	@243
 			    location   	(1659, 2067)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4633,7 +6591,7 @@
 			autoResize 	TRUE
 			width      	687
 			height     	194)
-		    (object ModView "Component View::Server::Templates::sensor_detail.html" "NotAModuleType" "NotAModulePart" @145
+		    (object ModView "Component View::Server::Templates::sensor_detail.html" "NotAModuleType" "NotAModulePart" @244
 			location   	(2512, 2096)
 			font       	(object Font
 			    size       	10
@@ -4646,7 +6604,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@145
+			    Parent_View 	@244
 			    location   	(2412, 2064)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4662,7 +6620,7 @@
 			autoResize 	TRUE
 			width      	681
 			height     	212)
-		    (object ModView "Component View::Server::Templates::search_results.html" "NotAModuleType" "NotAModulePart" @146
+		    (object ModView "Component View::Server::Templates::search_results.html" "NotAModuleType" "NotAModulePart" @245
 			location   	(3360, 2096)
 			font       	(object Font
 			    size       	10
@@ -4675,7 +6633,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@146
+			    Parent_View 	@245
 			    location   	(3246, 2064)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4691,7 +6649,7 @@
 			autoResize 	TRUE
 			width      	775
 			height     	212)
-		    (object ModView "Component View::Server::Templates::login.html" "NotAModuleType" "NotAModulePart" @147
+		    (object ModView "Component View::Server::Templates::login.html" "NotAModuleType" "NotAModulePart" @246
 			location   	(3344, 2464)
 			font       	(object Font
 			    size       	10
@@ -4704,7 +6662,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@147
+			    Parent_View 	@246
 			    location   	(3261, 2429)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4720,7 +6678,7 @@
 			autoResize 	TRUE
 			width      	563
 			height     	238)
-		    (object ModView "Component View::Server::Templates::profile_detail.html" "NotAModuleType" "NotAModulePart" @148
+		    (object ModView "Component View::Server::Templates::profile_detail.html" "NotAModuleType" "NotAModulePart" @247
 			location   	(1744, 2432)
 			font       	(object Font
 			    size       	10
@@ -4733,7 +6691,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@148
+			    Parent_View 	@247
 			    location   	(1650, 2391)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4749,7 +6707,7 @@
 			autoResize 	TRUE
 			width      	644
 			height     	275)
-		    (object ModView "Component View::Server::Templates::profile_edit.html" "NotAModuleType" "NotAModulePart" @149
+		    (object ModView "Component View::Server::Templates::profile_edit.html" "NotAModuleType" "NotAModulePart" @248
 			location   	(2528, 2464)
 			font       	(object Font
 			    size       	10
@@ -4762,7 +6720,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@149
+			    Parent_View 	@248
 			    location   	(2437, 2428)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4778,7 +6736,7 @@
 			autoResize 	TRUE
 			width      	619
 			height     	244)
-		    (object ModView "Component View::Server::Templates::profile_list.html" "NotAModuleType" "NotAModulePart" @150
+		    (object ModView "Component View::Server::Templates::profile_list.html" "NotAModuleType" "NotAModulePart" @249
 			location   	(2512, 2848)
 			font       	(object Font
 			    size       	10
@@ -4791,7 +6749,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@150
+			    Parent_View 	@249
 			    location   	(2419, 2810)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4807,7 +6765,7 @@
 			autoResize 	TRUE
 			width      	632
 			height     	256)
-		    (object ModView "Component View::Server::Templates::register.html" "NotAModuleType" "NotAModulePart" @151
+		    (object ModView "Component View::Server::Templates::register.html" "NotAModuleType" "NotAModulePart" @250
 			location   	(3696, 2736)
 			font       	(object Font
 			    size       	10
@@ -4820,7 +6778,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@151
+			    Parent_View 	@250
 			    location   	(3634, 2711)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4836,7 +6794,7 @@
 			autoResize 	TRUE
 			width      	419
 			height     	163)
-		    (object ModView "Component View::Server::Templates::generate_code.html" "NotAModuleType" "NotAModulePart" @152
+		    (object ModView "Component View::Server::Templates::generate_code.html" "NotAModuleType" "NotAModulePart" @251
 			location   	(3328, 3056)
 			font       	(object Font
 			    size       	10
@@ -4849,7 +6807,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@152
+			    Parent_View 	@251
 			    location   	(3231, 3029)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4865,7 +6823,7 @@
 			autoResize 	TRUE
 			width      	663
 			height     	182)
-		    (object ModView "Component View::Server::Templates::chat.html" "NotAModuleType" "NotAModulePart" @153
+		    (object ModView "Component View::Server::Templates::chat.html" "NotAModuleType" "NotAModulePart" @252
 			location   	(1776, 2832)
 			font       	(object Font
 			    size       	10
@@ -4878,7 +6836,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@153
+			    Parent_View 	@252
 			    location   	(1700, 2787)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4894,28 +6852,28 @@
 			autoResize 	TRUE
 			width      	513
 			height     	306)
-		    (object ModVisView "" @154
+		    (object ModVisView "" @253
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6651A5F8036D"
-			client     	@113
-			supplier   	@112
+			client     	@212
+			supplier   	@211
 			line_style 	0)
-		    (object ModVisView "" @155
+		    (object ModVisView "" @254
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6651A61A0108"
-			client     	@113
-			supplier   	@116
+			client     	@212
+			supplier   	@215
 			line_style 	0)
-		    (object ModVisView "" @156
+		    (object ModVisView "" @255
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6651A6290132"
-			client     	@116
-			supplier   	@113
+			client     	@215
+			supplier   	@212
 			line_style 	0)
-		    (object ModView "Component View::Server::Models::Client" "NotAModuleType" "NotAModulePart" @157
+		    (object ModView "Component View::Server::Models::Client" "NotAModuleType" "NotAModulePart" @256
 			location   	(384, 1328)
 			font       	(object Font
 			    size       	10
@@ -4928,7 +6886,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@157
+			    Parent_View 	@256
 			    location   	(315, 1283)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -4944,40 +6902,40 @@
 			autoResize 	TRUE
 			width      	469
 			height     	306)
-		    (object ModVisView "" @158
+		    (object ModVisView "" @257
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6651A6BB036D"
-			client     	@157
-			supplier   	@115
+			client     	@256
+			supplier   	@214
 			line_style 	0)
-		    (object ModVisView "" @159
+		    (object ModVisView "" @258
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6651A5F4037D"
-			client     	@112
-			supplier   	@113
+			client     	@211
+			supplier   	@212
 			line_style 	0)
-		    (object ModVisView "" @160
+		    (object ModVisView "" @259
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6651A85C0004"
-			client     	@112
-			supplier   	@114
+			client     	@211
+			supplier   	@213
 			line_style 	0)
-		    (object ModVisView "" @161
+		    (object ModVisView "" @260
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6651A72A01BC"
-			client     	@114
-			supplier   	@157
+			client     	@213
+			supplier   	@256
 			line_style 	0)
-		    (object ModVisView "" @162
+		    (object ModVisView "" @261
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6651A8C4007F"
-			client     	@115
-			supplier   	@112
+			client     	@214
+			supplier   	@211
 			line_style 	0)))))
     process_structure 	(object Processes
 	quid       	"664C0BDE022A"
