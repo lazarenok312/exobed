@@ -284,7 +284,7 @@ void loop() {
       int power = random(10, 99);
       int watt = random(100, 900);
       int volt = random(180, 240);
-      int fan_speed = random(10, 2000);
+      int fan_speed = random(10, 200);
       String ip_address = ip.toString();
       String mac_address = WiFi.macAddress();
       Serial.print("IP адрес: ");
