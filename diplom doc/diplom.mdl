@@ -629,48 +629,48 @@
 		roles      	(list role_list
 		    (object Role "$UNNAMED$1"
 			quid       	"6655E2580204"
-			supplier   	"Use Case View::NewPackage::оказать поддержку оператору"
+			supplier   	"Use Case View::Usa Case::оказать поддержку оператору"
 			quidu      	"6655E1C700C9"
 			is_navigable 	TRUE)
 		    (object Role "$UNNAMED$2"
 			quid       	"6655E2580206"
-			supplier   	"Use Case View::NewPackage::Device"
+			supplier   	"Use Case View::Usa Case::Device"
 			quidu      	"6655DED502C4")))
 	    (object Association "$UNNAMED$3"
 		quid       	"6655E26501F3"
 		roles      	(list role_list
 		    (object Role "$UNNAMED$4"
 			quid       	"6655E26600BD"
-			supplier   	"Use Case View::NewPackage::оказать поддержку оператору"
+			supplier   	"Use Case View::Usa Case::оказать поддержку оператору"
 			quidu      	"6655E1C700C9"
 			is_navigable 	TRUE)
 		    (object Role "$UNNAMED$5"
 			quid       	"6655E26600BF"
-			supplier   	"Use Case View::NewPackage::Admin"
+			supplier   	"Use Case View::Usa Case::Admin"
 			quidu      	"6651B1460098")))
 	    (object Association "$UNNAMED$6"
 		quid       	"6655E284012B"
 		roles      	(list role_list
 		    (object Role "$UNNAMED$7"
 			quid       	"6655E28500AF"
-			supplier   	"Use Case View::NewPackage::обратиться в поддержку"
+			supplier   	"Use Case View::Usa Case::обратиться в поддержку"
 			quidu      	"6655E196026F"
 			is_navigable 	TRUE)
 		    (object Role "$UNNAMED$8"
 			quid       	"6655E28500B1"
-			supplier   	"Use Case View::NewPackage::Operator"
+			supplier   	"Use Case View::Usa Case::Operator"
 			quidu      	"6655DEC10323")))
 	    (object Association "$UNNAMED$9"
 		quid       	"6655E28F03A0"
 		roles      	(list role_list
 		    (object Role "$UNNAMED$10"
 			quid       	"6655E2900292"
-			supplier   	"Use Case View::NewPackage::обратиться в поддержку"
+			supplier   	"Use Case View::Usa Case::обратиться в поддержку"
 			quidu      	"6655E196026F"
 			is_navigable 	TRUE)
 		    (object Role "$UNNAMED$11"
 			quid       	"6655E2900294"
-			supplier   	"Use Case View::NewPackage::оказать поддержку оператору"
+			supplier   	"Use Case View::Usa Case::оказать поддержку оператору"
 			quidu      	"6655E1C700C9"
 			is_navigable 	TRUE)))
 	    (object Association "$UNNAMED$12"
@@ -678,15 +678,15 @@
 		roles      	(list role_list
 		    (object Role "$UNNAMED$13"
 			quid       	"6655E58C0346"
-			supplier   	"Use Case View::NewPackage::Device"
+			supplier   	"Use Case View::Usa Case::Device"
 			quidu      	"6655DED502C4"
 			is_navigable 	TRUE)
 		    (object Role "$UNNAMED$14"
 			quid       	"6655E58C034A"
-			supplier   	"Use Case View::NewPackage::отправить/получить данные"
+			supplier   	"Use Case View::Usa Case::отправить/получить данные"
 			quidu      	"6655E56D0353"
 			is_navigable 	TRUE)))
-	    (object Class_Category "NewPackage"
+	    (object Class_Category "Usa Case"
 		quid       	"6655EBD80381"
 		exportControl 	"Public"
 		logical_models 	(list unit_reference_list
@@ -697,7 +697,7 @@
 			    (object Dependency_Relationship
 				quid       	"6655DFB900DD"
 				stereotype 	"communicate"
-				supplier   	"Use Case View::NewPackage::Функции ПС для администратора"
+				supplier   	"Use Case View::Usa Case::Функции ПС для администратора"
 				quidu      	"6655DEF100A0")))
 		    (object Class "Device"
 			quid       	"6655DED502C4"
@@ -709,7 +709,7 @@
 			    (object Dependency_Relationship
 				quid       	"6655E18D02AE"
 				stereotype 	"communicate"
-				supplier   	"Use Case View::NewPackage::Функции Пс для оператора"
+				supplier   	"Use Case View::Usa Case::Функции Пс для оператора"
 				quidu      	"6655DF5501E9")))
 		    (object UseCase "отправить/получить данные"
 			quid       	"6655E56D0353")
@@ -722,7 +722,7 @@
 			visible_modules 	(list dependency_list
 			    (object Dependency_Relationship
 				quid       	"6655E5B70143"
-				supplier   	"Use Case View::NewPackage::отправить/получить данные"
+				supplier   	"Use Case View::Usa Case::отправить/получить данные"
 				quidu      	"6655E56D0353"))
 			exportControl 	"Public"
 			logical_models 	(list unit_reference_list
@@ -732,17 +732,17 @@
 				    (object Dependency_Relationship
 					quid       	"6655EB420216"
 					stereotype 	"include"
-					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::Сгенерировать регистрационный код"
+					supplier   	"Use Case View::Usa Case::Функции ПС для администратора::Сгенерировать регистрационный код"
 					quidu      	"6655E966008C")
 				    (object Dependency_Relationship
 					quid       	"6655F0650185"
 					stereotype 	"include"
-					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Редактирование профиля"
+					supplier   	"Use Case View::Usa Case::Функции Пс для оператора::Редактирование профиля"
 					quidu      	"6655F033004F")
 				    (object Dependency_Relationship
 					quid       	"6655F06C02BE"
 					stereotype 	"include"
-					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Просмотр информации на сайте"
+					supplier   	"Use Case View::Usa Case::Функции Пс для оператора::Просмотр информации на сайте"
 					quidu      	"6655F03F0068")))
 			    (object UseCase "Редактирование профиля"
 				quid       	"6655F033004F")
@@ -754,12 +754,12 @@
 				    (object Dependency_Relationship
 					quid       	"6655F1AC0337"
 					stereotype 	"extend"
-					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Просмотр информации на сайте"
+					supplier   	"Use Case View::Usa Case::Функции Пс для оператора::Просмотр информации на сайте"
 					quidu      	"6655F03F0068")
 				    (object Dependency_Relationship
 					quid       	"665820E9037D"
 					stereotype 	"extend"
-					supplier   	"Use Case View::NewPackage::отправить/получить данные"
+					supplier   	"Use Case View::Usa Case::отправить/получить данные"
 					quidu      	"6655E56D0353")))
 			    (object UseCase "Изменить настройки управления"
 				quid       	"6655F1C001A7"
@@ -767,7 +767,7 @@
 				    (object Dependency_Relationship
 					quid       	"6655F1E303D6"
 					stereotype 	"extend"
-					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Просмотр данных устройства"
+					supplier   	"Use Case View::Usa Case::Функции Пс для оператора::Просмотр данных устройства"
 					quidu      	"6655F19901A4")))
 			    (object UseCase "скачать логи"
 				quid       	"6655F1E902A2"
@@ -775,7 +775,7 @@
 				    (object Dependency_Relationship
 					quid       	"6655F1F0024E"
 					stereotype 	"extend"
-					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Просмотр данных устройства"
+					supplier   	"Use Case View::Usa Case::Функции Пс для оператора::Просмотр данных устройства"
 					quidu      	"6655F19901A4")))
 			    (object UseCase "смена пароля"
 				quid       	"6655F2E80004"
@@ -783,7 +783,7 @@
 				    (object Dependency_Relationship
 					quid       	"6655F30000EA"
 					stereotype 	"extend"
-					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Редактирование профиля"
+					supplier   	"Use Case View::Usa Case::Функции Пс для оператора::Редактирование профиля"
 					quidu      	"6655F033004F")))
 			    (object UseCase "смена почты"
 				quid       	"6655F2F60387"
@@ -791,7 +791,7 @@
 				    (object Dependency_Relationship
 					quid       	"6655F3040192"
 					stereotype 	"extend"
-					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Редактирование профиля"
+					supplier   	"Use Case View::Usa Case::Функции Пс для оператора::Редактирование профиля"
 					quidu      	"6655F033004F")))
 			    (object UseCase "поиск устройств"
 				quid       	"6655F325018F"
@@ -799,7 +799,7 @@
 				    (object Dependency_Relationship
 					quid       	"6655F333010F"
 					stereotype 	"extend"
-					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Просмотр информации на сайте"
+					supplier   	"Use Case View::Usa Case::Функции Пс для оператора::Просмотр информации на сайте"
 					quidu      	"6655F03F0068")))
 			    (object UseCase "получение логов за период"
 				quid       	"6655F36A03BB"
@@ -807,19 +807,19 @@
 				    (object Dependency_Relationship
 					quid       	"6655F3770136"
 					stereotype 	"extend"
-					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::скачать логи"
+					supplier   	"Use Case View::Usa Case::Функции Пс для оператора::скачать логи"
 					quidu      	"6655F1E902A2")))
 			    (object Association "$UNNAMED$15"
 				quid       	"6655EFFB03BA"
 				roles      	(list role_list
 				    (object Role "$UNNAMED$16"
 					quid       	"6655EFFC00DA"
-					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::Регистрация"
+					supplier   	"Use Case View::Usa Case::Функции Пс для оператора::Регистрация"
 					quidu      	"6655EA2C020F"
 					is_navigable 	TRUE)
 				    (object Role "$UNNAMED$17"
 					quid       	"6655EFFC00DC"
-					supplier   	"Use Case View::NewPackage::Operator"
+					supplier   	"Use Case View::Usa Case::Operator"
 					quidu      	"6655DEC10323"
 					is_navigable 	TRUE))))
 			logical_presentations 	(list unit_reference_list
@@ -832,7 +832,7 @@
 				origin_x   	0
 				origin_y   	0
 				items      	(list diagram_item_list
-				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::Регистрация" @1
+				    (object UseCaseView "Use Case View::Usa Case::Функции Пс для оператора::Регистрация" @1
 					location   	(1456, 1040)
 					font       	(object Font
 					    size       	10
@@ -857,7 +857,7 @@
 					fill_color 	13434879
 					quidu      	"6655EA2C020F"
 					height     	118)
-				    (object ClassView "Class" "Use Case View::NewPackage::Operator" @2
+				    (object ClassView "Class" "Use Case View::Usa Case::Operator" @2
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
 					IncludeOperation 	TRUE
@@ -877,7 +877,7 @@
 					    location   	(320, 1200)
 					    anchor_loc 	1
 					    nlines     	2
-					    max_width  	362
+					    max_width  	381
 					    justify    	0
 					    label      	"Operator")
 					icon       	"Actor"
@@ -910,7 +910,7 @@
 						client     	@3
 						supplier   	@2
 						line_style 	0)))
-				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::Редактирование профиля" @6
+				    (object UseCaseView "Use Case View::Usa Case::Функции Пс для оператора::Редактирование профиля" @6
 					location   	(896, 1424)
 					font       	(object Font
 					    size       	10
@@ -935,7 +935,7 @@
 					fill_color 	13434879
 					quidu      	"6655F033004F"
 					height     	118)
-				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::Просмотр информации на сайте" @7
+				    (object UseCaseView "Use Case View::Usa Case::Функции Пс для оператора::Просмотр информации на сайте" @7
 					location   	(2016, 1392)
 					font       	(object Font
 					    size       	10
@@ -1036,7 +1036,7 @@
 					client     	@1
 					supplier   	@7
 					line_style 	0)
-				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::Просмотр данных устройства" @12
+				    (object UseCaseView "Use Case View::Usa Case::Функции Пс для оператора::Просмотр данных устройства" @12
 					location   	(2016, 2000)
 					font       	(object Font
 					    size       	10
@@ -1099,7 +1099,7 @@
 					client     	@12
 					supplier   	@7
 					line_style 	0)
-				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::Изменить настройки управления" @15
+				    (object UseCaseView "Use Case View::Usa Case::Функции Пс для оператора::Изменить настройки управления" @15
 					location   	(2624, 2368)
 					font       	(object Font
 					    size       	10
@@ -1162,7 +1162,7 @@
 					client     	@15
 					supplier   	@12
 					line_style 	0)
-				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::скачать логи" @18
+				    (object UseCaseView "Use Case View::Usa Case::Функции Пс для оператора::скачать логи" @18
 					location   	(1424, 2368)
 					font       	(object Font
 					    size       	10
@@ -1225,7 +1225,7 @@
 					client     	@18
 					supplier   	@12
 					line_style 	0)
-				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::смена пароля" @21
+				    (object UseCaseView "Use Case View::Usa Case::Функции Пс для оператора::смена пароля" @21
 					location   	(432, 1808)
 					font       	(object Font
 					    size       	10
@@ -1250,7 +1250,7 @@
 					fill_color 	13434879
 					quidu      	"6655F2E80004"
 					height     	118)
-				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::смена почты" @22
+				    (object UseCaseView "Use Case View::Usa Case::Функции Пс для оператора::смена почты" @22
 					location   	(1264, 1824)
 					font       	(object Font
 					    size       	10
@@ -1351,7 +1351,7 @@
 					client     	@22
 					supplier   	@6
 					line_style 	0)
-				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::поиск устройств" @27
+				    (object UseCaseView "Use Case View::Usa Case::Функции Пс для оператора::поиск устройств" @27
 					location   	(2768, 1392)
 					font       	(object Font
 					    size       	10
@@ -1414,7 +1414,7 @@
 					client     	@27
 					supplier   	@7
 					line_style 	0)
-				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::получение логов за период" @30
+				    (object UseCaseView "Use Case View::Usa Case::Функции Пс для оператора::получение логов за период" @30
 					location   	(1008, 2656)
 					font       	(object Font
 					    size       	10
@@ -1477,7 +1477,7 @@
 					client     	@30
 					supplier   	@18
 					line_style 	0)
-				    (object UseCaseView "Use Case View::NewPackage::отправить/получить данные" @33
+				    (object UseCaseView "Use Case View::Usa Case::отправить/получить данные" @33
 					location   	(2864, 2000)
 					font       	(object Font
 					    size       	10
@@ -1544,7 +1544,7 @@
 			visible_modules 	(list dependency_list
 			    (object Dependency_Relationship
 				quid       	"6655E5AF00C2"
-				supplier   	"Use Case View::NewPackage::отправить/получить данные"
+				supplier   	"Use Case View::Usa Case::отправить/получить данные"
 				quidu      	"6655E56D0353"))
 			exportControl 	"Public"
 			logical_models 	(list unit_reference_list
@@ -1559,7 +1559,7 @@
 				    (object Dependency_Relationship
 					quid       	"6655EDB001A6"
 					stereotype 	"extend"
-					supplier   	"Use Case View::NewPackage::отправить/получить данные"
+					supplier   	"Use Case View::Usa Case::отправить/получить данные"
 					quidu      	"6655E56D0353")))
 			    (object UseCase "Сгенерировать регистрационный код"
 				quid       	"6655E966008C")
@@ -1578,12 +1578,12 @@
 				roles      	(list role_list
 				    (object Role "$UNNAMED$19"
 					quid       	"6655E8550221"
-					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::Регистрация устройств"
+					supplier   	"Use Case View::Usa Case::Функции ПС для администратора::Регистрация устройств"
 					quidu      	"6655E79A01F3"
 					is_navigable 	TRUE)
 				    (object Role "$UNNAMED$20"
 					quid       	"6655E8550223"
-					supplier   	"Use Case View::NewPackage::Admin"
+					supplier   	"Use Case View::Usa Case::Admin"
 					quidu      	"6651B1460098"
 					is_navigable 	TRUE)))
 			    (object Association "$UNNAMED$21"
@@ -1591,12 +1591,12 @@
 				roles      	(list role_list
 				    (object Role "$UNNAMED$22"
 					quid       	"6655E90C0303"
-					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::Обновить прошивку"
+					supplier   	"Use Case View::Usa Case::Функции ПС для администратора::Обновить прошивку"
 					quidu      	"6655E9040078"
 					is_navigable 	TRUE)
 				    (object Role "$UNNAMED$23"
 					quid       	"6655E90C0305"
-					supplier   	"Use Case View::NewPackage::Admin"
+					supplier   	"Use Case View::Usa Case::Admin"
 					quidu      	"6651B1460098"
 					is_navigable 	TRUE)))
 			    (object Association "$UNNAMED$24"
@@ -1604,12 +1604,12 @@
 				roles      	(list role_list
 				    (object Role "$UNNAMED$25"
 					quid       	"6655E9870178"
-					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::Сгенерировать регистрационный код"
+					supplier   	"Use Case View::Usa Case::Функции ПС для администратора::Сгенерировать регистрационный код"
 					quidu      	"6655E966008C"
 					is_navigable 	TRUE)
 				    (object Role "$UNNAMED$26"
 					quid       	"6655E987017A"
-					supplier   	"Use Case View::NewPackage::Admin"
+					supplier   	"Use Case View::Usa Case::Admin"
 					quidu      	"6651B1460098"
 					is_navigable 	TRUE)))
 			    (object Association "$UNNAMED$27"
@@ -1617,12 +1617,12 @@
 				roles      	(list role_list
 				    (object Role "$UNNAMED$28"
 					quid       	"6655E9D10111"
-					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::Добавление информации на сайте"
+					supplier   	"Use Case View::Usa Case::Функции ПС для администратора::Добавление информации на сайте"
 					quidu      	"6655E9BB0293"
 					is_navigable 	TRUE)
 				    (object Role "$UNNAMED$29"
 					quid       	"6655E9D10113"
-					supplier   	"Use Case View::NewPackage::Admin"
+					supplier   	"Use Case View::Usa Case::Admin"
 					quidu      	"6651B1460098"
 					is_navigable 	TRUE)))
 			    (object Association "$UNNAMED$30"
@@ -1630,12 +1630,12 @@
 				roles      	(list role_list
 				    (object Role "$UNNAMED$31"
 					quid       	"6655ECB80055"
-					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::Поиск операторов"
+					supplier   	"Use Case View::Usa Case::Функции ПС для администратора::Поиск операторов"
 					quidu      	"6655EC9F0190"
 					is_navigable 	TRUE)
 				    (object Role "$UNNAMED$32"
 					quid       	"6655ECB80057"
-					supplier   	"Use Case View::NewPackage::Admin"
+					supplier   	"Use Case View::Usa Case::Admin"
 					quidu      	"6651B1460098"
 					is_navigable 	TRUE)))
 			    (object Association "$UNNAMED$33"
@@ -1643,12 +1643,12 @@
 				roles      	(list role_list
 				    (object Role "$UNNAMED$34"
 					quid       	"6655EE2E027B"
-					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::Редактирование профиля оператора"
+					supplier   	"Use Case View::Usa Case::Функции ПС для администратора::Редактирование профиля оператора"
 					quidu      	"6655EE1D0127"
 					is_navigable 	TRUE)
 				    (object Role "$UNNAMED$35"
 					quid       	"6655EE2E027D"
-					supplier   	"Use Case View::NewPackage::Admin"
+					supplier   	"Use Case View::Usa Case::Admin"
 					quidu      	"6651B1460098"
 					is_navigable 	TRUE)))
 			    (object Association "$UNNAMED$36"
@@ -1656,12 +1656,12 @@
 				roles      	(list role_list
 				    (object Role "$UNNAMED$37"
 					quid       	"6655F113022F"
-					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::удаление устройства"
+					supplier   	"Use Case View::Usa Case::Функции ПС для администратора::удаление устройства"
 					quidu      	"6655F0DE01F0"
 					is_navigable 	TRUE)
 				    (object Role "$UNNAMED$38"
 					quid       	"6655F1130231"
-					supplier   	"Use Case View::NewPackage::Admin"
+					supplier   	"Use Case View::Usa Case::Admin"
 					quidu      	"6651B1460098"
 					is_navigable 	TRUE)))
 			    (object Association "$UNNAMED$39"
@@ -1669,12 +1669,12 @@
 				roles      	(list role_list
 				    (object Role "$UNNAMED$40"
 					quid       	"6655F132036B"
-					supplier   	"Use Case View::NewPackage::Функции ПС для администратора::Блокировка устройства"
+					supplier   	"Use Case View::Usa Case::Функции ПС для администратора::Блокировка устройства"
 					quidu      	"6655F12B0050"
 					is_navigable 	TRUE)
 				    (object Role "$UNNAMED$41"
 					quid       	"6655F132036D"
-					supplier   	"Use Case View::NewPackage::Admin"
+					supplier   	"Use Case View::Usa Case::Admin"
 					quidu      	"6651B1460098"
 					is_navigable 	TRUE)))
 			    (object Association "$UNNAMED$42"
@@ -1682,12 +1682,12 @@
 				roles      	(list role_list
 				    (object Role "$UNNAMED$43"
 					quid       	"6655F3B1032C"
-					supplier   	"Use Case View::NewPackage::Функции Пс для оператора::скачать логи"
+					supplier   	"Use Case View::Usa Case::Функции Пс для оператора::скачать логи"
 					quidu      	"6655F1E902A2"
 					is_navigable 	TRUE)
 				    (object Role "$UNNAMED$44"
 					quid       	"6655F3B1032E"
-					supplier   	"Use Case View::NewPackage::Admin"
+					supplier   	"Use Case View::Usa Case::Admin"
 					quidu      	"6651B1460098"
 					is_navigable 	TRUE))))
 			logical_presentations 	(list unit_reference_list
@@ -1700,7 +1700,7 @@
 				origin_x   	0
 				origin_y   	0
 				items      	(list diagram_item_list
-				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::Регистрация" @36
+				    (object UseCaseView "Use Case View::Usa Case::Функции Пс для оператора::Регистрация" @36
 					location   	(352, 1152)
 					font       	(object Font
 					    size       	10
@@ -1724,7 +1724,7 @@
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"6655EA2C020F")
-				    (object UseCaseView "Use Case View::NewPackage::отправить/получить данные" @37
+				    (object UseCaseView "Use Case View::Usa Case::отправить/получить данные" @37
 					location   	(336, 800)
 					font       	(object Font
 					    size       	10
@@ -1748,7 +1748,7 @@
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"6655E56D0353")
-				    (object UseCaseView "Use Case View::NewPackage::Функции ПС для администратора::Регистрация устройств" @38
+				    (object UseCaseView "Use Case View::Usa Case::Функции ПС для администратора::Регистрация устройств" @38
 					location   	(1392, 480)
 					font       	(object Font
 					    size       	10
@@ -1773,7 +1773,7 @@
 					fill_color 	13434879
 					quidu      	"6655E79A01F3"
 					height     	118)
-				    (object UseCaseView "Use Case View::NewPackage::Функции ПС для администратора::Обновить прошивку" @39
+				    (object UseCaseView "Use Case View::Usa Case::Функции ПС для администратора::Обновить прошивку" @39
 					location   	(1184, 800)
 					font       	(object Font
 					    size       	10
@@ -1836,7 +1836,7 @@
 					client     	@39
 					supplier   	@37
 					line_style 	0)
-				    (object UseCaseView "Use Case View::NewPackage::Функции ПС для администратора::Сгенерировать регистрационный код" @42
+				    (object UseCaseView "Use Case View::Usa Case::Функции ПС для администратора::Сгенерировать регистрационный код" @42
 					location   	(1168, 1152)
 					font       	(object Font
 					    size       	10
@@ -1899,7 +1899,7 @@
 					client     	@36
 					supplier   	@42
 					line_style 	0)
-				    (object UseCaseView "Use Case View::NewPackage::Функции ПС для администратора::Добавление информации на сайте" @45
+				    (object UseCaseView "Use Case View::Usa Case::Функции ПС для администратора::Добавление информации на сайте" @45
 					location   	(1904, 336)
 					font       	(object Font
 					    size       	10
@@ -1924,7 +1924,7 @@
 					fill_color 	13434879
 					quidu      	"6655E9BB0293"
 					height     	118)
-				    (object UseCaseView "Use Case View::NewPackage::Функции ПС для администратора::Поиск операторов" @46
+				    (object UseCaseView "Use Case View::Usa Case::Функции ПС для администратора::Поиск операторов" @46
 					location   	(2448, 384)
 					font       	(object Font
 					    size       	10
@@ -1949,7 +1949,7 @@
 					fill_color 	13434879
 					quidu      	"6655EC9F0190"
 					height     	118)
-				    (object UseCaseView "Use Case View::NewPackage::Функции ПС для администратора::Редактирование профиля оператора" @47
+				    (object UseCaseView "Use Case View::Usa Case::Функции ПС для администратора::Редактирование профиля оператора" @47
 					location   	(2752, 656)
 					font       	(object Font
 					    size       	10
@@ -1974,7 +1974,7 @@
 					fill_color 	13434879
 					quidu      	"6655EE1D0127"
 					height     	118)
-				    (object UseCaseView "Use Case View::NewPackage::Функции ПС для администратора::удаление устройства" @48
+				    (object UseCaseView "Use Case View::Usa Case::Функции ПС для администратора::удаление устройства" @48
 					location   	(2736, 992)
 					font       	(object Font
 					    size       	10
@@ -1999,7 +1999,7 @@
 					fill_color 	13434879
 					quidu      	"6655F0DE01F0"
 					height     	118)
-				    (object UseCaseView "Use Case View::NewPackage::Функции ПС для администратора::Блокировка устройства" @49
+				    (object UseCaseView "Use Case View::Usa Case::Функции ПС для администратора::Блокировка устройства" @49
 					location   	(2640, 1296)
 					font       	(object Font
 					    size       	10
@@ -2024,7 +2024,7 @@
 					fill_color 	13434879
 					quidu      	"6655F12B0050"
 					height     	118)
-				    (object UseCaseView "Use Case View::NewPackage::Функции Пс для оператора::скачать логи" @50
+				    (object UseCaseView "Use Case View::Usa Case::Функции Пс для оператора::скачать логи" @50
 					location   	(1984, 1520)
 					font       	(object Font
 					    size       	10
@@ -2048,7 +2048,7 @@
 					line_color 	3342489
 					fill_color 	13434879
 					quidu      	"6655F1E902A2")
-				    (object ClassView "Class" "Use Case View::NewPackage::Admin" @51
+				    (object ClassView "Class" "Use Case View::Usa Case::Admin" @51
 					ShowCompartmentStereotypes 	TRUE
 					IncludeAttribute 	TRUE
 					IncludeOperation 	TRUE
@@ -2068,7 +2068,7 @@
 					    location   	(1984, 1104)
 					    anchor_loc 	1
 					    nlines     	2
-					    max_width  	362
+					    max_width  	369
 					    justify    	0
 					    label      	"Admin")
 					icon       	"Actor"
@@ -2246,14 +2246,14 @@
 						supplier   	@51
 						line_style 	0)))
 				    (object AssociationViewNew "$UNNAMED$39" @73
-					location   	(2287, 1105)
+					location   	(2353, 1140)
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"6655F13200C3"
 					roleview_list 	(list RoleViews
 					    (object RoleView "$UNNAMED$40" @74
 						Parent_View 	@73
-						location   	(303, 161)
+						location   	(369, 196)
 						stereotype 	TRUE
 						line_color 	3342489
 						quidu      	"6655F132036B"
@@ -2262,7 +2262,7 @@
 						line_style 	0)
 					    (object RoleView "$UNNAMED$41" @75
 						Parent_View 	@73
-						location   	(303, 161)
+						location   	(369, 196)
 						stereotype 	TRUE
 						line_color 	3342489
 						quidu      	"6655F132036D"
@@ -2270,14 +2270,14 @@
 						supplier   	@51
 						line_style 	0)))
 				    (object AssociationViewNew "$UNNAMED$42" @76
-					location   	(1984, 1295)
+					location   	(1984, 1317)
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"6655F3B100B3"
 					roleview_list 	(list RoleViews
 					    (object RoleView "$UNNAMED$43" @77
 						Parent_View 	@76
-						location   	(0, 351)
+						location   	(0, 373)
 						stereotype 	TRUE
 						line_color 	3342489
 						quidu      	"6655F3B1032C"
@@ -2286,7 +2286,7 @@
 						line_style 	0)
 					    (object RoleView "$UNNAMED$44" @78
 						Parent_View 	@76
-						location   	(0, 351)
+						location   	(0, 373)
 						stereotype 	TRUE
 						line_color 	3342489
 						quidu      	"6655F3B1032E"
@@ -2303,7 +2303,7 @@
 			origin_x   	0
 			origin_y   	603
 			items      	(list diagram_item_list
-			    (object ClassView "Class" "Use Case View::NewPackage::Operator" @79
+			    (object ClassView "Class" "Use Case View::Usa Case::Operator" @79
 				ShowCompartmentStereotypes 	TRUE
 				IncludeAttribute 	TRUE
 				IncludeOperation 	TRUE
@@ -2323,7 +2323,7 @@
 				    location   	(352, 1920)
 				    anchor_loc 	1
 				    nlines     	2
-				    max_width  	362
+				    max_width  	377
 				    justify    	0
 				    label      	"Operator")
 				icon       	"Actor"
@@ -2332,7 +2332,7 @@
 				quidu      	"6655DEC10323"
 				annotation 	8
 				autoResize 	TRUE)
-			    (object ClassView "Class" "Use Case View::NewPackage::Admin" @80
+			    (object ClassView "Class" "Use Case View::Usa Case::Admin" @80
 				ShowCompartmentStereotypes 	TRUE
 				IncludeAttribute 	TRUE
 				IncludeOperation 	TRUE
@@ -2352,7 +2352,7 @@
 				    location   	(352, 480)
 				    anchor_loc 	1
 				    nlines     	2
-				    max_width  	362
+				    max_width  	365
 				    justify    	0
 				    label      	"Admin")
 				icon       	"Actor"
@@ -2361,7 +2361,7 @@
 				quidu      	"6651B1460098"
 				annotation 	8
 				autoResize 	TRUE)
-			    (object UseCaseView "Use Case View::NewPackage::обратиться в поддержку" @81
+			    (object UseCaseView "Use Case View::Usa Case::обратиться в поддержку" @81
 				location   	(352, 1248)
 				font       	(object Font
 				    size       	10
@@ -2420,7 +2420,7 @@
 					client     	@82
 					supplier   	@79
 					line_style 	0)))
-			    (object UseCaseView "Use Case View::NewPackage::оказать поддержку оператору" @85
+			    (object UseCaseView "Use Case View::Usa Case::оказать поддержку оператору" @85
 				location   	(352, 784)
 				font       	(object Font
 				    size       	10
@@ -2503,7 +2503,7 @@
 					client     	@89
 					supplier   	@85
 					line_style 	0)))
-			    (object CategoryView "Use Case View::NewPackage::Функции Пс для оператора" @92
+			    (object CategoryView "Use Case View::Usa Case::Функции Пс для оператора" @92
 				location   	(1360, 1760)
 				font       	(object Font
 				    size       	10
@@ -2567,7 +2567,7 @@
 				client     	@79
 				supplier   	@92
 				line_style 	0)
-			    (object ClassView "Class" "Use Case View::NewPackage::Device" @95
+			    (object ClassView "Class" "Use Case View::Usa Case::Device" @95
 				ShowCompartmentStereotypes 	TRUE
 				IncludeAttribute 	TRUE
 				IncludeOperation 	TRUE
@@ -2587,7 +2587,7 @@
 				    location   	(880, 1168)
 				    anchor_loc 	1
 				    nlines     	2
-				    max_width  	362
+				    max_width  	373
 				    justify    	0
 				    label      	"Device")
 				icon       	"Actor"
@@ -2596,7 +2596,7 @@
 				quidu      	"6655DED502C4"
 				annotation 	8
 				autoResize 	TRUE)
-			    (object UseCaseView "Use Case View::NewPackage::отправить/получить данные" @96
+			    (object UseCaseView "Use Case View::Usa Case::отправить/получить данные" @96
 				location   	(1360, 1008)
 				font       	(object Font
 				    size       	10
@@ -2652,7 +2652,7 @@
 				client     	@92
 				supplier   	@96
 				line_style 	0)
-			    (object CategoryView "Use Case View::NewPackage::Функции ПС для администратора" @101
+			    (object CategoryView "Use Case View::Usa Case::Функции ПС для администратора" @101
 				location   	(1360, 320)
 				font       	(object Font
 				    size       	10
@@ -2888,7 +2888,7 @@
 					ordinal    	7
 					quidu      	"000000000000"
 					creation   	FALSE))))
-			class      	"Use Case View::NewPackage::Admin"
+			class      	"Use Case View::Usa Case::Admin"
 			quidu      	"6651B1460098"
 			persistence 	"Transient"
 			creationObj 	FALSE
@@ -2983,7 +2983,7 @@
 					ordinal    	0
 					quidu      	"000000000000"
 					creation   	FALSE))))
-			class      	"Use Case View::NewPackage::Operator"
+			class      	"Use Case View::Usa Case::Operator"
 			quidu      	"6655DEC10323"
 			persistence 	"Transient"
 			creationObj 	FALSE
