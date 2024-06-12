@@ -1,10 +1,11 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 
+
 class DeviceConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.device_name = self.scope['url_route']['kwargs']['device_name']
-        self.room_group_name = f'device_{self.device_name}'
+        self.room_group_name = f"device_{self.device_name}"
 
         await self.channel_layer.group_add(
             self.room_group_name,
@@ -21,7 +22,10 @@ class DeviceConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         data = json.loads(text_data)
-        # Обрабатывайте полученные данные, если необходимо
+        # Обработка данных
+        print(f"Received data from {self.device_name}: {data}")
 
-    async def send_device_state(self, event):
-        await self.send(text_data=json.dumps(event['data']))
+        # Отправка данных обратно устройству (если необходимо)
+        await self.send(text_data=json.dumps({
+            'message': 'Data received'
+        }))

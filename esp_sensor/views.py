@@ -29,6 +29,7 @@ from rest_framework import status
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
+
 # Класс для отображения списка датчиков
 
 class SensorListView(LoginRequiredMixin, ListView):
@@ -443,6 +444,7 @@ class DeviceStatus(APIView):
                 "name": sensor.name,
                 "blocked": sensor.blocked,
                 "work": sensor.work,
+                "power": sensor.power,
             }
 
             return Response(device_status, status=status.HTTP_200_OK)

@@ -1,12 +1,6 @@
-from channels.routing import ProtocolTypeRouter, URLRouter
-from django.urls import path
-from channels.auth import AuthMiddlewareStack
-from esp_sensor.consumers import DeviceConsumer
+from django.urls import re_path
+from . import consumers
 
-application = ProtocolTypeRouter({
-    "websocket": AuthMiddlewareStack(
-        URLRouter([
-            path("ws/device/<slug:device_name>/", DeviceConsumer.as_asgi()),
-        ])
-    ),
-})
+websocket_urlpatterns = [
+    re_path(r'ws/device/(?P<device_name>\w+)/$', consumers.DeviceConsumer.as_asgi()),
+]

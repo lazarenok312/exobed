@@ -34,15 +34,14 @@ WiFiClient client;
 HTTPClient http;
 TinyGPSPlus gps;
 
-#define DHTPIN D4          // Пин для подключения датчика DHT
-#define DHTTYPE DHT11      // Тип датчика DHT (DHT11)
-DHT dht(DHTPIN, DHTTYPE);  // Инициализация датчика температуры и влажности
+#define DHTPIN D4     
+#define DHTTYPE DHT11     
+DHT dht(DHTPIN, DHTTYPE);
 
 
 // Функция отправки данных с CSRF-токеном
 void sendDataWithCSRFToken(String data) {
   HTTPClient http;
-  // Запрос CSRF-токена
   http.begin(client, csrfTokenEndpoint);
   int httpResponseCode = http.GET();
   String csrfToken;
@@ -96,6 +95,17 @@ void getDeviceState() {
       // Получаем значения состояния устройства
       blocked = doc["blocked"];
       bool work = doc["work"];
+      int power = doc["power"];
+
+      // Выводим сообщения о состоянии устройства в зависимости от значений
+      if (work) {
+        Serial.println("Устройство включено");
+      } else {
+        Serial.println("Устройство выключено");
+      }
+
+      Serial.print("Текущая мощность: ");
+      Serial.println(power);
 
     } else {
       Serial.print("Ошибка получения состояния устройства: ");
@@ -126,16 +136,15 @@ void saveDeviceName(String name) {
 
 void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
   switch (type) {
-      case WStype_DISCONNECTED:
-          Serial.println("WebSocket отключен");
-          break;
-      case WStype_CONNECTED:
-          Serial.println("WebSocket подключен");
-          break;
-      case WStype_TEXT:
-          Serial.printf("Получены данные: %s\n", payload);
-          // Обработка полученных данных
-          break;
+    case WStype_DISCONNECTED:
+      Serial.println("WebSocket отключен");
+      break;
+    case WStype_CONNECTED:
+      Serial.println("WebSocket подключен");
+      break;
+    case WStype_TEXT:
+      Serial.printf("Получены данные: %s\n", payload);
+      break;
   }
 }
 
@@ -183,6 +192,8 @@ void setup() {
   deviceStateEndpoint = "http://exobed.lazareub.beget.tech/device/" + deviceName + "/";
 
   Serial.println("Подключено к Wi-Fi");  // Вывод сообщения о подключении к Wi-Fi
+  webSocket.begin(ws_host, ws_port, ws_path);
+  webSocket.onEvent(webSocketEvent);
 
   if (!SPIFFS.begin()) {                                    // Инициализация файловой системы SPIFFS
     Serial.println("Не удалось инициализировать SPIFFS.");  // Вывод сообщения об ошибке
@@ -255,7 +266,9 @@ void loop() {
   while (Serial.available() > 0) {  // Проверка доступности данных в последовательном порту
     gps.encode(Serial.read());      // Обработка данных GPS
   }
+
   webSocket.loop();
+
   // Проверка подключения к Wi-Fi
   if (WiFi.status() == WL_CONNECTED) {
     getDeviceState();
