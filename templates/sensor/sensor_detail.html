@@ -638,10 +638,84 @@
             transform: scale(1.1);
         }
     }
+
+    #preloader {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10000;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+    }
+
+    .loading-text {
+        margin-top: 20px;
+        font-size: 20px;
+        color: #3498db;
+    }
+
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes dots {
+        0%, 20% {
+            color: rgba(0, 0, 0, 0);
+            text-shadow: .25em 0 0 rgba(0, 0, 0, 0), .5em 0 0 rgba(0, 0, 0, 0);
+        }
+        40% {
+            color: #3498db;
+            text-shadow: .25em 0 0 rgba(0, 0, 0, 0), .5em 0 0 rgba(0, 0, 0, 0);
+        }
+        60% {
+            text-shadow: .25em 0 0 #3498db, .5em 0 0 rgba(0, 0, 0, 0);
+        }
+        80%, 100% {
+            text-shadow: .25em 0 0 #3498db, .5em 0 0 #3498db;
+        }
+    }
+
+    .loading-text:after {
+        content: ' .';
+        animation: dots 1s steps(5, end) infinite;
+    }
 </style>
 <title>Датчик {{ sensor.name }}</title>
 <body class="g-sidenav-show  bg-gray-200">
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
+<div id="preloader">
+    <div class="loader"></div>
+    <div class="loading-text">Идет загрузка данных</div>
+</div>
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark"
        id="sidenav-main">
     <div style="margin: 10px 0px 10px 0px">
         <ul class="navbar-nav">
@@ -1096,15 +1170,11 @@
 {% include 'include/script.html' %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const heartRateValue = document.getElementById('heart-rate-value');
-
-        function updateHeartRate() {
-            const newHeartRate = Math.floor(Math.random() * (100 - 60 + 1)) + 60;
-            heartRateValue.textContent = `${newHeartRate} bpm`;
-        }
-
-        setInterval(updateHeartRate, 5000);
+    document.addEventListener("DOMContentLoaded", function () {
+        window.addEventListener("load", function () {
+            var preloader = document.getElementById('preloader');
+            preloader.style.display = 'none';
+        });
     });
 </script>
 <script>
@@ -1515,6 +1585,14 @@
         if (!container.is(e.target) && container.has(e.target).length === 0) {
             container.modal('hide');
         }
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        window.addEventListener("load", function () {
+            var preloader = document.getElementById('preloader');
+            preloader.style.display = 'none';
+        });
     });
 </script>
 </body>

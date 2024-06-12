@@ -1,15 +1,16 @@
-from channels.generic.websocket import AsyncWebsocketConsumer
 import json
+from channels.generic.websocket import AsyncWebsocketConsumer
 
-
-class ESP8266Consumer(AsyncWebsocketConsumer):
+class DeviceConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.sensor_id = self.scope['url_route']['kwargs']['sensor_id']
-        self.room_group_name = f'sensor_{self.sensor_id}'
+        self.device_name = self.scope['url_route']['kwargs']['device_name']
+        self.room_group_name = f'device_{self.device_name}'
+
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
         )
+
         await self.accept()
 
     async def disconnect(self, close_code):
@@ -18,10 +19,9 @@ class ESP8266Consumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
-    async def sensor_status(self, event):
-        blocked = event['blocked']
-        # Отправка уведомления о состоянии датчика устройству
-        await self.send(text_data=json.dumps({
-            'blocked': blocked
-        }))
+    async def receive(self, text_data):
+        data = json.loads(text_data)
+        # Обрабатывайте полученные данные, если необходимо
 
+    async def send_device_state(self, event):
+        await self.send(text_data=json.dumps(event['data']))

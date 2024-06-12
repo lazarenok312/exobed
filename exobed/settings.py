@@ -57,6 +57,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'exobed.wsgi.application'
+ASGI_APPLICATION = 'exobed.asgi.application'
 
 DATABASES = {
     'default': {

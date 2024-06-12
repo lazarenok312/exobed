@@ -8,10 +8,16 @@
 #include <TinyGPS++.h>
 #include <FS.h>
 #include <ESP8266httpUpdate.h>
+#include <WebSocketsClient.h>
 
 String deviceName = "esp8266";
 String owner = "Unknown";
 String deviceStateEndpoint;
+
+WebSocketsClient webSocket;
+const char* ws_host = "exobed.lazareub.beget.tech";
+const int ws_port = 80;
+String ws_path = "/ws/device/" + deviceName + "/";
 
 const char* version = "1.0.1";
 const char* firmwareFileName = "work_sensor.ino.bin";
@@ -118,10 +124,27 @@ void saveDeviceName(String name) {
   }
 }
 
+void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
+  switch (type) {
+      case WStype_DISCONNECTED:
+          Serial.println("WebSocket отключен");
+          break;
+      case WStype_CONNECTED:
+          Serial.println("WebSocket подключен");
+          break;
+      case WStype_TEXT:
+          Serial.printf("Получены данные: %s\n", payload);
+          // Обработка полученных данных
+          break;
+  }
+}
 
 void setup() {
   Serial.begin(115200);  // Инициализация последовательного порта
   SPIFFS.begin();
+
+  webSocket.begin(ws_host, ws_port, ws_path);
+  webSocket.onEvent(webSocketEvent);
 
   dht.begin();  // Инициализация датчика DHT
 
@@ -232,7 +255,7 @@ void loop() {
   while (Serial.available() > 0) {  // Проверка доступности данных в последовательном порту
     gps.encode(Serial.read());      // Обработка данных GPS
   }
-
+  webSocket.loop();
   // Проверка подключения к Wi-Fi
   if (WiFi.status() == WL_CONNECTED) {
     getDeviceState();

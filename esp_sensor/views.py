@@ -26,6 +26,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 
 # Класс для отображения списка датчиков
 
@@ -405,6 +407,19 @@ def receive_data(request):
 
             sensor.processing_time = processing_time
             sensor.save()
+
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                f'device_{name}',
+                {
+                    'type': 'send_device_state',
+                    'data': {
+                        'name': sensor.name,
+                        'blocked': sensor.blocked,
+                        'work': sensor.work,
+                    }
+                }
+            )
 
             threshold = timedelta(minutes=5)
             time_since_last_update = timezone.now() - sensor.timestamp
