@@ -3092,69 +3092,56 @@
 					ordinal    	3
 					quidu      	"000000000000"
 					creation   	FALSE)
-				    (object Message "Вывод сообщения об ошибке"
-					quid       	"6651BC94036E"
+				    (object Message "Открыть форму добавления"
+					quid       	"666D404301D4"
 					frequency  	"Aperiodic"
-					synchronization 	"Return"
-					dir        	"ToClientFromSupplier"
-					sequence   	"4.2"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"6"
 					ordinal    	7
+					quidu      	"000000000000"
+					creation   	FALSE)
+				    (object Message "Выбор файла"
+					quid       	"666D405A007E"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"7"
+					ordinal    	8
+					quidu      	"000000000000"
+					creation   	FALSE)
+				    (object Message "Указание версии"
+					quid       	"666D406A01C7"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"8"
+					ordinal    	9
+					quidu      	"000000000000"
+					creation   	FALSE)
+				    (object Message "Загрузка файла"
+					quid       	"666D40790313"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"9"
+					ordinal    	10
 					quidu      	"000000000000"
 					creation   	FALSE))))
 			class      	"Use Case View::Usa Case::Admin"
 			quidu      	"6651B1460098"
 			persistence 	"Transient"
-			creationObj 	FALSE
-			multi      	FALSE)
-		    (object Object "Проверка наличия версии"
-			quid       	"6651B6290382"
-			collaborators 	(list link_list
-			    (object Link
-				quid       	"6651BBB90378"
-				supplier   	"Добавление прошивки в БД"
-				quidu      	"6651B7250178"
-				messages   	(list Messages
-				    (object Message "Занесение данных"
-					quid       	"6651BBB90379"
-					frequency  	"Aperiodic"
-					synchronization 	"Simple"
-					dir        	"FromClientToSupplier"
-					sequence   	"4.1.1"
-					ordinal    	5
-					quidu      	"000000000000"
-					creation   	FALSE))))
-			persistence 	"Transient"
 			creationObj 	TRUE
-			multi      	FALSE)
-		    (object Object "Добавление прошивки в БД"
-			quid       	"6651B7250178"
-			collaborators 	(list link_list
-			    (object Link
-				quid       	"6651BC4F02C6"
-				supplier   	"Администратор"
-				quidu      	"6651B14C004F"
-				messages   	(list Messages
-				    (object Message "Сообщение об успешно добавлении прошивки"
-					quid       	"6651BC4F02C7"
-					frequency  	"Aperiodic"
-					synchronization 	"Return"
-					dir        	"FromClientToSupplier"
-					sequence   	"5"
-					ordinal    	8
-					quidu      	"000000000000"
-					creation   	FALSE))))
-			persistence 	"Transient"
-			creationObj 	FALSE
 			multi      	FALSE)
 		    (object Object "$UNNAMED$45"
 			quid       	"6651B17E01BC"
 			collaborators 	(list link_list
 			    (object Link
 				quid       	"6651B7A9038D"
-				supplier   	"Проверка наличия версии"
+				supplier   	"База Данных"
 				quidu      	"6651B6290382"
 				messages   	(list Messages
-				    (object Message "Наличие прошивки с такой же версией"
+				    (object Message "Проверить(файл name.bin)"
 					quid       	"6651B7A9038E"
 					frequency  	"Aperiodic"
 					synchronization 	"Simple"
@@ -3163,19 +3150,71 @@
 					ordinal    	4
 					quidu      	"000000000000"
 					creation   	FALSE)
-				    (object Message "Такая версия уже сущестует"
-					quid       	"6651BB2102D9"
+				    (object Message "Проверить (файл name.bin)"
+					quid       	"666D40AF005F"
 					frequency  	"Aperiodic"
-					synchronization 	"Return"
-					dir        	"ToClientFromSupplier"
-					sequence   	"4.1.2"
-					ordinal    	6
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"10"
+					ordinal    	11
 					quidu      	"000000000000"
 					creation   	FALSE))))
 			class      	"Use Case View::FirmwareInterface"
 			quidu      	"6651E32B0107"
 			persistence 	"Transient"
 			creationObj 	FALSE
+			multi      	FALSE)
+		    (object Object "База Данных"
+			quid       	"6651B6290382"
+			collaborators 	(list link_list
+			    (object Link
+				quid       	"666D3EE700D5"
+				supplier   	"База Данных"
+				quidu      	"6651B6290382"
+				messages   	(list Messages
+				    (object Message "Найти (name.bin)"
+					quid       	"666D3EE700D6"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"4.1.1"
+					ordinal    	5
+					quidu      	"000000000000"
+					creation   	FALSE)
+				    (object Message "Загрузить файл"
+					quid       	"666D40BF026B"
+					frequency  	"Aperiodic"
+					synchronization 	"Simple"
+					dir        	"FromClientToSupplier"
+					sequence   	"11"
+					ordinal    	12
+					quidu      	"000000000000"
+					creation   	FALSE)))
+			    (object Link
+				quid       	"666D3F7A0220"
+				supplier   	"Администратор"
+				quidu      	"6651B14C004F"
+				messages   	(list Messages
+				    (object Message "Вывод сообщения об существующей версии"
+					quid       	"666D3F7A0221"
+					frequency  	"Aperiodic"
+					synchronization 	"Return"
+					dir        	"FromClientToSupplier"
+					sequence   	"5"
+					ordinal    	6
+					quidu      	"000000000000"
+					creation   	FALSE)
+				    (object Message "Вывод сообщения об успешной загрузке"
+					quid       	"666D40F0029D"
+					frequency  	"Aperiodic"
+					synchronization 	"Return"
+					dir        	"FromClientToSupplier"
+					sequence   	"12"
+					ordinal    	13
+					quidu      	"000000000000"
+					creation   	FALSE))))
+			persistence 	"Transient"
+			creationObj 	TRUE
 			multi      	FALSE)))
 	    (object Mechanism @116
 		logical_models 	(list unit_reference_list
@@ -3798,11 +3837,11 @@
 		zoom       	100
 		max_height 	28350
 		max_width  	21600
-		origin_x   	216
-		origin_y   	16
+		origin_x   	0
+		origin_y   	0
 		items      	(list diagram_item_list
 		    (object InterObjView "Администратор" @147
-			location   	(416, 224)
+			location   	(560, 272)
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -3815,7 +3854,7 @@
 			    default_color 	TRUE)
 			label      	(object ItemLabel
 			    Parent_View 	@147
-			    location   	(416, 249)
+			    location   	(560, 297)
 			    anchor_loc 	1
 			    nlines     	2
 			    max_width  	360
@@ -3827,33 +3866,47 @@
 			fill_color 	13434879
 			quidu      	"6651B14C004F"
 			width      	336
-			height     	1590
+			height     	2534
 			icon_height 	162
 			icon_width 	120
 			icon_y_offset 	0
 			Focus_Of_Control 	(object Focus_Of_Control "" @148
-			    location   	(416, 528)
+			    location   	(560, 336)
 			    line_color 	3342489
 			    InterObjView 	@147
-			    height     	1076
-			    y_coord    	1016
+			    height     	1162
+			    y_coord    	1102
 			    Nested     	FALSE)
 			Focus_Of_Control 	(object Focus_Of_Control "" @149
-			    location   	(416, 1424)
+			    location   	(416, 512)
+			    line_color 	3342489
+			    InterObjView 	@147
+			    height     	880
+			    y_coord    	820
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @150
+			    location   	(560, 1424)
 			    line_color 	3342489
 			    InterObjView 	@147
 			    height     	60
 			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @151
+			    location   	(560, 1696)
+			    line_color 	3342489
+			    InterObjView 	@147
+			    height     	568
+			    y_coord    	508
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @150
-			    location   	(416, 1664)
+			Focus_Of_Control 	(object Focus_Of_Control "" @152
+			    location   	(560, 2656)
 			    line_color 	3342489
 			    InterObjView 	@147
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE))
-		    (object InterObjView "$UNNAMED$45" @151
-			location   	(1168, 224)
+		    (object InterObjView "$UNNAMED$45" @153
+			location   	(1328, 224)
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -3865,8 +3918,8 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@151
-			    location   	(1168, 224)
+			    Parent_View 	@153
+			    location   	(1328, 224)
 			    fill_color 	13434879
 			    anchor_loc 	1
 			    nlines     	2
@@ -3879,137 +3932,76 @@
 			fill_color 	13434879
 			quidu      	"6651B17E01BC"
 			width      	356
-			height     	1590
+			height     	2582
 			icon_height 	0
 			icon_width 	0
 			icon_y_offset 	0
 			annotation 	1
-			Focus_Of_Control 	(object Focus_Of_Control "" @152
-			    location   	(1168, 528)
-			    line_color 	3342489
-			    InterObjView 	@151
-			    height     	60
-			    y_coord    	0
-			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @153
-			    location   	(1168, 640)
-			    line_color 	3342489
-			    InterObjView 	@151
-			    height     	60
-			    y_coord    	0
-			    Nested     	FALSE)
 			Focus_Of_Control 	(object Focus_Of_Control "" @154
-			    location   	(1168, 768)
+			    location   	(1168, 512)
 			    line_color 	3342489
-			    InterObjView 	@151
+			    InterObjView 	@153
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE)
 			Focus_Of_Control 	(object Focus_Of_Control "" @155
-			    location   	(1168, 960)
+			    location   	(1168, 624)
 			    line_color 	3342489
-			    InterObjView 	@151
-			    height     	584
-			    y_coord    	524
-			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @156
-			    location   	(1168, 1328)
-			    line_color 	3342489
-			    InterObjView 	@151
+			    InterObjView 	@153
 			    height     	60
 			    y_coord    	0
-			    Nested     	FALSE))
-		    (object InterObjView "Проверка наличия версии" @157
-			location   	(2000, 240)
-			font       	(object Font
-			    size       	10
-			    face       	"Arial"
-			    charSet    	204
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	TRUE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object ItemLabel
-			    Parent_View 	@157
-			    location   	(2000, 240)
-			    fill_color 	13434879
-			    anchor_loc 	1
-			    nlines     	2
-			    max_width  	392
-			    justify    	0
-			    label      	"Проверка наличия версии")
-			icon_style 	"Icon"
-			line_color 	3342489
-			fill_color 	13434879
-			quidu      	"6651B6290382"
-			width      	410
-			height     	1574
-			icon_height 	0
-			icon_width 	0
-			icon_y_offset 	0
-			annotation 	1
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @156
+			    location   	(1168, 768)
+			    line_color 	3342489
+			    InterObjView 	@153
+			    height     	60
+			    y_coord    	0
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @157
+			    location   	(1168, 928)
+			    line_color 	3342489
+			    InterObjView 	@153
+			    height     	404
+			    y_coord    	344
+			    Nested     	FALSE)
 			Focus_Of_Control 	(object Focus_Of_Control "" @158
-			    location   	(2000, 300)
-			    InterObjView 	@157
+			    location   	(1328, 1696)
+			    line_color 	3342489
+			    InterObjView 	@153
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE)
 			Focus_Of_Control 	(object Focus_Of_Control "" @159
-			    location   	(2000, 1040)
+			    location   	(1328, 1872)
 			    line_color 	3342489
-			    InterObjView 	@157
-			    height     	408
-			    y_coord    	348
-			    Nested     	FALSE))
-		    (object InterObjView "Добавление прошивки в БД" @160
-			location   	(2816, 224)
-			font       	(object Font
-			    size       	10
-			    face       	"Arial"
-			    charSet    	204
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	TRUE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object ItemLabel
-			    Parent_View 	@160
-			    location   	(2816, 224)
-			    fill_color 	13434879
-			    anchor_loc 	1
-			    nlines     	2
-			    max_width  	316
-			    justify    	0
-			    label      	"Добавление прошивки в БД")
-			icon_style 	"Icon"
-			line_color 	3342489
-			fill_color 	13434879
-			quidu      	"6651B7250178"
-			width      	334
-			height     	1590
-			icon_height 	0
-			icon_width 	0
-			icon_y_offset 	0
-			annotation 	1
+			    InterObjView 	@153
+			    height     	60
+			    y_coord    	0
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @160
+			    location   	(1328, 2000)
+			    line_color 	3342489
+			    InterObjView 	@153
+			    height     	60
+			    y_coord    	0
+			    Nested     	FALSE)
 			Focus_Of_Control 	(object Focus_Of_Control "" @161
-			    location   	(2816, 1168)
+			    location   	(1328, 2144)
 			    line_color 	3342489
-			    InterObjView 	@160
+			    InterObjView 	@153
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE)
 			Focus_Of_Control 	(object Focus_Of_Control "" @162
-			    location   	(2816, 1604)
+			    location   	(1328, 2240)
 			    line_color 	3342489
-			    InterObjView 	@160
-			    height     	60
-			    y_coord    	0
+			    InterObjView 	@153
+			    height     	120
+			    y_coord    	60
 			    Nested     	FALSE))
 		    (object InterMessView "" @163
-			location   	(16, 528)
+			location   	(944, 512)
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -4022,7 +4014,7 @@
 			    default_color 	TRUE)
 			label      	(object SegLabel @164
 			    Parent_View 	@163
-			    location   	(791, 484)
+			    location   	(975, 467)
 			    font       	(object Font
 				size       	10
 				face       	"Arial"
@@ -4036,22 +4028,22 @@
 			    quidu      	"6651B75500FC"
 			    anchor_loc 	1
 			    nlines     	1
-			    max_width  	516
+			    max_width  	800
 			    justify    	0
 			    label      	"Открыть форму добавления"
-			    pctDist    	0.500000
+			    pctDist    	0.542741
 			    height     	45
 			    orientation 	0)
 			line_color 	3342489
 			client     	@147
-			supplier   	@151
-			Focus_Src  	@148
-			Focus_Entry 	@152
-			origin     	(431, 528)
-			terminus   	(1152, 528)
+			supplier   	@153
+			Focus_Src  	@149
+			Focus_Entry 	@154
+			origin     	(575, 512)
+			terminus   	(1312, 512)
 			ordinal    	0)
 		    (object InterMessView "" @165
-			location   	(16, 640)
+			location   	(944, 624)
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -4064,7 +4056,7 @@
 			    default_color 	TRUE)
 			label      	(object SegLabel @166
 			    Parent_View 	@165
-			    location   	(792, 612)
+			    location   	(944, 596)
 			    font       	(object Font
 				size       	10
 				face       	"Arial"
@@ -4086,14 +4078,14 @@
 			    orientation 	0)
 			line_color 	3342489
 			client     	@147
-			supplier   	@151
-			Focus_Src  	@148
-			Focus_Entry 	@153
-			origin     	(431, 640)
-			terminus   	(1152, 640)
+			supplier   	@153
+			Focus_Src  	@149
+			Focus_Entry 	@155
+			origin     	(575, 624)
+			terminus   	(1312, 624)
 			ordinal    	1)
 		    (object InterMessView "" @167
-			location   	(16, 768)
+			location   	(944, 768)
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -4106,7 +4098,7 @@
 			    default_color 	TRUE)
 			label      	(object SegLabel @168
 			    Parent_View 	@167
-			    location   	(791, 724)
+			    location   	(943, 724)
 			    font       	(object Font
 				size       	10
 				face       	"Arial"
@@ -4128,14 +4120,14 @@
 			    orientation 	0)
 			line_color 	3342489
 			client     	@147
-			supplier   	@151
-			Focus_Src  	@148
-			Focus_Entry 	@154
-			origin     	(431, 768)
-			terminus   	(1152, 768)
+			supplier   	@153
+			Focus_Src  	@149
+			Focus_Entry 	@156
+			origin     	(575, 768)
+			terminus   	(1312, 768)
 			ordinal    	2)
 		    (object InterMessView "" @169
-			location   	(16, 960)
+			location   	(944, 928)
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -4148,7 +4140,7 @@
 			    default_color 	TRUE)
 			label      	(object SegLabel @170
 			    Parent_View 	@169
-			    location   	(791, 916)
+			    location   	(943, 884)
 			    font       	(object Font
 				size       	10
 				face       	"Arial"
@@ -4170,14 +4162,14 @@
 			    orientation 	0)
 			line_color 	3342489
 			client     	@147
-			supplier   	@151
-			Focus_Src  	@148
-			Focus_Entry 	@155
-			origin     	(431, 960)
-			terminus   	(1152, 960)
+			supplier   	@153
+			Focus_Src  	@149
+			Focus_Entry 	@157
+			origin     	(575, 928)
+			terminus   	(1312, 928)
 			ordinal    	3)
-		    (object InterMessView "" @171
-			location   	(16, 1040)
+		    (object NoteView @171
+			location   	(288, 912)
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -4188,9 +4180,119 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @172
+			label      	(object ItemLabel
 			    Parent_View 	@171
-			    location   	(1583, 996)
+			    location   	(110, 349)
+			    fill_color 	16777215
+			    nlines     	22
+			    max_width  	321
+			    label      	"Сценарий проверки наличия нужного файла прошивки")
+			line_color 	3342489
+			fill_color 	13434879
+			width      	381
+			height     	1138)
+		    (object InterObjView "База Данных" @172
+			location   	(2192, 240)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    charSet    	204
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	TRUE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@172
+			    location   	(2192, 240)
+			    fill_color 	13434879
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	282
+			    justify    	0
+			    label      	"База Данных")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"6651B6290382"
+			width      	300
+			height     	2566
+			icon_height 	0
+			icon_width 	0
+			icon_y_offset 	0
+			annotation 	1
+			Focus_Of_Control 	(object Focus_Of_Control "" @173
+			    location   	(2192, 304)
+			    line_color 	3342489
+			    InterObjView 	@172
+			    height     	60
+			    y_coord    	0
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @174
+			    location   	(2336, 1056)
+			    line_color 	3342489
+			    InterObjView 	@172
+			    height     	216
+			    y_coord    	156
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @175
+			    location   	(2032, 1152)
+			    line_color 	3342489
+			    InterObjView 	@172
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @176
+			    location   	(2192, 1364)
+			    line_color 	3342489
+			    InterObjView 	@172
+			    height     	60
+			    y_coord    	0
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @177
+			    location   	(2192, 2240)
+			    line_color 	3342489
+			    InterObjView 	@172
+			    height     	60
+			    y_coord    	0
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @178
+			    location   	(2192, 2416)
+			    line_color 	3342489
+			    InterObjView 	@172
+			    height     	120
+			    y_coord    	60
+			    Nested     	FALSE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @179
+			    location   	(2192, 2416)
+			    line_color 	3342489
+			    InterObjView 	@172
+			    height     	60
+			    y_coord    	0
+			    Nested     	TRUE)
+			Focus_Of_Control 	(object Focus_Of_Control "" @180
+			    location   	(2192, 2596)
+			    line_color 	3342489
+			    InterObjView 	@172
+			    height     	60
+			    y_coord    	0
+			    Nested     	FALSE))
+		    (object InterMessView "" @181
+			location   	(1760, 1056)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    charSet    	204
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object SegLabel @182
+			    Parent_View 	@181
+			    location   	(1758, 1012)
 			    font       	(object Font
 				size       	10
 				face       	"Arial"
@@ -4204,22 +4306,22 @@
 			    quidu      	"6651B7A9038E"
 			    anchor_loc 	1
 			    nlines     	1
-			    max_width  	716
+			    max_width  	500
 			    justify    	0
-			    label      	"Наличие прошивки с такой же версией"
-			    pctDist    	0.500000
+			    label      	"Проверить(файл name.bin)"
+			    pctDist    	0.498199
 			    height     	45
 			    orientation 	0)
 			line_color 	3342489
-			client     	@151
-			supplier   	@157
-			Focus_Src  	@155
-			Focus_Entry 	@159
-			origin     	(1183, 1040)
-			terminus   	(1984, 1040)
+			client     	@153
+			supplier   	@172
+			Focus_Src  	@157
+			Focus_Entry 	@174
+			origin     	(1343, 1056)
+			terminus   	(2176, 1056)
 			ordinal    	4)
-		    (object InterMessView "" @173
-			location   	(2272, 1168)
+		    (object SelfMessView "" @183
+			location   	(16, 1152)
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -4230,9 +4332,9 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @174
-			    Parent_View 	@173
-			    location   	(2407, 1124)
+			label      	(object SegLabel @184
+			    Parent_View 	@183
+			    location   	(2378, 1109)
 			    font       	(object Font
 				size       	10
 				face       	"Arial"
@@ -4243,25 +4345,25 @@
 				strike     	FALSE
 				color      	0
 				default_color 	TRUE)
-			    quidu      	"6651BBB90379"
+			    quidu      	"666D3EE700D6"
 			    anchor_loc 	1
 			    nlines     	1
-			    max_width  	351
+			    max_width  	313
 			    justify    	0
-			    label      	"Занесение данных"
-			    pctDist    	0.500000
-			    height     	45
+			    label      	"Найти (name.bin)"
+			    pctDist    	1.140000
+			    height     	44
 			    orientation 	0)
 			line_color 	3342489
-			client     	@157
-			supplier   	@160
-			Focus_Src  	@159
-			Focus_Entry 	@161
-			origin     	(2015, 1168)
-			terminus   	(2800, 1168)
+			client     	@172
+			supplier   	@172
+			Focus_Src  	@174
+			Focus_Entry 	@175
+			origin     	(2208, 1152)
+			terminus   	(2358, 1152)
 			ordinal    	5)
-		    (object InterMessView "" @175
-			location   	(16, 1328)
+		    (object InterMessView "" @185
+			location   	(1376, 1424)
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -4272,9 +4374,9 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @176
-			    Parent_View 	@175
-			    location   	(1584, 1284)
+			label      	(object SegLabel @186
+			    Parent_View 	@185
+			    location   	(1376, 1381)
 			    font       	(object Font
 				size       	10
 				face       	"Arial"
@@ -4285,67 +4387,25 @@
 				strike     	FALSE
 				color      	0
 				default_color 	TRUE)
-			    quidu      	"6651BB2102D9"
+			    quidu      	"666D3F7A0221"
 			    anchor_loc 	1
 			    nlines     	1
-			    max_width  	535
+			    max_width  	842
 			    justify    	0
-			    label      	"Такая версия уже сущестует"
+			    label      	"Вывод сообщения об существующей версии"
 			    pctDist    	0.500000
-			    height     	45
+			    height     	43
 			    orientation 	1)
 			line_color 	3342489
-			client     	@157
-			supplier   	@151
-			Focus_Src  	@159
-			Focus_Entry 	@156
-			origin     	(1984, 1328)
-			terminus   	(1184, 1328)
-			ordinal    	6)
-		    (object InterMessView "" @177
-			location   	(1504, 1664)
-			font       	(object Font
-			    size       	10
-			    face       	"Arial"
-			    charSet    	204
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object SegLabel @178
-			    Parent_View 	@177
-			    location   	(1616, 1620)
-			    font       	(object Font
-				size       	10
-				face       	"Arial"
-				charSet    	204
-				bold       	FALSE
-				italics    	FALSE
-				underline  	FALSE
-				strike     	FALSE
-				color      	0
-				default_color 	TRUE)
-			    quidu      	"6651BC4F02C7"
-			    anchor_loc 	1
-			    nlines     	1
-			    max_width  	863
-			    justify    	0
-			    label      	"Сообщение об успешно добавлении прошивки"
-			    pctDist    	0.500000
-			    height     	45
-			    orientation 	1)
-			line_color 	3342489
-			client     	@160
+			client     	@172
 			supplier   	@147
-			Focus_Src  	@162
+			Focus_Src  	@176
 			Focus_Entry 	@150
-			origin     	(2800, 1664)
-			terminus   	(432, 1664)
-			ordinal    	8)
-		    (object InterMessView "" @179
-			location   	(16, 1424)
+			origin     	(2176, 1424)
+			terminus   	(576, 1424)
+			ordinal    	6)
+		    (object NoteView @187
+			location   	(288, 2288)
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -4356,52 +4416,311 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @180
-			    Parent_View 	@179
-			    location   	(792, 1380)
-			    font       	(object Font
-				size       	10
-				face       	"Arial"
-				charSet    	204
-				bold       	FALSE
-				italics    	FALSE
-				underline  	FALSE
-				strike     	FALSE
-				color      	0
-				default_color 	TRUE)
-			    quidu      	"6651BC94036E"
-			    anchor_loc 	1
-			    nlines     	1
-			    max_width  	551
-			    justify    	0
-			    label      	"Вывод сообщения об ошибке"
-			    pctDist    	0.500000
-			    height     	45
-			    orientation 	1)
-			line_color 	3342489
-			client     	@151
-			supplier   	@147
-			Focus_Src  	@155
-			Focus_Entry 	@149
-			origin     	(1152, 1424)
-			terminus   	(432, 1424)
-			ordinal    	7)
-		    (object NoteView @181
-			location   	(224, 752)
-			font       	(object Font
-			    size       	10
-			    face       	"Arial"
-			    charSet    	204
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@187
+			    location   	(110, 1703)
+			    fill_color 	16777215
+			    nlines     	23
+			    max_width  	321
+			    label      	"Сценарий загрузки нового файла прошивки в БД")
 			line_color 	3342489
 			fill_color 	13434879
-			width      	300
-			height     	450)))
+			width      	381
+			height     	1182)
+		    (object InterMessView "" @188
+			location   	(16, 1696)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    charSet    	204
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object SegLabel @189
+			    Parent_View 	@188
+			    location   	(943, 1652)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				charSet    	204
+				bold       	FALSE
+				italics    	FALSE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    quidu      	"666D404301D4"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	516
+			    justify    	0
+			    label      	"Открыть форму добавления"
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	0)
+			line_color 	3342489
+			client     	@147
+			supplier   	@153
+			Focus_Src  	@151
+			Focus_Entry 	@158
+			origin     	(575, 1696)
+			terminus   	(1312, 1696)
+			ordinal    	7)
+		    (object InterMessView "" @190
+			location   	(944, 1872)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    charSet    	204
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object SegLabel @191
+			    Parent_View 	@190
+			    location   	(943, 1828)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				charSet    	204
+				bold       	FALSE
+				italics    	FALSE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    quidu      	"666D405A007E"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	254
+			    justify    	0
+			    label      	"Выбор файла"
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	0)
+			line_color 	3342489
+			client     	@147
+			supplier   	@153
+			Focus_Src  	@151
+			Focus_Entry 	@159
+			origin     	(575, 1872)
+			terminus   	(1312, 1872)
+			ordinal    	8)
+		    (object InterMessView "" @192
+			location   	(944, 2000)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    charSet    	204
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object SegLabel @193
+			    Parent_View 	@192
+			    location   	(943, 1956)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				charSet    	204
+				bold       	FALSE
+				italics    	FALSE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    quidu      	"666D406A01C7"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	310
+			    justify    	0
+			    label      	"Указание версии"
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	0)
+			line_color 	3342489
+			client     	@147
+			supplier   	@153
+			Focus_Src  	@151
+			Focus_Entry 	@160
+			origin     	(575, 2000)
+			terminus   	(1312, 2000)
+			ordinal    	9)
+		    (object InterMessView "" @194
+			location   	(944, 2144)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    charSet    	204
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object SegLabel @195
+			    Parent_View 	@194
+			    location   	(943, 2100)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				charSet    	204
+				bold       	FALSE
+				italics    	FALSE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    quidu      	"666D40790313"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	294
+			    justify    	0
+			    label      	"Загрузка файла"
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	0)
+			line_color 	3342489
+			client     	@147
+			supplier   	@153
+			Focus_Src  	@151
+			Focus_Entry 	@161
+			origin     	(575, 2144)
+			terminus   	(1312, 2144)
+			ordinal    	10)
+		    (object InterMessView "" @196
+			location   	(16, 2240)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    charSet    	204
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object SegLabel @197
+			    Parent_View 	@196
+			    location   	(1759, 2196)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				charSet    	204
+				bold       	FALSE
+				italics    	FALSE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    quidu      	"666D40AF005F"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	498
+			    justify    	0
+			    label      	"Проверить (файл name.bin)"
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	0)
+			line_color 	3342489
+			client     	@153
+			supplier   	@172
+			Focus_Src  	@162
+			Focus_Entry 	@177
+			origin     	(1343, 2240)
+			terminus   	(2176, 2240)
+			ordinal    	11)
+		    (object SelfMessView "" @198
+			location   	(16, 2416)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    charSet    	204
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object SegLabel @199
+			    Parent_View 	@198
+			    location   	(2361, 2357)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				charSet    	204
+				bold       	FALSE
+				italics    	FALSE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    quidu      	"666D40BF026B"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	291
+			    justify    	0
+			    label      	"Загрузить файл"
+			    pctDist    	1.026667
+			    height     	60
+			    orientation 	0)
+			line_color 	3342489
+			client     	@172
+			supplier   	@172
+			Focus_Src  	@178
+			Focus_Entry 	@179
+			origin     	(2208, 2416)
+			terminus   	(2358, 2416)
+			ordinal    	12)
+		    (object InterMessView "" @200
+			location   	(16, 2656)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    charSet    	204
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object SegLabel @201
+			    Parent_View 	@200
+			    location   	(1376, 2612)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				charSet    	204
+				bold       	FALSE
+				italics    	FALSE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    quidu      	"666D40F0029D"
+			    anchor_loc 	1
+			    nlines     	1
+			    max_width  	763
+			    justify    	0
+			    label      	"Вывод сообщения об успешной загрузке"
+			    pctDist    	0.500000
+			    height     	45
+			    orientation 	1)
+			line_color 	3342489
+			client     	@172
+			supplier   	@147
+			Focus_Src  	@180
+			Focus_Entry 	@152
+			origin     	(2176, 2656)
+			terminus   	(576, 2656)
+			ordinal    	13)))
 	    (object InteractionDiagram "edit"
 		mechanism_ref 	@116
 		quid       	"6656F8EF01B6"
@@ -4412,7 +4731,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object InterObjView "$UNNAMED$46" @182
+		    (object InterObjView "$UNNAMED$46" @202
 			location   	(368, 224)
 			font       	(object Font
 			    size       	10
@@ -4425,7 +4744,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@182
+			    Parent_View 	@202
 			    location   	(368, 249)
 			    anchor_loc 	1
 			    nlines     	2
@@ -4443,21 +4762,21 @@
 			icon_width 	120
 			icon_y_offset 	0
 			annotation 	1
-			Focus_Of_Control 	(object Focus_Of_Control "" @183
+			Focus_Of_Control 	(object Focus_Of_Control "" @203
 			    location   	(368, 480)
 			    line_color 	3342489
-			    InterObjView 	@182
+			    InterObjView 	@202
 			    height     	228
 			    y_coord    	168
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @184
+			Focus_Of_Control 	(object Focus_Of_Control "" @204
 			    location   	(368, 1040)
 			    line_color 	3342489
-			    InterObjView 	@182
+			    InterObjView 	@202
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE))
-		    (object InterObjView "$UNNAMED$47" @185
+		    (object InterObjView "$UNNAMED$47" @205
 			location   	(992, 224)
 			font       	(object Font
 			    size       	10
@@ -4470,7 +4789,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@185
+			    Parent_View 	@205
 			    location   	(992, 224)
 			    fill_color 	13434879
 			    anchor_loc 	1
@@ -4489,28 +4808,28 @@
 			icon_width 	0
 			icon_y_offset 	0
 			annotation 	1
-			Focus_Of_Control 	(object Focus_Of_Control "" @186
+			Focus_Of_Control 	(object Focus_Of_Control "" @206
 			    location   	(992, 480)
 			    line_color 	3342489
-			    InterObjView 	@185
+			    InterObjView 	@205
 			    height     	168
 			    y_coord    	108
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @187
+			Focus_Of_Control 	(object Focus_Of_Control "" @207
 			    location   	(992, 528)
 			    line_color 	3342489
-			    InterObjView 	@185
+			    InterObjView 	@205
 			    height     	60
 			    y_coord    	0
 			    Nested     	TRUE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @188
+			Focus_Of_Control 	(object Focus_Of_Control "" @208
 			    location   	(992, 688)
 			    line_color 	3342489
-			    InterObjView 	@185
+			    InterObjView 	@205
 			    height     	244
 			    y_coord    	184
 			    Nested     	FALSE))
-		    (object InterObjView "База данных" @189
+		    (object InterObjView "База данных" @209
 			location   	(1568, 240)
 			font       	(object Font
 			    size       	10
@@ -4523,7 +4842,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@189
+			    Parent_View 	@209
 			    location   	(1568, 240)
 			    fill_color 	13434879
 			    anchor_loc 	1
@@ -4541,34 +4860,34 @@
 			icon_width 	0
 			icon_y_offset 	0
 			annotation 	1
-			Focus_Of_Control 	(object Focus_Of_Control "" @190
+			Focus_Of_Control 	(object Focus_Of_Control "" @210
 			    location   	(1568, 300)
-			    InterObjView 	@189
+			    InterObjView 	@209
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @191
+			Focus_Of_Control 	(object Focus_Of_Control "" @211
 			    location   	(1568, 688)
 			    line_color 	3342489
-			    InterObjView 	@189
+			    InterObjView 	@209
 			    height     	184
 			    y_coord    	124
 			    Nested     	FALSE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @192
+			Focus_Of_Control 	(object Focus_Of_Control "" @212
 			    location   	(1568, 752)
 			    line_color 	3342489
-			    InterObjView 	@189
+			    InterObjView 	@209
 			    height     	60
 			    y_coord    	0
 			    Nested     	TRUE)
-			Focus_Of_Control 	(object Focus_Of_Control "" @193
+			Focus_Of_Control 	(object Focus_Of_Control "" @213
 			    location   	(1568, 980)
 			    line_color 	3342489
-			    InterObjView 	@189
+			    InterObjView 	@209
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE))
-		    (object InterMessView "" @194
+		    (object InterMessView "" @214
 			location   	(16, 480)
 			font       	(object Font
 			    size       	10
@@ -4580,8 +4899,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @195
-			    Parent_View 	@194
+			label      	(object SegLabel @215
+			    Parent_View 	@214
 			    location   	(679, 436)
 			    font       	(object Font
 				size       	10
@@ -4603,14 +4922,14 @@
 			    height     	45
 			    orientation 	0)
 			line_color 	3342489
-			client     	@182
-			supplier   	@185
-			Focus_Src  	@183
-			Focus_Entry 	@186
+			client     	@202
+			supplier   	@205
+			Focus_Src  	@203
+			Focus_Entry 	@206
 			origin     	(383, 480)
 			terminus   	(976, 480)
 			ordinal    	0)
-		    (object SelfMessView "" @196
+		    (object SelfMessView "" @216
 			location   	(16, 528)
 			font       	(object Font
 			    size       	10
@@ -4622,8 +4941,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @197
-			    Parent_View 	@196
+			label      	(object SegLabel @217
+			    Parent_View 	@216
 			    location   	(1195, 501)
 			    font       	(object Font
 				size       	10
@@ -4645,14 +4964,14 @@
 			    height     	28
 			    orientation 	0)
 			line_color 	3342489
-			client     	@185
-			supplier   	@185
-			Focus_Src  	@186
-			Focus_Entry 	@187
+			client     	@205
+			supplier   	@205
+			Focus_Src  	@206
+			Focus_Entry 	@207
 			origin     	(1008, 528)
 			terminus   	(1158, 528)
 			ordinal    	1)
-		    (object InterMessView "" @198
+		    (object InterMessView "" @218
 			location   	(16, 688)
 			font       	(object Font
 			    size       	10
@@ -4664,8 +4983,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @199
-			    Parent_View 	@198
+			label      	(object SegLabel @219
+			    Parent_View 	@218
 			    location   	(1279, 644)
 			    font       	(object Font
 				size       	10
@@ -4687,14 +5006,14 @@
 			    height     	45
 			    orientation 	0)
 			line_color 	3342489
-			client     	@185
-			supplier   	@189
-			Focus_Src  	@188
-			Focus_Entry 	@191
+			client     	@205
+			supplier   	@209
+			Focus_Src  	@208
+			Focus_Entry 	@211
 			origin     	(1007, 688)
 			terminus   	(1552, 688)
 			ordinal    	2)
-		    (object SelfMessView "" @200
+		    (object SelfMessView "" @220
 			location   	(16, 752)
 			font       	(object Font
 			    size       	10
@@ -4706,8 +5025,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @201
-			    Parent_View 	@200
+			label      	(object SegLabel @221
+			    Parent_View 	@220
 			    location   	(1899, 724)
 			    font       	(object Font
 				size       	10
@@ -4729,14 +5048,14 @@
 			    height     	29
 			    orientation 	0)
 			line_color 	3342489
-			client     	@189
-			supplier   	@189
-			Focus_Src  	@191
-			Focus_Entry 	@192
+			client     	@209
+			supplier   	@209
+			Focus_Src  	@211
+			Focus_Entry 	@212
 			origin     	(1584, 752)
 			terminus   	(1734, 752)
 			ordinal    	3)
-		    (object InterMessView "" @202
+		    (object InterMessView "" @222
 			location   	(944, 1040)
 			font       	(object Font
 			    size       	10
@@ -4748,8 +5067,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			label      	(object SegLabel @203
-			    Parent_View 	@202
+			label      	(object SegLabel @223
+			    Parent_View 	@222
 			    location   	(968, 996)
 			    font       	(object Font
 				size       	10
@@ -4771,10 +5090,10 @@
 			    height     	45
 			    orientation 	1)
 			line_color 	3342489
-			client     	@189
-			supplier   	@182
-			Focus_Src  	@193
-			Focus_Entry 	@184
+			client     	@209
+			supplier   	@202
+			Focus_Src  	@213
+			Focus_Entry 	@204
 			origin     	(1552, 1040)
 			terminus   	(384, 1040)
 			ordinal    	4)))))
@@ -5038,7 +5357,7 @@
 		origin_x   	0
 		origin_y   	300
 		items      	(list diagram_item_list
-		    (object ClassView "Class" "Use Case View::Firmware" @204
+		    (object ClassView "Class" "Use Case View::Firmware" @224
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -5054,7 +5373,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@204
+			    Parent_View 	@224
 			    location   	(2248, 125)
 			    fill_color 	13434879
 			    nlines     	1
@@ -5066,7 +5385,7 @@
 			fill_color 	13434879
 			quidu      	"664C31C301C3"
 			compartment 	(object Compartment
-			    Parent_View 	@204
+			    Parent_View 	@224
 			    location   	(2248, 230)
 			    font       	(object Font
 				size       	10
@@ -5087,7 +5406,7 @@
 			height     	382
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Use Case View::Profile" @205
+		    (object ClassView "Class" "Use Case View::Profile" @225
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -5103,7 +5422,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@205
+			    Parent_View 	@225
 			    location   	(2245, 562)
 			    fill_color 	13434879
 			    nlines     	1
@@ -5115,7 +5434,7 @@
 			fill_color 	13434879
 			quidu      	"664C6E700020"
 			compartment 	(object Compartment
-			    Parent_View 	@205
+			    Parent_View 	@225
 			    location   	(2245, 667)
 			    font       	(object Font
 				size       	10
@@ -5136,7 +5455,7 @@
 			height     	788
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Use Case View::User" @206
+		    (object ClassView "Class" "Use Case View::User" @226
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -5152,7 +5471,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@206
+			    Parent_View 	@226
 			    location   	(2238, 1475)
 			    fill_color 	13434879
 			    nlines     	1
@@ -5164,7 +5483,7 @@
 			fill_color 	13434879
 			quidu      	"664D996903B3"
 			compartment 	(object Compartment
-			    Parent_View 	@206
+			    Parent_View 	@226
 			    location   	(2238, 1580)
 			    font       	(object Font
 				size       	10
@@ -5185,7 +5504,7 @@
 			height     	882
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Logical View::Message" @207
+		    (object ClassView "Class" "Logical View::Message" @227
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -5201,7 +5520,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@207
+			    Parent_View 	@227
 			    location   	(2942, 1257)
 			    fill_color 	13434879
 			    nlines     	1
@@ -5213,7 +5532,7 @@
 			fill_color 	13434879
 			quidu      	"6651C13A0077"
 			compartment 	(object Compartment
-			    Parent_View 	@207
+			    Parent_View 	@227
 			    location   	(2942, 1318)
 			    font       	(object Font
 				size       	10
@@ -5234,7 +5553,7 @@
 			height     	486
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Use Case View::UserInterface" @208
+		    (object ClassView "Class" "Use Case View::UserInterface" @228
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -5250,7 +5569,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@208
+			    Parent_View 	@228
 			    location   	(3103, 2012)
 			    anchor_loc 	1
 			    nlines     	2
@@ -5263,7 +5582,7 @@
 			fill_color 	13434879
 			quidu      	"6651E1EA0165"
 			compartment 	(object Compartment
-			    Parent_View 	@208
+			    Parent_View 	@228
 			    location   	(2914, 2097)
 			    font       	(object Font
 				size       	10
@@ -5284,7 +5603,7 @@
 			height     	58
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Use Case View::MessageInterface" @209
+		    (object ClassView "Class" "Use Case View::MessageInterface" @229
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -5300,7 +5619,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@209
+			    Parent_View 	@229
 			    location   	(3727, 1596)
 			    anchor_loc 	1
 			    nlines     	2
@@ -5313,7 +5632,7 @@
 			fill_color 	13434879
 			quidu      	"6651E25D0252"
 			compartment 	(object Compartment
-			    Parent_View 	@209
+			    Parent_View 	@229
 			    location   	(3563, 1681)
 			    font       	(object Font
 				size       	10
@@ -5334,7 +5653,7 @@
 			height     	58
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Use Case View::ProfileInterface" @210
+		    (object ClassView "Class" "Use Case View::ProfileInterface" @230
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -5350,7 +5669,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@210
+			    Parent_View 	@230
 			    location   	(3471, 1052)
 			    anchor_loc 	1
 			    nlines     	2
@@ -5363,7 +5682,7 @@
 			fill_color 	13434879
 			quidu      	"6651E2E30117"
 			compartment 	(object Compartment
-			    Parent_View 	@210
+			    Parent_View 	@230
 			    location   	(3364, 1137)
 			    font       	(object Font
 				size       	10
@@ -5384,7 +5703,7 @@
 			height     	58
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Use Case View::FirmwareInterface" @211
+		    (object ClassView "Class" "Use Case View::FirmwareInterface" @231
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -5400,7 +5719,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@211
+			    Parent_View 	@231
 			    location   	(3263, 412)
 			    anchor_loc 	1
 			    nlines     	2
@@ -5413,7 +5732,7 @@
 			fill_color 	13434879
 			quidu      	"6651E32B0107"
 			compartment 	(object Compartment
-			    Parent_View 	@211
+			    Parent_View 	@231
 			    location   	(3156, 497)
 			    font       	(object Font
 				size       	10
@@ -5434,7 +5753,7 @@
 			height     	58
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Use Case View::SensorInteface" @212
+		    (object ClassView "Class" "Use Case View::SensorInteface" @232
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -5450,7 +5769,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@212
+			    Parent_View 	@232
 			    location   	(815, 236)
 			    anchor_loc 	1
 			    nlines     	2
@@ -5463,7 +5782,7 @@
 			fill_color 	13434879
 			quidu      	"6651E38702C8"
 			compartment 	(object Compartment
-			    Parent_View 	@212
+			    Parent_View 	@232
 			    location   	(636, 321)
 			    font       	(object Font
 				size       	10
@@ -5484,7 +5803,7 @@
 			height     	58
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Logical View::LogInterface" @213
+		    (object ClassView "Class" "Logical View::LogInterface" @233
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -5500,7 +5819,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@213
+			    Parent_View 	@233
 			    location   	(191, 1004)
 			    anchor_loc 	1
 			    nlines     	2
@@ -5513,7 +5832,7 @@
 			fill_color 	13434879
 			quidu      	"66549AAE02DB"
 			compartment 	(object Compartment
-			    Parent_View 	@213
+			    Parent_View 	@233
 			    location   	(18, 1045)
 			    font       	(object Font
 				size       	10
@@ -5534,7 +5853,7 @@
 			height     	58
 			annotation 	8
 			autoResize 	TRUE)
-		    (object RealizeView "" @214
+		    (object RealizeView "" @234
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -5545,8 +5864,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			stereotype 	(object SegLabel @215
-			    Parent_View 	@214
+			stereotype 	(object SegLabel @235
+			    Parent_View 	@234
 			    location   	(3503, 1464)
 			    font       	(object Font
 				size       	10
@@ -5569,10 +5888,10 @@
 			    orientation 	0)
 			line_color 	3342489
 			quidu      	"66549E4403CE"
-			client     	@207
-			supplier   	@209
+			client     	@227
+			supplier   	@229
 			line_style 	0)
-		    (object RealizeView "" @216
+		    (object RealizeView "" @236
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -5583,8 +5902,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			stereotype 	(object SegLabel @217
-			    Parent_View 	@216
+			stereotype 	(object SegLabel @237
+			    Parent_View 	@236
 			    location   	(2885, 1867)
 			    font       	(object Font
 				size       	10
@@ -5607,17 +5926,17 @@
 			    orientation 	0)
 			line_color 	3342489
 			quidu      	"6651E23602DE"
-			client     	@206
-			supplier   	@208
+			client     	@226
+			supplier   	@228
 			line_style 	0)
-		    (object UsesView "" @218
+		    (object UsesView "" @238
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6654A4DB008C"
-			client     	@205
-			supplier   	@206
+			client     	@225
+			supplier   	@226
 			line_style 	0)
-		    (object ClassView "Class" "Use Case View::Country" @219
+		    (object ClassView "Class" "Use Case View::Country" @239
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -5633,7 +5952,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@219
+			    Parent_View 	@239
 			    location   	(620, 1278)
 			    fill_color 	13434879
 			    nlines     	1
@@ -5645,7 +5964,7 @@
 			fill_color 	13434879
 			quidu      	"664C2A5A01A5"
 			compartment 	(object Compartment
-			    Parent_View 	@219
+			    Parent_View 	@239
 			    location   	(620, 1383)
 			    font       	(object Font
 				size       	10
@@ -5666,7 +5985,7 @@
 			height     	381
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Use Case View::City" @220
+		    (object ClassView "Class" "Use Case View::City" @240
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -5682,7 +6001,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@220
+			    Parent_View 	@240
 			    location   	(623, 1777)
 			    fill_color 	13434879
 			    nlines     	1
@@ -5694,7 +6013,7 @@
 			fill_color 	13434879
 			quidu      	"664C2AFE017E"
 			compartment 	(object Compartment
-			    Parent_View 	@220
+			    Parent_View 	@240
 			    location   	(623, 1882)
 			    font       	(object Font
 				size       	10
@@ -5715,7 +6034,7 @@
 			height     	438
 			annotation 	8
 			autoResize 	TRUE)
-		    (object AssociationViewNew "$UNNAMED$75" @221
+		    (object AssociationViewNew "$UNNAMED$75" @241
 			location   	(848, 1705)
 			font       	(object Font
 			    size       	10
@@ -5731,25 +6050,25 @@
 			line_color 	3342489
 			quidu      	"66558D7D020B"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$76" @222
-				Parent_View 	@221
+			    (object RoleView "$UNNAMED$76" @242
+				Parent_View 	@241
 				location   	(-1024, -711)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"66558D7E01AD"
-				client     	@221
-				supplier   	@219
+				client     	@241
+				supplier   	@239
 				line_style 	0)
-			    (object RoleView "$UNNAMED$77" @223
-				Parent_View 	@221
+			    (object RoleView "$UNNAMED$77" @243
+				Parent_View 	@241
 				location   	(-1024, -711)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"66558D7E01B4"
-				client     	@221
-				supplier   	@220
+				client     	@241
+				supplier   	@240
 				line_style 	0)))
-		    (object ClassView "Class" "Use Case View::SensorLog" @224
+		    (object ClassView "Class" "Use Case View::SensorLog" @244
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -5765,7 +6084,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@224
+			    Parent_View 	@244
 			    location   	(620, 593)
 			    fill_color 	13434879
 			    nlines     	1
@@ -5777,7 +6096,7 @@
 			fill_color 	13434879
 			quidu      	"664C31A000FE"
 			compartment 	(object Compartment
-			    Parent_View 	@224
+			    Parent_View 	@244
 			    location   	(620, 698)
 			    font       	(object Font
 				size       	10
@@ -5798,7 +6117,7 @@
 			height     	631
 			annotation 	8
 			autoResize 	TRUE)
-		    (object RealizeView "" @225
+		    (object RealizeView "" @245
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -5809,8 +6128,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			stereotype 	(object SegLabel @226
-			    Parent_View 	@225
+			stereotype 	(object SegLabel @246
+			    Parent_View 	@245
 			    location   	(445, 874)
 			    font       	(object Font
 				size       	10
@@ -5833,10 +6152,10 @@
 			    orientation 	1)
 			line_color 	3342489
 			quidu      	"66549E5203AA"
-			client     	@224
-			supplier   	@213
+			client     	@244
+			supplier   	@233
 			line_style 	0)
-		    (object ClassView "Class" "Use Case View::Sensor" @227
+		    (object ClassView "Class" "Use Case View::Sensor" @247
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -5852,7 +6171,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@227
+			    Parent_View 	@247
 			    location   	(1347, 119)
 			    fill_color 	13434879
 			    nlines     	1
@@ -5864,7 +6183,7 @@
 			fill_color 	13434879
 			quidu      	"664C0BEE0313"
 			compartment 	(object Compartment
-			    Parent_View 	@227
+			    Parent_View 	@247
 			    location   	(1347, 224)
 			    font       	(object Font
 				size       	10
@@ -5885,21 +6204,21 @@
 			height     	1963
 			annotation 	8
 			autoResize 	TRUE)
-		    (object UsesView "" @228
+		    (object UsesView "" @248
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"66549F5202F3"
-			client     	@205
-			supplier   	@227
+			client     	@225
+			supplier   	@247
 			line_style 	0)
-		    (object UsesView "" @229
+		    (object UsesView "" @249
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"66549F6401F6"
-			client     	@227
-			supplier   	@204
+			client     	@247
+			supplier   	@224
 			line_style 	0)
-		    (object AssociationViewNew "$UNNAMED$81" @230
+		    (object AssociationViewNew "$UNNAMED$81" @250
 			location   	(1211, 1302)
 			font       	(object Font
 			    size       	10
@@ -5915,25 +6234,25 @@
 			line_color 	3342489
 			quidu      	"66558D9B0021"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$82" @231
-				Parent_View 	@230
+			    (object RoleView "$UNNAMED$82" @251
+				Parent_View 	@250
 				location   	(-661, -586)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"66558D9B016E"
-				client     	@230
-				supplier   	@227
+				client     	@250
+				supplier   	@247
 				line_style 	0)
-			    (object RoleView "$UNNAMED$83" @232
-				Parent_View 	@230
+			    (object RoleView "$UNNAMED$83" @252
+				Parent_View 	@250
 				location   	(-661, -586)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"66558D9B0177"
-				client     	@230
-				supplier   	@219
+				client     	@250
+				supplier   	@239
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$84" @233
+		    (object AssociationViewNew "$UNNAMED$84" @253
 			location   	(1200, 1624)
 			font       	(object Font
 			    size       	10
@@ -5949,25 +6268,25 @@
 			line_color 	3342489
 			quidu      	"66558D9F0160"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$85" @234
-				Parent_View 	@233
+			    (object RoleView "$UNNAMED$85" @254
+				Parent_View 	@253
 				location   	(-672, -792)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"66558D9F01A2"
-				client     	@233
-				supplier   	@227
+				client     	@253
+				supplier   	@247
 				line_style 	0)
-			    (object RoleView "$UNNAMED$86" @235
-				Parent_View 	@233
+			    (object RoleView "$UNNAMED$86" @255
+				Parent_View 	@253
 				location   	(-672, -792)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"66558D9F01AA"
-				client     	@233
-				supplier   	@220
+				client     	@253
+				supplier   	@240
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$87" @236
+		    (object AssociationViewNew "$UNNAMED$87" @256
 			location   	(1211, 974)
 			font       	(object Font
 			    size       	10
@@ -5983,25 +6302,25 @@
 			line_color 	3342489
 			quidu      	"66558DE400AE"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$88" @237
-				Parent_View 	@236
+			    (object RoleView "$UNNAMED$88" @257
+				Parent_View 	@256
 				location   	(-1541, -546)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"66558DE4035A"
-				client     	@236
-				supplier   	@224
+				client     	@256
+				supplier   	@244
 				line_style 	0)
-			    (object RoleView "$UNNAMED$89" @238
-				Parent_View 	@236
+			    (object RoleView "$UNNAMED$89" @258
+				Parent_View 	@256
 				location   	(-1541, -546)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"66558DE40362"
-				client     	@236
-				supplier   	@227
+				client     	@256
+				supplier   	@247
 				line_style 	0)))
-		    (object RealizeView "" @239
+		    (object RealizeView "" @259
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -6013,15 +6332,15 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@239
+			    Parent_View 	@259
 			    location   	(2962, 304)
 			    anchor_loc 	1
 			    nlines     	1
 			    max_width  	144
 			    justify    	0
 			    label      	"")
-			stereotype 	(object SegLabel @240
-			    Parent_View 	@239
+			stereotype 	(object SegLabel @260
+			    Parent_View 	@259
 			    location   	(3009, 229)
 			    font       	(object Font
 				size       	10
@@ -6044,10 +6363,10 @@
 			    orientation 	0)
 			line_color 	3342489
 			quidu      	"66549E34035E"
-			client     	@204
-			supplier   	@211
+			client     	@224
+			supplier   	@231
 			line_style 	0)
-		    (object RealizeView "" @241
+		    (object RealizeView "" @261
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -6058,8 +6377,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			stereotype 	(object SegLabel @242
-			    Parent_View 	@241
+			stereotype 	(object SegLabel @262
+			    Parent_View 	@261
 			    location   	(3044, 905)
 			    font       	(object Font
 				size       	10
@@ -6082,17 +6401,17 @@
 			    orientation 	0)
 			line_color 	3342489
 			quidu      	"66549E39018E"
-			client     	@205
-			supplier   	@210
+			client     	@225
+			supplier   	@230
 			line_style 	0)
-		    (object UsesView "" @243
+		    (object UsesView "" @263
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6654A0500015"
-			client     	@206
-			supplier   	@205
+			client     	@226
+			supplier   	@225
 			line_style 	0)
-		    (object UsesView "receiver" @244
+		    (object UsesView "receiver" @264
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -6104,7 +6423,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@244
+			    Parent_View 	@264
 			    location   	(2815, 1680)
 			    anchor_loc 	1
 			    nlines     	1
@@ -6114,10 +6433,10 @@
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6654A062015F"
-			client     	@206
-			supplier   	@207
+			client     	@226
+			supplier   	@227
 			line_style 	0)
-		    (object UsesView "sender" @245
+		    (object UsesView "sender" @265
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -6129,7 +6448,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@245
+			    Parent_View 	@265
 			    location   	(2806, 1588)
 			    anchor_loc 	1
 			    nlines     	1
@@ -6139,14 +6458,14 @@
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6655A8930240"
-			client     	@206
-			supplier   	@207
+			client     	@226
+			supplier   	@227
 			vertices   	(list Points
 			    (2699, 1662)
 			    (2759, 1603)
 			    (2932, 1546))
 			line_style 	0)
-		    (object RealizeView "" @246
+		    (object RealizeView "" @266
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -6157,8 +6476,8 @@
 			    strike     	FALSE
 			    color      	0
 			    default_color 	TRUE)
-			stereotype 	(object SegLabel @247
-			    Parent_View 	@246
+			stereotype 	(object SegLabel @267
+			    Parent_View 	@266
 			    location   	(1032, 102)
 			    font       	(object Font
 				size       	10
@@ -6181,8 +6500,8 @@
 			    orientation 	1)
 			line_color 	3342489
 			quidu      	"66549BEF038A"
-			client     	@227
-			supplier   	@212
+			client     	@247
+			supplier   	@232
 			vertices   	(list Points
 			    (1337, 347)
 			    (1221, 125)
@@ -6458,7 +6777,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object SubSysView "Component View::Server" @248
+		    (object SubSysView "Component View::Server" @268
 			location   	(3984, 1712)
 			font       	(object Font
 			    size       	10
@@ -6471,7 +6790,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@248
+			    Parent_View 	@268
 			    location   	(809, 127)
 			    fill_color 	13434879
 			    nlines     	2
@@ -6484,7 +6803,7 @@
 			quidu      	"665196150346"
 			width      	6363
 			height     	3183)
-		    (object SubSysView "Component View::Server::Views" @249
+		    (object SubSysView "Component View::Server::Views" @269
 			location   	(2640, 976)
 			font       	(object Font
 			    size       	10
@@ -6497,7 +6816,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@249
+			    Parent_View 	@269
 			    location   	(1236, 276)
 			    fill_color 	13434879
 			    nlines     	2
@@ -6510,7 +6829,7 @@
 			quidu      	"665196780108"
 			width      	2820
 			height     	1413)
-		    (object SubSysView "Component View::Server::Models" @250
+		    (object SubSysView "Component View::Server::Models" @270
 			location   	(5600, 976)
 			font       	(object Font
 			    size       	10
@@ -6523,7 +6842,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@250
+			    Parent_View 	@270
 			    location   	(4200, 279)
 			    fill_color 	13434879
 			    nlines     	2
@@ -6536,7 +6855,7 @@
 			quidu      	"6651970C007F"
 			width      	2813
 			height     	1406)
-		    (object SubSysView "Component View::Server::Templates" @251
+		    (object SubSysView "Component View::Server::Templates" @271
 			location   	(2688, 2560)
 			font       	(object Font
 			    size       	10
@@ -6549,7 +6868,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@251
+			    Parent_View 	@271
 			    location   	(1350, 1895)
 			    fill_color 	13434879
 			    nlines     	2
@@ -6562,7 +6881,7 @@
 			quidu      	"66519727037D"
 			width      	2688
 			height     	1343)
-		    (object ModView "Component View::Server::ursl" "NotAModuleType" "NotAModulePart" @252
+		    (object ModView "Component View::Server::ursl" "NotAModuleType" "NotAModulePart" @272
 			location   	(1024, 960)
 			font       	(object Font
 			    size       	10
@@ -6575,7 +6894,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@252
+			    Parent_View 	@272
 			    location   	(974, 935)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -6590,7 +6909,7 @@
 			autoResize 	TRUE
 			width      	331
 			height     	162)
-		    (object ModView "Component View::Server::Models::Database" "NotAModuleType" "NotAModulePart" @253
+		    (object ModView "Component View::Server::Models::Database" "NotAModuleType" "NotAModulePart" @273
 			location   	(6000, 2576)
 			font       	(object Font
 			    size       	10
@@ -6603,7 +6922,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@253
+			    Parent_View 	@273
 			    location   	(5994, 3152)
 			    anchor_loc 	1
 			    nlines     	2
@@ -6620,7 +6939,7 @@
 			autoResize 	TRUE
 			width      	1618
 			height     	994)
-		    (object ModView "Component View::Server::Models::Profile" "NotAModuleType" "NotAModulePart" @254
+		    (object ModView "Component View::Server::Models::Profile" "NotAModuleType" "NotAModulePart" @274
 			location   	(4608, 560)
 			font       	(object Font
 			    size       	10
@@ -6633,7 +6952,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@254
+			    Parent_View 	@274
 			    location   	(4531, 525)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -6649,7 +6968,7 @@
 			autoResize 	TRUE
 			width      	525
 			height     	237)
-		    (object ModView "Component View::Server::Models::RegistrationCode" "NotAModuleType" "NotAModulePart" @255
+		    (object ModView "Component View::Server::Models::RegistrationCode" "NotAModuleType" "NotAModulePart" @275
 			location   	(5280, 560)
 			font       	(object Font
 			    size       	10
@@ -6662,7 +6981,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@255
+			    Parent_View 	@275
 			    location   	(5205, 524)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -6678,7 +6997,7 @@
 			autoResize 	TRUE
 			width      	512
 			height     	243)
-		    (object ModView "Component View::Server::Models::Message" "NotAModuleType" "NotAModulePart" @256
+		    (object ModView "Component View::Server::Models::Message" "NotAModuleType" "NotAModulePart" @276
 			location   	(4624, 896)
 			font       	(object Font
 			    size       	10
@@ -6691,7 +7010,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@256
+			    Parent_View 	@276
 			    location   	(4551, 861)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -6707,7 +7026,7 @@
 			autoResize 	TRUE
 			width      	494
 			height     	238)
-		    (object ModView "Component View::Server::Models::Country" "NotAModuleType" "NotAModulePart" @257
+		    (object ModView "Component View::Server::Models::Country" "NotAModuleType" "NotAModulePart" @277
 			location   	(4624, 1248)
 			font       	(object Font
 			    size       	10
@@ -6720,7 +7039,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@257
+			    Parent_View 	@277
 			    location   	(4551, 1212)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -6736,7 +7055,7 @@
 			autoResize 	TRUE
 			width      	493
 			height     	243)
-		    (object ModView "Component View::Server::Models::City" "NotAModuleType" "NotAModulePart" @258
+		    (object ModView "Component View::Server::Models::City" "NotAModuleType" "NotAModulePart" @278
 			location   	(5248, 1248)
 			font       	(object Font
 			    size       	10
@@ -6749,7 +7068,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@258
+			    Parent_View 	@278
 			    location   	(5169, 1212)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -6765,7 +7084,7 @@
 			autoResize 	TRUE
 			width      	537
 			height     	244)
-		    (object ModView "Component View::Server::Models::Sensor" "NotAModuleType" "NotAModulePart" @259
+		    (object ModView "Component View::Server::Models::Sensor" "NotAModuleType" "NotAModulePart" @279
 			location   	(6128, 784)
 			font       	(object Font
 			    size       	10
@@ -6778,7 +7097,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@259
+			    Parent_View 	@279
 			    location   	(5973, 711)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -6794,7 +7113,7 @@
 			autoResize 	TRUE
 			width      	1062
 			height     	506)
-		    (object ModView "Component View::Server::Models::SensorLog" "NotAModuleType" "NotAModulePart" @260
+		    (object ModView "Component View::Server::Models::SensorLog" "NotAModuleType" "NotAModulePart" @280
 			location   	(5856, 1248)
 			font       	(object Font
 			    size       	10
@@ -6807,7 +7126,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@260
+			    Parent_View 	@280
 			    location   	(5788, 1211)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -6823,7 +7142,7 @@
 			autoResize 	TRUE
 			width      	462
 			height     	250)
-		    (object ModView "Component View::Server::Models::Firmware" "NotAModuleType" "NotAModulePart" @261
+		    (object ModView "Component View::Server::Models::Firmware" "NotAModuleType" "NotAModulePart" @281
 			location   	(6416, 1248)
 			font       	(object Font
 			    size       	10
@@ -6836,7 +7155,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@261
+			    Parent_View 	@281
 			    location   	(6343, 1212)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -6852,7 +7171,7 @@
 			autoResize 	TRUE
 			width      	494
 			height     	243)
-		    (object ModView "Component View::Server::Views::SensorListView" "NotAModuleType" "NotAModulePart" @262
+		    (object ModView "Component View::Server::Views::SensorListView" "NotAModuleType" "NotAModulePart" @282
 			location   	(1472, 496)
 			font       	(object Font
 			    size       	10
@@ -6865,7 +7184,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@262
+			    Parent_View 	@282
 			    location   	(1411, 469)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -6881,7 +7200,7 @@
 			autoResize 	TRUE
 			width      	413
 			height     	182)
-		    (object ModView "Component View::Server::Views::SensorDetailView" "NotAModuleType" "NotAModulePart" @263
+		    (object ModView "Component View::Server::Views::SensorDetailView" "NotAModuleType" "NotAModulePart" @283
 			location   	(1968, 496)
 			font       	(object Font
 			    size       	10
@@ -6894,7 +7213,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@263
+			    Parent_View 	@283
 			    location   	(1905, 469)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -6910,7 +7229,7 @@
 			autoResize 	TRUE
 			width      	425
 			height     	181)
-		    (object ModView "Component View::Server::Views::SensorDeleteView" "NotAModuleType" "NotAModulePart" @264
+		    (object ModView "Component View::Server::Views::SensorDeleteView" "NotAModuleType" "NotAModulePart" @284
 			location   	(2480, 496)
 			font       	(object Font
 			    size       	10
@@ -6923,7 +7242,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@264
+			    Parent_View 	@284
 			    location   	(2410, 469)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -6939,7 +7258,7 @@
 			autoResize 	TRUE
 			width      	475
 			height     	181)
-		    (object ModView "Component View::Server::Views::SensorLogsAPIView" "NotAModuleType" "NotAModulePart" @265
+		    (object ModView "Component View::Server::Views::SensorLogsAPIView" "NotAModuleType" "NotAModulePart" @285
 			location   	(1472, 784)
 			font       	(object Font
 			    size       	10
@@ -6952,7 +7271,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@265
+			    Parent_View 	@285
 			    location   	(1410, 757)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -6968,7 +7287,7 @@
 			autoResize 	TRUE
 			width      	418
 			height     	181)
-		    (object ModView "Component View::Server::Views::SensorLogsVoltAPIView" "NotAModuleType" "NotAModulePart" @266
+		    (object ModView "Component View::Server::Views::SensorLogsVoltAPIView" "NotAModuleType" "NotAModulePart" @286
 			location   	(1968, 784)
 			font       	(object Font
 			    size       	10
@@ -6981,7 +7300,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@266
+			    Parent_View 	@286
 			    location   	(1902, 755)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -6997,7 +7316,7 @@
 			autoResize 	TRUE
 			width      	444
 			height     	194)
-		    (object ModView "Component View::Server::Views::DeviceStatus" "NotAModuleType" "NotAModulePart" @267
+		    (object ModView "Component View::Server::Views::DeviceStatus" "NotAModuleType" "NotAModulePart" @287
 			location   	(2480, 784)
 			font       	(object Font
 			    size       	10
@@ -7010,7 +7329,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@267
+			    Parent_View 	@287
 			    location   	(2409, 756)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7026,7 +7345,7 @@
 			autoResize 	TRUE
 			width      	482
 			height     	187)
-		    (object ModView "Component View::Server::Views::register" "NotAModuleType" "NotAModulePart" @268
+		    (object ModView "Component View::Server::Views::register" "NotAModuleType" "NotAModulePart" @288
 			location   	(1456, 1072)
 			font       	(object Font
 			    size       	10
@@ -7039,7 +7358,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@268
+			    Parent_View 	@288
 			    location   	(1411, 1047)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7054,7 +7373,7 @@
 			autoResize 	TRUE
 			width      	298
 			height     	162)
-		    (object ModView "Component View::Server::Views::user_login" "NotAModuleType" "NotAModulePart" @269
+		    (object ModView "Component View::Server::Views::user_login" "NotAModuleType" "NotAModulePart" @289
 			location   	(1840, 1072)
 			font       	(object Font
 			    size       	10
@@ -7067,7 +7386,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@269
+			    Parent_View 	@289
 			    location   	(1784, 1046)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7083,7 +7402,7 @@
 			autoResize 	TRUE
 			width      	375
 			height     	169)
-		    (object ModView "Component View::Server::Views::change_password" "NotAModuleType" "NotAModulePart" @270
+		    (object ModView "Component View::Server::Views::change_password" "NotAModuleType" "NotAModulePart" @290
 			location   	(2256, 1072)
 			font       	(object Font
 			    size       	10
@@ -7096,7 +7415,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@270
+			    Parent_View 	@290
 			    location   	(2196, 1045)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7112,7 +7431,7 @@
 			autoResize 	TRUE
 			width      	406
 			height     	176)
-		    (object ModView "Component View::Server::Views::edit" "NotAModuleType" "NotAModulePart" @271
+		    (object ModView "Component View::Server::Views::edit" "NotAModuleType" "NotAModulePart" @291
 			location   	(1456, 1264)
 			font       	(object Font
 			    size       	10
@@ -7125,7 +7444,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@271
+			    Parent_View 	@291
 			    location   	(1411, 1239)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7140,7 +7459,7 @@
 			autoResize 	TRUE
 			width      	298
 			height     	162)
-		    (object ModView "Component View::Server::Views::generate_code_view" "NotAModuleType" "NotAModulePart" @272
+		    (object ModView "Component View::Server::Views::generate_code_view" "NotAModuleType" "NotAModulePart" @292
 			location   	(1488, 1472)
 			font       	(object Font
 			    size       	10
@@ -7153,7 +7472,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@272
+			    Parent_View 	@292
 			    location   	(1436, 1447)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7168,7 +7487,7 @@
 			autoResize 	TRUE
 			width      	352
 			height     	162)
-		    (object ModView "Component View::Server::Views::message_list" "NotAModuleType" "NotAModulePart" @273
+		    (object ModView "Component View::Server::Views::message_list" "NotAModuleType" "NotAModulePart" @293
 			location   	(1888, 1472)
 			font       	(object Font
 			    size       	10
@@ -7181,7 +7500,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@273
+			    Parent_View 	@293
 			    location   	(1839, 1445)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7197,7 +7516,7 @@
 			autoResize 	TRUE
 			width      	325
 			height     	175)
-		    (object ModView "Component View::Server::Views::chat_view" "NotAModuleType" "NotAModulePart" @274
+		    (object ModView "Component View::Server::Views::chat_view" "NotAModuleType" "NotAModulePart" @294
 			location   	(2256, 1472)
 			font       	(object Font
 			    size       	10
@@ -7210,7 +7529,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@274
+			    Parent_View 	@294
 			    location   	(2203, 1445)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7226,7 +7545,7 @@
 			autoResize 	TRUE
 			width      	357
 			height     	175)
-		    (object ModView "Component View::Server::Views::message_view" "NotAModuleType" "NotAModulePart" @275
+		    (object ModView "Component View::Server::Views::message_view" "NotAModuleType" "NotAModulePart" @295
 			location   	(2656, 1472)
 			font       	(object Font
 			    size       	10
@@ -7239,7 +7558,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@275
+			    Parent_View 	@295
 			    location   	(2603, 1445)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7255,7 +7574,7 @@
 			autoResize 	TRUE
 			width      	356
 			height     	175)
-		    (object ModView "Component View::Server::Views::download_logs" "NotAModuleType" "NotAModulePart" @276
+		    (object ModView "Component View::Server::Views::download_logs" "NotAModuleType" "NotAModulePart" @296
 			location   	(3024, 496)
 			font       	(object Font
 			    size       	10
@@ -7268,7 +7587,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@276
+			    Parent_View 	@296
 			    location   	(2937, 469)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7284,7 +7603,7 @@
 			autoResize 	TRUE
 			width      	594
 			height     	181)
-		    (object ModView "Component View::Server::Views::search_sensors" "NotAModuleType" "NotAModulePart" @277
+		    (object ModView "Component View::Server::Views::search_sensors" "NotAModuleType" "NotAModulePart" @297
 			location   	(3616, 496)
 			font       	(object Font
 			    size       	10
@@ -7297,7 +7616,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@277
+			    Parent_View 	@297
 			    location   	(3530, 469)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7313,7 +7632,7 @@
 			autoResize 	TRUE
 			width      	588
 			height     	181)
-		    (object ModView "Component View::Server::Views::receive_data" "NotAModuleType" "NotAModulePart" @278
+		    (object ModView "Component View::Server::Views::receive_data" "NotAModuleType" "NotAModulePart" @298
 			location   	(3024, 784)
 			font       	(object Font
 			    size       	10
@@ -7326,7 +7645,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@278
+			    Parent_View 	@298
 			    location   	(2955, 756)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7342,7 +7661,7 @@
 			autoResize 	TRUE
 			width      	463
 			height     	188)
-		    (object ModView "Component View::Server::Views::esp_update" "NotAModuleType" "NotAModulePart" @279
+		    (object ModView "Component View::Server::Views::esp_update" "NotAModuleType" "NotAModulePart" @299
 			location   	(3552, 784)
 			font       	(object Font
 			    size       	10
@@ -7355,7 +7674,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@279
+			    Parent_View 	@299
 			    location   	(3483, 757)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7371,7 +7690,7 @@
 			autoResize 	TRUE
 			width      	469
 			height     	181)
-		    (object ModView "Component View::Server::Views::download_firmware" "NotAModuleType" "NotAModulePart" @280
+		    (object ModView "Component View::Server::Views::download_firmware" "NotAModuleType" "NotAModulePart" @300
 			location   	(2752, 1072)
 			font       	(object Font
 			    size       	10
@@ -7384,7 +7703,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@280
+			    Parent_View 	@300
 			    location   	(2682, 1045)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7400,7 +7719,7 @@
 			autoResize 	TRUE
 			width      	475
 			height     	176)
-		    (object ModView "Component View::Server::Templates::sensor_list.html" "NotAModuleType" "NotAModulePart" @281
+		    (object ModView "Component View::Server::Templates::sensor_list.html" "NotAModuleType" "NotAModulePart" @301
 			location   	(1760, 2096)
 			font       	(object Font
 			    size       	10
@@ -7413,7 +7732,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@281
+			    Parent_View 	@301
 			    location   	(1659, 2067)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7429,7 +7748,7 @@
 			autoResize 	TRUE
 			width      	687
 			height     	194)
-		    (object ModView "Component View::Server::Templates::sensor_detail.html" "NotAModuleType" "NotAModulePart" @282
+		    (object ModView "Component View::Server::Templates::sensor_detail.html" "NotAModuleType" "NotAModulePart" @302
 			location   	(2512, 2096)
 			font       	(object Font
 			    size       	10
@@ -7442,7 +7761,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@282
+			    Parent_View 	@302
 			    location   	(2412, 2064)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7458,7 +7777,7 @@
 			autoResize 	TRUE
 			width      	681
 			height     	212)
-		    (object ModView "Component View::Server::Templates::search_results.html" "NotAModuleType" "NotAModulePart" @283
+		    (object ModView "Component View::Server::Templates::search_results.html" "NotAModuleType" "NotAModulePart" @303
 			location   	(3360, 2096)
 			font       	(object Font
 			    size       	10
@@ -7471,7 +7790,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@283
+			    Parent_View 	@303
 			    location   	(3246, 2064)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7487,7 +7806,7 @@
 			autoResize 	TRUE
 			width      	775
 			height     	212)
-		    (object ModView "Component View::Server::Templates::login.html" "NotAModuleType" "NotAModulePart" @284
+		    (object ModView "Component View::Server::Templates::login.html" "NotAModuleType" "NotAModulePart" @304
 			location   	(3344, 2464)
 			font       	(object Font
 			    size       	10
@@ -7500,7 +7819,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@284
+			    Parent_View 	@304
 			    location   	(3261, 2429)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7516,7 +7835,7 @@
 			autoResize 	TRUE
 			width      	563
 			height     	238)
-		    (object ModView "Component View::Server::Templates::profile_detail.html" "NotAModuleType" "NotAModulePart" @285
+		    (object ModView "Component View::Server::Templates::profile_detail.html" "NotAModuleType" "NotAModulePart" @305
 			location   	(1744, 2432)
 			font       	(object Font
 			    size       	10
@@ -7529,7 +7848,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@285
+			    Parent_View 	@305
 			    location   	(1650, 2391)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7545,7 +7864,7 @@
 			autoResize 	TRUE
 			width      	644
 			height     	275)
-		    (object ModView "Component View::Server::Templates::profile_edit.html" "NotAModuleType" "NotAModulePart" @286
+		    (object ModView "Component View::Server::Templates::profile_edit.html" "NotAModuleType" "NotAModulePart" @306
 			location   	(2528, 2464)
 			font       	(object Font
 			    size       	10
@@ -7558,7 +7877,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@286
+			    Parent_View 	@306
 			    location   	(2437, 2428)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7574,7 +7893,7 @@
 			autoResize 	TRUE
 			width      	619
 			height     	244)
-		    (object ModView "Component View::Server::Templates::profile_list.html" "NotAModuleType" "NotAModulePart" @287
+		    (object ModView "Component View::Server::Templates::profile_list.html" "NotAModuleType" "NotAModulePart" @307
 			location   	(2512, 2848)
 			font       	(object Font
 			    size       	10
@@ -7587,7 +7906,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@287
+			    Parent_View 	@307
 			    location   	(2419, 2810)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7603,7 +7922,7 @@
 			autoResize 	TRUE
 			width      	632
 			height     	256)
-		    (object ModView "Component View::Server::Templates::register.html" "NotAModuleType" "NotAModulePart" @288
+		    (object ModView "Component View::Server::Templates::register.html" "NotAModuleType" "NotAModulePart" @308
 			location   	(3696, 2736)
 			font       	(object Font
 			    size       	10
@@ -7616,7 +7935,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@288
+			    Parent_View 	@308
 			    location   	(3634, 2711)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7632,7 +7951,7 @@
 			autoResize 	TRUE
 			width      	419
 			height     	163)
-		    (object ModView "Component View::Server::Templates::generate_code.html" "NotAModuleType" "NotAModulePart" @289
+		    (object ModView "Component View::Server::Templates::generate_code.html" "NotAModuleType" "NotAModulePart" @309
 			location   	(3328, 3056)
 			font       	(object Font
 			    size       	10
@@ -7645,7 +7964,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@289
+			    Parent_View 	@309
 			    location   	(3231, 3029)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7661,7 +7980,7 @@
 			autoResize 	TRUE
 			width      	663
 			height     	182)
-		    (object ModView "Component View::Server::Templates::chat.html" "NotAModuleType" "NotAModulePart" @290
+		    (object ModView "Component View::Server::Templates::chat.html" "NotAModuleType" "NotAModulePart" @310
 			location   	(1776, 2832)
 			font       	(object Font
 			    size       	10
@@ -7674,7 +7993,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@290
+			    Parent_View 	@310
 			    location   	(1700, 2787)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7690,28 +8009,28 @@
 			autoResize 	TRUE
 			width      	513
 			height     	306)
-		    (object ModVisView "" @291
+		    (object ModVisView "" @311
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6651A5F8036D"
-			client     	@250
-			supplier   	@249
+			client     	@270
+			supplier   	@269
 			line_style 	0)
-		    (object ModVisView "" @292
+		    (object ModVisView "" @312
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6651A61A0108"
-			client     	@250
-			supplier   	@253
+			client     	@270
+			supplier   	@273
 			line_style 	0)
-		    (object ModVisView "" @293
+		    (object ModVisView "" @313
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6651A6290132"
-			client     	@253
-			supplier   	@250
+			client     	@273
+			supplier   	@270
 			line_style 	0)
-		    (object ModView "Component View::Server::Models::Client" "NotAModuleType" "NotAModulePart" @294
+		    (object ModView "Component View::Server::Models::Client" "NotAModuleType" "NotAModulePart" @314
 			location   	(384, 1328)
 			font       	(object Font
 			    size       	10
@@ -7724,7 +8043,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@294
+			    Parent_View 	@314
 			    location   	(315, 1283)
 			    fill_color 	13434879
 			    anchor_loc 	3
@@ -7740,40 +8059,40 @@
 			autoResize 	TRUE
 			width      	469
 			height     	306)
-		    (object ModVisView "" @295
+		    (object ModVisView "" @315
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6651A6BB036D"
-			client     	@294
-			supplier   	@252
+			client     	@314
+			supplier   	@272
 			line_style 	0)
-		    (object ModVisView "" @296
+		    (object ModVisView "" @316
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6651A5F4037D"
-			client     	@249
-			supplier   	@250
+			client     	@269
+			supplier   	@270
 			line_style 	0)
-		    (object ModVisView "" @297
+		    (object ModVisView "" @317
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6651A85C0004"
-			client     	@249
-			supplier   	@251
+			client     	@269
+			supplier   	@271
 			line_style 	0)
-		    (object ModVisView "" @298
+		    (object ModVisView "" @318
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6651A72A01BC"
-			client     	@251
-			supplier   	@294
+			client     	@271
+			supplier   	@314
 			line_style 	0)
-		    (object ModVisView "" @299
+		    (object ModVisView "" @319
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"6651A8C4007F"
-			client     	@252
-			supplier   	@249
+			client     	@272
+			supplier   	@269
 			line_style 	0)))))
     process_structure 	(object Processes
 	quid       	"664C0BDE022A"

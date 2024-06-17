@@ -43,4 +43,4 @@ class SensorAdmin(admin.ModelAdmin):
     list_display_links = ['name', ]
     list_filter = ['country', 'city']
     search_fields = ['name', 'owner']
-    list_editable = ['inclusions', 'power', 'watt', 'volt', 'work', 'blocked']
+    list_editable = ['inclusions', 'power', 'watt', 'volt', 'work', 'blocked', 'confirmed']

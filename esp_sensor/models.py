@@ -2,6 +2,7 @@ from django.urls import reverse
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.text import slugify
+from django.utils import timezone
 
 
 class Country(models.Model):
@@ -53,6 +54,18 @@ class Sensor(models.Model):
     confirmed = models.BooleanField('Подтвержден администратором', default=False)
     version = models.CharField('Версия прошивки', max_length=15, blank=True)
     processing_time = models.FloatField('Время обработки (мс)', null=True, blank=True)
+    tampered = models.BooleanField('Устройство вскрыто', default=False)
+    tampered_at = models.DateTimeField('Время вскрытия', null=True, blank=True)
+
+    def set_tampered(self):
+        self.tampered = True
+        self.tampered_at = timezone.now()
+        self.save()
+
+    def clear_tampered(self):
+        self.tampered = False
+        self.tampered_at = None
+        self.save()
 
     def __str__(self):
         return self.name

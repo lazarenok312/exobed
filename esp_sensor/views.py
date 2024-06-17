@@ -31,7 +31,6 @@ from channels.layers import get_channel_layer
 
 
 # Класс для отображения списка датчиков
-
 class SensorListView(LoginRequiredMixin, ListView):
     model = Sensor
     template_name = 'sensor/sensor_list.html'
@@ -42,33 +41,29 @@ class SensorListView(LoginRequiredMixin, ListView):
         queryset = super().get_queryset()
         queryset = queryset.order_by('name', 'owner', '-blocked', '-date_added')
         queryset = queryset.prefetch_related('sensorlog_set')
-        return queryset
+
+        confirmed_sensors = queryset.filter(confirmed=True)
+        unconfirmed_sensors = queryset.filter(confirmed=False)
+
+        return confirmed_sensors
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        queryset = self.get_queryset()
-        sensors = context['sensors']
 
-        confirmed_sensors = [sensor for sensor in queryset if sensor.confirmed]
-
-        for sensor in confirmed_sensors:
-            latest_log = sensor.sensorlog_set.last()
-            if latest_log:
-                sensor.last_updated = latest_log.timestamp
-            else:
-                sensor.last_updated = sensor.date_added
-
-        unconfirmed_sensors = [sensor for sensor in queryset if not sensor.confirmed]
-
+        unconfirmed_sensors = Sensor.objects.filter(confirmed=False).order_by('name', 'owner', '-blocked',
+                                                                              '-date_added')
         for sensor in unconfirmed_sensors:
             latest_log = sensor.sensorlog_set.last()
-            if latest_log:
-                sensor.last_updated = latest_log.timestamp
-            else:
-                sensor.last_updated = sensor.date_added
+            sensor.last_updated = latest_log.timestamp if latest_log else sensor.date_added
+
+        context['unconfirmed_sensors'] = unconfirmed_sensors
+
+        confirmed_sensors = context['sensors']
+        for sensor in confirmed_sensors:
+            latest_log = sensor.sensorlog_set.last()
+            sensor.last_updated = latest_log.timestamp if latest_log else sensor.date_added
 
         context['confirmed_sensors'] = confirmed_sensors
-        context['unconfirmed_sensors'] = unconfirmed_sensors
         return context
 
 
@@ -120,6 +115,9 @@ class SensorDetailView(LoginRequiredMixin, DetailView):
         fan_speed = sensor.fan_speed
         context['temperature'] = temperature
         context['fan_speed'] = fan_speed
+
+        context['tampered'] = sensor.tampered
+        context['tampered_at'] = sensor.tampered_at
 
         self.add_warnings_to_context(sensor, context)
         self.add_recommendations_to_context(sensor, context)
@@ -345,9 +343,9 @@ class SensorLogsVoltAPIView(View):
         return JsonResponse(data, safe=False)
 
 
-# Функция для поиска датчиков
 def search_sensors(request):
     query = request.GET.get('q')
+    results = []
 
     if query:
         sensors = Sensor.objects.filter(
@@ -360,10 +358,30 @@ def search_sensors(request):
             Q(city__name__icontains=query) |
             Q(inclusions__icontains=query)
         ).distinct()
+
+        for sensor in sensors:
+            match_field = []
+            if query.lower() in sensor.name.lower():
+                match_field.append("Название")
+            if query.lower() in sensor.description.lower():
+                match_field.append("Описание")
+            if query.lower() in sensor.owner.lower():
+                match_field.append("Владелец")
+            if query.lower() in sensor.mac_address.lower():
+                match_field.append("MAC адрес")
+            if query.lower() in sensor.ip_address.lower():
+                match_field.append("IP адрес")
+            if query.lower() in [country.name.lower() for country in sensor.country.all()]:
+                match_field.append("Страна")
+            if query.lower() in [city.name.lower() for city in sensor.city.all()]:
+                match_field.append("Город")
+
+            results.append((sensor, ", ".join(match_field)))
     else:
         sensors = Sensor.objects.all()
+        results = [(sensor, "") for sensor in sensors]
 
-    return render(request, 'sensor/search_results.html', {'sensors': sensors, 'query': query})
+    return render(request, 'sensor/search_results.html', {'results': results, 'query': query})
 
 
 @csrf_exempt

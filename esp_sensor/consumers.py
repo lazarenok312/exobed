@@ -22,10 +22,8 @@ class DeviceConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         data = json.loads(text_data)
-        # Обработка данных
         print(f"Received data from {self.device_name}: {data}")
 
-        # Отправка данных обратно устройству (если необходимо)
         await self.send(text_data=json.dumps({
             'message': 'Data received'
         }))

@@ -760,6 +760,22 @@
                 </div>
                 <span class="nav-link-text ms-1">{{ sensor.mac_address }}</span>
             </a>
+            {% if sensor.tampered %}
+                <a class="nav-link text-white active bg-gradient-danger">
+                    <div class="text-white text-center d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">lock_open</i>
+                    </div>
+                    Устройство вскрыто<br>
+                    <span class="nav-link-text ms-1">{{ sensor.tampered_at|date:"d E Y г. H:i" }}</span>
+                </a>
+            {% else %}
+                <a class="nav-link text-white active bg-gradient-success">
+                    <div class="text-white text-center d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">lock</i>
+                    </div>
+                    <span class="nav-link-text ms-1">{{ sensor.tampered }}</span>
+                </a>
+            {% endif %}
         </ul>
         <hr class="horizontal light mt-0 mb-2">
         <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
@@ -1223,6 +1239,22 @@
         let countdownInterval;
         let timerRunning = false;
 
+        const savedTimerValue = localStorage.getItem('timerValue');
+        const savedTimestamp = localStorage.getItem('timestamp');
+
+        if (savedTimerValue && savedTimestamp) {
+            const currentTime = Math.floor(Date.now() / 1000);
+            const elapsedTime = currentTime - parseInt(savedTimestamp, 10);
+            let remainingTime = parseInt(savedTimerValue, 10) - elapsedTime;
+
+            if (remainingTime > 0) {
+                startCountdown(null, remainingTime);
+            } else {
+                localStorage.removeItem('timerValue');
+                localStorage.removeItem('timestamp');
+            }
+        }
+
         timeInput.addEventListener('input', function () {
             let value = this.value.replace(/\D/g, '');
             if (value.length > 2) {
@@ -1234,21 +1266,27 @@
             this.value = value;
         });
 
-        function startCountdown(event) {
-            event.preventDefault(); // Предотвращаем стандартное действие ссылки
+        function startCountdown(event, initialTime) {
+            if (event) event.preventDefault();
             if (!timerRunning) {
-                const timeArray = timeInput.value.split(':');
-                const minutes = parseInt(timeArray[0], 10);
-                const seconds = parseInt(timeArray[1], 10);
+                let totalSeconds;
+                if (initialTime) {
+                    totalSeconds = initialTime;
+                } else {
+                    const timeArray = timeInput.value.split(':');
+                    const minutes = parseInt(timeArray[0], 10);
+                    const seconds = parseInt(timeArray[1], 10);
 
-                if (isNaN(minutes) || isNaN(seconds) || minutes < 0 || seconds < 0 || seconds > 59) {
-                    alert('Пожалуйста, введите время в формате мм:сс');
-                    return;
+                    if (isNaN(minutes) || isNaN(seconds) || minutes < 0 || seconds < 0 || seconds > 59) {
+                        alert('Пожалуйста, введите время в формате мм:сс');
+                        return;
+                    }
+
+                    totalSeconds = minutes * 60 + seconds;
+                    localStorage.setItem('timerValue', totalSeconds);
+                    localStorage.setItem('timestamp', Math.floor(Date.now() / 1000));
                 }
 
-                let totalSeconds = minutes * 60 + seconds;
-                localStorage.setItem('timerValue', totalSeconds);
-                // Вызываем функцию для изменения статуса start в модели перед началом отсчета времени
                 toggleStartSensor();
 
                 countdownInterval = setInterval(() => {
@@ -1257,7 +1295,7 @@
                         clearInterval(countdownInterval);
                         alert('Сеанс завершен!');
                         resetTimer();
-                        toggleStartSensor(); // Вызываем функцию для изменения статуса start в модели
+                        toggleStartSensor();
                     } else {
                         updateTime(totalSeconds);
                     }
@@ -1268,11 +1306,10 @@
             } else {
                 clearInterval(countdownInterval);
                 resetTimer();
-                toggleStartSensor(); // Вызываем функцию для изменения статуса start в модели
+                toggleStartSensor();
             }
         }
 
-        // Функция для отправки запроса на изменение статуса start в модели Sensor
         function toggleStartSensor() {
             fetch("{% url 'toggle_start' sensor_id=sensor.id %}", {
                 method: 'POST',
@@ -1288,7 +1325,7 @@
                     return response.json();
                 })
                 .then(data => {
-                    // Здесь можно обработать ответ сервера, если необходимо
+                    // Handle response if necessary
                 })
                 .catch(error => {
                     console.error('Ошибка:', error);
@@ -1327,6 +1364,8 @@
             timeInput.classList.remove('valid');
             timeInput.classList.remove('warning');
             timeInput.classList.remove('alert');
+            localStorage.removeItem('timerValue');
+            localStorage.removeItem('timestamp');
         }
 
         startButton.addEventListener('click', startCountdown);
