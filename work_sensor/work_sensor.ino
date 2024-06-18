@@ -281,7 +281,7 @@ void loop() {
 
     if (isnan(temperature) || isnan(humidity)) {
       Serial.println("Ошибка чтения данных с датчика! Генерация случайных значений.");
-      temperature = random(15, 30); 
+      temperature = random(30, 35); 
       humidity = random(30, 70);  
     }
 
@@ -300,10 +300,10 @@ void loop() {
     if (!blocked) {
       IPAddress ip = WiFi.localIP();
 
-      int power = random(10, 99);
-      int watt = random(100, 900);
-      int volt = random(180, 240);
-      int fan_speed = random(10, 200);
+      int power = 60;
+      int watt = random(550, 600);
+      int volt = random(210, 225);
+      int fan_speed = random(1000, 1500);
       String ip_address = ip.toString();
       String mac_address = WiFi.macAddress();
       Serial.print("IP адрес: ");
