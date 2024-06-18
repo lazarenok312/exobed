@@ -46,16 +46,13 @@ void sendDataWithCSRFToken(String data) {
   int httpResponseCode = http.GET();
   String csrfToken;
 
-  // Если запрос прошел успешно, получаем CSRF-токен
   if (httpResponseCode > 0) {
     csrfToken = http.getString();
   } else {
-    // В случае ошибки выводим сообщение
     Serial.print("Не удалось получить токен CSRF, код ошибки HTTP: ");
     Serial.println(httpResponseCode);
     return;
   }
-
   http.end();
 
   // Отправляем данные на сервер с заголовком CSRF-токена
@@ -88,16 +85,13 @@ void getDeviceState() {
 
     if (httpCode == 200) {
       String payload = http.getString();
-      // Распарсить JSON и обновить переменные на устройстве
       DynamicJsonDocument doc(200);
       deserializeJson(doc, payload);
 
-      // Получаем значения состояния устройства
       blocked = doc["blocked"];
       bool work = doc["work"];
       int power = doc["power"];
 
-      // Выводим сообщения о состоянии устройства в зависимости от значений
       if (work) {
         Serial.println("Устройство включено");
       } else {
@@ -119,10 +113,8 @@ void getDeviceState() {
 }
 
 void saveDeviceName(String name) {
-  // Открыть файл для записи
   File configFile = SPIFFS.open("/config.json", "w");
   if (configFile) {
-    // Записать имя устройства в файл
     configFile.println(name);
     configFile.close();
     Serial.print("Имя устройства '");
@@ -149,22 +141,20 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 }
 
 void setup() {
-  Serial.begin(115200);  // Инициализация последовательного порта
+  Serial.begin(115200); 
   SPIFFS.begin();
 
   webSocket.begin(ws_host, ws_port, ws_path);
   webSocket.onEvent(webSocketEvent);
 
-  dht.begin();  // Инициализация датчика DHT
+  dht.begin(); 
 
   File configFile = SPIFFS.open("/config.json", "r");
   if (configFile) {
-    // Чтение содержимого файла и установка имени устройства
     deviceName = configFile.readStringUntil('\n');
     configFile.close();
   }
   deviceName.trim();
-  // Если файл не существует или не удалось прочитать имя, используется значение по умолчанию
   if (deviceName == "") {
     deviceName = "esp8266";
   }
@@ -188,15 +178,14 @@ void setup() {
   deviceName = custom_device_name.getValue();
   owner = custom_owner.getValue();
 
-  // Обновление URL для состояния устройства с учетом имени устройства
   deviceStateEndpoint = "http://exobed.lazareub.beget.tech/device/" + deviceName + "/";
 
-  Serial.println("Подключено к Wi-Fi");  // Вывод сообщения о подключении к Wi-Fi
+  Serial.println("Подключено к Wi-Fi"); 
   webSocket.begin(ws_host, ws_port, ws_path);
   webSocket.onEvent(webSocketEvent);
 
-  if (!SPIFFS.begin()) {                                    // Инициализация файловой системы SPIFFS
-    Serial.println("Не удалось инициализировать SPIFFS.");  // Вывод сообщения об ошибке
+  if (!SPIFFS.begin()) {                                   
+    Serial.println("Не удалось инициализировать SPIFFS."); 
     return;
   }
 
@@ -269,37 +258,31 @@ void loop() {
 
   webSocket.loop();
 
-  // Проверка подключения к Wi-Fi
   if (WiFi.status() == WL_CONNECTED) {
     getDeviceState();
     UpdatesFirmware();
 
-    // Проверка наличия корректных данных GPS
     if (gps.location.isValid()) {
-      // Получение широты и долготы
       float latitude = gps.location.lat();
       float longitude = gps.location.lng();
 
-      // Вывод широты и долготы
       Serial.print("Широта: ");
-      Serial.println(latitude, 6);  // 6 десятичных знаков для лучшей точности
+      Serial.println(latitude, 6);
       Serial.print("Долгота: ");
       Serial.println(longitude, 6);
 
     } else {
-      Serial.println("Данные GPS недоступны");  // Вывод сообщения о недоступности данных GPS
+      Serial.println("Данные GPS недоступны"); 
     }
 
-    StaticJsonDocument<200> doc;  // Создание JSON-документа
+    StaticJsonDocument<200> doc; 
+    float temperature = dht.readTemperature();
+    float humidity = dht.readHumidity();       
 
-    float temperature = dht.readTemperature();  // Получение температуры
-    float humidity = dht.readHumidity();        // Получение влажности
-
-    // Проверка, удалось ли получить данные с датчика
     if (isnan(temperature) || isnan(humidity)) {
       Serial.println("Ошибка чтения данных с датчика! Генерация случайных значений.");
-      temperature = random(15, 30);  // Генерация случайной температуры
-      humidity = random(30, 70);     // Генерация случайной влажности
+      temperature = random(15, 30); 
+      humidity = random(30, 70);  
     }
 
     Serial.print("----------------------------------------------------------");
@@ -352,7 +335,7 @@ void loop() {
       Serial.println("Устройство заблокировано!!!");
     }
   } else {
-    Serial.println("Нет подключения к Wi-Fi");  // Вывод сообщения о отсутствии подключения к Wi-Fi
+    Serial.println("Нет подключения к Wi-Fi"); 
   }
   delay(60000);
 }
@@ -365,23 +348,22 @@ void handleCommand(String command) {
 
   if (command == "resetwifi") {
     Serial.println("Сброс настроек Wi-Fi...");
-    WiFiManager wifiManager;      // Создание объекта WiFiManager
-    wifiManager.resetSettings();  // Сброс настроек Wi-Fi
+    WiFiManager wifiManager;     
+    wifiManager.resetSettings(); 
     Serial.println("Wi-Fi настройки сброшены.");
   } else {
-    Serial.println("Неизвестная команда.");  // Обработка неизвестной команды
+    Serial.println("Неизвестная команда."); 
   }
 }
 
 void serialEvent() {
-  // Обработка событий последовательного порта
   while (Serial.available()) {
     char c = Serial.read();
     if (c == '\n') {
       handleCommand(receivedCommand);
-      receivedCommand = "";  // Сброс строки для следующей команды
+      receivedCommand = ""; 
     } else {
-      receivedCommand += c;  // Добавление символа к текущей команде
+      receivedCommand += c;
     }
   }
 }
